@@ -1,6 +1,15 @@
 export default defineNuxtConfig({
     // devtools: { enabled: true },
-    css: ["@/assets/scss/reset.scss"],
+    // ssr: false,
+    css: [
+        "@mdi/font/css/materialdesignicons.min.css",
+        "vuetify/lib/styles/main.sass",
+        "@/assets/scss/base/main.scss",
+        "@/assets/scss/base/reset.scss",
+    ],
+    build: {
+        transpile: ["vuetify"],
+    },
     vite: {
         server: {
             proxy: {

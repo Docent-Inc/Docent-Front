@@ -1,0 +1,84 @@
+/**
+ * Default UI
+ */
+
+@charset "UTF-8";
+html {
+    background-color: #eeeeee;
+}
+
+body {
+    max-width: 50rem;
+    height: 100%;
+    margin: 0 auto;
+    min-height: calc(var(--vh, 1vh) * 100);
+    background-color: #fff;
+    --v-scrollbar-offset: 0 !important;
+    margin-top: constant(safe-area-inset-top);
+    margin-top: env(safe-area-inset-top);
+    min-height: calc(var(--vh, 1h) * 100 - constant(safe-area-inset-top));
+    min-height: calc(var(--vh, 1h) * 100 - env(safe-area-inset-top));
+
+    > div {
+        background: #fff;
+        max-width: 50rem;
+        margin: 0 auto;
+    }
+}
+
+.wrap {
+    width: 100% !important;
+    max-width: 500px;
+    background: #fff;
+    margin: 0 auto;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.viewport {
+    width: 100% !important;
+    max-width: 500px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.navigation {
+    position: fixed;
+    bottom: 0;
+
+    width: 100% !important;
+    max-width: 500px;
+    border-top: 1px solid #e1e1e1;
+    background: #ffffff;
+    height: 8.5rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.header {
+    width: 100%;
+    max-width: 500px;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.3rem 1.5rem 1.5rem 2.5rem;
+    z-index: 999;
+    top: 0;
+    background: #fff;
+    border-bottom: 1px solid #f6f6f6;
+
+    position: fixed;
+    top: constant(safe-area-inset-top);
+    top: env(safe-area-inset-top);
+}

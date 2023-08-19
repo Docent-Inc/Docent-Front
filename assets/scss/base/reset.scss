@@ -1,0 +1,300 @@
+@charset "UTF-8";
+
+*,
+*:before,
+*:after,
+figure,
+figcaption {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    word-break: keep-all;
+    word-wrap: break-word;
+}
+
+html,
+body {
+    -ms-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%; /* IE 및 iOS의 글꼴 크기 조정 방지 */
+    width: 100%;
+}
+
+html {
+    font-size: 62.5%;
+    font-family:
+        "SpoqaHanSansNeo",
+        -apple-system,
+        BlinkMacSystemFont,
+        system-ui,
+        Roboto,
+        "Helvetica Neue",
+        "Segoe UI",
+        "Apple SD Gothic Neo",
+        "Noto Sans KR",
+        "Malgun Gothic",
+        sans-serif;
+    height: 100%;
+    overscroll-behavior-y: none; // android scroll bounce control
+}
+
+body {
+    font-size: 1.6rem;
+    font-family: "SpoqaHanSansNeo", sans-serif;
+    font-weight: 400;
+    color: #19181c;
+    overflow-x: hidden;
+    overscroll-behavior-y: none; // android scroll bounce control
+    min-width: 32rem;
+    position: relative;
+}
+
+address,
+article,
+aside,
+canvas,
+details,
+figure,
+figcaption,
+footer,
+header,
+menu,
+nav,
+section {
+    display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+
+img {
+    vertical-align: top;
+}
+
+ol,
+ul,
+li,
+dl,
+dt,
+dd {
+    list-style: none;
+}
+
+table {
+    width: 100%;
+    border-spacing: unset;
+    border-collapse: collapse;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+
+button {
+    outline: none;
+    color: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+
+select {
+    color: inherit;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: "";
+    outline: none;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 3px 5px;
+}
+
+input:focus {
+    outline: none;
+}
+
+/* vuetify */
+.v-btn {
+    background-color: transparent;
+
+    &.v-btn--disabled {
+        opacity: 0.6;
+    }
+}
+
+.v-ripple__container {
+    display: none !important;
+}
+
+.v-btn-group {
+    .v-btn {
+        height: 100% !important;
+    }
+}
+
+.v-text-field {
+    width: 100%;
+
+    .v-input__control {
+        height: 100%;
+
+        .v-field,
+        .v-field__field {
+            height: 100%;
+        }
+
+        label {
+            display: none;
+        }
+
+        input {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 0.8rem;
+        }
+    }
+
+    &.bg-gray {
+        input {
+            background: #f3f3f5;
+
+            &::placeholder {
+                color: #949494;
+            }
+        }
+    }
+
+    &.size-54 {
+        input {
+            height: 5.4rem;
+            padding: 1.8rem 2rem;
+        }
+    }
+
+    &.size-50 {
+        input {
+            height: 5rem;
+            padding: 1.8rem 4rem 1.8rem 2rem;
+        }
+    }
+
+    &.line-gray {
+        input,
+        textarea {
+            background: #f7f7f7;
+            border: 1px solid #eee;
+            padding: 0 1.5rem;
+            border-radius: 1.9rem;
+            height: 3.8rem;
+
+            &::placeholder {
+                font-size: 1.4rem;
+                color: #949494;
+            }
+        }
+    }
+}
+
+.radio-wrap {
+    ~ .radio-wrap {
+        margin-top: 3rem;
+    }
+
+    ~ .v-text-field {
+        margin-top: 3rem;
+    }
+
+    ~ .v-textarea {
+        margin-top: 3rem;
+    }
+}
+
+.v-checkbox {
+    width: fit-content;
+
+    .v-selection-control {
+        display: flex;
+        align-items: center;
+
+        .v-selection-control__input {
+            display: flex;
+            align-items: center;
+        }
+    }
+}
+
+.v-text-field {
+    width: 100%;
+
+    .v-input__control {
+        height: 100%;
+
+        .v-field,
+        .v-field__field {
+            height: 100%;
+        }
+
+        label {
+            display: none;
+        }
+
+        input {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 0.8rem;
+        }
+    }
+
+    &.bg-gray {
+        input {
+            background: #f3f3f5;
+
+            &::placeholder {
+                color: #949494;
+            }
+        }
+    }
+
+    &.size-54 {
+        input {
+            height: 5.4rem;
+            padding: 1.8rem 2rem;
+        }
+    }
+
+    &.size-50 {
+        input {
+            height: 5rem;
+            padding: 1.8rem 4rem 1.8rem 2rem;
+        }
+    }
+
+    &.line-gray {
+        input,
+        textarea {
+            background: #f7f7f7;
+            border: 1px solid #eee;
+            padding: 0 1.5rem;
+            border-radius: 1.9rem;
+            height: 3.8rem;
+
+            &::placeholder {
+                font-size: 1.4rem;
+                color: #949494;
+            }
+        }
+    }
+}
