@@ -25,25 +25,15 @@ body {
 
 html {
     font-size: 62.5%;
-    font-family:
-        "SpoqaHanSansNeo",
-        -apple-system,
-        BlinkMacSystemFont,
-        system-ui,
-        Roboto,
-        "Helvetica Neue",
-        "Segoe UI",
-        "Apple SD Gothic Neo",
-        "Noto Sans KR",
-        "Malgun Gothic",
-        sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+        "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+        "Malgun Gothic", sans-serif;
     height: 100%;
     overscroll-behavior-y: none; // android scroll bounce control
 }
 
 body {
     font-size: 1.6rem;
-    font-family: "SpoqaHanSansNeo", sans-serif;
     font-weight: 400;
     color: #19181c;
     overflow-x: hidden;

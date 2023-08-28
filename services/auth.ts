@@ -1,5 +1,15 @@
 import API from "../utils/axios";
 
+/**
+ * @interface signupModel
+ */
+interface signupModel {
+    nickname: string;
+    mbti: string;
+    age: string;
+    gender: string;
+}
+
 export const useAuthService = () => {
     return {
         /**
@@ -33,6 +43,16 @@ export const useAuthService = () => {
         async getKakaoCallbackTest(code: string) {
             const res = await API.get(`/api/auth/kakao/callback/test`, {
                 params: { code: code },
+            });
+            return res.data;
+        },
+        /**
+         * 초기 정보 등록
+         * @body user
+         */
+        async signup(data: signupModel) {
+            const res = await API.post(`/api/auth/change/mbti`, {
+                data,
             });
             return res.data;
         },
