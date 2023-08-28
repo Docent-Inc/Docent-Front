@@ -2,7 +2,7 @@
     <div class="wrap">
         <div class="viewport">
             <div>오늘 나의 마음 상태</div>
-            <div class="chat" @click="this.$router.push(`/chat`)">
+            <div class="chat" @click="router.push(`/chat`)">
                 채팅
                 <v-icon>mdi-send-circle</v-icon>
             </div>
@@ -14,6 +14,7 @@
 definePageMeta({
     layout: "main",
 });
+const router = useRouter();
 </script>
 
 <style lang="scss" scoped>

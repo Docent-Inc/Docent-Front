@@ -5,9 +5,17 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { useGenerateService } from "../services/generate";
+
+const { generateChat } = useGenerateService();
+
 const data = ref("");
-const send = () => {
+const send = async () => {
+    // Validation
     console.log("data", data.value);
+
+    const res = await generateChat(data.value);
+    console.log(res);
 };
 </script>
 <style lang="scss" scoped>

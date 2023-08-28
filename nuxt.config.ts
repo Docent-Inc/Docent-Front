@@ -17,6 +17,10 @@ export default defineNuxtConfig({
                     target: "http://3.36.63.32:8080",
                     changeOrigin: true,
                 },
+                "/api": {
+                    target: "https://docent.zip",
+                    changeOrigin: true,
+                },
             },
         },
     },
