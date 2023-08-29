@@ -32,10 +32,15 @@ export default defineNuxtComponent({
         };
     },
     computed: {
-        ...mapState(useSignupStore, ["user"]),
+        ...mapState(useSignupStore, ["user", "step"]),
         isValidate() {
             return this.age !== "";
         },
+    },
+    mounted() {
+        if (this.step !== 1) {
+            this.$router.push(`/signup/1-nickname`);
+        }
     },
     methods: {
         saveAge() {
@@ -44,8 +49,9 @@ export default defineNuxtComponent({
                 return;
             }
 
-            const { setAge } = useSignupStore();
+            const { setAge, setStep } = useSignupStore();
             setAge(this.age);
+            setStep(2);
             this.$router.push(`/signup/3-gender`);
         },
     },

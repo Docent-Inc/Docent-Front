@@ -13,7 +13,7 @@ export const useSignupStore = defineStore("signup", {
             gender: "남",
             mbti: "",
         } as User,
-        step: 1,
+        step: 0,
     }),
     actions: {
         setNickname(nickname: String) {
@@ -29,7 +29,7 @@ export const useSignupStore = defineStore("signup", {
             this.user.mbti = mbti;
         },
         setStep(step: number) {
-            this.step = step;
+            this.step = step > 0 ? step : 0;
         },
     },
 });

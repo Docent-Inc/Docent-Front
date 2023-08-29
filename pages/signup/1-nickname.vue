@@ -9,7 +9,6 @@
             @keyup.enter="saveNickname"
         />
     </div>
-
     <div
         class="button"
         :class="{ disabled: !isValidate }"
@@ -48,8 +47,10 @@ export default defineNuxtComponent({
                 return;
             }
 
-            const { setNickname } = useSignupStore();
+            const { setNickname, setStep } = useSignupStore();
             setNickname(this.nickname);
+            setStep(1);
+
             this.$router.push(`/signup/2-age`);
         },
     },

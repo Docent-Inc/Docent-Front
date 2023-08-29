@@ -39,10 +39,15 @@ export default defineNuxtComponent({
         };
     },
     computed: {
-        ...mapState(useSignupStore, ["user"]),
+        ...mapState(useSignupStore, ["user", "step"]),
         isValidate() {
             return this.gender !== "";
         },
+    },
+    mounted() {
+        if (this.step !== 2) {
+            this.$router.push(`/signup/1-nickname`);
+        }
     },
     methods: {
         saveGender() {
@@ -52,8 +57,9 @@ export default defineNuxtComponent({
                 return;
             }
 
-            const { setGender } = useSignupStore();
+            const { setGender, setStep } = useSignupStore();
             setGender(this.gender);
+            setStep(3);
             this.$router.push(`/signup/4-mbti`);
         },
     },

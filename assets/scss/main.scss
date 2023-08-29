@@ -75,7 +75,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 1.5rem 1.3rem;
-    z-index: 999;
+    z-index: 90;
     top: 0;
     background: #fff;
     border-bottom: 1px solid #f6f6f6;
@@ -105,6 +105,25 @@ body {
 
 .button.disabled {
     background-color: rgba(0, 132, 126, 0.5);
+}
+
+.v-progress-linear {
+    position: fixed;
+    z-index: 95;
+    top: 60px !important;
+    height: 0.2rem;
+    width: 100%;
+    max-width: 500px;
+    background: #eeeeee;
+
+    .v-progress-linear__background {
+        background: #eeeeee;
+        opacity: 1;
+    }
+
+    .v-progress-linear__determinate {
+        background: #00847e;
+    }
 }
 
 // Input

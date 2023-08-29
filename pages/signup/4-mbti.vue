@@ -66,10 +66,15 @@ export default defineNuxtComponent({
         };
     },
     computed: {
-        ...mapState(useSignupStore, ["user"]),
+        ...mapState(useSignupStore, ["user", "step"]),
         isValidate() {
             return this.mbti !== "";
         },
+    },
+    mounted() {
+        if (this.step !== 3) {
+            this.$router.push(`/signup/1-nickname`);
+        }
     },
     methods: {
         saveMbti() {
@@ -79,8 +84,9 @@ export default defineNuxtComponent({
                 return;
             }
 
-            const { setMbti } = useSignupStore();
+            const { setMbti, setStep } = useSignupStore();
             setMbti(this.mbti);
+            setStep(4);
             this.$router.push(`/signup/5-result`);
         },
     },

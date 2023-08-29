@@ -60,7 +60,14 @@ export default defineNuxtComponent({
         };
     },
     computed: {
-        ...mapState(useSignupStore, ["user"]),
+        ...mapState(useSignupStore, ["user", "step"]),
+    },
+    mounted() {
+        console.log(this.step);
+
+        if (this.step !== 4) {
+            this.$router.push(`/signup/1-nickname`);
+        }
     },
     methods: {
         async signup() {
