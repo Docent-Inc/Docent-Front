@@ -85,7 +85,7 @@ body {
     top: env(safe-area-inset-top);
 }
 
-button {
+.button {
     width: calc(100% - 60px);
     height: 4.5rem;
     border-radius: 12px;
@@ -103,8 +103,37 @@ button {
     align-items: center;
 }
 
-input {
-    width: calc(100% - 40px);
-    border-bottom: solid #00847e 1px;
-    margin: 0 auto;
+// Input
+.input-box {
+    margin-bottom: 28px;
+
+    .title {
+        color: #50555c;
+        font-family: "Pretendard Light";
+        font-size: 14px;
+        line-height: 23.4px; /* 167.143% */
+        margin-bottom: 2px;
+    }
+
+    input {
+        color: #000;
+        font-family: "Pretendard Bold";
+        font-size: 20px;
+        line-height: 31.2px; /* 141.818% */
+
+        width: 100%;
+        border-bottom: 2px solid #00847e;
+    }
+
+    input::placeholder {
+        color: #50555c;
+        font-family: "Pretendard";
+        font-size: 18px;
+        line-height: 31.2px; /* 141.818% */
+    }
+
+    input:disabled {
+        color: rgba(0, 0, 0, 0.7);
+        border-bottom: 1px solid rgba(117, 117, 117, 0.7);
+    }
 }

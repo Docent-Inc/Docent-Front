@@ -1,17 +1,24 @@
 /**
  * Text 
  */
-h1 {
+.title {
     color: #000;
     font-family: "Pretendard Bold";
     font-size: 24px;
     line-height: 31.2px; /* 130% */
-    margin-bottom: 7px;
+    margin-bottom: 40px;
 }
 
-h2 {
+.subtitle {
     color: #50555c;
     font-family: "Pretendard SemiBold";
     font-size: 18px;
     line-height: 23.4px; /* 130% */
+}
+
+.description {
+    color: #50555c;
+    font-family: "Pretendard Light";
+    font-size: 14px;
+    line-height: 23.4px; /* 167.143% */
 }

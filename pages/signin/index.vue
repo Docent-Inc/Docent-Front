@@ -1,11 +1,11 @@
 <template>
     <div class="viewport">
         <div class="title-box">
-            <h1>당신의 공간으로 <br />초대합니다!</h1>
-            <h2>나를 위한 기록을 시작해보세요.</h2>
+            <div class="title">당신의 공간으로 <br />초대합니다!</div>
+            <div class="subtitle">나를 위한 기록을 시작해보세요.</div>
         </div>
 
-        <div class="button"><img :src="kakaoLogo" @click="call" /></div>
+        <img :src="kakaoLogo" @click="call" class="button" />
     </div>
 </template>
 
@@ -34,5 +34,13 @@ const call = async () => {
     text-align: start;
     padding: 0 1.5em;
     margin-top: 105px;
+}
+
+.title {
+    margin-bottom: 7px;
+}
+
+.button {
+    background: none;
 }
 </style>

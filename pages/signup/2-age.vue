@@ -1,8 +1,14 @@
 <template>
-    <h1>나이를 알려주세요</h1>
+    <div class="title">나이를 알려주세요</div>
 
-    <input type="text" v-model="name" />
-    <input type="text" disabled />
+    <div class="input-box">
+        <div class="title">나이</div>
+        <input type="number" v-model="name" />
+    </div>
+    <div class="input-box">
+        <div class="title">닉네임</div>
+        <input type="text" v-model="name" disabled />
+    </div>
 </template>
 
 <script setup>

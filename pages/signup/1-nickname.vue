@@ -1,7 +1,10 @@
 <template>
-    <h1>닉네임을 알려주세요</h1>
+    <div class="title">닉네임을 알려주세요</div>
 
-    <input type="text" v-model="name" />
+    <div class="input-box">
+        <div class="title">닉네임</div>
+        <input type="text" v-model="name" placeholder="슨트" />
+    </div>
 </template>
 
 <script setup>

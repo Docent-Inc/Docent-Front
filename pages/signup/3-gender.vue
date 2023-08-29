@@ -1,9 +1,18 @@
 <template>
-    <h1>성별을 알려주세요</h1>
+    <div class="title">성별을 알려주세요</div>
 
-    <input type="text" v-model="gender" />
-    <input type="text" disabled />
-    <input type="text" disabled />
+    <div class="input-box">
+        <div class="title">나이</div>
+        <select-box :options="['남', '여']" />
+    </div>
+    <div class="input-box">
+        <div class="title">나이</div>
+        <input type="number" v-model="name" disabled />
+    </div>
+    <div class="input-box">
+        <div class="title">닉네임</div>
+        <input type="text" v-model="name" disabled />
+    </div>
 </template>
 
 <script setup>
