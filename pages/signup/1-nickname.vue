@@ -1,18 +1,59 @@
 <template>
     <div class="title">닉네임을 알려주세요</div>
-
     <div class="input-box">
         <div class="title">닉네임</div>
-        <input type="text" v-model="name" placeholder="슨트" />
+        <input
+            type="text"
+            v-model="nickname"
+            placeholder="슨트"
+            @keyup.enter="saveNickname"
+        />
+    </div>
+
+    <div
+        class="button"
+        :class="{ disabled: !isValidate }"
+        @click="saveNickname"
+    >
+        다음
     </div>
 </template>
 
-<script setup>
-definePageMeta({
-    layout: "signup",
+<script>
+import { mapState } from "pinia";
+import { useSignupStore } from "~/store/signup";
+
+export default defineNuxtComponent({
+    name: "1-Nickname",
+    setup() {
+        definePageMeta({
+            layout: "signup",
+        });
+    },
+    data() {
+        return {
+            nickname: "",
+        };
+    },
+    computed: {
+        ...mapState(useSignupStore, ["user, step"]),
+        isValidate() {
+            return this.nickname !== "";
+        },
+    },
+    methods: {
+        saveNickname() {
+            if (!this.isValidate) {
+                alert("닉네임은 1글자 이상이어야 합니다.");
+                return;
+            }
+
+            const { setNickname } = useSignupStore();
+            setNickname(this.nickname);
+            this.$router.push(`/signup/2-age`);
+        },
+    },
 });
-const router = useRouter();
-const name = ref("");
 </script>
 
 <style lang="scss" scoped></style>

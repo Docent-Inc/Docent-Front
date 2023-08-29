@@ -13,6 +13,10 @@ export default defineNuxtConfig({
     build: {
         transpile: ["vuetify"],
     },
+    modules: ["@pinia/nuxt"],
+    imports: {
+        dirs: ["./stores"],
+    },
     vite: {
         server: {
             proxy: {
@@ -26,5 +30,8 @@ export default defineNuxtConfig({
                 },
             },
         },
+    },
+    pinia: {
+        autoImports: ["defineStore", "acceptHMRUpdate"],
     },
 });

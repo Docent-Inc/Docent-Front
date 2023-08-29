@@ -51,8 +51,8 @@ export const useAuthService = () => {
          * @body user
          */
         async signup(data: signupModel) {
-            const res = await API.post(`/api/auth/change/mbti`, {
-                data,
+            const res = await API.post(`/api/auth/update`, {
+                ...data,
             });
             return res.data;
         },
