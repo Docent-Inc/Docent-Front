@@ -1,12 +1,6 @@
 <template>
     <div class="chat-input">
         <v-icon
-            class="ic_voice big"
-            v-if="mode === 'VOICE'"
-            @click="mode = 'INPUT'"
-        />
-
-        <v-icon
             class="ic_voice"
             v-if="mode === 'INPUT'"
             @click="mode = 'VOICE'"
@@ -17,25 +11,32 @@
                 v-model="data"
                 @keydown.enter="send"
                 placeholder="도슨트에게 당신의 이야기를 들려주세요"
-                :disabled="mode === 'VOICE'"
             />
             <v-icon class="ic_send" @click="send" />
         </div>
     </div>
+
+    <chat-voice v-if="mode === 'VOICE'" @finish="setData" />
 </template>
 
 <script lang="ts" setup>
 import { useGenerateService } from "../services/generate";
 const { generateChat } = useGenerateService();
 
-const data = ref("");
-const mode = ref("INPUT");
+const mode = ref<string>("INPUT"); // INPUT, VOICE
+const data = ref<string>("");
+
 const send = async () => {
-    // Validation
+    // TODO: Validation
     console.log("data", data.value);
 
     const res = await generateChat(data.value);
     console.log(res);
+};
+
+const setData = (res: string) => {
+    data.value = res;
+    mode.value = "INPUT";
 };
 </script>
 
