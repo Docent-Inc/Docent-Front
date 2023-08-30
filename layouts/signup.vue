@@ -9,7 +9,7 @@
             height="2"
         ></v-progress-linear>
 
-        <div class="contents" di>
+        <div class="contents">
             <slot />
         </div>
     </div>

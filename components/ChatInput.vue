@@ -1,15 +1,35 @@
 <template>
-    <div class="input">
-        <input type="text" v-model="data" @keydown.enter="send" />
-        <v-icon @click="send">mdi-send-circle-outline</v-icon>
+    <div class="chat-input">
+        <v-icon
+            class="ic_voice big"
+            v-if="mode === 'VOICE'"
+            @click="mode = 'INPUT'"
+        />
+
+        <v-icon
+            class="ic_voice"
+            v-if="mode === 'INPUT'"
+            @click="mode = 'VOICE'"
+        />
+        <div class="input">
+            <input
+                type="text"
+                v-model="data"
+                @keydown.enter="send"
+                placeholder="도슨트에게 당신의 이야기를 들려주세요"
+                :disabled="mode === 'VOICE'"
+            />
+            <v-icon class="ic_send" @click="send" />
+        </div>
     </div>
 </template>
+
 <script lang="ts" setup>
 import { useGenerateService } from "../services/generate";
-
 const { generateChat } = useGenerateService();
 
 const data = ref("");
+const mode = ref("INPUT");
 const send = async () => {
     // Validation
     console.log("data", data.value);
@@ -18,35 +38,70 @@ const send = async () => {
     console.log(res);
 };
 </script>
+
 <style lang="scss" scoped>
-.input {
+.chat-input {
     width: 100%;
     max-width: 500px;
+    height: 8rem;
     background: #fff;
-    border-top: 1px solid #f6f6f6;
 
-    padding: 1.3rem 0rem 1.5rem 2.5rem;
+    padding: 1.5rem 0;
     z-index: 10;
-    position: fixed;
+    position: sticky;
     bottom: 0;
 
     display: flex;
-    justify-content: right;
+    justify-content: center;
+    align-items: center;
+
+    .ic_voice {
+        font-size: 56px;
+    }
+}
+
+.ic_voice.big {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 7.44rem;
+    font-size: 15rem;
+    z-index: 20;
+}
+
+.input {
+    width: 80%;
+    max-width: 500px;
+    height: 100%;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
     align-items: center;
 
     input {
+        width: 100%;
         height: 100%;
-        width: 90%;
-        border: 1px solid #efefef;
-        border-radius: 20px;
-        padding: 0.5em 2.5em 0.5em 1em;
-        margin-right: 10px;
+        padding: 0.8em 2.5em 0.8em 1em;
+        margin: 0 auto;
+
+        border-radius: 10px;
+        border: 0.3px solid #000;
+
+        color: #000;
+        font-family: "Pretendard";
+        font-size: 14px;
+        line-height: 1.3125rem; /* 150% */
     }
 
-    .v-icon {
+    input::placeholder {
+        color: #50555c;
+    }
+
+    .ic_send {
         position: absolute;
         right: 0;
-        margin-right: 20px;
+        margin-right: 1rem;
+        font-size: 15px;
     }
 }
 </style>

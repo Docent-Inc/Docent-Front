@@ -70,10 +70,9 @@ body {
     width: 100%;
     max-width: 500px;
     height: 60px;
-    position: fixed;
+    position: sticky;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 1.5rem 1.3rem;
     z-index: 90;
     top: 0;

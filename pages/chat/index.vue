@@ -1,8 +1,40 @@
 <template>
-    <div class="wrap">
-        <div class="content">ello</div>
-        <div class="chat">아래 채팅 바</div>
-    </div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
+    <div>hello</div>
 </template>
 
 <script setup>
@@ -11,12 +43,4 @@ definePageMeta({
 });
 </script>
 
-<style lang="scss" scoped>
-.content {
-    height: 100vh;
-}
-.chat {
-    position: fixed;
-    bottom: 0;
-}
-</style>
+<style lang="scss" scoped></style>
