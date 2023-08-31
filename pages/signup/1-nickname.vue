@@ -10,7 +10,7 @@
         />
     </div>
     <div
-        class="button"
+        class="button fixed-bottom"
         :class="{ disabled: !isValidate }"
         @click="saveNickname"
     >

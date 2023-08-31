@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useGenerateService } from "../services/generate";
+import { useGenerateService } from "../../services/generate";
 const { generateChat } = useGenerateService();
 
 const mode = ref<string>("INPUT"); // INPUT, VOICE

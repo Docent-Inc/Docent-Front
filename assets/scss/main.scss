@@ -89,17 +89,21 @@ body {
     height: 4.5rem;
     border-radius: 12px;
     background-color: #00847e;
-    color: #fff;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: "Pretendard Bold";
+    color: #eeedf4;
+}
+
+.button.fixed-bottom {
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 35px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .button.disabled {

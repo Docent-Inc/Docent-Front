@@ -5,7 +5,7 @@
             <div class="subtitle">나를 위한 기록을 시작해보세요.</div>
         </div>
 
-        <img :src="kakaoLogo" @click="call" class="button" />
+        <img :src="kakaoLogo" @click="call" class="button fixed-bottom" />
     </div>
 </template>
 
