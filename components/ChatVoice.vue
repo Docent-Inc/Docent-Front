@@ -44,7 +44,7 @@ function stop() {
 .chat-voice {
     width: 100%;
     height: 100%;
-    background: #00000067;
+    // background: #00000067;
     z-index: 20;
     position: absolute;
     top: 0;
@@ -52,7 +52,7 @@ function stop() {
 
     div {
         font-family: Pretendard;
-        color: #fff;
+        color: #010101;
         font-size: 14px;
         text-align: center;
 
