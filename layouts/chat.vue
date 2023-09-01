@@ -17,11 +17,11 @@
 <script>
 export default {
     mounted() {
-        this.$nextTick(() => {
-            console.log(this.$refs.chatContainer);
-            var objDiv = document.getElementById("container");
-            objDiv.scrollTop = objDiv.scrollHeight;
-        });
+        // this.$nextTick(() => {
+        //     console.log(this.$refs.chatContainer);
+        //     var objDiv = document.getElementById("container");
+        //     objDiv.scrollTop = objDiv.scrollHeight;
+        // });
     },
 };
 </script>

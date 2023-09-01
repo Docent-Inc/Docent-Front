@@ -13,7 +13,7 @@
 
         <!-- 로딩 -->
         <div class="chat-box loading" v-if="type === 'loading'">
-            <!-- <lottie :width="100" :options="lottieOptions" /> -->
+            <img :src="loadingGIF" />
         </div>
 
         <!-- 기본 -->
@@ -21,8 +21,11 @@
     </div>
 </template>
 <script setup>
+import loadingGIF from "../../assets/images/loading-dot.gif";
 // Lottie Setting
 // import lottie from "vue-lottie/src/lottie.vue";
+// import lottie from "lottie-web";
+// import LoadingDotJSON from "../../assets/images/loading-dot.json";
 // import * as animationData from "../../assets/images/loading-dot.json";
 // const lottieOptions = {
 //     animationData: animationData.default,
@@ -70,7 +73,21 @@ const props = defineProps({
 .chat-box.loading {
     width: 78px;
     height: 50px;
-    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    padding: 2rem 1.5rem;
+    border-radius: 0.625rem;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+
+    img {
+        width: 500%;
+        margin-top: 150%;
+    }
 }
 
 .chat-profile {

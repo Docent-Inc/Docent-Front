@@ -9,8 +9,8 @@
             <input
                 type="text"
                 v-model="data"
-                @keydown.enter="send"
                 placeholder="도슨트에게 당신의 이야기를 들려주세요"
+                :disabled="isGenerating"
             />
             <v-icon class="ic_send" @click="send" />
         </div>
@@ -19,24 +19,50 @@
     <chat-voice v-if="mode === 'VOICE'" @finish="setData" />
 </template>
 
-<script lang="ts" setup>
+<script>
 import { useGenerateService } from "../../services/generate";
-const { generateChat } = useGenerateService();
+import { mapState, mapActions } from "pinia";
+import { useChatStore } from "../../store/chat";
 
-const mode = ref<string>("INPUT"); // INPUT, VOICE
-const data = ref<string>("");
+export default {
+    name: "ChatInput",
+    data() {
+        return {
+            mode: "INPUT", // INPUT, VOICE
+            data: "",
+            isGenerating: false,
+        };
+    },
+    computed: {
+        ...mapState(useChatStore, ["chatList"]),
+    },
+    methods: {
+        ...mapActions(useChatStore, ["setChatList", "getFirstPage"]),
+        async send() {
+            if (this.isGenerating) return;
 
-const send = async () => {
-    // TODO: Validation
-    console.log("data", data.value);
+            const { generateChat } = useGenerateService();
 
-    const res = await generateChat(data.value);
-    console.log(res);
-};
+            // 로딩 컴포넌트 추가
+            const list = this.chatList;
+            list.push({ content_type: 7 });
+            this.setChatList(list);
+            this.isGenerating = true;
 
-const setData = (res: string) => {
-    data.value = res;
-    mode.value = "INPUT";
+            const res = await generateChat(this.data);
+            console.log("✨generateChat >>> ", this.data);
+
+            if (res.success) {
+                this.data = "";
+                this.getFirstPage();
+                this.isGenerating = false;
+            }
+        },
+        setData(res) {
+            this.data = res;
+            this.mode = "INPUT";
+        },
+    },
 };
 </script>
 
