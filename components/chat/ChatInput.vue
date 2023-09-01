@@ -33,6 +33,17 @@ export default {
             isGenerating: false,
         };
     },
+    setup() {
+        document.body.addEventListener(
+            "touchmove",
+            function (event) {
+                console.log(event.source);
+                //if (event.source == document.body)
+                event.preventDefault();
+            },
+            false
+        );
+    },
     computed: {
         ...mapState(useChatStore, ["chatList"]),
     },

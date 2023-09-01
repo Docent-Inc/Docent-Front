@@ -6,9 +6,9 @@
             <v-icon class="logo_docent" />
         </div>
 
-        <div class="contents" id="container" ref="chatContainer">
-            <slot />
-        </div>
+        <!-- <div class="chat-container" id="chat-scrollable" ref="chatContainer"> -->
+        <slot />
+        <!-- </div> -->
 
         <chat-input />
     </div>
@@ -17,11 +17,22 @@
 <script>
 export default {
     mounted() {
-        // this.$nextTick(() => {
-        //     console.log(this.$refs.chatContainer);
-        //     var objDiv = document.getElementById("container");
-        //     objDiv.scrollTop = objDiv.scrollHeight;
-        // });
+        // const container = document.querySelector(".chat-container");
+        // container.target.scrollTop = container.target.scrollHeight;
+        // const scrollable = document.getElementsByClassName("chat-container");
+        // scrollable.scrollTop = scrollable.scrollHeight;
+        // // var previousScrollHeight = scrollable.scrollHeight;
+        // // scrollable.scrollTop = scrollable.scrollHeight - previousScrollHeight;
+        // document.querySelector(".chat-container").addEventListener(
+        //     "scroll",
+        //     function (event) {
+        //         // 스크롤을 원하는 위치로 조절하고자 할 때 이곳에 추가 로직을 작성
+        //         // 예: 스크롤 위치를 맨 아래로 유지
+        //         console.log("event", event);
+        //         // event.target.scrollTop = event.target.scrollHeight;
+        //     },
+        //     false
+        // );
     },
 };
 </script>
@@ -43,11 +54,12 @@ export default {
     margin: 0 auto;
 }
 
-.contents {
-    width: 100%;
-    height: calc(100% - (60px + 7rem)); // top + bottom
-    overflow-y: auto;
-    margin-top: 60px;
-    padding: 2rem;
-}
+// .chat-container {
+//     width: 100%;
+//     height: calc(100% - (60px + 7rem)); // top + bottom
+//     overflow-y: auto;
+//     margin-top: 60px;
+//     padding: 2rem;
+//     overscroll-behavior: none;
+// }
 </style>

@@ -1,31 +1,36 @@
+<!-- TODO: 스크롤  -->
 <template>
-    <infinite-loading
-        v-if="chatList?.length"
-        :first-load="false"
-        :distance="1000"
-        direction="top"
-        @infinite="loadMore"
-    />
-    <div v-for="chat in chatList" :key="chat.id">
-        <chat-box v-if="chat.content_type === 5" type="docent" />
-        <chat-box v-if="chat.content_type === 7" type="loading" />
-        <chat-box
-            v-if="chat.content_type === 6"
-            :text="chat.content"
-            type="date"
+    <div id="chat-scrollable" ref="scrollable">
+        <infinite-loading
+            v-if="chatList?.length"
+            :first-load="false"
+            :distance="1000"
+            :top="true"
+            @infinite="loadMore"
         />
-        <chat-result
-            v-if="chat.is_chatbot && [1, 2, 3, 4].includes(chat.content_type)"
-            :type="chat.content_type"
-            :chat="chat"
-        />
-        <chat-box
-            v-if="
-                !chat.is_chatbot &&
-                [1, 2, 3, 4, null].includes(chat.content_type)
-            "
-            :text="chat.content"
-        />
+        <div v-for="chat in chatList" :key="chat.id">
+            <chat-box v-if="chat.content_type === 5" type="docent" />
+            <chat-box v-if="chat.content_type === 7" type="loading" />
+            <chat-box
+                v-if="chat.content_type === 6"
+                :text="chat.content"
+                type="date"
+            />
+            <chat-result
+                v-if="
+                    chat.is_chatbot && [1, 2, 3, 4].includes(chat.content_type)
+                "
+                :type="chat.content_type"
+                :chat="chat"
+            />
+            <chat-box
+                v-if="
+                    !chat.is_chatbot &&
+                    [1, 2, 3, 4, null].includes(chat.content_type)
+                "
+                :text="chat.content"
+            />
+        </div>
     </div>
 </template>
 
@@ -45,6 +50,11 @@ export default {
             layout: "chat",
         });
     },
+    data() {
+        return {
+            isInitialized: false,
+        };
+    },
     computed: {
         ...mapState(useChatStore, [
             "list",
@@ -56,6 +66,19 @@ export default {
     watch: {
         list() {
             this.listToChatList();
+        },
+        chatList() {
+            this.$nextTick();
+
+            if (!this.isInitialized) {
+                const scrollRef = this.$refs.scrollable;
+                scrollRef.scrollTo({
+                    top: scrollRef.scrollHeight,
+                    behavior: "smooth",
+                });
+                this.$nextTick();
+                this.isInitialized = true;
+            }
         },
     },
     mounted() {
@@ -70,12 +93,26 @@ export default {
         ...mapActions(useChatStore, ["getList", "listToChatList"]),
         // Infinite Loading
         async loadMore() {
-            if (this.totalCounts > this.list.length) {
-                this.getList();
-            }
+            this.$nextTick();
+            setTimeout(() => {
+                if (this.totalCounts > this.list.length) {
+                    this.getList();
+                }
+            }, 1000);
         },
     },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#chat-scrollable {
+    width: 100%;
+    height: calc(100% - (60px + 7rem)); // top + bottom
+    overflow-y: scroll;
+    margin-top: 60px;
+    padding: 2rem;
+
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+</style>

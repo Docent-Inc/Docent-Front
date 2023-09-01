@@ -15,12 +15,21 @@ figcaption {
 
 html,
 body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+html,
+body {
     -ms-font-smoothing: antialiased;
     -webkit-font-smoothing: antialiased;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%; /* IE 및 iOS의 글꼴 크기 조정 방지 */
     width: 100%;
+    overscroll-behavior-y: none;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
 }
 
 html {
