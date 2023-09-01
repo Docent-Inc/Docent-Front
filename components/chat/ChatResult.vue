@@ -77,7 +77,7 @@ export default {
     background: rgba(255, 255, 255, 0.8);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
     position: relative;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 
     .chat-title {
         color: #000;

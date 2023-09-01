@@ -1,20 +1,23 @@
 <template>
-    <div class="chat-box-wrapper" :class="{ right: !isDocent }">
+    <div class="chat-box-wrapper" :class="{ right: type === 'text' }">
         <!-- 프로필 -->
-        <div class="chat-profile" v-if="isDocent">
+        <div class="chat-profile" v-if="type === 'docent'">
             <v-icon class="ic_docent" />
             <div>도슨트</div>
         </div>
 
+        <!-- 기본 -->
+        <div class="chat-date" v-if="type === 'date'">
+            {{ $dayjs(text).format("YYYY년 M월 D일") }}
+        </div>
+
         <!-- 로딩 -->
-        <div class="chat-box loading" v-if="isLoading">
+        <div class="chat-box loading" v-if="type === 'loading'">
             <!-- <lottie :width="100" :options="lottieOptions" /> -->
         </div>
 
         <!-- 기본 -->
-        <div class="chat-box" v-else>
-            {{ text }}
-        </div>
+        <div class="chat-box" v-if="type === 'text'">{{ text }}</div>
     </div>
 </template>
 <script setup>
@@ -29,8 +32,7 @@
 // };
 
 const props = defineProps({
-    isLoading: { type: Boolean, required: false, default: false },
-    isDocent: { type: Boolean, required: false, default: false },
+    type: { type: String, required: false, default: "text" },
     text: { type: String, required: false, default: "" },
 });
 </script>
@@ -73,7 +75,7 @@ const props = defineProps({
 
 .chat-profile {
     display: flex;
-    margin-bottom: 0.5rem;
+    margin: 0.5rem 0;
     align-items: center;
 
     color: #010101;
@@ -84,5 +86,16 @@ const props = defineProps({
         margin-right: 5px;
         font-size: 18px;
     }
+}
+
+.chat-date {
+    width: 100%;
+    text-align: center;
+    color: #50555c;
+    text-align: center;
+    font-family: "Pretendard";
+    font-size: 0.6875rem;
+    line-height: 1.3125rem; /* 190.909% */
+    margin: 0 0 2rem 0;
 }
 </style>
