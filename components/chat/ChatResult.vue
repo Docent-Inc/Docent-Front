@@ -1,7 +1,7 @@
 <template>
     <div class="chat-result">
         <!-- 타이틀 -->
-        <div class="chat-title" v-if="type === '4'">
+        <div class="chat-title" v-if="type === 4">
             <span>{{ type_name.replace(" ", "&nbsp;&nbsp;") }}</span
             >이 추가 되었습니다!
         </div>
@@ -11,25 +11,25 @@
         </div>
 
         <!-- 내용 -->
-        <div v-if="type === '1' || type === '2'" class="memo">
-            <div class="chat-diary-title">{{ diary.title }}</div>
-            <img :src="diary.url" />
+        <div v-if="type === 1 || type === 2" class="memo">
+            <div class="chat-diary-title">{{ chat.content }}</div>
+            <img :src="chat.image_url" />
             <div class="chat-more">더 알아보기 &gt;</div>
         </div>
 
-        <div v-if="type === '3'">
+        <div v-if="type === 3">
             <div class="chat-memo">
-                {{ memo.text }}
+                {{ chat.content }}
                 <div class="chat-more">더 알아보기 &gt;</div>
             </div>
         </div>
 
-        <div v-if="type === '4'">
+        <div v-if="type === 4">
             <div class="chat-calendar">
                 <div class="chat-calendar-title">
-                    수강신청 모바일에서 꼭와다다와다다
+                    {{ chat.content }}
                 </div>
-                <div class="date">09.07 (목)</div>
+                <div class="date">{{ chat.event_time }}</div>
             </div>
 
             <button class="button">자세히 보기</button>
@@ -41,9 +41,14 @@ export default {
     name: "ChatDiary",
     props: {
         type: {
-            type: String,
+            type: Number,
             required: true,
-            default: "1",
+            default: 1,
+        },
+        chat: {
+            type: Object,
+            required: true,
+            default: () => {},
         },
     },
     data() {
@@ -63,11 +68,11 @@ export default {
     computed: {
         type_name() {
             switch (this.type) {
-                case "1":
+                case 1:
                     return "🌞 아침 일기";
-                case "2":
+                case 2:
                     return "🌙 저녁 일기";
-                case "3":
+                case 3:
                     return "✏️ 메모";
                 default:
                     return "✅ 일정";

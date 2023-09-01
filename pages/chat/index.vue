@@ -1,37 +1,33 @@
 <template>
-    <chat-box :is-loading="true" />
-    <chat-box
-        :is-docent="true"
-        text="hi안녕하세요오오오오오ㅗ오반갑습니다라어리니러널ㄴ얼ㅇ널ㅇ너리ㅏㄴ어라ㅣㅇ너라ㅣ너라ㅓㄴd와라라라라라라라런이러ㅣ넝라ㅣ너"
-    />
-    <chat-result type="1" />
-    <chat-result type="2" />
-    <chat-result type="3" />
-    <chat-result type="4" />
+    <div v-for="chat in chatList" :key="chat.id">
+        <chat-box v-if="!chat.is_chatbot" :text="chat.content" />
+        <chat-result
+            v-if="chat.is_chatbot"
+            :type="chat.content_type"
+            :chat="chat"
+        />
+    </div>
 </template>
 
 <script setup>
+import { useChatService } from "../../services/chat";
+const { getChatList } = useChatService();
+
 definePageMeta({
     layout: "chat",
 });
 
-import { useChatService } from "../../services/chat";
-const { getChatList } = useChatService();
+const chatList = ref([]);
 onMounted(async () => {
+    // TODO: 테스트용 액세스 토큰 제거
+    window.localStorage.setItem(
+        "accessToken",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjIwNTM1NDcxNzZ9.Dqf6UOvR-OlKY6cVMjoN0AJ25stW8ojdSy2GZ5dyHlc"
+    );
     const res = await getChatList(1);
+    chatList.value = res.data;
     console.log(res);
 });
-
-// TODO: lottie test
-import lottie from "vue-lottie/src/lottie.vue";
-import * as animationData from "../../assets/images/loading-dot.json";
-const anim = ref(null);
-const lottieOptions = { animationData: animationData.default };
-
-const handleAnimation = (newAnim) => {
-    console.log(newAnim);
-    anim.value = newAnim;
-};
 </script>
 
 <style lang="scss" scoped></style>

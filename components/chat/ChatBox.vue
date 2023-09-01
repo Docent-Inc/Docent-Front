@@ -1,29 +1,32 @@
 <template>
-    <!-- 프로필 -->
-    <div class="chat-profile" v-if="isDocent">
-        <v-icon class="ic_docent" />
-        <div>도슨트</div>
-    </div>
+    <div class="chat-box-wrapper" :class="{ right: !isDocent }">
+        <!-- 프로필 -->
+        <div class="chat-profile" v-if="isDocent">
+            <v-icon class="ic_docent" />
+            <div>도슨트</div>
+        </div>
 
-    <!-- 로딩 -->
-    <div class="chat-box loading" v-if="isLoading">
-        <lottie :width="100" :options="lottieOptions" />
-    </div>
-    <!-- 기본 -->
-    <div class="chat-box" v-else>
-        {{ text }}
+        <!-- 로딩 -->
+        <div class="chat-box loading" v-if="isLoading">
+            <!-- <lottie :width="100" :options="lottieOptions" /> -->
+        </div>
+
+        <!-- 기본 -->
+        <div class="chat-box" v-else>
+            {{ text }}
+        </div>
     </div>
 </template>
 <script setup>
 // Lottie Setting
-import lottie from "vue-lottie/src/lottie.vue";
-import * as animationData from "../../assets/images/loading-dot.json";
-const lottieOptions = {
-    animationData: animationData.default,
-    rendererSettings: {
-        viewBoxSize: "480 250 960 540",
-    },
-};
+// import lottie from "vue-lottie/src/lottie.vue";
+// import * as animationData from "../../assets/images/loading-dot.json";
+// const lottieOptions = {
+//     animationData: animationData.default,
+//     rendererSettings: {
+//         viewBoxSize: "480 250 960 540",
+//     },
+// };
 
 const props = defineProps({
     isLoading: { type: Boolean, required: false, default: false },
@@ -33,6 +36,13 @@ const props = defineProps({
 </script>
 
 <style lang="scss" scoped>
+.chat-box-wrapper {
+    display: flex;
+    justify-content: flex-start;
+}
+.chat-box-wrapper.right {
+    justify-content: flex-end;
+}
 .chat-box {
     display: flex;
     padding: 1.0625rem 2rem;
@@ -50,6 +60,9 @@ const props = defineProps({
     white-space: normal;
     word-break: break-all;
     overflow: hidden;
+}
+.chat-box.right {
+    align-self: right;
 }
 
 .chat-box.loading {
