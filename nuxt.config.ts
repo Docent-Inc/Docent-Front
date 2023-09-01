@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     build: {
         transpile: ["vuetify"],
     },
-    modules: ["@pinia/nuxt"],
+    modules: ["@pinia/nuxt", "dayjs-nuxt"],
     imports: {
         dirs: ["./stores"],
     },
@@ -33,5 +33,13 @@ export default defineNuxtConfig({
     },
     pinia: {
         autoImports: ["defineStore", "acceptHMRUpdate"],
+    },
+    app: {
+        head: {
+            title: "Docent",
+        },
+    },
+    dayjs: {
+        locales: ["ko"],
     },
 });

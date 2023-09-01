@@ -11,6 +11,7 @@
     "devDependencies": {
         "@nuxt/devtools": "latest",
         "@types/node": "^18.17.3",
+        "dayjs-nuxt": "^1.1.2",
         "nuxt": "^3.6.5",
         "sass": "^1.66.1",
         "sass-loader": "^13.3.2"
@@ -21,7 +22,8 @@
         "axios": "^1.4.0",
         "eslint": "^8.47.0",
         "prettier": "^3.0.2",
-        "vuetify": "^3.4.0-alpha.0",
-        "v3-infinite-loading": "^1.2.2"
+        "v3-infinite-loading": "^1.2.2",
+        "vue-chat-scroll": "^1.4.0",
+        "vuetify": "^3.4.0-alpha.0"
     }
 }

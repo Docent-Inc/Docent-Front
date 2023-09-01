@@ -3,6 +3,7 @@
         v-if="chatList.length"
         :first-load="false"
         :distance="1000"
+        direction="top"
         @infinite="loadMore"
     />
     <div v-for="chat in chatList" :key="chat.id">
@@ -15,43 +16,74 @@
     </div>
 </template>
 
-<script setup>
+<script>
 import InfiniteLoading from "v3-infinite-loading";
+import ChatBox from "../../components/chat/ChatBox.vue";
+import ChatResult from "../../components/chat/ChatBox.vue";
+
 import { useChatService } from "../../services/chat";
-const { getChatList } = useChatService();
 
-definePageMeta({
-    layout: "chat",
-});
+export default {
+    name: "Chat",
+    components: { InfiniteLoading, ChatBox, ChatResult },
+    setup() {
+        definePageMeta({
+            layout: "chat",
+        });
+    },
+    data() {
+        return {
+            totalCounts: 0,
+            pageNo: 1,
+            chatList: [],
+        };
+    },
+    mounted() {
+        window.localStorage.setItem(
+            "accessToken",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjIwNTM1NDcxNzZ9.Dqf6UOvR-OlKY6cVMjoN0AJ25stW8ojdSy2GZ5dyHlc"
+        );
 
-const totalCounts = ref(0);
-const pageNo = ref(1);
-const chatList = ref([]);
-onMounted(async () => {
-    // TODO: 테스트용 액세스 토큰 제거
-    window.localStorage.setItem(
-        "accessToken",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjIwNTM1NDcxNzZ9.Dqf6UOvR-OlKY6cVMjoN0AJ25stW8ojdSy2GZ5dyHlc"
-    );
-    addChatList();
-});
+        this.addChatList();
 
-// Infinite Loading
-const loadMore = async () => {
-    if (totalCounts.value > chatList.value.length) {
-        addChatList();
-    }
+        // var objDiv = document.getElementById("container");
+        // objDiv.scrollTop = objDiv.scrollHeight;
+
+        // const scrollContainer = this.$refs.container;
+        // console.log(scrollContainer);
+        // if (scrollContainer) {
+        //     scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        // }
+    },
+    methods: {
+        // Infinite Loading
+        async loadMore() {
+            if (this.totalCounts > this.chatList.length) {
+                this.addChatList();
+            }
+        },
+
+        async addChatList() {
+            const { getChatList } = useChatService();
+
+            console.log(`✨addChatList(${this.pageNo})`);
+            console.log(">>" + this.chatList.length + "/" + this.totalCounts);
+            const res = await getChatList(this.pageNo);
+            this.chatList = [...res.data.list.reverse(), ...this.chatList];
+            this.totalCounts = res.data.total_counts;
+            this.pageNo = res.data.page_num + 1;
+            console.log(">>> ", this.chatList);
+        },
+    },
 };
-
-async function addChatList() {
-    console.log(`✨addChatList(${pageNo.value})`);
-    console.log(">>" + chatList.value.length + "/" + totalCounts.value);
-    const res = await getChatList(pageNo.value);
-    chatList.value = [...res.data.list.reverse(), ...chatList.value];
-    totalCounts.value = res.data.total_counts;
-    pageNo.value = res.data.page_num + 1;
-    console.log(">>> ", chatList.value);
-}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+// #container {
+//     width: 100%;
+//     height: calc(100% - (60px + 7rem)); // top + bottom
+//     overflow-y: auto;
+//     margin-top: 60px;
+//     padding: 2rem;
+// }
+</style>

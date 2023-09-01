@@ -6,7 +6,7 @@
             <v-icon class="logo_docent" />
         </div>
 
-        <div class="contents">
+        <div class="contents" id="container" ref="chatContainer">
             <slot />
         </div>
 
@@ -14,7 +14,17 @@
     </div>
 </template>
 
-<script lang="ts"></script>
+<script>
+export default {
+    mounted() {
+        this.$nextTick(() => {
+            console.log(this.$refs.chatContainer);
+            var objDiv = document.getElementById("container");
+            objDiv.scrollTop = objDiv.scrollHeight;
+        });
+    },
+};
+</script>
 <style lang="scss" scoped>
 .wrapper {
     width: 100%;
@@ -36,7 +46,7 @@
 .contents {
     width: 100%;
     height: calc(100% - (60px + 7rem)); // top + bottom
-    overflow-y: scroll;
+    overflow-y: auto;
     margin-top: 60px;
     padding: 2rem;
 }

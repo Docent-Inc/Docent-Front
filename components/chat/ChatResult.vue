@@ -29,7 +29,9 @@
                 <div class="chat-calendar-title">
                     {{ chat.content }}
                 </div>
-                <div class="date">{{ chat.event_time }}</div>
+                <div class="date">
+                    {{ $dayjs(chat.event_time).format("MM.DD ddd") }}요일
+                </div>
             </div>
 
             <button class="button">자세히 보기</button>
@@ -50,20 +52,6 @@ export default {
             required: true,
             default: () => {},
         },
-    },
-    data() {
-        return {
-            // type: p,
-            diary: {
-                id: 1,
-                title: "평화로운 한강에서 오리배를 타는 꿈",
-                url: "https://storage.googleapis.com/docent/514367ac-1dac-40fd-8a59-f8f56929cdc3.png",
-            },
-            memo: {
-                id: 1,
-                text: "전시 가볼 곳. 과천 국립현대미술관 젊은 모색 영국박물관도 가고 싶다...",
-            },
-        };
     },
     computed: {
         type_name() {
