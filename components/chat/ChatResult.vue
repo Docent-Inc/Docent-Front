@@ -38,7 +38,7 @@
 </template>
 <script>
 export default {
-    name: "ChatDiary",
+    name: "ChatResult",
     props: {
         type: {
             type: Number,
