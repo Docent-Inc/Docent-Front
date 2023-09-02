@@ -22,14 +22,6 @@ jobs:
                       rm -rf Docent-Front
                       mkdir Docent-Front
 
-                  #   # 도커 빌드
-                  #   cd Docent-Front
-                  #   docker build -f docker/Dockerfile -t docent-front  .
-
-                  #     docker stop $(docker ps -a -q)
-                  #     docker run -p 80:80 --name docent-front -v /etc/letsencrypt/live/:/etc/letsencrypt/live/ taewan2002/docent-front
-                  #     docker rm $(docker ps --filter 'status=exited' -a -q)
-
             - name: Copy all
               uses: appleboy/scp-action@master
               with:
@@ -41,15 +33,15 @@ jobs:
                   source: "./"
                   target: "/Docent-Front"
 
-            # - name: Docker build and run
-            #   uses: appleboy/ssh-action@master
-            #   with:
-            #       host: ${{ secrets.NCP_HOST }}
-            #       username: ${{ secrets.NCP_USER }}
-            #       password: ${{ secrets.NCP_PASSWORD }}
-            #       key: ${{ secrets.NCP_KEY }}
-            #       script: |
-            #           cd /Docent-Front
-            #           docker build -f docker/Dockerfile -t docent-front .
-            #           docker-compose -f docker/docker-compose.yml down
-            #           docker-compose -f docker/docker-compose.yml up
+            - name: Docker build and run
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.NCP_HOST }}
+                  username: ${{ secrets.NCP_USER }}
+                  password: ${{ secrets.NCP_PASSWORD }}
+                  key: ${{ secrets.NCP_KEY }}
+                  script: |
+                      cd /Docent-Front
+                      docker build -f docker/Dockerfile -t docent-front .
+                      docker-compose -f docker/docker-compose.yml down
+                      docker-compose -f docker/docker-compose.yml up
