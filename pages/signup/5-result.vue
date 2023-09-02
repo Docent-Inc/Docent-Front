@@ -22,7 +22,7 @@
         <input type="text" v-model="user.nickname" disabled />
     </div>
 
-    <div class="button" @click="signup">입장하기</div>
+    <div class="button fixed-bottom" @click="signup">입장하기</div>
 </template>
 
 <script>

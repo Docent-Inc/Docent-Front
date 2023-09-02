@@ -23,7 +23,7 @@ onMounted(async () => {
         window.localStorage.setItem("accessToken", res.data.access_token);
         window.localStorage.setItem("name", res.data.user_name);
 
-        if (res.data.is_signup) router.push(`/signup`);
+        if (res.data.is_signup) router.push(`/signup/1-nickname`);
         else router.push(`/home`);
     } else {
         alert(res.message);

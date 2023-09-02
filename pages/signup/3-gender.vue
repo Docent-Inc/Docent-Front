@@ -17,7 +17,11 @@
         <input type="text" v-model="user.nickname" disabled />
     </div>
 
-    <div class="button" :class="{ disabled: !isValidate }" @click="saveGender">
+    <div
+        class="button fixed-bottom"
+        :class="{ disabled: !isValidate }"
+        @click="saveGender"
+    >
         다음
     </div>
 </template>

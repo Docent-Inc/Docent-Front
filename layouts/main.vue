@@ -10,7 +10,7 @@
 .contents {
     width: 100%;
     height: calc(100vh - 8.5rem);
+    padding: 0;
     margin-bottom: 8.5rem;
-    overflow-y: scroll;
 }
 </style>
