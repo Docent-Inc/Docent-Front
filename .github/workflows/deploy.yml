@@ -10,12 +10,6 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
-            - name: Docker build
-              run: |
-                  docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-                  docker build -f docker/Dockerfile -t taewan2002/docent-front  .
-                  docker push taewan2002/docent-front
-
             - name: Deploy
               uses: appleboy/ssh-action@master
               with:
@@ -25,7 +19,18 @@ jobs:
                   key: ${{ secrets.NCP_KEY }}
                   envs: GITHUB_SHA
                   script: |
-                      docker pull taewan2002/docent-front
-                      docker stop $(docker ps -a -q)
-                      docker run -p 80:80 --name docent-front -v /etc/letsencrypt/live/:/etc/letsencrypt/live/ taewan2002/docent-front
-                      docker rm $(docker ps --filter 'status=exited' -a -q)
+                      # SSH key를 ssh-agent에 추가
+                      eval "$(ssh-agent -s)"
+                      echo "${{ secrets.NCP_KEY }}" | ssh-add -
+
+                      # 파일을 원격 서버에 복사
+                      mkdir Docent-Front
+                      scp -r . ${{ secrets.NCP_USER }}@${{ secrets.NCP_HOST }}:/Docent-Front
+
+                  #   # 도커 빌드
+                  #   cd Docent-Front
+                  #   docker build -f docker/Dockerfile -t docent-front  .
+
+                  #     docker stop $(docker ps -a -q)
+                  #     docker run -p 80:80 --name docent-front -v /etc/letsencrypt/live/:/etc/letsencrypt/live/ taewan2002/docent-front
+                  #     docker rm $(docker ps --filter 'status=exited' -a -q)
