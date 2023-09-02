@@ -10,6 +10,10 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
+            
+            - name: Setup known_hosts
+              run: echo "${{ secrets.SSH_KNOWN_HOST }}" >> ~/.ssh/known_hosts
+
             - name: Setup SSH Agent
               run: |
                 eval $(ssh-agent -s)
@@ -26,7 +30,7 @@ jobs:
                       # 파일을 원격 서버에 복사
                       rm -rf Docent-Front
                       mkdir Docent-Front
-                      # scp -v -r . ${{ secrets.NCP_USER }}@${{ secrets.NCP_HOST }}:/Docent-Front
+                      scp -v -r . ${{ secrets.NCP_USER }}@${{ secrets.NCP_HOST }}:/Docent-Front
                       # scp -r . ${{ secrets.NCP_USER }}@${{ secrets.NCP_HOST }}:/Docent-Front
 
                   #   # 도커 빌드
@@ -36,14 +40,3 @@ jobs:
                   #     docker stop $(docker ps -a -q)
                   #     docker run -p 80:80 --name docent-front -v /etc/letsencrypt/live/:/etc/letsencrypt/live/ taewan2002/docent-front
                   #     docker rm $(docker ps --filter 'status=exited' -a -q)
-       
-            - name: Copy File via password
-              uses: appleboy/ssh-action@master
-              with:
-                  host: ${{ secrets.NCP_HOST }}
-                  username: ${{ secrets.NCP_USER }}
-                  password: ${{ secrets.NCP_PASSWORD }}
-                  key: ${{ secrets.NCP_KEY }}
-                  source: "./"
-                  target: "/Docent-Front"
-                  
