@@ -21,7 +21,7 @@ export default defineNuxtConfig({
         server: {
             proxy: {
                 "/health": {
-                    target: "http://3.36.63.32:8080",
+                    target: "https://http://3.36.63.32:8080",
                     changeOrigin: true,
                 },
                 "/api": {

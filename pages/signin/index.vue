@@ -16,6 +16,7 @@ import { useAuthService } from "../../services/auth";
 const { getKakaoLoginTest, getKakaoLogin } = useAuthService();
 
 const call = async () => {
+    // TODO: test API -> API 변경
     const res = await getKakaoLoginTest();
     console.log(res);
 

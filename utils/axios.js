@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API = axios.create({
     baseURL: process.env.baseURL,
-    proxy: true,
+    // proxy: true,
 });
 
 API.interceptors.request.use(

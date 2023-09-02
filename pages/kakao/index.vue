@@ -16,6 +16,7 @@ const router = useRouter();
 console.log(route.query.code);
 
 onMounted(async () => {
+    // TODO: test API -> API 변경
     const res = await getKakaoCallbackTest(route.query.code);
     console.log(res);
 
