@@ -4,13 +4,25 @@
 
         <img class="image" :src="diary.image_url" @click="open" />
 
-        <div class="diary-title">{{ diary.diary_name }}</div>
-        <div class="diary-date">{{ diary.create_date }}</div>
+        <div class="diary-title-box">
+            <div class="diary-title">{{ diary.diary_name }}</div>
+            <div class="diary-date">
+                {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
+            </div>
+            <div class="diary-tags">
+                <div class="tag">tags</div>
+                <div class="tag">tags</div>
+                <div class="tag">tags</div>
+                <div class="tag">tags</div>
+            </div>
+        </div>
 
         <bottom-sheet ref="myBottomSheet" :overlay="false">
             <div>
                 <div class="diary-title">{{ diary.diary_name }}</div>
-                <div class="diary-date">{{ diary.create_date }}</div>
+                <div class="diary-date">
+                    {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
+                </div>
 
                 <div class="diary-tags">
                     <div class="tag">tags</div>
@@ -87,10 +99,10 @@ export default {
     },
     methods: {
         open() {
-            this.myBottomSheet.value.open();
+            this.$refs.myBottomSheet.open();
         },
         close() {
-            this.myBottomSheet.value.close();
+            this.$refs.myBottomSheet.close();
         },
     },
 };
@@ -116,7 +128,7 @@ export default {
     width: 80%;
     border-radius: 0.94rem;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    margin-bottom: 10rem;
+    margin-bottom: 5rem;
 }
 
 .diary-tags {
@@ -136,6 +148,29 @@ export default {
         line-height: 21px; /* 150% */
         padding: 0.3rem 0.8rem;
         margin-right: 0.5rem;
+    }
+}
+
+.diary-title-box {
+    width: 100%;
+    margin-left: 20%;
+
+    .diary-title {
+        font-size: 2rem;
+        color: #fff;
+    }
+    .diary-date {
+        font-size: 1rem;
+        color: #fff;
+    }
+    .diary-tags {
+        margin-top: 0.5rem;
+        .tag {
+            font-size: 1.2rem;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.1);
+            border: none;
+        }
     }
 }
 
