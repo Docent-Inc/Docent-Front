@@ -130,6 +130,10 @@ input:focus {
     &.v-btn--disabled {
         opacity: 0.6;
     }
+
+    .v-btn__overlay {
+        background: none;
+    }
 }
 
 .v-ripple__container {

@@ -109,6 +109,12 @@ const today = ref("D-day 해커톤 발표!");
     display: flex;
     overflow-x: auto;
 
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
     .main-slide {
         flex: 0 0 60%;
         aspect-ratio: 1/1;

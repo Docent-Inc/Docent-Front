@@ -1,5 +1,5 @@
 <template>
-    <div class="viewport">Diary</div>
+    <div class="viewport">Calendar</div>
 </template>
 
 <script setup>

@@ -57,3 +57,48 @@
     height: 25px;
     display: block;
 }
+
+// Navigation
+.nav_home {
+    background: url("../images/nav_home.svg") no-repeat center/cover;
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+
+.nav_home.active {
+    background: url("../images/nav_home_active.svg") no-repeat center/cover;
+}
+
+.nav_gallery {
+    background: url("../images/nav_gallery.svg") no-repeat center/cover;
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+
+.nav_gallery.active {
+    background: url("../images/nav_gallery_active.svg") no-repeat center/cover;
+}
+
+.nav_calendar {
+    background: url("../images/nav_calendar.svg") no-repeat center/cover;
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+
+.nav_calendar.active {
+    background: url("../images/nav_calendar_active.svg") no-repeat center/cover;
+}
+
+.nav_report {
+    background: url("../images/nav_report.svg") no-repeat center/cover;
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+
+.nav_report.active {
+    background: url("../images/nav_report_active.svg") no-repeat center/cover;
+}

@@ -1,5 +1,5 @@
 <template>
-    <div class="viewport">Record</div>
+    <div class="viewport">Gallery</div>
 </template>
 
 <script setup>
