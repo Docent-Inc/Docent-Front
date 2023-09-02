@@ -24,6 +24,7 @@ jobs:
                       echo "${{ secrets.NCP_KEY }}" | ssh-add -
 
                       # 파일을 원격 서버에 복사
+                      rm -rf Docent-Front
                       mkdir Docent-Front
                       scp -r . ${{ secrets.NCP_USER }}@${{ secrets.NCP_HOST }}:/Docent-Front
 
