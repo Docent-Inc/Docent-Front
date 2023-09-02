@@ -69,6 +69,7 @@ export default {
     },
     methods: {
         more() {
+            console.log("cliclk>>", this.chat);
             const id =
                 this.chat.content_type === 1
                     ? this.chat.MorningDiary_id

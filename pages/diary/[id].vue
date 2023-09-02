@@ -1,61 +1,47 @@
 <template>
-    <div class="viewport">
-        <v-icon class="ic_close" @click="close" />
+    <div class="viewport" :style="dynamicBackgrond">
+        <v-icon class="ic_close" @click="this.$router.back()" />
 
         <img class="image" :src="diary.image_url" @click="open" />
 
         <div class="diary-title-box">
-            <div class="diary-title">{{ diary.diary_name }}</div>
+            <div class="diary-title">
+                {{ diary.diary_name }}
+            </div>
             <div class="diary-date">
                 {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
             </div>
-            <div class="diary-tags">
+            <!-- <div class="diary-tags">
                 <div class="tag">tags</div>
                 <div class="tag">tags</div>
                 <div class="tag">tags</div>
                 <div class="tag">tags</div>
-            </div>
+            </div> -->
         </div>
 
-        <bottom-sheet ref="myBottomSheet" :overlay="false">
-            <div>
+        <bottom-sheet ref="myBottomSheet" :overlay="true">
+            <div class="diary-bottom">
                 <div class="diary-title">{{ diary.diary_name }}</div>
                 <div class="diary-date">
                     {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
                 </div>
 
                 <div class="diary-tags">
+                    <!-- <div class="tag">tags</div>
                     <div class="tag">tags</div>
                     <div class="tag">tags</div>
-                    <div class="tag">tags</div>
-                    <div class="tag">tags</div>
+                    <div class="tag">tags</div> -->
                 </div>
 
                 <div class="diary-subtitle">Artist Note</div>
                 <div class="diary-content">
-                    Lorem ipsum dolor sit amet consectetur. Vestibulum tellus eu
-                    at praesent risus velit lectus ut risus. Eget cras dui proin
-                    fames at amet. Viverra sed etiam donec at nibh amet vel
-                    morbi iaculis. Convallis mauris integer proin eget pretium
-                    at. Sit venenatis risus lorem sit non. Aliquam semper ut eu
-                    amet amet eget phasellus fringilla quisque. Bibendum
-                    molestie dui ac lacus massa. Commodo blandit nam praesent
-                    vitae ut aenean magna justo nibh. Consectetur nisl lacus sed
-                    rhoncus nunc.
+                    {{ diary.content }}
                 </div>
 
                 <hr />
                 <div class="diary-subtitle">Detail</div>
                 <div class="diary-content">
-                    Lorem ipsum dolor sit amet consectetur. Vestibulum tellus eu
-                    at praesent risus velit lectus ut risus. Eget cras dui proin
-                    fames at amet. Viverra sed etiam donec at nibh amet vel
-                    morbi iaculis. Convallis mauris integer proin eget pretium
-                    at. Sit venenatis risus lorem sit non. Aliquam semper ut eu
-                    amet amet eget phasellus fringilla quisque. Bibendum
-                    molestie dui ac lacus massa. Commodo blandit nam praesent
-                    vitae ut aenean magna justo nibh. Consectetur nisl lacus sed
-                    rhoncus nunc.
+                    {{ diary.resolution }}
                 </div>
             </div>
         </bottom-sheet>
@@ -85,17 +71,36 @@ export default {
     async mounted() {
         const { getMorningdiary, getNightdiary } = useDiaryService();
         const route = useRoute();
-        console.log("id", route.params.id);
-        console.log("type", route.query.type);
 
         const id = route.params.id;
         const type = route.query.type;
+        console.log("id", id);
+        console.log("type", type);
 
         // Call API
         const res =
-            type === 1 ? await getMorningdiary(id) : await getNightdiary(id);
+            type === "1" ? await getMorningdiary(id) : await getNightdiary(id);
         console.log(res);
         this.diary = res.data.diary;
+    },
+    computed: {
+        dynamicBackgrond() {
+            let background_color = `rgb(0, 0, 0)`;
+            console.log(">> ", this.diary.background_color);
+
+            if (this.diary.background_color) {
+                // if (this.background_color.length > 1) {
+                //     background_color = `linear-gradient(rgb${this.diary.background_color[0]}, rgb${this.diary.background_color[1]})`;
+                // } else {
+                background_color = `rgb${this.diary.background_color}`;
+                // }
+            }
+
+            console.log(">>> ", background_color);
+            return {
+                background: background_color,
+            };
+        },
     },
     methods: {
         open() {
@@ -109,12 +114,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 .viewport {
-    background-color: rgba(0, 0, 0, 0.4);
+    // "(138, 137, 140)"
     position: relative;
     align-items: center;
     justify-content: center;
 }
 
+.diary-bottom {
+    padding-bottom: 20px;
+}
 .ic_close {
     font-size: 14px;
 
@@ -128,7 +136,7 @@ export default {
     width: 80%;
     border-radius: 0.94rem;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    margin-bottom: 5rem;
+    margin-bottom: 2rem;
 }
 
 .diary-tags {
@@ -152,10 +160,12 @@ export default {
 }
 
 .diary-title-box {
-    width: 100%;
-    margin-left: 20%;
+    width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     .diary-title {
+        width: 100%;
         font-size: 2rem;
         color: #fff;
     }
