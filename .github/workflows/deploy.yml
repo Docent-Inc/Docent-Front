@@ -41,5 +41,6 @@ jobs:
                   username: ubuntu
                   host: ${{ secrets.NCP_HOST }}
                   key: ${{ secrets.NCP_KEY }}
+                  password: ${{ secrets.NCP_PASSWORD }}
                   source: "./"
                   target: "/Docent-Front"
