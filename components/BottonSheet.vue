@@ -13,6 +13,7 @@
                     v-show="overlay && showSheet"
                 />
             </transition>
+
             <div ref="bottomSheetContent" :class="sheetContentClasses">
                 <header ref="bottomSheetHeader" class="bottom-sheet__header">
                     <div
@@ -379,7 +380,7 @@ defineExpose({ open, close });
         display: flex;
         flex-direction: column;
         background: #ffffff;
-        border-radius: 20px;
+        border-radius: 20px 20px 0 0;
 
         transform: translate3d(0, v-bind("translateValueString"), 0);
         height: v-bind("sheetHeightString");
@@ -406,10 +407,12 @@ defineExpose({ open, close });
     }
 
     &__draggable-thumb {
-        width: 40px;
-        height: 4px;
-        background: #333333;
-        border-radius: 8px;
+        width: 2.375rem;
+        height: 0.33888rem;
+        border-radius: 6.25rem;
+        background: #bcbcbc;
+
+        background: #bcbcbc;
         margin: 0 auto;
     }
 
@@ -421,6 +424,8 @@ defineExpose({ open, close });
         -webkit-overflow-scrolling: touch;
 
         touch-action: auto !important;
+
+        padding: 1rem 1.5rem;
 
         &::-webkit-scrollbar {
             height: 8px;
