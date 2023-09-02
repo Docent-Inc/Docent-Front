@@ -2,16 +2,15 @@
     <div class="viewport">
         <v-icon class="ic_close" @click="close" />
 
-        <img
-            class="image"
-            src="https://storage.googleapis.com/docent/f974e3e8-a7ce-4775-9a1a-b770cca7978d.png"
-            @click="open"
-        />
+        <img class="image" :src="diary.image_url" @click="open" />
+
+        <div class="diary-title">{{ diary.diary_name }}</div>
+        <div class="diary-date">{{ diary.create_date }}</div>
 
         <bottom-sheet ref="myBottomSheet" :overlay="false">
             <div>
-                <div class="diary-title">The Garden</div>
-                <div class="diary-date">2023.08.26</div>
+                <div class="diary-title">{{ diary.diary_name }}</div>
+                <div class="diary-date">{{ diary.create_date }}</div>
 
                 <div class="diary-tags">
                     <div class="tag">tags</div>
@@ -50,18 +49,50 @@
         </bottom-sheet>
     </div>
 </template>
-<script setup>
+<script>
+import { useDiaryService } from "../../services/diary";
 import BottomSheet from "../../components/BottonSheet.vue";
 import { ref } from "vue";
 
-const myBottomSheet = ref(null);
+export default {
+    name: "Diary",
+    components: {
+        BottomSheet,
+    },
+    setup() {
+        const myBottomSheet = ref(null);
+        return {
+            myBottomSheet,
+        };
+    },
+    data() {
+        return {
+            diary: {},
+        };
+    },
+    async mounted() {
+        const { getMorningdiary, getNightdiary } = useDiaryService();
+        const route = useRoute();
+        console.log("id", route.params.id);
+        console.log("type", route.query.type);
 
-const open = () => {
-    myBottomSheet.value.open();
-};
+        const id = route.params.id;
+        const type = route.query.type;
 
-const close = () => {
-    myBottomSheet.value.close();
+        // Call API
+        const res =
+            type === 1 ? await getMorningdiary(id) : await getNightdiary(id);
+        console.log(res);
+        this.diary = res.data.diary;
+    },
+    methods: {
+        open() {
+            this.myBottomSheet.value.open();
+        },
+        close() {
+            this.myBottomSheet.value.close();
+        },
+    },
 };
 </script>
 <style lang="scss" scoped>

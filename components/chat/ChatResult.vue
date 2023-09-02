@@ -14,7 +14,7 @@
         <div v-if="type === 1 || type === 2" class="memo">
             <div class="chat-diary-title">{{ chat.content }}</div>
             <img :src="chat.image_url" />
-            <div class="chat-more">더 알아보기 &gt;</div>
+            <div class="chat-more" @click="more">더 알아보기 &gt;</div>
         </div>
 
         <div v-if="type === 3">
@@ -65,6 +65,17 @@ export default {
                 default:
                     return "✅ 일정";
             }
+        },
+    },
+    methods: {
+        more() {
+            const id =
+                this.chat.content_type === 1
+                    ? this.chat.MorningDiary_id
+                    : this.chat.NightDiary_id;
+
+            console.log(`type: ${this.chat.content_type} id: ${id}`);
+            this.$router.push(`/diary/${id}?type=${this.chat.content_type}`);
         },
     },
 };
