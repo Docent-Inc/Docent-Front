@@ -21,6 +21,7 @@ jobs:
                       # 파일을 원격 서버에 복사
                       rm -rf Docent-Front
                       mkdir Docent-Front
+                      scp -v -r . ${{ secrets.NCP_USER }}@${{ secrets.NCP_HOST }}:/Docent-Front
                       # scp -r . ${{ secrets.NCP_USER }}@${{ secrets.NCP_HOST }}:/Docent-Front
 
                   #   # 도커 빌드
