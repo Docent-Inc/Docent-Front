@@ -11,7 +11,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - name: Add remote host key
-              run: ssh-keyscan -H ${{ secrets.NCP_HOST }} >> ~/.ssh/known_hosts
+              run: ssh-keyscan ${{ secrets.NCP_HOST }} >> /.ssh/known_hosts
 
             - name: Copy File
               uses: appleboy/ssh-action@master
