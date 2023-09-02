@@ -49,6 +49,7 @@ export default {
             list.push({ content_type: 7 });
             this.setChatList(list);
             this.isGenerating = true;
+            this.$eventBus.$emit("added");
 
             const res = await generateChat(this.data);
             console.log("✨generateChat >>> ", this.data);
@@ -57,6 +58,7 @@ export default {
                 this.data = "";
                 this.getFirstPage();
                 this.isGenerating = false;
+                this.$eventBus.$emit("added");
             }
         },
         setData(res) {

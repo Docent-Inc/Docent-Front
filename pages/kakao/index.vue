@@ -17,8 +17,8 @@ onMounted(async () => {
     console.log(res);
 
     if (res.success) {
-        // TODO: 성공 시, 토큰 정보 localstorage에 저장하고 회원가입 여부에 따라 넘기기 token_type
         window.localStorage.setItem("accessToken", res.data.access_token);
+        window.localStorage.setItem("name", res.data.user_name);
 
         if (res.data.is_signup) router.push(`/signup`);
         else router.push(`/home`);

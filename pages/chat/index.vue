@@ -68,26 +68,29 @@ export default {
             this.listToChatList();
         },
         chatList() {
-            this.$nextTick();
-
-            if (!this.isInitialized) {
-                const scrollRef = this.$refs.scrollable;
-                scrollRef.scrollTo({
-                    top: scrollRef.scrollHeight,
-                    behavior: "smooth",
-                });
-                this.$nextTick();
-                this.isInitialized = true;
-            }
+            // this.$nextTick();
+            // if (!this.isInitialized) {
+            //     const scrollRef = this.$refs.scrollable;
+            //     scrollRef.scrollTo({
+            //         top: scrollRef.scrollHeight,
+            //         behavior: "smooth",
+            //     });
+            //     this.$nextTick();
+            //     this.isInitialized = true;
+            // }
         },
     },
     mounted() {
-        window.localStorage.setItem(
-            "accessToken",
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjIwNTM1NDcxNzZ9.Dqf6UOvR-OlKY6cVMjoN0AJ25stW8ojdSy2GZ5dyHlc"
-        );
-
         this.getFirstPage();
+        this.$eventBus.$emit("added");
+    },
+    created() {
+        this.$eventBus.$on("added", () => {
+            console.log("added!");
+            this.$nextTick();
+            // 아래 추가됐을 때만 아래로 스크롤
+            this.scrollToBottom();
+        });
     },
     methods: {
         ...mapActions(useChatStore, [
@@ -97,12 +100,21 @@ export default {
         ]),
         // Infinite Loading
         async loadMore() {
+            // this.$nextTick();
+            // setTimeout(() => {
+            //     if (this.totalCounts > this.list.length) {
+            //         this.getList();
+            //     }
+            // }, 1000);
+        },
+        scrollToBottom() {
+            const scrollRef = this.$refs.scrollable;
+            scrollRef.scrollTo({
+                top: scrollRef.scrollHeight,
+                behavior: "smooth",
+            });
             this.$nextTick();
-            setTimeout(() => {
-                if (this.totalCounts > this.list.length) {
-                    this.getList();
-                }
-            }, 1000);
+            this.isInitialized = true;
         },
     },
 };

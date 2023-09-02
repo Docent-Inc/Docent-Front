@@ -4,56 +4,77 @@
     </div>
     <div class="body">
         <div class="title">2023.09.03</div>
-        <div class="main-title">안녕하세요 슨트님 <br />오늘의 이벤트예요</div>
+        <div class="main-title">
+            안녕하세요 {{ name }}님 <br />오늘의 이벤트예요
+        </div>
 
         <!-- 오늘의 일정 -->
         <div class="main-calendar main-description">
             <v-icon class="ic_calendar" /> &nbsp;
-            <div v-if="!today">일정이 없네요!</div>
-            <div v-else>{{ today }} &nbsp;►</div>
+            <div v-if="calendar.length > 0">{{ calendar[0].title }}&nbsp;►</div>
+            <div v-else>일정이 없네요!</div>
         </div>
 
         <!-- 오늘의 기록 -->
         <div class="main-title">오늘의 기록</div>
-        <div class="main-description">오늘 슨트님은 이런 그림을 그리셨네요</div>
+        <div class="main-description">
+            오늘 {{ name }}님은 이런 그림을 그리셨네요
+        </div>
         <div class="main-slides">
             <div
                 class="main-slide"
-                v-for="(slide, idx) in list"
-                :key="idx"
-                :style="`background-image: url(${slide})`"
+                v-if="record.morning"
+                :style="`background-image: url(${record.morning.image_url})`"
+            ></div>
+            <div
+                class="main-slide"
+                v-if="record.night"
+                :style="`background-image: url(${record.night.image_url})`"
             ></div>
 
-            <div class="main-slide empty" v-if="list.length === 0">
-                슨트님의 그림을 <br />그려주세요!
+            <div
+                class="main-slide empty"
+                v-if="!record.morning || !record.night"
+                @click="router.push(`/chat`)"
+            >
+                {{ name }}님의 그림을 <br />그려주세요!
             </div>
         </div>
 
         <!-- 오늘의 운세 -->
         <div class="main-title">오늘의 운세</div>
-        <div class="main-description">오늘은 물 근처로 안가는게 좋겠네요</div>
-
-        <!-- TODO: 채팅 지움 -->
-        <!-- <div class="chat" @click="router.push(`/chat`)">
-            채팅
-            <v-icon>mdi-send-circle</v-icon>
-        </div> -->
+        <div class="main-description">{{ lucky }}</div>
     </div>
 </template>
 
 <script setup>
+import { useTodayService } from "../../services/today";
+
+const router = useRouter();
 definePageMeta({
     layout: "main",
 });
 
-// Dummy
-const list = ref([
-    "https://storage.googleapis.com/docent/ad6e2d2b-9df8-4333-92c9-12c9b4f82d66.png",
-    "https://storage.googleapis.com/docent/514367ac-1dac-40fd-8a59-f8f56929cdc3.png",
-    "https://storage.googleapis.com/docent/1f92613c-fc6f-46b9-a68f-117652290c3d.png",
-]);
-const today = ref("D-day 해커톤 발표!");
-// const today = ref(null);
+const calendar = ref([]);
+const record = ref({});
+const lucky = ref("");
+const name = ref("");
+const { getTodayCalendar, getTodayRecord, getTodayLucky } = useTodayService();
+onMounted(async () => {
+    name.value = window.localStorage.getItem("name");
+
+    await getTodayCalendar().then((res) => {
+        calendar.value = res.data;
+    });
+
+    await getTodayRecord().then((res) => {
+        record.value = res.data;
+    });
+
+    await getTodayLucky().then((res) => {
+        lucky.value = res.data.luck;
+    });
+});
 </script>
 
 <style lang="scss" scoped>
@@ -93,6 +114,10 @@ const today = ref("D-day 해커톤 발표!");
 
 .main-title {
     margin: 1rem 0;
+}
+
+.main-description {
+    margin-right: 2rem;
 }
 
 .main-calendar {
