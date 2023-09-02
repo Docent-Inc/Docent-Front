@@ -86,14 +86,16 @@ export default {
     computed: {
         dynamicBackgrond() {
             let background_color = `rgb(0, 0, 0)`;
-            console.log(">> ", this.diary.background_color);
 
             if (this.diary.background_color) {
-                // if (this.background_color.length > 1) {
-                //     background_color = `linear-gradient(rgb${this.diary.background_color[0]}, rgb${this.diary.background_color[1]})`;
-                // } else {
-                background_color = `rgb${this.diary.background_color}`;
-                // }
+                const colorList = JSON.parse(this.diary.background_color);
+                console.log(colorList);
+
+                if (colorList.length > 1) {
+                    background_color = `linear-gradient(rgb${colorList[0]}, rgb${colorList[1]})`;
+                } else {
+                    background_color = `rgb${colorList[0]}`;
+                }
             }
 
             console.log(">>> ", background_color);

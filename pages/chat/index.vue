@@ -87,10 +87,14 @@ export default {
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjIwNTM1NDcxNzZ9.Dqf6UOvR-OlKY6cVMjoN0AJ25stW8ojdSy2GZ5dyHlc"
         );
 
-        this.getList();
+        this.getFirstPage();
     },
     methods: {
-        ...mapActions(useChatStore, ["getList", "listToChatList"]),
+        ...mapActions(useChatStore, [
+            "getList",
+            "listToChatList",
+            "getFirstPage",
+        ]),
         // Infinite Loading
         async loadMore() {
             this.$nextTick();
