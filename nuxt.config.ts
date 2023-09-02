@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     build: {
         transpile: ["vuetify"],
     },
-    modules: ["@pinia/nuxt", "dayjs-nuxt"],
+    modules: ["@pinia/nuxt", "dayjs-nuxt", "nuxt-swiper"],
     imports: {
         dirs: ["./stores"],
     },

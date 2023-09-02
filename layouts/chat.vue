@@ -2,7 +2,7 @@
     <div class="viewport">
         <!-- 채팅 헤더 -->
         <div class="header">
-            <v-icon class="ic_home" />
+            <v-icon class="ic_home" @click="this.$router.push(`/home`)" />
             <v-icon class="logo_docent" />
         </div>
 
