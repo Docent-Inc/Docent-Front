@@ -11,17 +11,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             
-            - name: Setup known_hosts
-              run: |
-                   mkdir -p ~/.ssh
-                   chmod 700 ~/.ssh
-                   echo "${{ secrets.SSH_KNOWN_HOST }}" >> ~/.ssh/known_hosts
-                   chmod 644 ~/.ssh/known_hosts
-
-            - name: Setup SSH Agent
-              run: |
-                eval $(ssh-agent -s)
-                echo "${{ secrets.NCP_KEY }}" | ssh-add -
+            
                 
             - name: Copy File
               uses: appleboy/ssh-action@master
@@ -44,3 +34,12 @@ jobs:
                   #     docker stop $(docker ps -a -q)
                   #     docker run -p 80:80 --name docent-front -v /etc/letsencrypt/live/:/etc/letsencrypt/live/ taewan2002/docent-front
                   #     docker rm $(docker ps --filter 'status=exited' -a -q)
+
+            - name: Copy
+              uses: appleboy/scp-action@master
+              with:
+                  username: ubuntu
+                  host: ${{ secrets.NCP_HOST }}
+                  key: ${{ secrets.NCP_KEY }}
+                  source: "./"
+                  target: "/Docent-Front"
