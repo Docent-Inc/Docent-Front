@@ -24,6 +24,8 @@ export const useChatStore = defineStore("chat", {
         chatList: [] as Chat[],
         pageNo: 1,
         totalCounts: 0,
+        isFirstPage: false,
+        reload: false, // reload
     }),
     actions: {
         async getList() {
@@ -50,6 +52,10 @@ export const useChatStore = defineStore("chat", {
             this.totalCounts = res.data.total_counts;
             this.pageNo = res.data.page_num + 1;
             console.log(">>> ", this.list);
+
+            // this.isFirstPage = true;
+            //
+            this.reload = true;
         },
         /**
          * 채팅 리스트 필터링
@@ -103,6 +109,13 @@ export const useChatStore = defineStore("chat", {
         setChatList(data: Chat[]) {
             console.log("dd", data);
             this.chatList = data;
+        },
+        setIsFirstPage(boolean: boolean) {
+            this.isFirstPage = boolean;
+        },
+        setReload(boolean: boolean) {
+            console.log("setReload - ", boolean);
+            this.reload = boolean;
         },
     },
 });

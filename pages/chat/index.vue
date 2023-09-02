@@ -61,60 +61,71 @@ export default {
             "chatList",
             "totalCounts",
             "pageNo",
+            "reload",
+            // "isFirstPage",
         ]),
     },
     watch: {
         list() {
             this.listToChatList();
         },
-        chatList() {
-            // this.$nextTick();
-            // if (!this.isInitialized) {
-            //     const scrollRef = this.$refs.scrollable;
-            //     scrollRef.scrollTo({
-            //         top: scrollRef.scrollHeight,
-            //         behavior: "smooth",
-            //     });
-            //     this.$nextTick();
-            //     this.isInitialized = true;
-            // }
+        reload() {
+            console.log(this.reload);
+
+            if (this.reload) {
+                console.log("스크롤 실행!");
+                const scrollRef = this.$refs.scrollable;
+                const targetOffset = scrollRef.scrollHeight;
+                console.log("*", scrollRef.scrollTop, ", ", targetOffset);
+                scrollRef.scrollTo({
+                    top: targetOffset,
+                    behavior: "smooth",
+                });
+
+                scrollRef.addEventListener("scroll", () => {
+                    const check =
+                        scrollRef.scrollTop + scrollRef.clientHeight >=
+                        targetOffset - 0.5;
+
+                    console.log(
+                        " check -> ",
+                        scrollRef.scrollTop + scrollRef.clientHeight,
+                        ", ",
+                        targetOffset - 0.5
+                    );
+                    if (check) {
+                        this.setReload(false);
+                    }
+                });
+            }
         },
     },
     mounted() {
+        // TODO: 테스트 액세스 토큰 제거
+        window.localStorage.setItem(
+            "accessToken",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjIwNTM1NDcxNzZ9.Dqf6UOvR-OlKY6cVMjoN0AJ25stW8ojdSy2GZ5dyHlc"
+        );
+
         this.getFirstPage();
-        this.$eventBus.$emit("added");
-    },
-    created() {
-        this.$eventBus.$on("added", () => {
-            console.log("added!");
-            this.$nextTick();
-            // 아래 추가됐을 때만 아래로 스크롤
-            this.scrollToBottom();
-        });
     },
     methods: {
         ...mapActions(useChatStore, [
             "getList",
             "listToChatList",
             "getFirstPage",
+            "setIsFirstPage",
+            "setReload",
         ]),
         // Infinite Loading
         async loadMore() {
-            // this.$nextTick();
-            // setTimeout(() => {
-            //     if (this.totalCounts > this.list.length) {
-            //         this.getList();
-            //     }
-            // }, 1000);
-        },
-        scrollToBottom() {
-            const scrollRef = this.$refs.scrollable;
-            scrollRef.scrollTo({
-                top: scrollRef.scrollHeight,
-                behavior: "smooth",
-            });
+            if (this.reload) return;
             this.$nextTick();
-            this.isInitialized = true;
+            setTimeout(() => {
+                if (this.totalCounts > this.list.length) {
+                    this.getList();
+                }
+            }, 1000);
         },
     },
 };

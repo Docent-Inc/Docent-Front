@@ -38,7 +38,11 @@ export default {
         ...mapState(useChatStore, ["chatList"]),
     },
     methods: {
-        ...mapActions(useChatStore, ["setChatList", "getFirstPage"]),
+        ...mapActions(useChatStore, [
+            "setChatList",
+            "getFirstPage",
+            "setReload",
+        ]),
         async send() {
             if (this.isGenerating) return;
 
@@ -49,7 +53,7 @@ export default {
             list.push({ content_type: 7 });
             this.setChatList(list);
             this.isGenerating = true;
-            this.$eventBus.$emit("added");
+            this.setReload(true);
 
             const res = await generateChat(this.data);
             console.log("✨generateChat >>> ", this.data);
@@ -58,7 +62,6 @@ export default {
                 this.data = "";
                 this.getFirstPage();
                 this.isGenerating = false;
-                this.$eventBus.$emit("added");
             }
         },
         setData(res) {

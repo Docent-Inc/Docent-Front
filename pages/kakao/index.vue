@@ -1,6 +1,9 @@
 <template>
-    <div class="wrap">
-        <div>여기</div>
+    <div class="viewport">
+        <v-progress-circular
+            indeterminate
+            color="#2C9577"
+        ></v-progress-circular>
     </div>
 </template>
 
@@ -28,4 +31,10 @@ onMounted(async () => {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.viewport {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
