@@ -17,7 +17,9 @@ const { getKakaoLoginTest, getKakaoLogin } = useAuthService();
 
 const call = async () => {
     // TODO: test API -> API 변경
-    const res = await getKakaoLoginTest();
+    // const res = await getKakaoLoginTest();
+    const res = await getKakaoLogin();
+
     console.log(res);
 
     if (res.success) {

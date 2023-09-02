@@ -1,0 +1,31 @@
+name: docent-front
+
+on:
+    push:
+        branches: [main]
+
+jobs:
+    build:
+        runs-on: ubuntu-20.04
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Docker build
+              run: |
+                  docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+                  docker build -f docker/Dockerfile -t taewan2002/docent-front
+                  docker push taewan2002/docent-front
+
+            - name: Deploy
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.NCP_HOST }}
+                  username: ${{ secrets.NCP_USER }}
+                  password: ${{ secrets.NCP_PASSWORD }}
+                  key: ${{ secrets.NCP_KEY }}
+                  envs: GITHUB_SHA
+                  script: |
+                      docker pull taewan2002/docent-front
+                      docker stop $(docker ps -a -q)
+                      docker run -p 80:80 --name docent-front -v /etc/letsencrypt/live/:/etc/letsencrypt/live/ taewan2002/docent-front
+                      docker rm $(docker ps --filter 'status=exited' -a -q)
