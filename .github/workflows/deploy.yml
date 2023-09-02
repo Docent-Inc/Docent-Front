@@ -10,9 +10,6 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
-            - name: Add remote host key
-              run: ssh-keyscan ${{ secrets.NCP_HOST }} >> /.ssh/known_hosts
-
             - name: Copy File
               uses: appleboy/ssh-action@master
               with:
@@ -20,12 +17,7 @@ jobs:
                   username: ${{ secrets.NCP_USER }}
                   password: ${{ secrets.NCP_PASSWORD }}
                   key: ${{ secrets.NCP_KEY }}
-                  envs: GITHUB_SHA
                   script: |
-                      # SSH key를 ssh-agent에 추가
-                      eval "$(ssh-agent -s)"
-                      echo "${{ secrets.NCP_KEY }}" | ssh-add -
-
                       # 파일을 원격 서버에 복사
                       rm -rf Docent-Front
                       mkdir Docent-Front
