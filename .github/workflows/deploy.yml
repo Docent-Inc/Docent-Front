@@ -10,6 +10,11 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
+            - name: Setup SSH Agent
+              run: |
+                eval $(ssh-agent -s)
+                echo "${{ secrets.NCP_KEY }}" | ssh-add -
+                
             - name: Copy File
               uses: appleboy/ssh-action@master
               with:
