@@ -7,3 +7,4 @@ services:
         volumes:
             - /etc/letsencrypt/live/:/etc/letsencrypt/live/
             - /etc/nginx/conf.d/service-url.inc:/etc/nginx/conf.d/service-url.inc
+            - /var/log/:/var/log/

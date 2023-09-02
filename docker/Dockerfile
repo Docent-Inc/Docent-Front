@@ -10,10 +10,9 @@ COPY . .
 RUN yarn generate
 
 FROM nginx:latest
-RUN mkdir /etc/
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=builder /app/.output/public /usr/share/nginx/html
 
-EXPOSE 3000
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
