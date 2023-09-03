@@ -38,7 +38,7 @@
                     {{ diary.content }}
                 </div>
 
-                <div v-if="type === 1">
+                <div v-if="type === '1'">
                     <hr />
                     <div class="diary-subtitle">Detail</div>
                     <div class="diary-content">
@@ -68,7 +68,7 @@ export default {
     data() {
         return {
             diary: {},
-            type: 1,
+            type: "1",
         };
     },
     async mounted() {
