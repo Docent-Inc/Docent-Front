@@ -11,29 +11,14 @@
         <!-- </div> -->
 
         <chat-input />
+        <!-- TODO: 키보드 테스트 용 -->
+        <!-- <div style="width: 100%; height: 300px"></div> -->
     </div>
 </template>
 
 <script>
 export default {
-    mounted() {
-        // const container = document.querySelector(".chat-container");
-        // container.target.scrollTop = container.target.scrollHeight;
-        // const scrollable = document.getElementsByClassName("chat-container");
-        // scrollable.scrollTop = scrollable.scrollHeight;
-        // // var previousScrollHeight = scrollable.scrollHeight;
-        // // scrollable.scrollTop = scrollable.scrollHeight - previousScrollHeight;
-        // document.querySelector(".chat-container").addEventListener(
-        //     "scroll",
-        //     function (event) {
-        //         // 스크롤을 원하는 위치로 조절하고자 할 때 이곳에 추가 로직을 작성
-        //         // 예: 스크롤 위치를 맨 아래로 유지
-        //         console.log("event", event);
-        //         // event.target.scrollTop = event.target.scrollHeight;
-        //     },
-        //     false
-        // );
-    },
+    mounted() {},
 };
 </script>
 <style lang="scss" scoped>

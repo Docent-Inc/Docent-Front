@@ -6,7 +6,7 @@
             <div>도슨트</div>
         </div>
 
-        <!-- 기본 -->
+        <!-- 날짜 -->
         <div class="chat-date" v-if="type === 'date'">
             {{ $dayjs(text).format("YYYY년 M월 D일") }}
         </div>
@@ -111,7 +111,7 @@ const props = defineProps({
     color: #50555c;
     text-align: center;
     font-family: "Pretendard";
-    font-size: 0.6875rem;
+    font-size: 11px;
     line-height: 1.3125rem; /* 190.909% */
     margin: 0 0 2rem 0;
 }

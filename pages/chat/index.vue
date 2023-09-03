@@ -71,7 +71,7 @@ export default {
         },
         reload() {
             console.log(this.reload);
-
+            // TODO: 스크롤 관련 처리
             if (this.reload) {
                 console.log("스크롤 실행!");
                 const scrollRef = this.$refs.scrollable;
@@ -102,10 +102,10 @@ export default {
     },
     mounted() {
         // TODO: 테스트 액세스 토큰 제거
-        window.localStorage.setItem(
-            "accessToken",
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjIwNTM1NDcxNzZ9.Dqf6UOvR-OlKY6cVMjoN0AJ25stW8ojdSy2GZ5dyHlc"
-        );
+        // window.localStorage.setItem(
+        //     "accessToken",
+        //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjIwNTM1NDcxNzZ9.Dqf6UOvR-OlKY6cVMjoN0AJ25stW8ojdSy2GZ5dyHlc"
+        // );
 
         this.getFirstPage();
     },
@@ -119,6 +119,7 @@ export default {
         ]),
         // Infinite Loading
         async loadMore() {
+            console.log("here");
             if (this.reload) return;
             this.$nextTick();
             setTimeout(() => {

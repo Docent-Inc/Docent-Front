@@ -15,10 +15,11 @@ body {
     min-height: calc(var(--vh, 1vh) * 100);
     background-color: #fff;
     --v-scrollbar-offset: 0 !important;
-    margin-top: constant(safe-area-inset-top);
+    // margin-top: constant(safe-area-inset-top);
     margin-top: env(safe-area-inset-top);
-    min-height: calc(var(--vh, 1h) * 100 - constant(safe-area-inset-top));
-    min-height: calc(var(--vh, 1h) * 100 - env(safe-area-inset-top));
+    padding-bottom: env(safe-area-inset-bottom);
+    // min-height: calc(var(--vh, 1h) * 100 - constant(safe-area-inset-top));
+    min-height: calc(var(--vh, 1vh) * 100 - env(safe-area-inset-top));
 
     > div {
         background: #fff;

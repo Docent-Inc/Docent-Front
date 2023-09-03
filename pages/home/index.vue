@@ -61,7 +61,9 @@ const lucky = ref("");
 const name = ref("");
 const { getTodayCalendar, getTodayRecord, getTodayLucky } = useTodayService();
 onMounted(async () => {
-    name.value = window.localStorage.getItem("name");
+    name.value = window.localStorage.getItem("name")
+        ? window.localStorage.getItem("name")
+        : "";
 
     await getTodayCalendar().then((res) => {
         calendar.value = res.data;
@@ -82,6 +84,7 @@ onMounted(async () => {
     width: 100%;
     height: calc(100% - 60px);
     padding: 2rem 0 4rem 2rem;
+    margin-top: 60px;
     overflow: scroll;
 }
 

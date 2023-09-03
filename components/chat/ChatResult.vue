@@ -94,7 +94,7 @@ export default {
     .chat-title {
         color: #000;
         font-family: "Pretendard Bold";
-        font-size: 0.625rem;
+        font-size: 10px;
         line-height: 1.3125rem; /* 210% */
         padding-bottom: 0.5rem;
         border-bottom: 1px solid #eeedf4;
