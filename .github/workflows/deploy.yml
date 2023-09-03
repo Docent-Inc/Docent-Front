@@ -19,8 +19,8 @@ jobs:
                   password: ${{ secrets.NCP_PASSWORD }}
                   key: ${{ secrets.NCP_KEY }}
                   script: |
-                      rm -rf Docent-Front
-                      mkdir Docent-Front
+                      rm -rf /Docent-Front
+                      mkdir /Docent-Front
 
             - name: Copy all
               uses: appleboy/scp-action@master
@@ -32,18 +32,3 @@ jobs:
                   port: 22
                   source: "./"
                   target: "/Docent-Front"
-
-            - name: Docker build and run
-              uses: appleboy/ssh-action@master
-              with:
-                  host: ${{ secrets.NCP_HOST }}
-                  username: ${{ secrets.NCP_USER }}
-                  password: ${{ secrets.NCP_PASSWORD }}
-                  key: ${{ secrets.NCP_KEY }}
-                  script: |
-                      sudo systemctl stop nginx
-                      cd /Docent-Front
-                      docker build -f docker/Dockerfile -t docent-front .
-                      docker-compose -f docker/docker-compose.yml down
-                      docker-compose -f docker/docker-compose.yml up
-                      sudo systemctl start nginx
