@@ -28,7 +28,7 @@ import loadingGIF from "../../assets/images/loading-dot.gif";
 // import LoadingDotJSON from "../../assets/images/loading-dot.json";
 // import * as animationData from "../../assets/images/loading-dot.json";
 // const lottieOptions = {
-//     animationData: animationData.default,
+//     animationData: animationData.nginx.conf,
 //     rendererSettings: {
 //         viewBoxSize: "480 250 960 540",
 //     },
