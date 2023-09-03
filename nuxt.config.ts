@@ -1,6 +1,18 @@
 export default defineNuxtConfig({
     // devtools: { enabled: true },
-    // ssr: false,
+    ssr: false,
+    app: {
+        head: {
+            title: "Docent",
+            meta: [
+                {
+                    name: "viewport",
+                    content:
+                        "width=device-width, initial-scale=1, user-scalable=no",
+                },
+            ],
+        },
+    },
     css: [
         "@mdi/font/css/materialdesignicons.min.css",
         "vuetify/lib/styles/main.sass",
@@ -33,17 +45,6 @@ export default defineNuxtConfig({
     },
     pinia: {
         autoImports: ["defineStore", "acceptHMRUpdate"],
-    },
-    app: {
-        head: {
-            title: "Docent",
-            meta: [
-                {
-                    name: "viewport",
-                    content: "width=device-width, initial-scale=1",
-                },
-            ],
-        },
     },
     dayjs: {
         locales: ["ko"],

@@ -38,10 +38,12 @@
                     {{ diary.content }}
                 </div>
 
-                <hr />
-                <div class="diary-subtitle">Detail</div>
-                <div class="diary-content">
-                    {{ diary.resolution }}
+                <div v-if="type === 1">
+                    <hr />
+                    <div class="diary-subtitle">Detail</div>
+                    <div class="diary-content">
+                        {{ diary.resolution }}
+                    </div>
                 </div>
             </div>
         </bottom-sheet>
@@ -66,6 +68,7 @@ export default {
     data() {
         return {
             diary: {},
+            type: 1,
         };
     },
     async mounted() {
@@ -74,8 +77,10 @@ export default {
 
         const id = route.params.id;
         const type = route.query.type;
+        this.type = type;
         console.log("id", id);
         console.log("type", type);
+        console.log("type2", this.type);
 
         // Call API
         const res =

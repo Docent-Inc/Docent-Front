@@ -84,6 +84,7 @@ export default {
     background: #fff;
 
     padding: 1.5rem 0;
+    margin-bottom: 20px; // bottomenv(safe-area-inset-bottom);
     z-index: 10;
     position: sticky;
     bottom: 0;
@@ -126,7 +127,7 @@ export default {
 
         color: #000;
         font-family: "Pretendard";
-        font-size: 14px;
+        font-size: 16px;
         line-height: 1.3125rem; /* 150% */
     }
 

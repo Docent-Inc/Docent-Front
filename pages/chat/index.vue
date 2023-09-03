@@ -135,7 +135,7 @@ export default {
 <style lang="scss" scoped>
 #chat-scrollable {
     width: 100%;
-    height: calc(100% - (60px + 7rem)); // top + bottom
+    height: calc(100% - (60px + 8rem + 20px)); // top + bottom
     overflow-y: scroll;
     margin-top: 60px;
     padding: 2rem;
