@@ -1,63 +1,25 @@
-# Nuxt 3 Minimal Starter
+# Docent-Front
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## 로컬에서 실행
 
-## Setup
+-   yarn 사용
+    ```
+    yarn install
+    yarn dev
+    ```
 
-Make sure to install the dependencies:
+## 배포 방법
 
-```bash
-# npm
-npm install
+1. main 브랜치로 checkout
+2. 로컬에서 generate
+   `yarn generate`
+3. 커밋 남기기 (빌드한 날짜/시간과 반영된 커밋을 작성)
 
-# pnpm
-pnpm install
+    ```
+    yarn generate (230904T0028)
 
-# yarn
-yarn install
-```
+    - Fix: 아이콘 수정
+    - ...
+    ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+4. main 브랜치로 push
