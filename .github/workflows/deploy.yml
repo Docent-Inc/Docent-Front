@@ -19,8 +19,9 @@ jobs:
                   password: ${{ secrets.NCP_PASSWORD }}
                   key: ${{ secrets.NCP_KEY }}
                   script: |
-                      rm -rf /Docent-Front/.output
-                      mkdir /Docent-Front/.output
+                      rm -rf /Docent-Front
+                      mkdir /Docent-Front
+
 
             - name: Copy all
               uses: appleboy/scp-action@master
@@ -30,5 +31,5 @@ jobs:
                   key: ${{ secrets.NCP_KEY }}
                   password: ${{ secrets.NCP_PASSWORD }}
                   port: 22
-                  source: "./.output"
-                  target: "/Docent-Front/.output"
+                  source: "./"
+                  target: "/Docent-Front"
