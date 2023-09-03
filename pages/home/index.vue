@@ -34,7 +34,7 @@
 
             <div
                 class="main-slide empty"
-                v-if="!record.morning || !record.night"
+                v-if="!record.morning && !record.night"
                 @click="router.push(`/chat`)"
             >
                 {{ name }}님의 그림을 <br />그려주세요!
@@ -159,6 +159,9 @@ onMounted(async () => {
         aspect-ratio: 1/1;
         border-radius: 0.625rem;
         margin-right: 1.5rem;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
     }
 
     .main-slide.empty {
