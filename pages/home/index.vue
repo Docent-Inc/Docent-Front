@@ -82,7 +82,9 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .body {
     width: 100%;
-    height: calc(100% - 60px);
+    height: calc(100% - (60px));
+    height: calc(100% - (60px + constant(safe-area-inset-top)));
+    height: calc(100% - (60px + env(safe-area-inset-top)));
     padding: 2rem 0 4rem 2rem;
     overflow: scroll;
     margin-top: 60px;
