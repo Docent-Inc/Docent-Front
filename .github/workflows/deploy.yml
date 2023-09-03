@@ -3,6 +3,9 @@ name: docent-front
 on:
     push:
         branches: [main]
+    pull_request:
+        types: [closed]
+        branches: [main]
 
 jobs:
     build:
@@ -21,7 +24,6 @@ jobs:
                   script: |
                       rm -rf /Docent-Front
                       mkdir /Docent-Front
-
 
             - name: Copy all
               uses: appleboy/scp-action@master
