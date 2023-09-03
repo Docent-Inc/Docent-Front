@@ -2,12 +2,11 @@
     <div class="header">
         <v-icon class="logo_docent" />
     </div>
-    <div class="body">
+    <div class="contents">
         <div class="title">2023.09.03</div>
         <div class="main-title">
             안녕하세요 {{ name }}님 <br />오늘의 이벤트예요
         </div>
-
         <!-- 오늘의 일정 -->
         <div class="main-calendar main-description">
             <v-icon class="ic_calendar" /> &nbsp;
@@ -80,24 +79,16 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
-.body {
-    width: 100%;
+.contents {
     height: calc(100% - (60px));
-    // height: calc(
-    //     100% -
-    //         (
-    //             60px + constant(safe-area-inset-top) +
-    //                 constant(safe-area-inset-bottom)
-    //         )
-    // );
-    // height: calc(
-    //     100% - (60px + env(safe-area-inset-top) + env(safe-area-inset-bottom))
-    // );
-    padding: 2rem 0 4rem 2rem;
-    overflow: scroll;
+    height: calc(100% - (60px + constant(safe-area-inset-top)));
+    height: calc(100% - (60px + env(safe-area-inset-top)));
+
     margin-top: 60px;
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
+
+    padding: 2rem 0 4rem 2rem;
 }
 
 .chat {
@@ -146,7 +137,7 @@ onMounted(async () => {
     padding-bottom: 2rem;
 
     display: flex;
-    overflow-x: auto;
+    overflow-x: scroll;
 
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE/Edge */

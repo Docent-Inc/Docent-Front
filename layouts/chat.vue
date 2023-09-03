@@ -6,7 +6,9 @@
             <v-icon class="logo_docent" />
         </div>
 
-        <slot />
+        <div class="layout">
+            <slot />
+        </div>
 
         <chat-input />
     </div>
@@ -18,6 +20,28 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.layout {
+    height: calc(100% - (60px + 10rem));
+    height: calc(
+        100% -
+            (
+                60px + 10rem + constant(safe-area-inset-bottom) +
+                    constant(safe-area-inset-top)
+            )
+    );
+    height: calc(
+        100% -
+            (
+                60px + 10rem + env(safe-area-inset-bottom) +
+                    env(safe-area-inset-top)
+            )
+    );
+
+    margin-top: 60px;
+    margin-top: calc(60px + constant(safe-area-inset-top));
+    margin-top: calc(60px + env(safe-area-inset-top));
+}
+
 .ic_home {
     font-size: 18px;
     position: absolute;

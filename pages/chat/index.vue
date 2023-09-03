@@ -1,6 +1,6 @@
 <!-- TODO: 스크롤  -->
 <template>
-    <div id="chat-scrollable" ref="scrollable">
+    <div class="contents" ref="scrollable">
         <infinite-loading
             v-if="chatList?.length"
             :first-load="false"
@@ -133,25 +133,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#chat-scrollable {
+.contents {
     width: 100%;
-    height: calc(var(--vh, 1vh) * 100 - (60px + 10rem));
-    // height: calc(
-    //     var(--vh, 1vh) * 100 -
-    //         (
-    //             60px + 10rem + constant(safe-area-inset-top) +
-    //                 constant(safe-area-inset-bottom)
-    //         )
-    // );
-    // height: calc(
-    //     var(--vh, 1vh) * 100 -
-    //         (
-    //             60px + 10rem + env(safe-area-inset-top) +
-    //                 env(safe-area-inset-bottom)
-    //         )
-    // );
+    height: 100%;
+
     overflow-y: scroll;
-    margin-top: 60px;
     padding: 2rem;
 
     overscroll-behavior: contain;
