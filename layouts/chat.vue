@@ -22,11 +22,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.wrapper {
-    width: 100%;
-    padding-top: 60px;
-}
-
 .ic_home {
     font-size: 18px;
     position: absolute;

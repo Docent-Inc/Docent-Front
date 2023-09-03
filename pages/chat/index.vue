@@ -120,7 +120,7 @@ export default {
         // Infinite Loading
         async loadMore() {
             console.log("here");
-            if (this.reload) return;
+            // if (this.reload) return;
             this.$nextTick();
             setTimeout(() => {
                 if (this.totalCounts > this.list.length) {
