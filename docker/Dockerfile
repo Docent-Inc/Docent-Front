@@ -10,7 +10,7 @@ COPY . .
 RUN yarn generate
 
 FROM nginx:latest
-COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/default /etc/nginx/sites-enabled/default
 
 COPY --from=builder /app/.output/public /usr/share/nginx/html
 
