@@ -168,17 +168,17 @@ export default {
 
     .diary-title {
         width: 100%;
-        font-size: 2rem;
+        font-size: 16px; // 2rem
         color: #fff;
     }
     .diary-date {
-        font-size: 1rem;
+        font-size: 12px; // 1rem;
         color: #fff;
     }
     .diary-tags {
         margin-top: 0.5rem;
         .tag {
-            font-size: 1.2rem;
+            font-size: 14px; // 1.2rem;;
             color: #fff;
             background-color: rgba(0, 0, 0, 0.1);
             border: none;

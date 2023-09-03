@@ -53,16 +53,20 @@ export default {
             list.push({ content_type: 7 });
             this.setChatList(list);
             this.isGenerating = true;
-            this.setReload(true);
+            // this.setReload(true);
 
             const res = await generateChat(this.data);
             console.log("✨generateChat >>> ", this.data);
 
-            if (res.success) {
-                this.data = "";
-                this.getFirstPage();
-                this.isGenerating = false;
+            if (!res.success) {
+                const msg = `${res.status_code}  - ${res.message}`;
+                console.log("Error! > ", msg, res);
+                alert(msg);
             }
+
+            this.data = "";
+            this.getFirstPage();
+            this.isGenerating = false;
         },
         setData(res) {
             this.data = res;

@@ -34,6 +34,15 @@ export const useChatStore = defineStore("chat", {
             console.log(`✨addChatList(${this.pageNo})`);
             console.log(">>" + this.list.length + "/" + this.totalCounts);
             const res = await getChatList(this.pageNo);
+            console.log(">> res", res);
+
+            if (!res.success) {
+                const msg = `${res.status_code}  - ${res.message}`;
+                console.log("Error! > ", msg, res);
+                alert(msg);
+                return;
+            }
+
             this.list = [...res.data.list.reverse(), ...this.list];
             this.totalCounts = res.data.total_counts;
             this.pageNo = res.data.page_num + 1;

@@ -124,7 +124,7 @@ export default {
     .chat-more {
         color: #2c9577;
         font-family: "Pretendard SemiBold";
-        font-size: 0.5rem;
+        font-size: 8px; // 0.5rem;
 
         line-height: 1.3125rem; /* 262.5% */
         position: absolute;
