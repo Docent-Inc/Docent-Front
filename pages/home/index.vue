@@ -83,11 +83,21 @@ onMounted(async () => {
 .body {
     width: 100%;
     height: calc(100% - (60px));
-    height: calc(100% - (60px + constant(safe-area-inset-top)));
-    height: calc(100% - (60px + env(safe-area-inset-top)));
+    height: calc(
+        100% -
+            (
+                60px + constant(safe-area-inset-top) +
+                    constant(safe-area-inset-bottom)
+            )
+    );
+    height: calc(
+        100% - (60px + env(safe-area-inset-top) + env(safe-area-inset-bottom))
+    );
     padding: 2rem 0 4rem 2rem;
     overflow: scroll;
     margin-top: 60px;
+    margin-top: calc(60px + constant(safe-area-inset-top));
+    margin-top: calc(60px + env(safe-area-inset-top));
 }
 
 .chat {

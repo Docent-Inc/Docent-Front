@@ -137,13 +137,23 @@ export default {
     width: 100%;
     height: calc(var(--vh, 1vh) * 100 - (60px + 10rem));
     height: calc(
-        var(--vh, 1vh) * 100 - (60px + 10rem + constant(safe-area-inset-top))
+        var(--vh, 1vh) * 100 -
+            (
+                60px + 10rem + constant(safe-area-inset-top) +
+                    constant(safe-area-inset-bottom)
+            )
     );
     height: calc(
-        var(--vh, 1vh) * 100 - (60px + 10rem + env(safe-area-inset-top))
+        var(--vh, 1vh) * 100 -
+            (
+                60px + 10rem + env(safe-area-inset-top) +
+                    env(safe-area-inset-bottom)
+            )
     );
     overflow-y: scroll;
     margin-top: 60px;
+    margin-top: calc(60px + env(safe-area-inset-top));
+    margin-top: calc(60px + constant(safe-area-inset-top));
     padding: 2rem;
 
     overscroll-behavior: contain;
