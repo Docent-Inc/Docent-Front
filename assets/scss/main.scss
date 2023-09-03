@@ -55,6 +55,8 @@ body {
 .navigation {
     position: fixed;
     bottom: 0;
+    bottom: constant(safe-area-inset-bottom);
+    bottom: env(safe-area-inset-bottom);
     // margin-bottom: 10px;
 
     width: 100% !important;
@@ -79,6 +81,8 @@ body {
     padding: 1.5rem 1.3rem;
     z-index: 90;
     top: 0;
+    top: constant(safe-area-inset-top);
+    top: env(safe-area-inset-top);
     background: #fff;
     border-bottom: 1px solid #f6f6f6;
 
@@ -104,6 +108,8 @@ body {
 .button.fixed-bottom {
     position: fixed;
     bottom: 0;
+    bottom: constant(safe-area-inset-bottom);
+    bottom: env(safe-area-inset-bottom);
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 40px;

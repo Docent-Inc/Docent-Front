@@ -88,6 +88,8 @@ export default {
     z-index: 10;
     position: fixed;
     bottom: 0;
+    bottom: constant(safe-area-inset-bottom);
+    bottom: env(safe-area-inset-bottom);
 
     display: flex;
     justify-content: center;
