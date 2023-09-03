@@ -3,10 +3,11 @@
         <v-btn flat @click="navigateTo(`/home`)">
             <v-icon class="nav_home" :class="{ active: isActive('/home') }" />
         </v-btn>
-        <v-btn flat @click="navigateTo(`/calendar`)">
+
+        <v-btn flat @click="navigateTo(`/gallery`)">
             <v-icon
-                class="nav_calendar"
-                :class="{ active: isActive('/calendar') }"
+                class="nav_gallery"
+                :class="{ active: isActive('/gallery') }"
             />
         </v-btn>
 
@@ -14,16 +15,17 @@
             <img :src="docentSVG" />
         </v-btn>
 
+        <v-btn flat @click="navigateTo(`/calendar`)">
+            <v-icon
+                class="nav_calendar"
+                :class="{ active: isActive('/calendar') }"
+            />
+        </v-btn>
+
         <v-btn flat @click="navigateTo(`/report`)">
             <v-icon
                 class="nav_report"
                 :class="{ active: isActive('/report') }"
-            />
-        </v-btn>
-        <v-btn flat @click="navigateTo(`/gallery`)">
-            <v-icon
-                class="nav_gallery"
-                :class="{ active: isActive('/gallery') }"
             />
         </v-btn>
     </div>
@@ -41,6 +43,12 @@ export default {
     },
     methods: {
         navigateTo(route) {
+            // TODO: 서비스 준비 중
+            if (["/calendar", "/report", "/gallery"].includes(route)) {
+                alert("서비스 준비 중입니다 🔔");
+                return;
+            }
+
             this.$router.push(route);
         },
         isActive(route) {

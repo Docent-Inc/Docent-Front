@@ -2,6 +2,7 @@
     <v-app id="app">
         <NuxtLayout>
             <NuxtPage />
+            <modal-login-modal />
         </NuxtLayout>
     </v-app>
 </template>

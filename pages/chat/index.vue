@@ -101,11 +101,13 @@ export default {
         },
     },
     mounted() {
-        // TODO: 테스트 액세스 토큰 제거
-        // window.localStorage.setItem(
-        //     "accessToken",
-        //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjIwNTM1NDcxNzZ9.Dqf6UOvR-OlKY6cVMjoN0AJ25stW8ojdSy2GZ5dyHlc"
-        // );
+        // Check
+        console.log(window.localStorage.getItem("accessToken"));
+        if (!window.localStorage.getItem("accessToken")) {
+            console.log(this.$eventBus);
+            this.$eventBus.$emit("onLoginModal");
+            return;
+        }
 
         this.getFirstPage();
     },

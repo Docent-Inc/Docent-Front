@@ -34,7 +34,7 @@
             <div
                 class="main-slide empty"
                 v-if="!record.morning && !record.night"
-                @click="router.push(`/chat`)"
+                @click="this.$router.push(`/chat`)"
             >
                 {{ name }}님의 그림을 <br />그려주세요!
             </div>
@@ -46,36 +46,50 @@
     </div>
 </template>
 
-<script setup>
+<script>
 import { useTodayService } from "../../services/today";
 
-const router = useRouter();
-definePageMeta({
-    layout: "main",
-});
+export default {
+    name: "Home",
+    setup() {
+        definePageMeta({
+            layout: "main",
+        });
+    },
+    data() {
+        return {
+            calendar: [],
+            record: {},
+            lucky: "",
+            name: "",
+        };
+    },
+    async mounted() {
+        const { getTodayCalendar, getTodayRecord, getTodayLucky } =
+            useTodayService();
+        // Check
+        console.log(window.localStorage.getItem("accessToken"));
+        if (!window.localStorage.getItem("accessToken")) {
+            console.log(this.$eventBus);
+            this.$eventBus.$emit("onLoginModal");
+            return;
+        }
 
-const calendar = ref([]);
-const record = ref({});
-const lucky = ref("");
-const name = ref("");
-const { getTodayCalendar, getTodayRecord, getTodayLucky } = useTodayService();
-onMounted(async () => {
-    name.value = window.localStorage.getItem("name")
-        ? window.localStorage.getItem("name")
-        : "";
+        this.name = window.localStorage.getItem("name");
 
-    await getTodayCalendar().then((res) => {
-        calendar.value = res.data;
-    });
+        await getTodayCalendar().then((res) => {
+            this.calendar = res.data;
+        });
 
-    await getTodayRecord().then((res) => {
-        record.value = res.data;
-    });
+        await getTodayRecord().then((res) => {
+            this.record = res.data;
+        });
 
-    await getTodayLucky().then((res) => {
-        lucky.value = res.data.luck;
-    });
-});
+        await getTodayLucky().then((res) => {
+            this.lucky = res.data.luck;
+        });
+    },
+};
 </script>
 
 <style lang="scss" scoped>
