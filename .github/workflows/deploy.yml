@@ -41,7 +41,9 @@ jobs:
                   password: ${{ secrets.NCP_PASSWORD }}
                   key: ${{ secrets.NCP_KEY }}
                   script: |
+                      sudo systemctl stop nginx
                       cd /Docent-Front
                       docker build -f docker/Dockerfile -t docent-front .
                       docker-compose -f docker/docker-compose.yml down
                       docker-compose -f docker/docker-compose.yml up
+                      sudo systemctl start nginx
