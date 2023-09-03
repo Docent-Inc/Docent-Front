@@ -1,6 +1,6 @@
 <template>
     <div class="viewport">
-        <img :src="docentSVG" @click="router.push(`/signin`)" />
+        <img :src="docentSVG" />
     </div>
 </template>
 
@@ -10,10 +10,10 @@ const router = useRouter();
 
 // TODO: 자동로그인 확인 / signin 또는 home으로 넘어간다
 onMounted(() => {
-    // setTimeout(() => {
-    //     router.push(`/signin`);
-    //     console.log("timeout!");
-    // }, 200);
+    setTimeout(() => {
+        router.push(`/signin`);
+        console.log("timeout!");
+    }, 200);
 });
 </script>
 

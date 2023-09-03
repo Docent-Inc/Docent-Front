@@ -15,7 +15,7 @@ onMounted(() => {
         userAgent.includes("ipod") ||
         userAgent.includes("ipad")
     ) {
-        // iOS 기기입니다.
+        document.documentElement.style.setProperty("--vh", "1vh");
     } else {
         let vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty("--vh", `${vh}px`);
