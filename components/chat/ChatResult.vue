@@ -20,7 +20,9 @@
         <div v-if="type === 3">
             <div class="chat-memo">
                 {{ chat.content }}
-                <div class="chat-more">더 알아보기 &gt;</div>
+                <div class="chat-more disabled" @click="more">
+                    더 알아보기 &gt;
+                </div>
             </div>
         </div>
 
@@ -34,7 +36,7 @@
                 </div>
             </div>
 
-            <button class="button">자세히 보기</button>
+            <button class="button disabled" @click="more">자세히 보기</button>
         </div>
     </div>
 </template>
@@ -69,6 +71,12 @@ export default {
     },
     methods: {
         more() {
+            // TODO: 서비스 오픈 예정
+            if (![1, 2].includes(this.chat.content_type)) {
+                alert("🔔 서비스 오픈 예정입니다.");
+                return;
+            }
+
             console.log("cliclk>>", this.chat);
             const id =
                 this.chat.content_type === 1
@@ -137,6 +145,10 @@ export default {
         cursor: pointer;
     }
 
+    .chat-more.disabled {
+        opacity: 0.5;
+    }
+
     .chat-memo {
         color: #000;
         font-family: "Pretendard";
@@ -173,5 +185,9 @@ export default {
     margin-top: 1.5rem;
     border-radius: 5px;
     background: rgba(44, 149, 119, 0.85);
+}
+
+.button.disabled {
+    opacity: 0.5;
 }
 </style>
