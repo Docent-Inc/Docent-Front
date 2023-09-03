@@ -86,7 +86,7 @@ export default {
     padding-top: 1.5rem;
     padding-bottom: 3rem;
     z-index: 10;
-    position: sticky;
+    position: fixed;
     bottom: 0;
 
     display: flex;
