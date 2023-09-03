@@ -3,7 +3,7 @@
         <v-icon class="logo_docent" />
     </div>
     <div class="contents">
-        <div class="title">2023.09.03</div>
+        <div class="title">{{ $dayjs().format("YYYY.MM.DD") }}</div>
         <div class="main-title">
             안녕하세요 {{ name }}님 <br />오늘의 이벤트예요
         </div>
