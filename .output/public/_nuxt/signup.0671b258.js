@@ -1,1 +1,0 @@
-import{a0 as s}from"./entry.351d1f2e.js";const i=s("signup",{state:()=>({user:{nickname:"",age:"",gender:"남",mbti:""},step:0}),actions:{setNickname(e){this.user.nickname=e},setAge(e){this.user.age=e},setGender(e){this.user.gender=e},setMbti(e){this.user.mbti=e},setStep(e){this.step=e>0?e:0}}});export{i as u};
