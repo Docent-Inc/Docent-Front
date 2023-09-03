@@ -22,6 +22,7 @@ jobs:
                       rm -rf /Docent-Front/.output
                       mkdir /Docent-Front/.output
 
+
             - name: Copy all
               uses: appleboy/scp-action@master
               with:
@@ -31,4 +32,4 @@ jobs:
                   password: ${{ secrets.NCP_PASSWORD }}
                   port: 22
                   source: "./.output/"
-                  target: "/Docent-Front/.output/"
+                  target: "/Docent-Front/.output"
