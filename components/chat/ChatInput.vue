@@ -80,11 +80,11 @@ export default {
 .chat-input {
     width: 100%;
     max-width: 500px;
-    height: 8rem;
+    height: 10rem;
     background: #fff;
 
-    padding: 1.5rem 0;
-    margin-bottom: 20px; // bottomenv(safe-area-inset-bottom);
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
     z-index: 10;
     position: sticky;
     bottom: 0;

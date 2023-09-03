@@ -42,7 +42,7 @@ export default {
 <style lang="scss">
 .contents {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 60px);
     margin-top: 60px;
     padding: 3rem 2rem 0 2rem;
     position: relative;

@@ -9,8 +9,8 @@
 <style lang="scss" scoped>
 .contents {
     width: 100%;
-    height: calc(100vh - 8.5rem);
+    height: calc(100vh - 9rem);
     padding: 0;
-    margin-bottom: 8.5rem;
+    margin-bottom: 9rem;
 }
 </style>
