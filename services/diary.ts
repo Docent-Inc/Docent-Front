@@ -20,5 +20,15 @@ export const useDiaryService = () => {
             );
             return res.data;
         },
+        /**
+         * 갤러리 목록 조회 (아침, 저녁, 메모)
+         */
+        async getGalleryList(diary_type: number, page: number) {
+            const res = await API.post(`/api/diary/list`, {
+                diary_type: diary_type,
+                page: page,
+            });
+            return res.data;
+        },
     };
 };
