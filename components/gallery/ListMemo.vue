@@ -36,6 +36,14 @@ export default {
         color: #010101;
         font-family: "Pretendard SemiBold";
         font-size: 16px;
+        line-height: 20px;
+        max-height: 40px;
+
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .memo_date {

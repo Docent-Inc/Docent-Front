@@ -9,19 +9,28 @@
     </div>
 
     <div class="contents">
-        <!-- Gallery {{ type }} -> {{ list.length }} / {{ totalCounts }} -->
+        <!-- TODO: 테스트용 -->
+        <!-- Gallery {{ type }} > {{ list.length }} / {{ totalCounts }} -->
 
         <div v-for="(data, idx) in list" :key="idx">
             <ListMemo :memo="data" v-if="data.content_type === 3" />
             <ListDiary :diary="data" v-else />
             <hr />
         </div>
+        <infinite-loading
+            v-if="list?.length"
+            :first-load="false"
+            :distance="1000"
+            :top="true"
+            @infinite="loadMore"
+        />
     </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "pinia";
 import { useGalleryStore } from "~/store/gallery";
+import InfiniteLoading from "v3-infinite-loading";
 import ListDiary from "../../components/gallery/ListDiary.vue";
 import ListMemo from "../../components/gallery/ListMemo.vue";
 
@@ -32,9 +41,16 @@ export default {
             layout: "main",
         });
     },
-    components: { ListDiary, ListMemo },
+    components: { ListDiary, ListMemo, InfiniteLoading },
     data() {
         return {};
+    },
+    watch: {
+        type() {
+            console.log("New type -> ", this.type);
+            this.reset();
+            this.getGalleryList();
+        },
     },
     computed: {
         ...mapState(useGalleryStore, ["type", "list", "totalCounts", "data"]),
@@ -47,7 +63,14 @@ export default {
         await this.getGalleryList();
     },
     methods: {
-        ...mapActions(useGalleryStore, ["setType", "getGalleryList"]),
+        ...mapActions(useGalleryStore, ["setType", "getGalleryList", "reset"]),
+        loadMore() {
+            // 조건 확인 후, pageNo +1 해서 loadMore
+            if (this.list.length < this.totalCounts) {
+                this.getGalleryList();
+                console.log("loadMore");
+            }
+        },
     },
 };
 </script>

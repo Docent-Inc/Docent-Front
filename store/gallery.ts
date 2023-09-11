@@ -1,5 +1,4 @@
 import { useDiaryService } from "../services/diary";
-import dayjs from "dayjs";
 
 interface DiaryOrMemo {
     id: number;
@@ -45,8 +44,9 @@ export const useGalleryStore = defineStore("gallery", {
             }
 
             this.data = res.data;
-            this.dataToList();
+            this.pageNo += 1;
             this.computeTotalCounts();
+            this.dataToList();
         },
         /**
          * Data를 조합하여 List로 변환하는 함수
@@ -92,9 +92,10 @@ export const useGalleryStore = defineStore("gallery", {
                     })),
                 ];
             }
+            mergedList = [...mergedList, ...this.list];
 
             const sortedList = mergedList.sort((a, b) =>
-                a.create_date.localeCompare(b.create_date)
+                b.create_date.localeCompare(a.create_date)
             );
 
             console.log(">> ", sortedList);
@@ -118,6 +119,12 @@ export const useGalleryStore = defineStore("gallery", {
         },
         setType(type: number) {
             this.type = type;
+        },
+        reset() {
+            this.pageNo = 1;
+            this.totalCounts = 0;
+            this.list = [];
+            this.data = {};
         },
     },
 });
