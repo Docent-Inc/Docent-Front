@@ -1,5 +1,5 @@
 <template>
-    <div class="item_diary">
+    <div class="item_diary" @click="showDetail">
         <img :src="diary.image_url" />
         <div class="diary_text">
             <div class="diary_title">{{ diary.diary_name }}</div>
@@ -20,6 +20,17 @@ export default {
             type: Object,
             required: true,
             default: () => {},
+        },
+    },
+    methods: {
+        showDetail() {
+            console.log("cliclk>>", this.diary);
+            console.log(
+                `type: ${this.diary.content_type} id: ${this.diary.id}`
+            );
+            this.$router.push(
+                `/diary/${this.diary.id}?type=${this.diary.content_type}`
+            );
         },
     },
 };
