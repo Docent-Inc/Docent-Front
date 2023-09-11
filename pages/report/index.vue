@@ -1,5 +1,5 @@
 <template>
-    <div class="viewport">Report</div>
+    <div>Report</div>
 </template>
 
 <script setup>

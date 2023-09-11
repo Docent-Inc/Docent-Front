@@ -1,6 +1,6 @@
 import API from "../utils/axios";
 
-export const useChatService = () => {
+export const useGenerateService = () => {
     return {
         /**
          * 채팅 리스트 조회
