@@ -19,5 +19,12 @@ export const useGenerateService = () => {
             });
             return res.data;
         },
+        /**
+         * 마음 보고서 생성
+         */
+        async getReport() {
+            const res = await API.get(`/api/generate/report`);
+            return res.data;
+        },
     };
 };
