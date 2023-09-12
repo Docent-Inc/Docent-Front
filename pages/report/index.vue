@@ -191,8 +191,9 @@ export default {
         // width: 45%; // 80:20
         // width: 60%; // 90:10
 
-        transform: translate(10%, -10%); // extrovert
-        // transform: translate(0%, -10%);
+        margin-top: -10%;
+        margin-right: -2.5%;
+        animation: rotateReverse 4s infinite;
     }
 
     #extrovert {
@@ -206,8 +207,9 @@ export default {
         // width: 25%; // 80:20
         // width: 20%; // 90:10
 
-        transform: translate(0%, 10%);
-        // transform: translate(-10%, 10%); // introvert
+        margin-bottom: -10%;
+        margin-left: -2.5%;
+        animation: rotate 6s infinite;
     }
 
     #extrovert_txt {
@@ -260,6 +262,32 @@ export default {
         font-size: 16px;
         line-height: 20.8px; /* 130% */
         text-transform: capitalize;
+    }
+}
+
+@keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotateReverse {
+    from {
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+    to {
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
     }
 }
 </style>
