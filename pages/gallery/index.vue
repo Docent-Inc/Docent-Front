@@ -33,6 +33,7 @@ import { useGalleryStore } from "~/store/gallery";
 import InfiniteLoading from "v3-infinite-loading";
 import ListDiary from "../../components/gallery/ListDiary.vue";
 import ListMemo from "../../components/gallery/ListMemo.vue";
+import Tags from "../../components/gallery/Tags.vue";
 
 export default {
     name: "Gallery",
@@ -41,7 +42,7 @@ export default {
             layout: "main",
         });
     },
-    components: { ListDiary, ListMemo, InfiniteLoading },
+    components: { ListDiary, ListMemo, InfiniteLoading, Tags },
     data() {
         return {};
     },
@@ -56,6 +57,8 @@ export default {
         ...mapState(useGalleryStore, ["type", "list", "totalCounts", "data"]),
     },
     async mounted() {
+        const { SERVER_MODE } = useRuntimeConfig().public;
+        console.log(SERVER_MODE);
         window.localStorage.setItem(
             "accessToken",
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjIwNTM1NDcxNzZ9.Dqf6UOvR-OlKY6cVMjoN0AJ25stW8ojdSy2GZ5dyHlc"

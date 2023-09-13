@@ -6,7 +6,7 @@ export const useGenerateService = () => {
          * 채팅 리스트 조회
          */
         async getChatList(page: number) {
-            const res = await API.post(`/api/generate/chat/list?page=${page}`);
+            const res = await API.post(`/generate/chat/list?page=${page}`);
             return res.data;
         },
         /**
@@ -14,7 +14,7 @@ export const useGenerateService = () => {
          * @body text
          */
         async generateChat(text: string) {
-            const res = await API.post(`/api/generate/chat`, {
+            const res = await API.post(`/generate/chat`, {
                 content: text,
             });
             return res.data;
@@ -23,7 +23,7 @@ export const useGenerateService = () => {
          * 마음 보고서 생성
          */
         async getReport() {
-            const res = await API.get(`/api/generate/report`);
+            const res = await API.get(`/generate/report`);
             return res.data;
         },
     };

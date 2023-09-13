@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: process.env.baseURL,
+    baseURL: "https://docent.zip/api",
     // proxy: true,
 });
 
