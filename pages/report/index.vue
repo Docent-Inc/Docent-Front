@@ -2,18 +2,7 @@
     <div class="contents">
         <div class="title">서준 님의 깊은 곳이에요</div>
 
-        <div class="report-stat">
-            <img :src="IMG.IntrovertSVG" id="introvert" />
-            <img :src="IMG.ExtrovertSVG" id="extrovert" />
-            <div id="introvert_txt">
-                내향 <br />
-                {{ data.statistics ? data.statistics[0]["내향"] : "" }}%
-            </div>
-            <div id="extrovert_txt">
-                외향 <br />
-                {{ data.statistics ? data.statistics[0]["외향"] : "" }}%
-            </div>
-        </div>
+        <Statistics :statistics="data.statistics" />
         <div class="report-keyword">
             <div>Key Word</div>
             <div>
@@ -78,9 +67,9 @@
 
 <script>
 import { useGenerateService } from "../../services/generate";
-import TEMPSTATISCTICS from "../../assets/images/img_statistics.svg";
 import IntrovertSVG from "../../assets/images/img_introvert.svg";
 import ExtrovertSVG from "../../assets/images/img_extrovert.svg";
+import Statistics from "../../components/report/Statistics.vue";
 
 export default {
     name: "Report",
@@ -89,6 +78,7 @@ export default {
             layout: "main",
         });
     },
+    components: { Statistics },
     data() {
         return {
             IMG: {
@@ -123,68 +113,6 @@ export default {
 
     .title {
         color: #fff;
-    }
-}
-.report-stat {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 3rem;
-    height: 40%;
-    position: relative;
-
-    color: rgba(255, 255, 255, 0.95);
-    font-family: "Pretendard Bold";
-    font-size: 16px;
-    line-height: calc(16px * 1.3); /* 130% */
-    text-transform: capitalize;
-
-    #introvert {
-        // width: 20%; // 10:90
-        // width: 25%; // 20:80
-        width: 30%; // 30:70
-        // width: 35%; // 40:60
-        // width: 40%; // 50:50
-        // width: 45%; // 60:50
-        // width: 50%; // 70:30
-        // width: 45%; // 80:20
-        // width: 60%; // 90:10
-
-        margin-top: -10%;
-        margin-right: -2.5%;
-        animation: rotateReverse 4s infinite;
-    }
-
-    #extrovert {
-        // width: 60%; // 10:90
-        // width: 55%; // 20:80
-        width: 50%; // 30:70
-        // width: 45%; // 40:60
-        // width: 40%; // 50:50
-        // width: 35%; // 60:40
-        // width: 30%; // 70:30
-        // width: 25%; // 80:20
-        // width: 20%; // 90:10
-
-        margin-bottom: -10%;
-        margin-left: -2.5%;
-        animation: rotate 6s infinite;
-    }
-
-    #extrovert_txt {
-        position: absolute;
-        top: 50%;
-        right: 0;
-        transform: translate(20%, -30%);
-        // transform: translate(20%, -50%);
-    }
-    #introvert_txt {
-        position: absolute;
-        top: 50%;
-        left: 0;
-        transform: translate(-20%, -70%);
-        // transform: translate(-20%, -50%);
     }
 }
 
@@ -222,32 +150,6 @@ export default {
         font-size: 16px;
         line-height: 20.8px; /* 130% */
         text-transform: capitalize;
-    }
-}
-
-@keyframes rotate {
-    from {
-        -webkit-transform: rotate(0deg);
-        -o-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(360deg);
-        -o-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes rotateReverse {
-    from {
-        -webkit-transform: rotate(360deg);
-        -o-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-    to {
-        -webkit-transform: rotate(0deg);
-        -o-transform: rotate(0deg);
-        transform: rotate(0deg);
     }
 }
 </style>
