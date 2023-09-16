@@ -23,8 +23,9 @@ interface Data {
 export const useGalleryStore = defineStore("gallery", {
     state: () => ({
         pageNo: 1,
-        type: 0,
+        type: 0, // ALL (0), Dream (1), Diary(2), Memo(3)
         totalCounts: 0,
+        mode: 0, // List (0), Board(1)
         list: [] as DiaryOrMemo[],
         data: {} as Data,
     }),
@@ -119,6 +120,9 @@ export const useGalleryStore = defineStore("gallery", {
         },
         setType(type: number) {
             this.type = type;
+        },
+        changeMode() {
+            this.mode = (this.mode + 1) % 2; //
         },
         reset() {
             this.pageNo = 1;

@@ -5,18 +5,16 @@
             @select="(idx) => setType(idx)"
             :selected="type"
         />
-        <v-icon class="ic_list" />
+        <v-icon
+            :class="mode === 0 ? 'ic_list' : 'ic_board'"
+            @click="changeMode()"
+        />
     </div>
 
     <div class="contents">
-        <!-- TODO: 테스트용 -->
-        <!-- Gallery {{ type }} > {{ list.length }} / {{ totalCounts }} -->
+        <GalleryListItems :list="list" v-if="mode === 0" />
+        <GalleryBoardItems :list="list" v-else />
 
-        <div v-for="(data, idx) in list" :key="idx">
-            <ListMemo :memo="data" v-if="data.content_type === 3" />
-            <ListDiary :diary="data" v-else />
-            <hr />
-        </div>
         <infinite-loading
             v-if="list?.length"
             :first-load="false"
@@ -54,7 +52,13 @@ export default {
         },
     },
     computed: {
-        ...mapState(useGalleryStore, ["type", "list", "totalCounts", "data"]),
+        ...mapState(useGalleryStore, [
+            "type",
+            "mode",
+            "list",
+            "totalCounts",
+            "data",
+        ]),
     },
     async mounted() {
         const { SERVER_MODE } = useRuntimeConfig().public;
@@ -66,7 +70,12 @@ export default {
         await this.getGalleryList();
     },
     methods: {
-        ...mapActions(useGalleryStore, ["setType", "getGalleryList", "reset"]),
+        ...mapActions(useGalleryStore, [
+            "setType",
+            "changeMode",
+            "getGalleryList",
+            "reset",
+        ]),
         loadMore() {
             // 조건 확인 후, pageNo +1 해서 loadMore
             if (this.list.length < this.totalCounts) {
@@ -80,7 +89,7 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-    padding: 2rem 2.5rem 0 2.5rem;
+    padding: 2rem 2.5rem 2rem 2.5rem;
     justify-content: space-between;
 }
 .contents {
@@ -94,6 +103,7 @@ export default {
     margin-top: calc(60px + env(safe-area-inset-top));
 
     padding: 1.31rem 2.35rem;
+    background: #f8f8f8;
 
     // border: 1px solid red;
 }
