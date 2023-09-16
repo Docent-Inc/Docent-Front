@@ -1,6 +1,6 @@
 <template>
     <div class="contents">
-        <div class="title">서준 님의 깊은 곳이에요</div>
+        <div class="title">{{ name }} 님의 깊은 곳이에요</div>
 
         <Statistics :statistics="data.statistics" />
         <div class="report-keyword">
@@ -88,17 +88,32 @@ export default {
             data: {
                 create_date: "2023-08-29T14:36:18",
             },
+            name: "",
         };
     },
     async mounted() {
+        this.$eventBus.$emit("onLoading", true);
+
         // TODO: accessToken 제거
         window.localStorage.setItem(
             "accessToken",
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjIwNTM1NDcxNzZ9.Dqf6UOvR-OlKY6cVMjoN0AJ25stW8ojdSy2GZ5dyHlc"
         );
+
+        // Check
+        console.log(window.localStorage.getItem("accessToken"));
+        if (!window.localStorage.getItem("accessToken")) {
+            console.log(this.$eventBus);
+            this.$eventBus.$emit("onLoginModal");
+            return;
+        }
+
+        this.name = window.localStorage.getItem("name");
+
         const { getReport } = useGenerateService();
         const res = await getReport();
         this.data = res.data;
+        this.$eventBus.$emit("onLoading", false);
         console.log(res);
         console.log(this.data);
     },

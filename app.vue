@@ -3,6 +3,7 @@
         <NuxtLayout>
             <NuxtPage />
             <modal-login-modal />
+            <ModalLoding />
         </NuxtLayout>
     </v-app>
 </template>
