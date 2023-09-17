@@ -61,12 +61,6 @@ export default {
         ]),
     },
     async mounted() {
-        const { SERVER_MODE } = useRuntimeConfig().public;
-        console.log(SERVER_MODE);
-        window.localStorage.setItem(
-            "accessToken",
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjIwNTM1NDcxNzZ9.Dqf6UOvR-OlKY6cVMjoN0AJ25stW8ojdSy2GZ5dyHlc"
-        );
         await this.getGalleryList();
     },
     methods: {
@@ -80,7 +74,6 @@ export default {
             // 조건 확인 후, pageNo +1 해서 loadMore
             if (this.list.length < this.totalCounts) {
                 this.getGalleryList();
-                console.log("loadMore");
             }
         },
     },

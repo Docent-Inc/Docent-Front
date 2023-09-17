@@ -1,1 +1,0 @@
-import{A as t}from"./axios.8acffacc.js";const s=()=>({async getChatList(e){return(await t.post(`/generate/chat/list?page=${e}`)).data},async generateChat(e){return(await t.post("/generate/chat",{content:e})).data},async getReport(){return(await t.get("/generate/report")).data}});export{s as u};

@@ -44,6 +44,12 @@ export default {
             "setReload",
         ]),
         async send() {
+            // Validation
+            if (this.data || this.data === "") {
+                alert("내용을 입력해 주세요.");
+                return;
+            }
+
             if (this.isGenerating) return;
 
             const { generateChat } = useGenerateService();
