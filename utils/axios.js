@@ -28,8 +28,10 @@ API.interceptors.response.use(
         return res;
     },
     (error) => {
-        // console.error("✨axios-error:", error);
-        return Promise.reject(error);
+        console.error("✨axios-error:", error.response.data);
+        return error.response
+            ? Promise.reject(error.response.data)
+            : Promise.reject(error);
     }
 );
 

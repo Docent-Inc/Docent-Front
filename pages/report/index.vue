@@ -63,6 +63,15 @@
             </div>
         </div>
     </div>
+
+    <div class="blank" v-if="status === 'LOADING'">
+        <v-progress-circular indeterminate color="#2C9577"></v-progress-circular
+        >보고서 생성 중. . .
+    </div>
+
+    <div class="blank" v-if="status === 'NODATA'">
+        마음 보고서를 만들기 위한 <br />기록이 부족합니다 😭
+    </div>
 </template>
 
 <script>
@@ -89,16 +98,15 @@ export default {
                 create_date: "2023-08-29T14:36:18",
             },
             name: "",
+            status: "LOADING", // LOADING, SUCCESS, NODATA
         };
     },
     async mounted() {
-        this.$eventBus.$emit("onLoading", true);
-
-        // TODO: accessToken 제거
-        window.localStorage.setItem(
-            "accessToken",
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjIwNTM1NDcxNzZ9.Dqf6UOvR-OlKY6cVMjoN0AJ25stW8ojdSy2GZ5dyHlc"
-        );
+        // // TODO: accessToken 제거
+        // window.localStorage.setItem(
+        //     "accessToken",
+        //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmciLCJleHAiOjIwNTM1NDcxNzZ9.Dqf6UOvR-OlKY6cVMjoN0AJ25stW8ojdSy2GZ5dyHlc"
+        // );
 
         // Check
         console.log(window.localStorage.getItem("accessToken"));
@@ -111,11 +119,19 @@ export default {
         this.name = window.localStorage.getItem("name");
 
         const { getReport } = useGenerateService();
-        const res = await getReport();
-        this.data = res.data;
-        this.$eventBus.$emit("onLoading", false);
-        console.log(res);
-        console.log(this.data);
+        await getReport()
+            .then((res) => {
+                console.log(res);
+                console.log(this.data);
+
+                this.data = res.data;
+                this.status = "SUCCESS";
+            })
+            .catch((e) => {
+                console.log(e);
+                if (e.status_code === 4019) this.status = "NODATA";
+                else alert(e.message);
+            });
     },
 };
 </script>
@@ -166,5 +182,21 @@ export default {
         line-height: 20.8px; /* 130% */
         text-transform: capitalize;
     }
+}
+
+.blank {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    position: absolute;
+    top: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    color: #fff;
+    text-align: center;
 }
 </style>
