@@ -45,7 +45,7 @@ export default {
         ]),
         async send() {
             // Validation
-            if (this.data || this.data === "") {
+            if (!this.data || this.data === "") {
                 alert("내용을 입력해 주세요.");
                 return;
             }
