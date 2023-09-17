@@ -1,0 +1,1 @@
+import{A as t}from"./axios.f7e5a9d0.js";const s=()=>({async getMorningdiary(r){return(await t.get(`/diary/morning/read?diary_id=${r}`)).data},async getNightdiary(r){return(await t.get(`/diary/night/read?diary_id=${r}`)).data},async getGalleryList(r,a){return(await t.post("/diary/list",{diary_type:r,page:a})).data}});export{s as u};
