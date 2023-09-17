@@ -13,11 +13,9 @@
 import kakaoLogo from "../../assets/images/button_kakao_login.svg";
 import { useAuthService } from "../../services/auth";
 
-const { getKakaoLoginTest, getKakaoLogin } = useAuthService();
+const { getKakaoLogin } = useAuthService();
 
 const call = async () => {
-    // TODO: test API -> API 변경
-    // const res = await getKakaoLoginTest();
     const res = await getKakaoLogin();
 
     console.log(res);

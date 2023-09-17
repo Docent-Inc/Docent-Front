@@ -16,22 +16,40 @@ API.interceptors.request.use(
         return config;
     },
     function (error) {
-        console.error("✨axios-error:", error);
         return Promise.reject(error);
     }
 );
 
-// TODO: 여기서 500번대 에러 처리
+// TODO: 에러 핸들링, 일단은 로그인 쪽 여기서 처리 / 후에 미들웨어로 넘기기
 API.interceptors.response.use(
     (res) => {
-        // console.log("✨axios-resp: ", res);
         return res;
     },
     (error) => {
-        console.error("✨axios-error:", error.response.data);
-        return error.response
-            ? Promise.reject(error.response.data)
-            : Promise.reject(error);
+        console.error("✨axios-error:", error);
+
+        if (error.response && error.response.status) {
+            switch (error.response.status) {
+                case 401:
+                    const url = new URL(window.location.href);
+                    if (
+                        url.pathname !== "/signin" &&
+                        url.pathname !== "/kakao"
+                    ) {
+                        alert("로그인 후 이용 가능합니다.");
+                        navigateTo({
+                            path: "/signin",
+                            query: { redirectURL: window.location.href },
+                        });
+                    }
+
+                    break;
+                default:
+                    return Promise.reject(error.response.data);
+            }
+        }
+
+        return Promise.reject(error);
     }
 );
 

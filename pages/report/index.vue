@@ -128,9 +128,7 @@ export default {
                 this.status = "SUCCESS";
             })
             .catch((e) => {
-                console.log(e);
                 if (e.status_code === 4019) this.status = "NODATA";
-                else alert(e.message);
             });
     },
 };
