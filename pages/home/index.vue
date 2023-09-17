@@ -77,17 +77,23 @@ export default {
 
         this.name = window.localStorage.getItem("name");
 
-        await getTodayCalendar().then((res) => {
-            this.calendar = res.data;
-        });
+        await getTodayCalendar()
+            .then((res) => {
+                this.calendar = res.data;
+            })
+            .catch(() => {});
 
-        await getTodayRecord().then((res) => {
-            this.record = res.data;
-        });
+        await getTodayRecord()
+            .then((res) => {
+                this.record = res.data;
+            })
+            .catch(() => {});
 
-        await getTodayLucky().then((res) => {
-            this.lucky = res.data.luck;
-        });
+        await getTodayLucky()
+            .then((res) => {
+                this.lucky = res.data.luck;
+            })
+            .catch(() => {});
     },
 };
 </script>

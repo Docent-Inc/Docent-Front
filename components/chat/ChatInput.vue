@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { useChatService } from "../../services/chat";
+import { useGenerateService } from "../../services/generate";
 import { mapState, mapActions } from "pinia";
 import { useChatStore } from "../../store/chat";
 
@@ -46,7 +46,7 @@ export default {
         async send() {
             if (this.isGenerating) return;
 
-            const { generateChat } = useChatService();
+            const { generateChat } = useGenerateService();
 
             // 로딩 컴포넌트 추가
             const list = this.chatList;
@@ -145,3 +145,4 @@ export default {
     }
 }
 </style>
+../../services/generate

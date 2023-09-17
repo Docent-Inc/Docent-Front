@@ -3,8 +3,8 @@
     "private": true,
     "scripts": {
         "build": "nuxt build",
-        "dev": "nuxt dev",
-        "generate": "nuxt generate",
+        "dev": "nuxt dev  --dotenv .env.dev",
+        "generate": "nuxt generate  --dotenv .env.prod",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare"
     },

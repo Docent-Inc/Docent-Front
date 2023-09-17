@@ -44,7 +44,7 @@ export default {
     methods: {
         navigateTo(route) {
             // TODO: 서비스 준비 중
-            if (["/calendar", "/report", "/gallery"].includes(route)) {
+            if (["/calendar"].includes(route)) {
                 alert("서비스 준비 중입니다 🔔");
                 return;
             }
