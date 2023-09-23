@@ -27,7 +27,6 @@
         "nuxt-swiper": "^1.1.0",
         "prettier": "^3.0.2",
         "v3-infinite-loading": "^1.2.2",
-        "vue-chat-scroll": "^1.4.0",
         "vuetify": "^3.4.0-alpha.0"
     }
 }
