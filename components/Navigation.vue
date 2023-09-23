@@ -43,12 +43,6 @@ export default {
     },
     methods: {
         navigateTo(route) {
-            // TODO: 서비스 준비 중
-            if (["/calendar"].includes(route)) {
-                alert("서비스 준비 중입니다 🔔");
-                return;
-            }
-
             this.$router.push(route);
         },
         isActive(route) {

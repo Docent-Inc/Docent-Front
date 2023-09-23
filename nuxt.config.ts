@@ -58,4 +58,10 @@ export default defineNuxtConfig({
     dayjs: {
         locales: ["ko"],
     },
+    plugins: [
+        {
+            src: "~/plugins/v-calendar",
+            mode: "client",
+        },
+    ],
 });
