@@ -19,6 +19,13 @@ export const useDiaryService = () => {
             return res.data;
         },
         /**
+         * 메모 조회
+         */
+        async getMemo(memo_id: number) {
+            const res = await API.get(`/diary/memo/read?memo_id=${memo_id}`);
+            return res.data;
+        },
+        /**
          * 갤러리 목록 조회 (아침, 저녁, 메모)
          */
         async getGalleryList(diary_type: number, page: number) {

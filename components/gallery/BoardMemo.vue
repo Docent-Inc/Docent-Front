@@ -6,7 +6,12 @@
             </div>
             <div class="memo_title">{{ memo.title }}</div>
 
-            <div class="memo_more">더 알아보기 &gt;</div>
+            <div
+                class="memo_more"
+                @click="this.$router.push(`/memo/${memo.id}`)"
+            >
+                더 알아보기 &gt;
+            </div>
         </div>
     </div>
 </template>

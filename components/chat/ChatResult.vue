@@ -20,9 +20,7 @@
         <div v-if="type === 3">
             <div class="chat-memo">
                 {{ chat.content }}
-                <div class="chat-more disabled" @click="more">
-                    더 알아보기 &gt;
-                </div>
+                <div class="chat-more" @click="more">더 알아보기 &gt;</div>
             </div>
         </div>
 
@@ -71,20 +69,30 @@ export default {
     },
     methods: {
         more() {
-            // TODO: 서비스 오픈 예정
-            if (![1, 2].includes(this.chat.content_type)) {
-                alert("🔔 서비스 오픈 예정입니다.");
-                return;
+            switch (this.chat.content_type) {
+                case 1:
+                case 2:
+                    const id =
+                        this.chat.content_type === 1
+                            ? this.chat.MorningDiary_id
+                            : this.chat.NightDiary_id;
+
+                    this.$router.push(
+                        `/diary/${id}?type=${this.chat.content_type}`
+                    );
+                    break;
+
+                case 3:
+                    this.$router.push(`/memo/${this.chat.Memo_id}`);
+                    break;
+
+                case 4:
+                default:
+                    alert("🔔 서비스 오픈 예정입니다.");
+                    break;
             }
 
             console.log("cliclk>>", this.chat);
-            const id =
-                this.chat.content_type === 1
-                    ? this.chat.MorningDiary_id
-                    : this.chat.NightDiary_id;
-
-            console.log(`type: ${this.chat.content_type} id: ${id}`);
-            this.$router.push(`/diary/${id}?type=${this.chat.content_type}`);
         },
     },
 };
