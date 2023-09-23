@@ -12,7 +12,7 @@
 
         <div class="report-content">
             <div class="report-title">Mental State</div>
-            <div>
+            <div class="report-desc">
                 {{ data.mental_state }}
             </div>
         </div>
