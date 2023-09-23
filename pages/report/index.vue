@@ -28,7 +28,11 @@
         </div>
         <div class="report-content">
             <div class="report-title">내향적 활동</div>
-            <div v-for="intro in data.introverted_activities" :key="intro">
+            <div
+                class="report-desc"
+                v-for="intro in data.introverted_activities"
+                :key="intro"
+            >
                 • {{ intro }}
             </div>
         </div>
@@ -129,11 +133,12 @@ export default {
 
 <style lang="scss" scoped>
 .contents {
-    padding: 4rem 2.5rem 1.5rem 2.5rem;
     background: #000;
     color: #fff;
+    padding-top: 3rem;
 
     .title {
+        font-size: 1.5rem;
         color: #fff;
     }
 }
@@ -142,8 +147,8 @@ export default {
     color: rgba(255, 255, 255, 0.95);
     text-align: center;
     font-family: "Pretendard Bold";
-    font-size: 10px;
-    line-height: 20.8px; /* 208% */
+    font-size: 0.625rem;
+    line-height: 1.3rem; /* 208% */
     text-transform: capitalize;
     margin-top: 2rem;
 }
@@ -156,8 +161,8 @@ export default {
 
     .report-title {
         font-family: "Pretendard Bold";
-        font-size: 16px;
-        line-height: 21px; /* 131.25% */
+        font-size: 1rem;
+        line-height: 1.3125rem; /* 131.25% */
         margin-bottom: 0.75rem;
     }
     .report-title::before {
@@ -169,8 +174,8 @@ export default {
     .report-desc {
         color: rgba(255, 255, 255, 0.95);
         font-family: "Pretendard";
-        font-size: 16px;
-        line-height: 20.8px; /* 130% */
+        font-size: 1rem;
+        line-height: 1.3rem; /* 130% */
         text-transform: capitalize;
     }
 }
@@ -189,5 +194,7 @@ export default {
     gap: 2rem;
     color: #fff;
     text-align: center;
+
+    font-size: 1rem;
 }
 </style>

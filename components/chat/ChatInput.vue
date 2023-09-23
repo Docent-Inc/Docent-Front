@@ -85,11 +85,10 @@ export default {
 <style lang="scss" scoped>
 .chat-input {
     width: 100%;
-    max-width: 500px;
-    height: 10rem;
+    height: 7.5rem;
     background: #fff;
 
-    padding-top: 1.5rem;
+    padding-top: 1.25rem;
     padding-bottom: 3rem;
     z-index: 10;
     position: fixed;
@@ -116,7 +115,6 @@ export default {
 
 .input {
     width: 80%;
-    max-width: 500px;
     height: 100%;
     position: relative;
 
@@ -135,7 +133,7 @@ export default {
 
         color: #000;
         font-family: "Pretendard";
-        font-size: 16px;
+        font-size: 0.875rem;
         line-height: 1.3125rem; /* 150% */
     }
 
@@ -147,7 +145,7 @@ export default {
         position: absolute;
         right: 0;
         margin-right: 1rem;
-        font-size: 15px;
+        font-size: 1rem;
     }
 }
 </style>

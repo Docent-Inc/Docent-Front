@@ -53,7 +53,8 @@ function stop() {
     div {
         font-family: Pretendard;
         color: #010101;
-        font-size: 14px;
+        font-size: 0.875rem;
+        line-height: 1.3125rem; /* 150% */
         text-align: center;
 
         position: absolute;

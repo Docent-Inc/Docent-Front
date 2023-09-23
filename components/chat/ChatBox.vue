@@ -50,7 +50,7 @@ const props = defineProps({
 }
 .chat-box {
     display: flex;
-    padding: 1.0625rem 2rem;
+    padding: 0.8rem 1.5rem;
     align-items: center;
 
     max-width: 90%;
@@ -60,8 +60,8 @@ const props = defineProps({
 
     color: #010101;
     font-family: "Pretendard";
-    font-size: 14px;
-    line-height: 21px; /* 150% */
+    font-size: 0.875rem;
+    line-height: 1.3125rem; /* 150% */
     white-space: normal;
     word-break: break-all;
     overflow: hidden;
@@ -71,14 +71,14 @@ const props = defineProps({
 }
 
 .chat-box.loading {
-    width: 78px;
-    height: 50px;
+    width: 5rem;
+    height: 3rem;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
 
-    padding: 2rem 1.5rem;
+    padding: 1.6rem 1.5rem;
     border-radius: 0.625rem;
     background: rgba(255, 255, 255, 0.8);
     border: none;
@@ -86,7 +86,7 @@ const props = defineProps({
 
     img {
         width: 500%;
-        margin-top: 150%;
+        margin-top: 200%;
     }
 }
 
@@ -97,8 +97,8 @@ const props = defineProps({
 
     color: #010101;
     font-family: Pretendard;
-    font-size: 14px;
-
+    font-size: 0.875rem;
+    line-height: 120%; /* 1.05rem */
     .ic_docent {
         margin-right: 5px;
         font-size: 18px;
@@ -111,7 +111,7 @@ const props = defineProps({
     color: #50555c;
     text-align: center;
     font-family: "Pretendard";
-    font-size: 11px;
+    font-size: 0.6875rem;
     line-height: 1.3125rem; /* 190.909% */
     margin: 0 0 2rem 0;
 }

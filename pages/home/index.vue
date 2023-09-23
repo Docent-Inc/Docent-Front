@@ -108,7 +108,7 @@ export default {
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
 
-    padding: 2rem 0 4rem 2rem;
+    padding: 1.25rem 0 1.75rem 1.75rem;
 }
 
 .chat {
@@ -138,7 +138,7 @@ export default {
 }
 
 .main-title {
-    margin: 1rem 0;
+    margin: 1rem 0 0.5rem;
 }
 
 .main-description {
@@ -173,6 +173,9 @@ export default {
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
+
+        font-size: 1.25rem;
+        line-height: 1.875rem; /* 150% */
     }
 
     .main-slide.empty {
