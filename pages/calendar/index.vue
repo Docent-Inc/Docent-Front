@@ -8,10 +8,9 @@
                 @dayclick="onDayClick"
             />
         </client-only>
-        <div class="bottom-sheet" v-if="day.date">
-            <div class="indicator"></div>
+        <div class="bottom-sheet">
             <div class="calendar-title">{{ day.date }}</div>
-            <div class="calendar-contents">
+            <div class="calendar-contents" v-if="day.todos">
                 <div
                     class="calendar-content"
                     v-for="todo in day.todos"
@@ -21,6 +20,8 @@
                     {{ todo }}
                 </div>
             </div>
+
+            <div class="calendar-none" v-else>일정이 없습니다</div>
         </div>
     </div>
 </template>
@@ -47,9 +48,6 @@ export default {
                         new Date(2023, 8, 24),
                         new Date(2023, 8, 23),
                     ],
-                    // popover: {
-                    //     label: "today!",
-                    // },
                 },
                 {
                     key: "tomorrow",
@@ -67,13 +65,20 @@ export default {
     methods: {
         onDayClick(day) {
             this.day.date = this.$dayjs(day.id).format("D. dd");
-            this.day.todos = [
-                "해커톤 발표!",
-                "해커톤 발표!",
-                "해커톤 발표!",
-                "해커톤 발표!",
-            ];
-            console.log(this.$dayjs(day.id).format("YYYY/MM/DD"));
+            this.day.todos = null;
+
+            // TODO: API 연결 후 지우기
+            if (
+                this.$dayjs(day.id).format("YYYY/MM/DD") ===
+                this.$dayjs().format("YYYY/MM/DD")
+            ) {
+                this.day.todos = [
+                    "해커톤 발표!",
+                    "해커톤 발표!",
+                    "해커톤 발표!",
+                    "해커톤 발표!",
+                ];
+            }
         },
     },
 };
@@ -92,12 +97,18 @@ export default {
 
 .bottom-sheet {
     width: 100%;
-    max-height: 45%;
+    height: 45%;
+    position: relative;
     overflow: scroll;
     border-top: 0.0625rem solid #cbd5e1;
 
-    padding: 1rem 1.5rem;
+    padding: 2rem 1.5rem 1rem;
     margin-top: 2rem;
+
+    color: #5c5c5c;
+    font-family: Pretendard;
+    font-size: 0.75rem;
+    line-height: 1.3125rem; /* 175% */
 
     .indicator {
         width: 2.375rem;
@@ -114,16 +125,22 @@ export default {
         line-height: 1.3125rem; /* 105% */
     }
 
+    .calendar-none {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .calendar-contents {
         display: flex;
         flex-direction: column;
-        align-items: start;
+        align-items: flex-start;
         gap: 0.5rem;
-
-        color: #5c5c5c;
-        font-family: Pretendard;
-        font-size: 0.75rem;
-        line-height: 1.3125rem; /* 175% */
 
         margin-top: 1.2rem;
 
