@@ -58,8 +58,8 @@ export default {
         };
     },
     async mounted() {
-        const { getGalleryList } = useDiaryService();
-        const res = await getGalleryList(4, 1);
+        const { getCalendarList } = useDiaryService();
+        const res = await getCalendarList(2023, 9);
         console.log(res);
     },
     methods: {
