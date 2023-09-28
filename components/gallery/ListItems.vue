@@ -1,6 +1,6 @@
 <template>
     <div v-for="(data, idx) in list" :key="idx">
-        <ListMemo :memo="data" v-if="data.content_type === 3" />
+        <ListMemo :memo="data" v-if="data.diary_type === 3" />
         <ListDiary :diary="data" v-else />
         <hr />
     </div>

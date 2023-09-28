@@ -25,11 +25,9 @@ export default {
     methods: {
         showDetail() {
             console.log("cliclk>>", this.diary);
-            console.log(
-                `type: ${this.diary.content_type} id: ${this.diary.id}`
-            );
+            console.log(`type: ${this.diary.diary_type} id: ${this.diary.id}`);
             this.$router.push(
-                `/diary/${this.diary.id}?type=${this.diary.content_type}`
+                `/diary/${this.diary.id}?type=${this.diary.diary_type}`
             );
         },
     },

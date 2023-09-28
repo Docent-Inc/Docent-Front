@@ -1,7 +1,7 @@
 <template>
     <div class="item_memo" @click="this.$router.push(`/memo/${memo.id}`)">
         <div class="memo_text">
-            <div class="memo_title">{{ memo.title }}</div>
+            <div class="memo_title">{{ memo.diary_name }}</div>
             <div class="memo_date">
                 {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
             </div>

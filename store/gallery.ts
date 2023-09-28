@@ -44,10 +44,11 @@ export const useGalleryStore = defineStore("gallery", {
                 return;
             }
 
-            this.data = res.data;
+            // this.data = res.data;
+            this.list = res.data.list;
             this.pageNo += 1;
-            this.computeTotalCounts();
-            this.dataToList();
+            // this.computeTotalCounts();
+            // this.dataToList();
         },
         /**
          * Data를 조합하여 List로 변환하는 함수
