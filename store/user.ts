@@ -1,3 +1,5 @@
+import { useAuthService } from "~/services/auth";
+
 interface User {
     nickname?: String;
     age?: String;
@@ -13,6 +15,7 @@ export const useUserStore = defineStore("user", {
             gender: "",
             mbti: "",
         } as User,
+        userInfo: null,
         nickname: "",
         accessToken: "",
         loginStatus: false,
@@ -27,15 +30,19 @@ export const useUserStore = defineStore("user", {
         setUser(user: User) {
             this.user = user;
         },
-        // async setUserInfo() {
-        //     const { getMemberInfo } = useMemberAPI();
-        //     if (this.accessToken && !this.userInfo) {
-        //         const { body: userInfo, success } = await getMemberInfo();
-        //         if (success) {
-        //             this.user = userInfo;
-        //             this.loginStatus = true;
-        //         }
-        //     }
-        // },
+        async setUserInfo() {
+            const { getUserInfo } = useAuthService();
+            console.log("here");
+            if (this.accessToken && !this.userInfo) {
+                // TODO: 조회 API 정상화 되면 사용
+                // const res = await getUserInfo();
+                // console.log(res);
+                // if (res.success) {
+                //     this.userInfo = res.data;
+                //     this.loginStatus = true;
+                // }
+                this.loginStatus = true;
+            }
+        },
     },
 });

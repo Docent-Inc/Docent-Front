@@ -8,6 +8,7 @@
 </template>
 
 <script setup>
+import { useUserStore } from "~/store/user";
 import { useAuthService } from "../../services/auth";
 
 const { getKakaoCallbackTest, getKakaoCallback } = useAuthService();
@@ -21,6 +22,16 @@ onMounted(async () => {
     console.log(res);
 
     if (res.success) {
+        console.log(res);
+        const { setAccessToken } = useUserStore();
+        useCookie("access_token", {
+            maxAge: res.data.expires_in * 24 * 60 * 60 * 1000,
+        }).value = res.data.access_token;
+        useCookie("refresh_token", {
+            maxAge: res.data.refresh_expires_in * 24 * 60 * 60 * 1000,
+        }).value = res.data.refresh_token;
+        setAccessToken(res.data.access_token);
+
         window.localStorage.setItem("accessToken", res.data.access_token);
         window.localStorage.setItem("name", res.data.user_name);
 

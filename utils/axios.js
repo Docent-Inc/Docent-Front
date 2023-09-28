@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useUserStore } from "~/store/user";
 
 const API = axios.create({
     baseURL: "https://docent.zip/api",
@@ -7,12 +8,17 @@ const API = axios.create({
 
 API.interceptors.request.use(
     (config) => {
-        const accessToken = window.localStorage.getItem("accessToken");
+        const { accessToken } = useUserStore();
+        console.log(accessToken);
+        // const accessToken = window.localStorage.getItem("accessToken");
 
         // console.log("✨axios:", config);
         // console.log("accessToken: ", accessToken);
 
-        config.headers["Authorization"] = `Bearer ${accessToken}`;
+        if (accessToken) {
+            config.headers["Authorization"] = `Bearer ${accessToken}`;
+        }
+
         return config;
     },
     function (error) {

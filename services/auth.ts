@@ -42,6 +42,14 @@ export const useAuthService = () => {
             return res.data;
         },
         /**
+         * 유저 정보 조회
+         * @body userId
+         */
+        async getUserInfo() {
+            const res = await API.get(`/admin/user/info`);
+            return res.data;
+        },
+        /**
          * 닉네임 변경 요청
          * @body nickname
          */
