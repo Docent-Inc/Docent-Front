@@ -1,17 +1,19 @@
 <template>
-    <div class="header">
-        <v-icon class="ic_back_primary" @click="this.$router.back()" />
-        <span class="memo">Memo</span>
-    </div>
-    <div class="contents">
-        <div class="memo-title">
-            {{ memo.title }}dhkfkfkfkfkfkfkfkfkfkdfsfjsldjfklsfjlk dskfjslfjls
+    <div class="viewport">
+        <div class="header">
+            <v-icon class="ic_back_primary" @click="this.$router.back()" />
+            <span class="memo">Memo</span>
         </div>
-        <div class="memo-date">
-            {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
-        </div>
-        <div class="memo-contents">
-            {{ memo.content }}
+        <div class="contents">
+            <div class="memo-title">
+                {{ memo.title }}
+            </div>
+            <div class="memo-date">
+                {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
+            </div>
+            <div class="memo-contents">
+                {{ memo.content }}
+            </div>
         </div>
     </div>
 </template>
