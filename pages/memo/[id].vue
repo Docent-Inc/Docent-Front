@@ -4,7 +4,9 @@
         <span class="memo">Memo</span>
     </div>
     <div class="contents">
-        <div class="memo-title">{{ memo.title }}</div>
+        <div class="memo-title">
+            {{ memo.title }}dhkfkfkfkfkfkfkfkfkfkdfsfjsldjfklsfjlk dskfjslfjls
+        </div>
         <div class="memo-date">
             {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
         </div>
@@ -57,7 +59,7 @@ export default {
     color: #000;
     font-family: "Pretendard Bold";
     font-size: 1.8rem;
-    line-height: 1.3125rem; /* 70% */
+    line-height: 2.3125rem;
 }
 
 .memo-date {
