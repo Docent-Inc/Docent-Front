@@ -15,18 +15,16 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     const { setAccessToken, setUserInfo, accessToken } = useUserStore();
     const token = useCookie("access_token").value;
-    const hello = useCookie("hello").value;
-    console.log("hello", hello);
-    console.log(">> (1)", `accessToken: ${accessToken} \ntoken: ${token}`);
+    // console.log(">> (1)", `accessToken: ${accessToken} \ntoken: ${token}`);
     if (!accessToken) {
         console.log(">> ", token);
 
         if (token) {
             setAccessToken(token);
-            console.log(
-                ">> (2)",
-                `accessToken: ${accessToken} \ntoken: ${token}`
-            );
+            // console.log(
+            //     ">> (2)",
+            //     `accessToken: ${accessToken} \ntoken: ${token}`
+            // );
 
             try {
                 await setUserInfo();
@@ -36,9 +34,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
             }
         } else {
             // 로그인 필요
+            console.log("here");
             return navigateTo({
                 path: "/signin",
-                query: { redirectURL: fullPath },
             });
         }
     }
@@ -51,7 +49,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         if (isNotLoginPath)
             return navigateTo({
                 path: "/signin",
-                query: { redirectURL: fullPath },
             });
     }
     console.log("****** MIDDLEWARE END ******");
