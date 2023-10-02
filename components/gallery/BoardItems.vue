@@ -1,7 +1,7 @@
 <template>
     <div class="board-items">
         <div v-for="(data, idx) in list" :key="idx" class="item">
-            <BoardMemo :memo="data" v-if="data.content_type === 3" />
+            <BoardMemo :memo="data" v-if="data.diary_type === 3" />
             <BoardDiary :diary="data" v-else />
         </div>
     </div>
