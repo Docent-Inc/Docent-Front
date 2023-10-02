@@ -1079,7 +1079,8 @@
 
 .vc-focus:focus-within {
     outline: 0;
-    box-shadow: var(--vc-focus-ring);
+    /* box-shadow: var(--vc-focus-ring); */
+    /* focus 시 outline 제거 */
 }
 
 .vc-light {
@@ -1249,7 +1250,6 @@
 }
 
 /* Hides double border within popovers */
-
 .vc-container .vc-container {
     border: none;
 }

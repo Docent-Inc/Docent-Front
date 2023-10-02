@@ -2,18 +2,23 @@
     <div class="contents">
         <client-only>
             <VCalendar
+                ref="vcalendar"
                 style="width: 90%"
                 trim-weeks
+                :initial-page="page"
                 :attributes="attributes"
-                @dayclick="onDayClick"
+                @dayclick="(day) => setDate(day.date)"
+                @did-move="(pages) => setPage(new Date(pages[0].id))"
             />
         </client-only>
         <div class="bottom-sheet">
-            <div class="calendar-title">{{ day.date }}</div>
-            <div class="calendar-contents" v-if="day.todos">
+            <div class="calendar-title">
+                {{ $dayjs(date.date).format("D. dd") }}
+            </div>
+            <div class="calendar-contents" v-if="date.todos">
                 <div
                     class="calendar-content"
-                    v-for="todo in day.todos"
+                    v-for="todo in date.todos"
                     :key="todo"
                 >
                     <div class="circle"></div>
@@ -27,8 +32,8 @@
 </template>
 
 <script>
-import { useDiaryService } from "~/services/diary";
-
+import { mapState, mapActions } from "pinia";
+import { useCalendarStore } from "~/store/calendar";
 export default {
     name: "Calendar",
     setup() {
@@ -36,50 +41,16 @@ export default {
             layout: "main",
         });
     },
-    data() {
-        return {
-            day: {},
-            attributes: [
-                {
-                    key: "today",
-                    dot: "green",
-                    dates: [
-                        new Date(2023, 8, 12),
-                        new Date(2023, 8, 24),
-                        new Date(2023, 8, 23),
-                    ],
-                },
-                {
-                    key: "tomorrow",
-                    dot: "blud",
-                    dates: [new Date(2023, 8, 1), new Date(2023, 8, 23)],
-                },
-            ],
-        };
+    computed: {
+        ...mapState(useCalendarStore, ["page", "date", "attributes"]),
     },
     async mounted() {
-        const { getCalendarList } = useDiaryService();
-        const res = await getCalendarList(2023, 9);
-        console.log(res);
+        let date = new Date(this.$route.query.date);
+        if (!date || isNaN(date)) date = new Date();
+        this.setDate(date);
     },
     methods: {
-        onDayClick(day) {
-            this.day.date = this.$dayjs(day.id).format("D. dd");
-            this.day.todos = null;
-
-            // TODO: API 연결 후 지우기
-            if (
-                this.$dayjs(day.id).format("YYYY/MM/DD") ===
-                this.$dayjs().format("YYYY/MM/DD")
-            ) {
-                this.day.todos = [
-                    "해커톤 발표!",
-                    "해커톤 발표!",
-                    "해커톤 발표!",
-                    "해커톤 발표!",
-                ];
-            }
-        },
+        ...mapActions(useCalendarStore, ["setDate", "setPage"]),
     },
 };
 </script>
