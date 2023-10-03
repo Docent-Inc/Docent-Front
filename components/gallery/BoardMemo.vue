@@ -5,7 +5,7 @@
                 {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
             </div>
             <div class="memo_title">
-                {{ memo.title === "" ? "(제목 없음)" : memo.title }}
+                {{ memo.diary_name === "" ? "(제목 없음)" : memo.diary_name }}
             </div>
 
             <div

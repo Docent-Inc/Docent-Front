@@ -44,12 +44,9 @@ export const useGalleryStore = defineStore("gallery", {
                 return;
             }
 
-            // this.data = res.data;
             this.list = res.data.list;
             this.totalCounts = res.data.count;
             this.pageNo += 1;
-            // this.computeTotalCounts();
-            // this.dataToList();
         },
         /**
          * Data를 조합하여 List로 변환하는 함수
@@ -124,7 +121,7 @@ export const useGalleryStore = defineStore("gallery", {
             this.type = type;
         },
         changeMode() {
-            this.mode = (this.mode + 1) % 2; //
+            this.mode = (this.mode + 1) % 2;
         },
         reset() {
             this.pageNo = 1;

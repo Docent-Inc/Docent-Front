@@ -61,6 +61,7 @@ export default {
         ]),
     },
     async mounted() {
+        this.reset();
         await this.getGalleryList();
     },
     methods: {
