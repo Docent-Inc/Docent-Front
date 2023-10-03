@@ -4,7 +4,7 @@ import { useDiaryService } from "~/services/diary";
 interface Attribute {
     key: number;
     dot?: string;
-    highlight?: boolean;
+    highlight?: boolean | Object;
     dates: Date[] | Date;
 }
 
@@ -30,7 +30,6 @@ export const useCalendarStore = defineStore("calendar", {
     }),
     actions: {
         setPage(date: Date) {
-            console.log(">>> !!SetPage", date);
             this.page.year = date.getFullYear();
             this.page.month = date.getMonth() + 1;
 
@@ -43,7 +42,10 @@ export const useCalendarStore = defineStore("calendar", {
             this.attributes = this.attributes.filter((e) => !e.highlight);
             this.attributes.push({
                 key: date.getDate(),
-                highlight: true,
+                highlight: {
+                    color: "black",
+                    fillMode: "outline",
+                },
                 dates: date,
             });
 

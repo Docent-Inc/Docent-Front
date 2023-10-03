@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            <button class="button disabled" @click="more">자세히 보기</button>
+            <button class="button" @click="more">자세히 보기</button>
         </div>
     </div>
 </template>
@@ -87,6 +87,10 @@ export default {
                     break;
 
                 case 4:
+                    this.$router.push(
+                        `/calendar/?date=${this.chat.event_time}`
+                    );
+                    break;
                 default:
                     alert("🔔 서비스 오픈 예정입니다.");
                     break;

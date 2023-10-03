@@ -960,6 +960,19 @@
     --vc-accent-900: var(--vc-gray-900);
 }
 
+.vc-black {
+    --vc-accent-50: rgba(0, 0, 0, 0.5);
+    --vc-accent-100: rgba(0, 0, 0, 1);
+    --vc-accent-200: rgba(0, 0, 0, 1);
+    --vc-accent-300: rgba(0, 0, 0, 1);
+    --vc-accent-400: rgba(0, 0, 0, 1);
+    --vc-accent-500: rgba(0, 0, 0, 1);
+    --vc-accent-600: rgba(0, 0, 0, 1);
+    --vc-accent-700: rgba(0, 0, 0, 1);
+    --vc-accent-800: rgba(0, 0, 0, 1);
+    --vc-accent-900: rgba(0, 0, 0, 1);
+}
+
 .vc-red {
     --vc-accent-50: #fef2f2;
     --vc-accent-100: #fee2e2;
@@ -1148,6 +1161,8 @@
     --vc-highlight-light-content-color: var(--vc-accent-900);
     --vc-highlight-solid-bg: var(--vc-accent-600);
     --vc-highlight-solid-content-color: var(--vc-white);
+    /* --vc-highlight-solid-bg: #fff;
+    --vc-highlight-solid-content-color: #000; */
     --vc-dot-bg: var(--vc-accent-600);
     --vc-bar-bg: var(--vc-accent-600);
 }
