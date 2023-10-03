@@ -23,7 +23,7 @@ onMounted(async () => {
 
     if (res.success) {
         console.log(res);
-        const { setAccessToken } = useUserStore();
+        const { setAccessToken, setRefreshToken } = useUserStore();
         useCookie("access_token", {
             maxAge: res.data.expires_in * 24 * 60 * 60 * 1000,
         }).value = res.data.access_token;
@@ -31,6 +31,7 @@ onMounted(async () => {
             maxAge: res.data.refresh_expires_in * 24 * 60 * 60 * 1000,
         }).value = res.data.refresh_token;
         setAccessToken(res.data.access_token);
+        setRefreshToken(res.data.refresh_token);
 
         window.localStorage.setItem("accessToken", res.data.access_token);
         window.localStorage.setItem("name", res.data.user_name);

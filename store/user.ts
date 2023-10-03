@@ -9,38 +9,44 @@ interface User {
 
 export const useUserStore = defineStore("user", {
     state: () => ({
-        user: {
-            nickname: "",
-            age: "",
-            gender: "",
-            mbti: "",
-        } as User,
+        user: {} as User,
         userInfo: null,
         nickname: "",
         accessToken: "",
+        refreshToken: "",
         loginStatus: false,
     }),
     actions: {
         setAccessToken(token: string) {
             this.accessToken = token;
         },
+        setRefreshToken(token: string) {
+            this.refreshToken = token;
+        },
         setNickname(nickname: string) {
             this.nickname = nickname;
         },
-        setUser(user: User) {
-            this.user = user;
+        async setUser() {
+            const { getUserInfo } = useAuthService();
+            if (this.accessToken && !this.userInfo) {
+                const res = await getUserInfo();
+                console.log(res);
+                if (res.success) {
+                    this.user = res.data;
+                    this.loginStatus = true;
+                }
+                this.loginStatus = true;
+            }
         },
         async setUserInfo() {
             const { getUserInfo } = useAuthService();
-            console.log("here");
             if (this.accessToken && !this.userInfo) {
-                // TODO: 조회 API 정상화 되면 사용
-                // const res = await getUserInfo();
-                // console.log(res);
-                // if (res.success) {
-                //     this.userInfo = res.data;
-                //     this.loginStatus = true;
-                // }
+                const res = await getUserInfo();
+                console.log(res);
+                if (res.success) {
+                    this.userInfo = res.data;
+                    this.loginStatus = true;
+                }
                 this.loginStatus = true;
             }
         },

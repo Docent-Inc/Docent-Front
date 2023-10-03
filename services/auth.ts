@@ -69,5 +69,14 @@ export const useAuthService = () => {
             });
             return res.data;
         },
+        /**
+         * 액세스 토큰 재발급
+         */
+        async refresh(refreshToken: string) {
+            const res = await API.post(`/auth/refresh`, {
+                "refresh-token": refreshToken,
+            });
+            return res.data;
+        },
     };
 };
