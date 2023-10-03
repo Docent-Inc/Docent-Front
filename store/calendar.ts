@@ -35,6 +35,11 @@ export const useCalendarStore = defineStore("calendar", {
 
             this.getCalendarList();
         },
+        /**
+         * 하이라이트 할 날짜 선택
+         * (1) 날짜, 페이지 세팅 & 해당 일자 하이라이트
+         * (2) 일정 목록 조회
+         */
         setDate(date: Date) {
             this.date.date = date;
             this.setPage(date);
@@ -51,13 +56,11 @@ export const useCalendarStore = defineStore("calendar", {
 
             // TODO: todos 조회
         },
-        async getCalendarList() {
-            const { getCalendarList } = useDiaryService();
-            const res = await getCalendarList(this.page.year, this.page.month);
-            this.list = res.data;
-
-            this.setAttributes();
-        },
+        /**
+         * 현재 페이지의 일정 attr로 세팅
+         * (1) 하이라이트 제외 attr 초기화
+         * (2) 해당하는 일자에 dot 추가
+         */
         setAttributes() {
             this.attributes = this.attributes.filter((e) => e.highlight);
             this.list.forEach((cal) => {
@@ -77,6 +80,13 @@ export const useCalendarStore = defineStore("calendar", {
 
                 this.attributes.push(attr);
             });
+        },
+        async getCalendarList() {
+            const { getCalendarList } = useDiaryService();
+            const res = await getCalendarList(this.page.year, this.page.month);
+            this.list = res.data;
+
+            this.setAttributes();
         },
     },
 });
