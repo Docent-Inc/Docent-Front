@@ -36,12 +36,23 @@ export const useDiaryService = () => {
             return res.data;
         },
         /**
-         * 갤러리 목록 조회 (아침, 저녁, 메모)
+         * 캘린더 목록 조회
          */
         async getCalendarList(year: number, month: number) {
             const res = await API.post(`/diary/list/calender`, {
                 year: year,
                 month: month,
+            });
+            return res.data;
+        },
+        /**
+         * 캘린더 조회
+         */
+        async getCalendar(year: number, month: number, day: number) {
+            const res = await API.post(`/diary/list/calender`, {
+                year: year,
+                month: month,
+                day: day,
             });
             return res.data;
         },

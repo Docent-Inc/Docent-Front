@@ -15,20 +15,28 @@ interface Calendar {
     end_time: string;
 }
 
+const initialState = () => ({
+    page: {
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+    },
+    date: {
+        date: new Date(),
+        todos: null,
+    },
+    attributes: [] as Attribute[],
+    list: [] as Calendar[],
+    todos: [] as Calendar[],
+});
+
 export const useCalendarStore = defineStore("calendar", {
-    state: () => ({
-        page: {
-            year: new Date().getFullYear(),
-            month: new Date().getMonth() + 1,
-        },
-        date: {
-            date: new Date(),
-            todos: null,
-        },
-        attributes: [] as Attribute[],
-        list: [] as Calendar[],
-    }),
+    state: initialState,
     actions: {
+        /**
+         * 현재 페이지 선택
+         * (1) 페이지 세팅
+         * (2) 해당 페이지(달)의 일정 목록 조회
+         */
         setPage(date: Date) {
             this.page.year = date.getFullYear();
             this.page.month = date.getMonth() + 1;
@@ -38,7 +46,7 @@ export const useCalendarStore = defineStore("calendar", {
         /**
          * 하이라이트 할 날짜 선택
          * (1) 날짜, 페이지 세팅 & 해당 일자 하이라이트
-         * (2) 일정 목록 조회
+         * (2) 해당 일자의 일정 목록 조회
          */
         setDate(date: Date) {
             this.date.date = date;
@@ -54,7 +62,7 @@ export const useCalendarStore = defineStore("calendar", {
                 dates: date,
             });
 
-            // TODO: todos 조회
+            this.getCalendar();
         },
         /**
          * 현재 페이지의 일정 attr로 세팅
@@ -74,7 +82,7 @@ export const useCalendarStore = defineStore("calendar", {
 
                 const attr = {
                     key: cal.id,
-                    dot: "green",
+                    dot: "light-gray",
                     dates: dates,
                 };
 
@@ -87,6 +95,18 @@ export const useCalendarStore = defineStore("calendar", {
             this.list = res.data;
 
             this.setAttributes();
+        },
+        async getCalendar() {
+            const { getCalendar } = useDiaryService();
+            const res = await getCalendar(
+                this.date.date.getFullYear(),
+                this.date.date.getMonth() + 1,
+                this.date.date.getDate()
+            );
+            this.todos = res.data;
+        },
+        reset() {
+            Object.assign(this.$state, initialState());
         },
     },
 });

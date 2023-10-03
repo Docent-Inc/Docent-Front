@@ -15,14 +15,10 @@
             <div class="calendar-title">
                 {{ $dayjs(date.date).format("D. dd") }}
             </div>
-            <div class="calendar-contents" v-if="date.todos">
-                <div
-                    class="calendar-content"
-                    v-for="todo in date.todos"
-                    :key="todo"
-                >
+            <div class="calendar-contents" v-if="todos && todos.length > 0">
+                <div class="calendar-content" v-for="todo in todos" :key="todo">
                     <div class="circle"></div>
-                    {{ todo }}
+                    {{ todo.diary_name }}
                 </div>
             </div>
 
@@ -42,15 +38,17 @@ export default {
         });
     },
     computed: {
-        ...mapState(useCalendarStore, ["page", "date", "attributes"]),
+        ...mapState(useCalendarStore, ["page", "date", "attributes", "todos"]),
     },
     async mounted() {
+        this.reset();
+
         let date = new Date(this.$route.query.date);
         if (!date || isNaN(date)) date = new Date();
         this.setDate(date);
     },
     methods: {
-        ...mapActions(useCalendarStore, ["setDate", "setPage"]),
+        ...mapActions(useCalendarStore, ["setDate", "setPage", "reset"]),
     },
 };
 </script>
