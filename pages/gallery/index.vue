@@ -92,9 +92,9 @@ export default {
     height: calc(100% - (60px + constant(safe-area-inset-top)));
     height: calc(100% - (60px + env(safe-area-inset-top)));
 
-    margin-top: 60px;
-    margin-top: calc(60px + constant(safe-area-inset-top));
-    margin-top: calc(60px + env(safe-area-inset-top));
+    // margin-top: 60px;
+    // margin-top: calc(60px + constant(safe-area-inset-top));
+    // margin-top: calc(60px + env(safe-area-inset-top));
 
     background: #f8f8f8;
 }
