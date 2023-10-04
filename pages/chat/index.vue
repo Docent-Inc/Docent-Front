@@ -140,7 +140,7 @@ export default {
     height: 100%;
 
     overflow-y: scroll;
-    padding: 1.75rem;
+    padding: 2rem;
 
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;

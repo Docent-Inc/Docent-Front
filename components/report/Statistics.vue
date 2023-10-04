@@ -44,12 +44,10 @@ export default {
         },
         style_introvert() {
             const first = `${parseInt(this.introvert / 10)}`;
-
             return `width: ${20 + 5 * (first - 1)}%;`;
         },
         style_extrovert() {
             const first = `${parseInt(this.extrovert / 10)}`;
-
             return `width: ${20 + 5 * (first - 1)}%;`;
         },
     },
@@ -68,15 +66,13 @@ export default {
     justify-content: center;
     align-items: center;
     margin-bottom: 3rem;
-    width: 100%;
     height: 40%;
-    margin: 0 auto;
     position: relative;
 
     color: rgba(255, 255, 255, 0.95);
     font-family: "Pretendard Bold";
-    font-size: 1rem;
-    line-height: 1.3rem; /* 130% */
+    font-size: 16px;
+    line-height: calc(16px * 1.3); /* 130% */
     text-transform: capitalize;
 
     #introvert {

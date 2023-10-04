@@ -21,18 +21,18 @@ export default {
 </script>
 <style lang="scss" scoped>
 .layout {
-    height: calc(100% - (60px + 7.5rem));
+    height: calc(100% - (60px + 10rem));
     height: calc(
         100% -
             (
-                60px + 7.5rem + constant(safe-area-inset-bottom) +
+                60px + 10rem + constant(safe-area-inset-bottom) +
                     constant(safe-area-inset-top)
             )
     );
     height: calc(
         100% -
             (
-                60px + 7.5rem + env(safe-area-inset-bottom) +
+                60px + 10rem + env(safe-area-inset-bottom) +
                     env(safe-area-inset-top)
             )
     );

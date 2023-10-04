@@ -1,50 +1,45 @@
 <template>
-    <div class="viewport">
-        <div class="header">
-            <v-icon class="ic_back_primary" @click="this.$router.back()" />
-            <span class="memo">Memo</span>
-        </div>
-        <div class="contents">
-            <div class="memo-title">
-                {{ memo.title === "" ? "(제목 없음)" : memo.title }}
-            </div>
-            <div class="memo-date">
-                {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
-            </div>
-            <div class="memo-contents">
-                {{ memo.content }}
-            </div>
+    <div class="header">
+        <v-icon class="ic_back" />
+    </div>
+    <div class="contents">
+        <div class="memo-title">오늘의 영단어</div>
+        <div class="memo-date">2023.08.20</div>
+        <div class="memo-contents">
+            1. Refrain from <br />
+            2. Speculative <br />
+            3. Initiative <br />
+            4. Delegation <br />
+            5. Desert <br />
+            6. Flair <br />
+            7. Competent <br />
+            8. Invest <br />
+            9.Ration <br />
+            <br />
+            능히 할 수 있다! 아자!
         </div>
     </div>
 </template>
 <script>
-import { useDiaryService } from "~/services/diary";
-
 export default {
     name: "Memo",
+    setup() {
+        definePageMeta({
+            layout: "main",
+        });
+    },
     data() {
         return {
-            memo: {},
+            diary: {},
+            type: "1",
         };
     },
-    async mounted() {
-        const memo_id = this.$route.params.id;
-        const { getMemo } = useDiaryService();
-        const res = await getMemo(memo_id);
-        this.memo = res.data.memo;
-    },
+    async mounted() {},
     computed: {},
     methods: {},
 };
 </script>
 <style lang="scss" scoped>
-.memo {
-    color: var(--2C9577, #2c9577);
-    font-family: Pretendard;
-    font-size: 0.875rem;
-    line-height: 1.3125rem; /* 150% */
-    margin-left: 0.8rem;
-}
 .contents {
     height: calc(100% - (60px));
     height: calc(100% - (60px + constant(safe-area-inset-top)));
@@ -55,19 +50,23 @@ export default {
     margin-top: calc(60px + env(safe-area-inset-top));
 
     padding: 2rem;
+
+    border: 1px solid red;
 }
 
 .memo-title {
     color: #000;
     font-family: "Pretendard Bold";
-    font-size: 1.8rem;
-    line-height: 2.3125rem;
+    // font-size: 2rem;
+    font-size: 30px;
+    line-height: 1.3125rem; /* 70% */
 }
 
 .memo-date {
     color: #5c5c5c;
     font-family: Pretendard;
-    font-size: 0.8rem;
+    // font-size: 0.75rem;
+    font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: 1.3125rem; /* 175% */
@@ -77,7 +76,8 @@ export default {
 .memo-contents {
     color: rgba(0, 0, 0, 0.95);
     font-family: Pretendard;
-    font-size: 1rem;
+    // font-size: 1rem;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: calc(16px * 1.3); /* 130% */

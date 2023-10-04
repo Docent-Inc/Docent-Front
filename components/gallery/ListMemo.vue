@@ -25,7 +25,6 @@ export default {
 <style lang="scss" scoped>
 .item_memo {
     width: 100%;
-    // border: 1px solid red;
     padding: 0.75rem 0;
     border-bottom: 1px solid #000;
     position: relative;

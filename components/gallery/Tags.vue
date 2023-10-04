@@ -44,7 +44,7 @@ export default {
 .tag {
     border-radius: 1.5rem;
     border: 0.3px solid #000;
-    padding: 0.375rem 0.5rem;
+    padding: 0.375rem 0.75rem;
     color: #010101;
     text-align: center;
     font-family: "Pretendard";

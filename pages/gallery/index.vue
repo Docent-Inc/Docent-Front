@@ -83,7 +83,7 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-    padding: 1.25rem 1.5rem;
+    padding: 2rem 2.5rem 2rem 2.5rem;
     justify-content: space-between;
 }
 .contents {
@@ -96,6 +96,9 @@ export default {
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
 
+    padding: 1.31rem 2.35rem;
     background: #f8f8f8;
+
+    // border: 1px solid red;
 }
 </style>
