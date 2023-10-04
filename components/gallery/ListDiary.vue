@@ -36,7 +36,8 @@ export default {
 <style lang="scss" scoped>
 .item_diary {
     width: 100%;
-    padding: 0.75rem 0;
+    // padding: 0.75rem 0;
+    padding: calc(16px * 0.75) 0;
     border-bottom: 1px solid #000;
     position: relative;
     display: flex;

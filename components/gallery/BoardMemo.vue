@@ -37,7 +37,8 @@ export default {
     display: flex;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.8);
-    padding: 1rem;
+    // padding: 1rem;
+    padding: 16px;
 
     .memo_text {
         width: 90%;
@@ -67,12 +68,13 @@ export default {
     .memo_more {
         color: #2c9577;
         font-size: 8px; // 0.5rem;
-
-        line-height: 1.3125rem; /* 262.5% */
+        line-height: calc(8px * 2); /* 262.5% */
+        // line-height: 1.3125rem; /* 262.5% */
         position: absolute;
         bottom: 0;
         left: 0;
-        margin: 0 1.5rem 1rem;
+        // margin: 0 1.5rem 1rem;
+        margin: 0 24px 16px;
         text-align: right;
 
         cursor: pointer;

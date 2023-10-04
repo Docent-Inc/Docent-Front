@@ -69,29 +69,28 @@ export default {
     height: 45%;
     position: relative;
     overflow: scroll;
-    border-top: 0.0625rem solid #cbd5e1;
+    // border-top: 0.0625rem solid #cbd5e1;
+    border-top: 0.96px solid #cbd5e1;
 
-    padding: 2rem 1.5rem 1rem;
-    margin-top: 2rem;
+    // padding: 2rem 1.5rem 1rem;
+    // margin-top: 2rem;
+    padding: 32px 24px 16px;
+    margin-top: 32px;
 
     color: #5c5c5c;
     font-family: Pretendard;
-    font-size: 0.75rem;
-    line-height: 1.3125rem; /* 175% */
-
-    .indicator {
-        width: 2.375rem;
-        height: 0.33888rem;
-        border-radius: 6.25rem;
-        background: #bcbcbc;
-        margin: 1rem auto 1.5rem;
-    }
+    // font-size: 0.75rem;
+    // line-height: 1.3125rem; /* 175% */
+    font-size: 12px;
+    line-height: 21px; /* 175% */
 
     .calendar-title {
         color: #010101;
         font-family: "Pretendard Bold";
-        font-size: 1.25rem;
-        line-height: 1.3125rem; /* 105% */
+        // font-size: 1.25rem;
+        // line-height: 1.3125rem; /* 105% */
+        font-size: 20px;
+        line-height: 21px; /* 105% */
     }
 
     .calendar-none {
@@ -109,20 +108,25 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 0.5rem;
+        // gap: 0.5rem;
+        gap: 8px;
 
-        margin-top: 1.2rem;
+        // margin-top: 1.2rem;
+        margin-top: 19.2px;
 
         .calendar-content {
             display: flex;
             align-items: center;
         }
         .circle {
-            width: 0.5rem;
-            height: 0.5rem;
+            // width: 0.5rem;
+            // height: 0.5rem;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: #b2bbda;
-            margin-right: 1rem;
+            // margin-right: 1rem;
+            margin-right: 16px;
         }
     }
 }
