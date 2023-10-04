@@ -91,9 +91,7 @@ export default {
     padding-top: 1.25rem;
     padding-bottom: 3rem;
     z-index: 10;
-    // position: fixed;
-    position: sticky;
-
+    position: fixed;
     bottom: 0;
     bottom: constant(safe-area-inset-bottom);
     bottom: env(safe-area-inset-bottom);

@@ -7,7 +7,6 @@
             v-model="progress"
             animation-speed="1300"
             height="2"
-            style="position: fixed"
         ></v-progress-linear>
 
         <div class="contents">
@@ -44,7 +43,7 @@ export default {
 .contents {
     width: 100%;
     height: calc(100% - 60px);
-    // margin-top: 60px;
+    margin-top: 60px;
     padding: 3rem 2rem 0 2rem;
     position: relative;
 }
