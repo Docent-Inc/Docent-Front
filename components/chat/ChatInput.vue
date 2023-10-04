@@ -133,7 +133,8 @@ export default {
 
         color: #000;
         font-family: "Pretendard";
-        font-size: 0.875rem;
+        // font-size: 0.875rem;
+        font-size: 16px;
         line-height: 1.3125rem; /* 150% */
     }
 
