@@ -37,9 +37,9 @@ export default {
             )
     );
 
-    // margin-top: 60px;
-    // margin-top: calc(60px + constant(safe-area-inset-top));
-    // margin-top: calc(60px + env(safe-area-inset-top));
+    margin-top: 60px;
+    margin-top: calc(60px + constant(safe-area-inset-top));
+    margin-top: calc(60px + env(safe-area-inset-top));
 }
 
 .ic_home {
