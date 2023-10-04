@@ -14,16 +14,15 @@ import { useAuthService } from "../../services/auth";
 const { getKakaoCallbackTest, getKakaoCallback } = useAuthService();
 const route = useRoute();
 const router = useRouter();
-console.log(route.query.code);
+// console.log(route.query.code);
 
 onMounted(async () => {
     const res = await getKakaoCallback(route.query.code);
-
-    console.log(res);
+    // console.log(res);
 
     if (res.success) {
-        console.log(res);
-        const { setAccessToken, setRefreshToken } = useUserStore();
+        // 로그인 성공 시, 쿠키/store 세팅
+        const { setAccessToken, setRefreshToken, setUser } = useUserStore();
         useCookie("access_token", {
             maxAge: res.data.expires_in * 24 * 60 * 60 * 1000,
         }).value = res.data.access_token;
@@ -32,9 +31,7 @@ onMounted(async () => {
         }).value = res.data.refresh_token;
         setAccessToken(res.data.access_token);
         setRefreshToken(res.data.refresh_token);
-
-        window.localStorage.setItem("accessToken", res.data.access_token);
-        window.localStorage.setItem("name", res.data.user_name);
+        setUser();
 
         if (res.data.is_signup) router.push(`/signup/1-nickname`);
         else router.push(`/home`);

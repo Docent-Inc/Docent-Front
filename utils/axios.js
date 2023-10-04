@@ -9,8 +9,6 @@ const API = axios.create({
 API.interceptors.request.use(
     (config) => {
         const { accessToken } = useUserStore();
-        console.log(accessToken);
-        // const accessToken = window.localStorage.getItem("accessToken");
 
         // console.log("✨axios:", config);
         // console.log("accessToken: ", accessToken);

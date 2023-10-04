@@ -9,8 +9,7 @@ interface User {
 
 export const useUserStore = defineStore("user", {
     state: () => ({
-        user: {} as User,
-        userInfo: null,
+        user: null,
         nickname: "",
         accessToken: "",
         refreshToken: "",
@@ -28,26 +27,13 @@ export const useUserStore = defineStore("user", {
         },
         async setUser() {
             const { getUserInfo } = useAuthService();
-            if (this.accessToken && !this.userInfo) {
+            if (this.accessToken && !this.user) {
                 const res = await getUserInfo();
-                console.log(res);
+                // console.log(res);
                 if (res.success) {
                     this.user = res.data;
                     this.loginStatus = true;
                 }
-                this.loginStatus = true;
-            }
-        },
-        async setUserInfo() {
-            const { getUserInfo } = useAuthService();
-            if (this.accessToken && !this.userInfo) {
-                const res = await getUserInfo();
-                console.log(res);
-                if (res.success) {
-                    this.userInfo = res.data;
-                    this.loginStatus = true;
-                }
-                this.loginStatus = true;
             }
         },
     },
