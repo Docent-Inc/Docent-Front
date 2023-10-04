@@ -1,3 +1,4 @@
+# (1) 빌드
 FROM node:18.12.1 as builder
 
 RUN mkdir /app
@@ -7,12 +8,13 @@ COPY package.json .
 RUN yarn install 
 
 COPY . .
-RUN yarn generate
+RUN yarn build
 
-FROM nginx:latest
-COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+# (2) Node 실행
+FROM node:18.16.0-alpine
+COPY --from=builder /app/.output /app/.output
 
-COPY --from=builder /app/.output/public /usr/share/nginx/html
+ENV NODE_TLS_REJECT_UNAUTHORIZED=0
+ENV NODE_ENV=prod
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "/app/.output/server/index.mjs" ]
