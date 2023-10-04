@@ -103,11 +103,11 @@ export default {
     mounted() {
         // Check
         // console.log(window.localStorage.getItem("accessToken"));
-        if (!window.localStorage.getItem("accessToken")) {
-            // console.log(this.$eventBus);
-            this.$eventBus.$emit("onLoginModal");
-            return;
-        }
+        // if (!window.localStorage.getItem("accessToken")) {
+        //     // console.log(this.$eventBus);
+        //     this.$eventBus.$emit("onLoginModal");
+        //     return;
+        // }
 
         this.getFirstPage();
     },
