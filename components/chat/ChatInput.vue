@@ -85,9 +85,11 @@ export default {
 <style lang="scss" scoped>
 .chat-input {
     width: 100%;
+    max-width: 500px;
+    height: 10rem;
     height: 7.5rem;
     background: #fff;
-
+    padding-top: 1.5rem;
     padding-top: 1.25rem;
     padding-bottom: 3rem;
     z-index: 10;
@@ -95,16 +97,13 @@ export default {
     bottom: 0;
     bottom: constant(safe-area-inset-bottom);
     bottom: env(safe-area-inset-bottom);
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     .ic_voice {
         font-size: 56px;
     }
 }
-
 .ic_voice.big {
     position: absolute;
     bottom: 0;
@@ -112,42 +111,36 @@ export default {
     font-size: 15rem;
     z-index: 20;
 }
-
 .input {
     width: 80%;
+    max-width: 500px;
     height: 100%;
     position: relative;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     input {
         width: 100%;
         height: 100%;
         padding: 0.8em 2.5em 0.8em 1em;
         margin: 0 auto;
-
         border-radius: 10px;
         border: 0.3px solid #000;
-
         color: #000;
         font-family: "Pretendard";
-        // font-size: 0.875rem;
         font-size: 16px;
+        font-size: 0.875rem;
         line-height: 1.3125rem; /* 150% */
     }
-
     input::placeholder {
         color: #50555c;
     }
-
     .ic_send {
         position: absolute;
         right: 0;
         margin-right: 1rem;
+        font-size: 15px;
         font-size: 1rem;
     }
 }
 </style>
-../../services/generate

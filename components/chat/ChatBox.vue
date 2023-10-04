@@ -50,16 +50,17 @@ const props = defineProps({
 }
 .chat-box {
     display: flex;
+    padding: 1.0625rem 2rem;
     padding: 0.8rem 1.5rem;
     align-items: center;
-
     max-width: 90%;
     border-radius: 0.625rem;
     border: 0.3px solid #000;
     margin-bottom: 1.5rem;
-
     color: #010101;
     font-family: "Pretendard";
+    font-size: 14px;
+    line-height: 21px; /* 150% */
     font-size: 0.875rem;
     line-height: 1.3125rem; /* 150% */
     white-space: normal;
@@ -69,34 +70,34 @@ const props = defineProps({
 .chat-box.right {
     align-self: right;
 }
-
 .chat-box.loading {
+    width: 78px;
+    height: 50px;
     width: 5rem;
     height: 3rem;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-
+    padding: 2rem 1.5rem;
     padding: 1.6rem 1.5rem;
     border-radius: 0.625rem;
     background: rgba(255, 255, 255, 0.8);
     border: none;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
-
     img {
         width: 500%;
+        margin-top: 150%;
         margin-top: 200%;
     }
 }
-
 .chat-profile {
     display: flex;
     margin: 0.5rem 0;
     align-items: center;
-
     color: #010101;
     font-family: Pretendard;
+    font-size: 14px;
     font-size: 0.875rem;
     line-height: 120%; /* 1.05rem */
     .ic_docent {
@@ -104,13 +105,13 @@ const props = defineProps({
         font-size: 18px;
     }
 }
-
 .chat-date {
     width: 100%;
     text-align: center;
     color: #50555c;
     text-align: center;
     font-family: "Pretendard";
+    font-size: 11px;
     font-size: 0.6875rem;
     line-height: 1.3125rem; /* 190.909% */
     margin: 0 0 2rem 0;

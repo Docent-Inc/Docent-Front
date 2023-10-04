@@ -104,13 +104,13 @@ export default {
 <style lang="scss" scoped>
 .chat-result {
     max-width: 80%;
+    padding: 2rem 1.5rem;
     padding: 1rem 1.5rem;
     border-radius: 0.625rem;
     background: rgba(255, 255, 255, 0.8);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
     position: relative;
     margin-bottom: 2rem;
-
     .chat-title {
         color: #000;
         font-family: "Pretendard Bold";
@@ -118,60 +118,54 @@ export default {
         line-height: 1.3125rem; /* 210% */
         padding-bottom: 0.5rem;
         border-bottom: 1px solid #eeedf4;
-
         span {
             color: #2c9577;
         }
     }
-
     .chat-diary-title {
         font-family: "Pretendard Bold";
+        font-size: 16px;
+        line-height: 1.4rem;
         font-size: 1rem;
         line-height: 1.3125rem; /* 131.25% */
-
         width: 80%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         margin: 1.5rem 0;
     }
-
     img {
         width: 100%;
         margin-bottom: 2.31rem;
     }
-
     .chat-more {
         color: #2c9577;
         font-family: "Pretendard SemiBold";
+        font-size: 8px; // 0.5rem;
         font-size: 0.5rem;
         line-height: 1.3125rem; /* 262.5% */
-
         position: absolute;
         bottom: 0;
         right: 0;
         margin-right: 1.5rem;
         margin-bottom: 1rem;
         text-align: right;
-
         cursor: pointer;
     }
-
     .chat-more.disabled {
         opacity: 0.5;
     }
-
     .chat-memo {
         color: #000;
         font-family: "Pretendard";
+        font-size: 14px;
+        line-height: 20px;
         font-size: 0.8rem;
         line-height: 0.9375rem; /* 150% */
-
         margin-top: 0.94rem;
         margin-bottom: 2.19rem;
     }
 }
-
 .chat-calendar {
     display: flex;
     flex-direction: row;
@@ -179,9 +173,9 @@ export default {
     align-items: baseline;
     margin-top: 0.69rem;
     font-family: "Pretendard Bold";
+    font-size: 18px;
     font-size: 1.125rem;
     line-height: 1.3125rem; /* 116.667% */
-
     .chat-calendar-title {
         width: 70%;
         overflow: hidden;
@@ -189,15 +183,14 @@ export default {
         white-space: nowrap;
     }
     .date {
+        font-size: 10px;
         font-size: 0.625rem;
         line-height: 1.3125rem; /* 210% */
     }
 }
-
 .button {
     width: 100%;
     height: 1.625rem;
-
     margin-top: 1.5rem;
     padding: 1rem;
     border-radius: 5px;
@@ -205,7 +198,6 @@ export default {
     font-size: 0.625rem;
     line-height: 1.3125rem; /* 210% */
 }
-
 .button.disabled {
     opacity: 0.5;
 }
