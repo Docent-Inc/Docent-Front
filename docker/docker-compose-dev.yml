@@ -1,6 +1,0 @@
-services:
-    docent-front:
-        image: docent-front-node
-        hostname: docent-front-node
-        ports:
-            - "3000:3000"

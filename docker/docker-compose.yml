@@ -1,11 +1,6 @@
 services:
     docent-front:
         image: docent-front
-        hostname: docent-front
+        container_name: docent-front
         ports:
-            - "80:80"
-            - "443:443"
-        volumes:
-            - /etc/letsencrypt/live/:/SSLKeys
-            - /etc/nginx/conf.d/:/etc/temp
-            - /var/log/:/var/log/
+            - "3000:3000"

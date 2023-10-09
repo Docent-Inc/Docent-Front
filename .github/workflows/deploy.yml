@@ -1,11 +1,10 @@
-name: docent-front
+name: docent
 
 on:
-    # push:
-    #     branches: [main]
-    pull_request:
-        types: [closed]
-        branches: [main]
+    push:
+        branches: [develop]
+#   pull_request:
+#     branches: [ main ]
 
 jobs:
     build:
@@ -13,6 +12,12 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
+            - name: Docker build
+              run: |
+                  docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+                  docker build -t docent-front .
+                  docker tag docent taewan2002/docent-front
+                  docker push taewan2002/docent-front
 
             - name: Prune directory 'Docent-Front'
               uses: appleboy/ssh-action@master
@@ -22,10 +27,10 @@ jobs:
                   password: ${{ secrets.NCP_PASSWORD }}
                   key: ${{ secrets.NCP_KEY }}
                   script: |
-                      rm -rf /Docent-Front
-                      mkdir /Docent-Front
+                      rm -rf /Docent-Front/docker
+                      mkdir /Docent-Front/docker
 
-            - name: Copy all
+            - name: Copy file
               uses: appleboy/scp-action@master
               with:
                   host: ${{ secrets.NCP_HOST }}
@@ -33,5 +38,28 @@ jobs:
                   key: ${{ secrets.NCP_KEY }}
                   password: ${{ secrets.NCP_PASSWORD }}
                   port: 22
-                  source: "./"
-                  target: "/Docent-Front"
+                  source: "./docker/"
+                  target: "/Docent-Front/docker"
+
+            # - name: Deploy
+            #   uses: appleboy/ssh-action@master
+            #   with:
+            #       host: ${{ secrets.NCP_HOST }}
+            #       username: ${{ secrets.NCP_USER }}
+            #       password: ${{ secrets.NCP_PASSWORD }}
+            #       key: ${{ secrets.NCP_KEY }}
+            #       envs: GITHUB_SHA
+            #       script: |
+            #           # Pull the new image
+            #           sudo docker pull taewan2002/docent-front
+
+            #           # Stop & Start
+            #            sudo docker-compose -f /Docent-front/docker/docker-compose.yml down
+            #           sudo docker-compose -f /Docent-front/docker/docker-compose.yml up -d
+
+            #           # Check
+            #           docker ps
+
+            #           # Cleanup old images
+            #           echo "🧹 Cleaning up old Docker images"
+            #           sudo docker rmi -f $(sudo docker images -q) || true
