@@ -6,7 +6,7 @@ export const useGenerateService = () => {
          * 채팅 리스트 조회
          */
         async getChatList(page: number) {
-            const res = await API.post(`/generate/chat/list?page=${page}`);
+            const res = await API.get(`/generate/chat/list?page=${page}`);
             return res.data;
         },
         /**

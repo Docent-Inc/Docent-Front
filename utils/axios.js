@@ -11,7 +11,7 @@ API.interceptors.request.use(
         const { accessToken } = useUserStore();
 
         // console.log("✨axios:", config);
-        // console.log("accessToken: ", accessToken);
+        // console.log("request", config.url);
 
         if (accessToken) {
             config.headers["Authorization"] = `Bearer ${accessToken}`;
@@ -27,6 +27,7 @@ API.interceptors.request.use(
 // TODO: 에러 핸들링, 일단은 로그인 쪽 여기서 처리 / 후에 미들웨어로 넘기기
 API.interceptors.response.use(
     (res) => {
+        // console.log("response", res.request.responseURL);
         return res;
     },
     (error) => {
