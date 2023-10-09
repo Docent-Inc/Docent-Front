@@ -4,13 +4,13 @@
         <div class="header">
             <v-icon class="ic_home" @click="this.$router.push(`/home`)" />
 
-            <div class="tooltip">
+            <a class="tooltip" tabindex="0">
                 <v-icon class="logo_docent" />
                 <span class="tooltiptext tooltip-right">
                     <b>꿈. 일기. 메모. 일정.</b> <br />자유롭게 기록해 주시면
                     도슨트가 분류해요!</span
                 >
-            </div>
+            </a>
         </div>
 
         <div class="layout">
