@@ -50,6 +50,7 @@
 import { mapState } from "pinia";
 import { useUserStore } from "~/store/user";
 import { useTodayService } from "../../services/today";
+import { useGenerateService } from "~/services/generate";
 
 export default {
     name: "Home",
@@ -68,23 +69,23 @@ export default {
             lucky: "",
         };
     },
-    async mounted() {
+    mounted() {
         const { getTodayCalendar, getTodayRecord, getTodayLucky } =
             useTodayService();
 
-        await getTodayCalendar()
+        getTodayCalendar()
             .then((res) => {
                 this.calendar = res.data;
             })
             .catch(() => {});
 
-        await getTodayRecord()
+        getTodayRecord()
             .then((res) => {
                 this.record = res.data;
             })
             .catch(() => {});
 
-        await getTodayLucky()
+        getTodayLucky()
             .then((res) => {
                 this.lucky = res.data.luck;
             })

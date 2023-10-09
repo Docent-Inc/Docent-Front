@@ -5,15 +5,45 @@
 </template>
 
 <script setup>
+import { useAuthService } from "~/services/auth";
+import { useUserStore } from "~/store/user";
 import docentSVG from "../assets/images/logo_docent_big.svg";
-const router = useRouter();
 
-// TODO: 자동로그인 확인 / signin 또는 home으로 넘어간다
-onMounted(() => {
-    setTimeout(() => {
-        router.push(`/signin`);
-        console.log("timeout!");
-    }, 200);
+const router = useRouter();
+onMounted(async () => {
+    const { accessToken, refreshToken } = useUserStore();
+    if (!accessToken || !refreshToken) {
+        setTimeout(() => {
+            router.push(`/signin`);
+        }, 200);
+    }
+
+    const { refresh } = useAuthService();
+    refresh(refreshToken)
+        .then((res) => {
+            const result = res.data;
+            // 성공 시, 액세스 토큰 저장 후 /home 이동
+            const { setAccessToken, setRefreshToken, setUser } = useUserStore();
+            useCookie("access_token", {
+                maxAge: result.data.expires_in * 24 * 60 * 60 * 1000,
+            }).value = result.data.access_token;
+            useCookie("refresh_token", {
+                maxAge: result.data.refresh_expires_in * 24 * 60 * 60 * 1000,
+            }).value = result.data.refresh_token;
+            setAccessToken(result.data.access_token);
+            setRefreshToken(result.data.refresh_token);
+            setUser();
+
+            router.push(`/home`);
+        })
+        .catch((e) => {
+            // 실패 시, 다 삭제하고 /signin으로 이동
+            const { reset } = useUserStore();
+            reset();
+            useCookie("access_token").value = null;
+            useCookie("refresh_token").value = null;
+            router.push(`/signin`);
+        });
 });
 </script>
 

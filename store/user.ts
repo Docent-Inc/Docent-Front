@@ -7,14 +7,16 @@ interface User {
     mbti?: String;
 }
 
+const initialState = () => ({
+    user: null,
+    nickname: "",
+    accessToken: "",
+    refreshToken: "",
+    loginStatus: false,
+});
+
 export const useUserStore = defineStore("user", {
-    state: () => ({
-        user: null,
-        nickname: "",
-        accessToken: "",
-        refreshToken: "",
-        loginStatus: false,
-    }),
+    state: initialState,
     actions: {
         setAccessToken(token: string) {
             this.accessToken = token;
@@ -35,6 +37,9 @@ export const useUserStore = defineStore("user", {
                     this.loginStatus = true;
                 }
             }
+        },
+        reset() {
+            Object.assign(this.$state, initialState());
         },
     },
 });

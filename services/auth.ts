@@ -73,10 +73,9 @@ export const useAuthService = () => {
          * 액세스 토큰 재발급
          */
         async refresh(refreshToken: string) {
-            const res = await API.post(`/auth/refresh`, {
-                "refresh-token": refreshToken,
+            return await API.post(`/auth/refresh`, {
+                refresh_token: refreshToken,
             });
-            return res.data;
         },
     };
 };
