@@ -4,13 +4,16 @@
         <div class="header">
             <v-icon class="ic_home" @click="this.$router.push(`/home`)" />
 
-            <a class="tooltip" tabindex="0">
+            <div class="tooltip" @click="isVisible = !isVisible">
                 <v-icon class="logo_docent" />
-                <span class="tooltiptext tooltip-right">
+                <span
+                    class="tooltiptext tooltip-right"
+                    :style="{ visibility: isVisible ? 'visible' : 'hidden' }"
+                >
                     <b>꿈. 일기. 메모. 일정.</b> <br />자유롭게 기록해 주시면
                     도슨트가 분류해요!</span
                 >
-            </a>
+            </div>
         </div>
 
         <div class="layout">
@@ -23,7 +26,11 @@
 
 <script>
 export default {
-    mounted() {},
+    data() {
+        return {
+            isVisible: false, // 툴팁 visibility
+        };
+    },
 };
 </script>
 <style lang="scss" scoped>
@@ -87,11 +94,6 @@ export default {
         color: var(--2C9577, #2c9577);
     }
 }
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-}
-
 .tooltip .tooltiptext::after {
     content: " ";
     position: absolute;
