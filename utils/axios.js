@@ -10,7 +10,7 @@ API.interceptors.request.use(
     (config) => {
         const { accessToken } = useUserStore();
 
-        // console.log("✨axios:", config);
+        // console.log("✨axios:", accessToken);
         // console.log("request", config.url);
 
         if (accessToken) {
@@ -24,22 +24,20 @@ API.interceptors.request.use(
     }
 );
 
-// TODO: 에러 핸들링, 일단은 로그인 쪽 여기서 처리 / 후에 미들웨어로 넘기기
 API.interceptors.response.use(
     (res) => {
         // console.log("response", res.request.responseURL);
         return res;
     },
     (error) => {
-        console.error("✨axios-error:", error);
-
         if (error.response && error.response.status) {
             switch (error.response.status) {
                 case 401:
                     const url = new URL(window.location.href);
                     if (
                         url.pathname !== "/signin" &&
-                        url.pathname !== "/kakao"
+                        url.pathname !== "/kakao" &&
+                        url.pathname !== "/"
                     ) {
                         alert("로그인 후 이용 가능합니다.");
                         navigateTo({

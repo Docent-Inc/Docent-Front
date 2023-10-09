@@ -36,6 +36,8 @@ onMounted(async () => {
         if (res.data.is_signup) router.push(`/signup/1-nickname`);
         else router.push(`/home`);
     } else {
+        const { reset } = useUserStore();
+        reset();
         alert(res.message);
     }
 });
