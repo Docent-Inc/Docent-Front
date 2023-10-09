@@ -42,6 +42,14 @@ export const useAuthService = () => {
             return res.data;
         },
         /**
+         * 유저 정보 조회
+         * @body userId
+         */
+        async getUserInfo() {
+            const res = await API.get(`/admin/user/info`);
+            return res.data;
+        },
+        /**
          * 닉네임 변경 요청
          * @body nickname
          */
@@ -58,6 +66,15 @@ export const useAuthService = () => {
         async changeMBTI(mbti: string) {
             const res = await API.post(`/auth/change/mbti`, {
                 mbti: mbti,
+            });
+            return res.data;
+        },
+        /**
+         * 액세스 토큰 재발급
+         */
+        async refresh(refreshToken: string) {
+            const res = await API.post(`/auth/refresh`, {
+                "refresh-token": refreshToken,
             });
             return res.data;
         },

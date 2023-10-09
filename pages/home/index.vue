@@ -5,7 +5,7 @@
     <div class="contents">
         <div class="title">{{ $dayjs().format("YYYY.MM.DD") }}</div>
         <div class="main-title">
-            안녕하세요 {{ name }}님 <br />오늘의 이벤트예요
+            안녕하세요 {{ user?.nickname }}님 <br />오늘의 이벤트예요
         </div>
         <!-- 오늘의 일정 -->
         <div class="main-calendar main-description">
@@ -17,7 +17,7 @@
         <!-- 오늘의 기록 -->
         <div class="main-title">오늘의 기록</div>
         <div class="main-description">
-            오늘 {{ name }}님은 이런 그림을 그리셨네요
+            오늘 {{ user?.nickname }}님은 이런 그림을 그리셨네요
         </div>
         <div class="main-slides">
             <div
@@ -36,7 +36,7 @@
                 v-if="!record.morning && !record.night"
                 @click="this.$router.push(`/chat`)"
             >
-                {{ name }}님의 그림을 <br />그려주세요!
+                {{ user?.nickname }}님의 그림을 <br />그려주세요!
             </div>
         </div>
 
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import { mapState } from "pinia";
+import { useUserStore } from "~/store/user";
 import { useTodayService } from "../../services/today";
 
 export default {
@@ -56,26 +58,19 @@ export default {
             layout: "main",
         });
     },
+    computed: {
+        ...mapState(useUserStore, ["user"]),
+    },
     data() {
         return {
             calendar: [],
             record: {},
             lucky: "",
-            name: "",
         };
     },
     async mounted() {
         const { getTodayCalendar, getTodayRecord, getTodayLucky } =
             useTodayService();
-        // Check
-        console.log(window.localStorage.getItem("accessToken"));
-        if (!window.localStorage.getItem("accessToken")) {
-            console.log(this.$eventBus);
-            this.$eventBus.$emit("onLoginModal");
-            return;
-        }
-
-        this.name = window.localStorage.getItem("name");
 
         await getTodayCalendar()
             .then((res) => {

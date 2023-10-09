@@ -25,11 +25,9 @@ export default {
     methods: {
         showDetail() {
             console.log("cliclk>>", this.diary);
-            console.log(
-                `type: ${this.diary.content_type} id: ${this.diary.id}`
-            );
+            console.log(`type: ${this.diary.diary_type} id: ${this.diary.id}`);
             this.$router.push(
-                `/diary/${this.diary.id}?type=${this.diary.content_type}`
+                `/diary/${this.diary.id}?type=${this.diary.diary_type}`
             );
         },
     },
@@ -38,7 +36,8 @@ export default {
 <style lang="scss" scoped>
 .item_diary {
     width: 100%;
-    padding: 0.75rem 0;
+    // padding: 0.75rem 0;
+    padding: calc(16px * 0.75) 0;
     border-bottom: 1px solid #000;
     position: relative;
     display: flex;

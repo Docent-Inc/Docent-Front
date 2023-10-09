@@ -34,7 +34,7 @@ export const useChatStore = defineStore("chat", {
             console.log(`✨addChatList(${this.pageNo})`);
             console.log(">>" + this.list.length + "/" + this.totalCounts);
             const res = await getChatList(this.pageNo);
-            console.log(">> res", res);
+            // console.log(">> res", res);
 
             if (!res.success) {
                 const msg = `${res.status_code}  - ${res.message}`;
@@ -46,7 +46,7 @@ export const useChatStore = defineStore("chat", {
             this.list = [...res.data.list.reverse(), ...this.list];
             this.totalCounts = res.data.total_counts;
             this.pageNo = res.data.page_num + 1;
-            console.log(">>> ", this.list);
+            // console.log(">>> ", this.list);
         },
         async getFirstPage() {
             this.pageNo = 1;
@@ -60,7 +60,7 @@ export const useChatStore = defineStore("chat", {
             this.list = [...res.data.list.reverse()];
             this.totalCounts = res.data.total_counts;
             this.pageNo = res.data.page_num + 1;
-            console.log(">>> ", this.list);
+            // console.log(">>> ", this.list);
 
             // this.isFirstPage = true;
             //
@@ -116,14 +116,14 @@ export const useChatStore = defineStore("chat", {
             this.chatList = result;
         },
         setChatList(data: Chat[]) {
-            console.log("dd", data);
+            // console.log("dd", data);
             this.chatList = data;
         },
         setIsFirstPage(boolean: boolean) {
             this.isFirstPage = boolean;
         },
         setReload(boolean: boolean) {
-            console.log("setReload - ", boolean);
+            // console.log("setReload - ", boolean);
             this.reload = boolean;
         },
     },

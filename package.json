@@ -2,7 +2,7 @@
     "name": "nuxt-app",
     "private": true,
     "scripts": {
-        "build": "nuxt build",
+        "build": "nuxt build --dotenv .env.prod",
         "dev": "nuxt dev  --dotenv .env.dev",
         "generate": "nuxt generate  --dotenv .env.prod",
         "preview": "nuxt preview",
@@ -19,6 +19,7 @@
     "dependencies": {
         "@mdi/font": "^7.2.96",
         "@pinia/nuxt": "^0.4.11",
+        "@popperjs/core": "^2.11.8",
         "@webzlodimir/vue-bottom-sheet": "^3.0.5",
         "axios": "^1.4.0",
         "eslint": "^8.47.0",
@@ -26,8 +27,8 @@
         "mitt": "^3.0.1",
         "nuxt-swiper": "^1.1.0",
         "prettier": "^3.0.2",
+        "v-calendar": "^3.0.3",
         "v3-infinite-loading": "^1.2.2",
-        "vue-chat-scroll": "^1.4.0",
         "vuetify": "^3.4.0-alpha.0"
     }
 }

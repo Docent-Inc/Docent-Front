@@ -52,12 +52,10 @@ const props = defineProps({
     display: flex;
     padding: 1.0625rem 2rem;
     align-items: center;
-
     max-width: 90%;
     border-radius: 0.625rem;
     border: 0.3px solid #000;
     margin-bottom: 1.5rem;
-
     color: #010101;
     font-family: "Pretendard";
     font-size: 14px;
@@ -69,7 +67,6 @@ const props = defineProps({
 .chat-box.right {
     align-self: right;
 }
-
 .chat-box.loading {
     width: 78px;
     height: 50px;
@@ -83,28 +80,23 @@ const props = defineProps({
     background: rgba(255, 255, 255, 0.8);
     border: none;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
-
     img {
         width: 500%;
         margin-top: 150%;
     }
 }
-
 .chat-profile {
     display: flex;
     margin: 0.5rem 0;
     align-items: center;
-
     color: #010101;
     font-family: Pretendard;
     font-size: 14px;
-
     .ic_docent {
         margin-right: 5px;
         font-size: 18px;
     }
 }
-
 .chat-date {
     width: 100%;
     text-align: center;

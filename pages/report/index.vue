@@ -1,6 +1,6 @@
 <template>
     <div class="contents">
-        <div class="title">{{ name }} 님의 깊은 곳이에요</div>
+        <div class="title">{{ user?.nickname }} 님의 깊은 곳이에요</div>
 
         <Statistics :statistics="data.statistics" />
         <div class="report-keyword">
@@ -12,7 +12,7 @@
 
         <div class="report-content">
             <div class="report-title">Mental State</div>
-            <div>
+            <div class="report-desc">
                 {{ data.mental_state }}
             </div>
         </div>
@@ -75,6 +75,8 @@
 </template>
 
 <script>
+import { mapState } from "pinia";
+import { useUserStore } from "~/store/user";
 import { useGenerateService } from "../../services/generate";
 import IntrovertSVG from "../../assets/images/img_introvert.svg";
 import ExtrovertSVG from "../../assets/images/img_extrovert.svg";
@@ -88,6 +90,9 @@ export default {
         });
     },
     components: { Statistics },
+    computed: {
+        ...mapState(useUserStore, ["user"]),
+    },
     data() {
         return {
             IMG: {
@@ -102,15 +107,6 @@ export default {
         };
     },
     async mounted() {
-        // Check
-        if (!window.localStorage.getItem("accessToken")) {
-            console.log(this.$eventBus);
-            this.$eventBus.$emit("onLoginModal");
-            return;
-        }
-
-        this.name = window.localStorage.getItem("name");
-
         const { getReport } = useGenerateService();
         await getReport()
             .then((res) => {

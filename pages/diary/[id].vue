@@ -73,10 +73,9 @@ export default {
     },
     async mounted() {
         const { getMorningdiary, getNightdiary } = useDiaryService();
-        const route = useRoute();
 
-        const id = route.params.id;
-        const type = route.query.type;
+        const id = this.$route.params.id;
+        const type = this.$route.query.type;
         this.type = type;
         console.log("id", id);
         console.log("type", type);

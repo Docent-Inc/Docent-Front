@@ -96,16 +96,13 @@ export default {
     bottom: 0;
     bottom: constant(safe-area-inset-bottom);
     bottom: env(safe-area-inset-bottom);
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     .ic_voice {
         font-size: 56px;
     }
 }
-
 .ic_voice.big {
     position: absolute;
     bottom: 0;
@@ -113,36 +110,29 @@ export default {
     font-size: 15rem;
     z-index: 20;
 }
-
 .input {
     width: 80%;
     max-width: 500px;
     height: 100%;
     position: relative;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     input {
         width: 100%;
         height: 100%;
         padding: 0.8em 2.5em 0.8em 1em;
         margin: 0 auto;
-
         border-radius: 10px;
         border: 0.3px solid #000;
-
         color: #000;
         font-family: "Pretendard";
         font-size: 16px;
         line-height: 1.3125rem; /* 150% */
     }
-
     input::placeholder {
         color: #50555c;
     }
-
     .ic_send {
         position: absolute;
         right: 0;
@@ -151,4 +141,3 @@ export default {
     }
 }
 </style>
-../../services/generate

@@ -4,9 +4,16 @@
             <div class="memo_date">
                 {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
             </div>
-            <div class="memo_title">{{ memo.title }}</div>
+            <div class="memo_title">
+                {{ memo.diary_name === "" ? "(제목 없음)" : memo.diary_name }}
+            </div>
 
-            <div class="memo_more">더 알아보기 &gt;</div>
+            <div
+                class="memo_more"
+                @click="this.$router.push(`/memo/${memo.id}`)"
+            >
+                더 알아보기 &gt;
+            </div>
         </div>
     </div>
 </template>
@@ -30,7 +37,8 @@ export default {
     display: flex;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.8);
-    padding: 1rem;
+    // padding: 1rem;
+    padding: 16px;
 
     .memo_text {
         width: 90%;
@@ -60,12 +68,13 @@ export default {
     .memo_more {
         color: #2c9577;
         font-size: 8px; // 0.5rem;
-
-        line-height: 1.3125rem; /* 262.5% */
+        line-height: calc(8px * 2); /* 262.5% */
+        // line-height: 1.3125rem; /* 262.5% */
         position: absolute;
         bottom: 0;
         left: 0;
-        margin: 0 1.5rem 1rem;
+        // margin: 0 1.5rem 1rem;
+        margin: 0 24px 16px;
         text-align: right;
 
         cursor: pointer;

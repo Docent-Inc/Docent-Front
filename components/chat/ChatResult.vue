@@ -20,9 +20,7 @@
         <div v-if="type === 3">
             <div class="chat-memo">
                 {{ chat.content }}
-                <div class="chat-more disabled" @click="more">
-                    더 알아보기 &gt;
-                </div>
+                <div class="chat-more" @click="more">더 알아보기 &gt;</div>
             </div>
         </div>
 
@@ -36,7 +34,7 @@
                 </div>
             </div>
 
-            <button class="button disabled" @click="more">자세히 보기</button>
+            <button class="button" @click="more">자세히 보기</button>
         </div>
     </div>
 </template>
@@ -71,20 +69,34 @@ export default {
     },
     methods: {
         more() {
-            // TODO: 서비스 오픈 예정
-            if (![1, 2].includes(this.chat.content_type)) {
-                alert("🔔 서비스 오픈 예정입니다.");
-                return;
+            switch (this.chat.content_type) {
+                case 1:
+                case 2:
+                    const id =
+                        this.chat.content_type === 1
+                            ? this.chat.MorningDiary_id
+                            : this.chat.NightDiary_id;
+
+                    this.$router.push(
+                        `/diary/${id}?type=${this.chat.content_type}`
+                    );
+                    break;
+
+                case 3:
+                    this.$router.push(`/memo/${this.chat.Memo_id}`);
+                    break;
+
+                case 4:
+                    this.$router.push(
+                        `/calendar/?date=${this.chat.event_time}`
+                    );
+                    break;
+                default:
+                    alert("🔔 서비스 오픈 예정입니다.");
+                    break;
             }
 
             console.log("cliclk>>", this.chat);
-            const id =
-                this.chat.content_type === 1
-                    ? this.chat.MorningDiary_id
-                    : this.chat.NightDiary_id;
-
-            console.log(`type: ${this.chat.content_type} id: ${id}`);
-            this.$router.push(`/diary/${id}?type=${this.chat.content_type}`);
         },
     },
 };
@@ -98,7 +110,6 @@ export default {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
     position: relative;
     margin-bottom: 2rem;
-
     .chat-title {
         color: #000;
         font-family: "Pretendard Bold";
@@ -106,34 +117,28 @@ export default {
         line-height: 1.3125rem; /* 210% */
         padding-bottom: 0.5rem;
         border-bottom: 1px solid #eeedf4;
-
         span {
             color: #2c9577;
         }
     }
-
     .chat-diary-title {
         font-family: "Pretendard Bold";
         font-size: 16px;
         line-height: 1.4rem;
-
         width: 80%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         margin: 1.5rem 0;
     }
-
     img {
         width: 100%;
         margin-bottom: 2.31rem;
     }
-
     .chat-more {
         color: #2c9577;
         font-family: "Pretendard SemiBold";
         font-size: 8px; // 0.5rem;
-
         line-height: 1.3125rem; /* 262.5% */
         position: absolute;
         bottom: 0;
@@ -141,25 +146,20 @@ export default {
         margin-right: 1.5rem;
         margin-bottom: 1rem;
         text-align: right;
-
         cursor: pointer;
     }
-
     .chat-more.disabled {
         opacity: 0.5;
     }
-
     .chat-memo {
         color: #000;
         font-family: "Pretendard";
         font-size: 14px;
         line-height: 20px;
-
         margin-top: 0.94rem;
         margin-bottom: 2.19rem;
     }
 }
-
 .chat-calendar {
     display: flex;
     flex-direction: row;
@@ -168,7 +168,6 @@ export default {
     margin-top: 0.69rem;
     font-family: "Pretendard Bold";
     font-size: 18px;
-
     .chat-calendar-title {
         width: 70%;
         overflow: hidden;
@@ -179,14 +178,12 @@ export default {
         font-size: 10px;
     }
 }
-
 .button {
     width: 100%;
     margin-top: 1.5rem;
     border-radius: 5px;
     background: rgba(44, 149, 119, 0.85);
 }
-
 .button.disabled {
     opacity: 0.5;
 }

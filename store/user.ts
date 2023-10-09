@@ -1,3 +1,5 @@
+import { useAuthService } from "~/services/auth";
+
 interface User {
     nickname?: String;
     age?: String;
@@ -7,35 +9,32 @@ interface User {
 
 export const useUserStore = defineStore("user", {
     state: () => ({
-        user: {
-            nickname: "",
-            age: "",
-            gender: "",
-            mbti: "",
-        } as User,
+        user: null,
         nickname: "",
         accessToken: "",
+        refreshToken: "",
         loginStatus: false,
     }),
     actions: {
         setAccessToken(token: string) {
             this.accessToken = token;
         },
+        setRefreshToken(token: string) {
+            this.refreshToken = token;
+        },
         setNickname(nickname: string) {
             this.nickname = nickname;
         },
-        setUser(user: User) {
-            this.user = user;
+        async setUser() {
+            const { getUserInfo } = useAuthService();
+            if (this.accessToken && !this.user) {
+                const res = await getUserInfo();
+                // console.log(res);
+                if (res.success) {
+                    this.user = res.data;
+                    this.loginStatus = true;
+                }
+            }
         },
-        // async setUserInfo() {
-        //     const { getMemberInfo } = useMemberAPI();
-        //     if (this.accessToken && !this.userInfo) {
-        //         const { body: userInfo, success } = await getMemberInfo();
-        //         if (success) {
-        //             this.user = userInfo;
-        //             this.loginStatus = true;
-        //         }
-        //     }
-        // },
     },
 });

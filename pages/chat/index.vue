@@ -70,13 +70,13 @@ export default {
             this.listToChatList();
         },
         reload() {
-            console.log(this.reload);
+            // console.log(this.reload);
             // TODO: 스크롤 관련 처리
             if (this.reload) {
-                console.log("스크롤 실행!");
+                // console.log("스크롤 실행!");
                 const scrollRef = this.$refs.scrollable;
                 const targetOffset = scrollRef.scrollHeight;
-                console.log("*", scrollRef.scrollTop, ", ", targetOffset);
+                // console.log("*", scrollRef.scrollTop, ", ", targetOffset);
                 scrollRef.scrollTo({
                     top: targetOffset,
                     behavior: "smooth",
@@ -87,12 +87,12 @@ export default {
                         scrollRef.scrollTop + scrollRef.clientHeight >=
                         targetOffset - 0.5;
 
-                    console.log(
-                        " check -> ",
-                        scrollRef.scrollTop + scrollRef.clientHeight,
-                        ", ",
-                        targetOffset - 0.5
-                    );
+                    // console.log(
+                    //     " check -> ",
+                    //     scrollRef.scrollTop + scrollRef.clientHeight,
+                    //     ", ",
+                    //     targetOffset - 0.5
+                    // );
                     if (check) {
                         this.setReload(false);
                     }
@@ -101,14 +101,6 @@ export default {
         },
     },
     mounted() {
-        // Check
-        console.log(window.localStorage.getItem("accessToken"));
-        if (!window.localStorage.getItem("accessToken")) {
-            console.log(this.$eventBus);
-            this.$eventBus.$emit("onLoginModal");
-            return;
-        }
-
         this.getFirstPage();
     },
     methods: {
@@ -121,7 +113,7 @@ export default {
         ]),
         // Infinite Loading
         async loadMore() {
-            console.log("here");
+            // console.log("here");
             // if (this.reload) return;
             this.$nextTick();
             setTimeout(() => {
