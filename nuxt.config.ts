@@ -30,6 +30,7 @@ export default defineNuxtConfig({
         "@/assets/scss/main.scss",
         "@/assets/scss/title.scss",
         "@/assets/scss/icon.scss",
+        "@/assets/scss/colors.scss",
     ],
     build: {
         transpile: ["vuetify"],

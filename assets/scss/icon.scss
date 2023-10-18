@@ -33,8 +33,8 @@
     display: block;
 }
 
-.ic_send {
-    background: url("../images/ic_send.svg") no-repeat center/cover;
+.ic_send2 {
+    background: url("../images/ic_send2.svg") no-repeat center/cover;
     width: 15px;
     height: 11px;
     display: block;
@@ -79,6 +79,62 @@
     background: url("../images/ic_board.svg") no-repeat center/cover;
     width: 25px;
     height: 25px;
+    display: block;
+}
+
+// renew
+.ic_arrow {
+    background: url("../images/ic_arrow.svg") no-repeat center/cover;
+    width: 32px;
+    height: 32px;
+    display: block;
+}
+
+.ic_help {
+    background: url("../images/ic_help.svg") no-repeat center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_mic {
+    background: url("../images/ic_mic.svg") no-repeat center/cover;
+    width: 28px;
+    height: 28px;
+    display: block;
+}
+
+.btn_mic {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0px 0px 14px 0px rgba(110, 110, 255, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ic_send {
+    background: url("../images/ic_send.svg") no-repeat center/cover;
+    width: 24px;
+    height: 20px;
+    display: block;
+}
+
+.btn_send {
+    width: 48px;
+    height: 48px;
+    padding: 14px 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ic_x {
+    background: url("../images/ic_x.svg") no-repeat center/cover;
+    width: 24px;
+    height: 24px;
     display: block;
 }
 

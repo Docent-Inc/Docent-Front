@@ -2,38 +2,30 @@
     <div class="viewport">
         <!-- 채팅 헤더 -->
         <div class="header">
-            <div>
-                <Icon :class="'ic_arrow'" @click="this.$router.push(`/home`)" />
-                <span class="header-title"> Looki </span>
-            </div>
+            <v-icon class="ic_home" @click="this.$router.push(`/home`)" />
 
-            <Icon
-                :class="'ic_help'"
-                style="margin-right: 10px"
-                @click="isVisible = !isVisible"
-            />
+            <div class="tooltip" @click="isVisible = !isVisible">
+                <v-icon class="logo_docent" />
+                <span
+                    class="tooltiptext tooltip-right"
+                    :style="{ visibility: isVisible ? 'visible' : 'hidden' }"
+                >
+                    <b>꿈. 일기. 메모. 일정.</b> <br />자유롭게 기록해 주시면
+                    도슨트가 분류해요!</span
+                >
+            </div>
         </div>
 
         <div class="layout">
             <slot />
         </div>
-        <chat-input />
 
-        <!-- 토스트 -->
-        <Toast
-            v-if="isVisible"
-            @click="isVisible = false"
-            text="꿈, 일기, 메모, 일정 등을 자유롭게 기록해 주시면 \n Lookie가 분류하고 저장해요!"
-            :top="60"
-        />
+        <chat-input />
     </div>
 </template>
 
 <script>
-import Toast from "~/components/common/Toast.vue";
-import Icon from "~/components/common/Icon.vue";
 export default {
-    components: { Icon, Toast },
     data() {
         return {
             isVisible: false, // 툴팁 visibility
@@ -42,34 +34,26 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "@/assets/scss/colors.scss";
 .layout {
-    height: calc(100%);
+    height: calc(100% - (60px + 10rem));
     height: calc(
         100% -
-            (constant(safe-area-inset-bottom) + constant(safe-area-inset-top))
+            (
+                60px + 10rem + constant(safe-area-inset-bottom) +
+                    constant(safe-area-inset-top)
+            )
     );
     height: calc(
-        100% - (env(safe-area-inset-bottom) + env(safe-area-inset-top))
+        100% -
+            (
+                60px + 10rem + env(safe-area-inset-bottom) +
+                    env(safe-area-inset-top)
+            )
     );
 
-    padding-top: 60px;
-    padding-bottom: 10rem;
-    background: $gradient_bg_light;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(16px);
-    border: none;
-
-    > div {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+    margin-top: 60px;
+    margin-top: calc(60px + constant(safe-area-inset-top));
+    margin-top: calc(60px + env(safe-area-inset-top));
 }
 
 .ic_home {
