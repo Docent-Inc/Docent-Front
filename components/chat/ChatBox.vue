@@ -2,8 +2,7 @@
     <div class="chat-box-wrapper" :class="{ right: type === 'text' }">
         <!-- 프로필 -->
         <div class="chat-profile" v-if="type === 'docent'">
-            <v-icon class="ic_docent" />
-            <div>도슨트</div>
+            <Icon class="ic_profile_ai" />
         </div>
 
         <!-- 날짜 -->
@@ -16,12 +15,16 @@
             <img :src="loadingGIF" />
         </div>
 
-        <!-- 기본 -->
+        <!-- 기본 (도슨트) -->
+        <div class="chat-box" v-if="type === 'text2'">{{ text }}</div>
+
+        <!-- 기본 (유저) -->
         <div class="chat-box" v-if="type === 'text'">{{ text }}</div>
     </div>
 </template>
 <script setup>
 import loadingGIF from "../../assets/images/loading-dot.gif";
+import Icon from "~/components/common/Icon.vue";
 // Lottie Setting
 // import lottie from "vue-lottie/src/lottie.vue";
 // import lottie from "lottie-web";
@@ -41,6 +44,7 @@ const props = defineProps({
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/scss/colors.scss";
 .chat-box-wrapper {
     display: flex;
     justify-content: flex-start;
@@ -50,16 +54,20 @@ const props = defineProps({
 }
 .chat-box {
     display: flex;
-    padding: 1.0625rem 2rem;
     align-items: center;
     max-width: 90%;
-    border-radius: 0.625rem;
-    border: 0.3px solid #000;
+
+    padding: 12px;
     margin-bottom: 1.5rem;
-    color: #010101;
-    font-family: "Pretendard";
+
+    color: $vc-indigo-700;
+    background: $vc-indigo-200;
+    border-radius: 8px;
+
+    font-family: "Pretendard Medium";
     font-size: 14px;
-    line-height: 21px; /* 150% */
+    line-height: 160%;
+
     white-space: normal;
     word-break: break-all;
     overflow: hidden;
@@ -86,25 +94,18 @@ const props = defineProps({
     }
 }
 .chat-profile {
-    display: flex;
-    margin: 0.5rem 0;
-    align-items: center;
-    color: #010101;
-    font-family: Pretendard;
-    font-size: 14px;
-    .ic_docent {
-        margin-right: 5px;
-        font-size: 18px;
-    }
+    margin: 1rem 0;
 }
 .chat-date {
-    width: 100%;
-    text-align: center;
-    color: #50555c;
+    color: $vc-gray-500;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.6);
+
     text-align: center;
     font-family: "Pretendard";
-    font-size: 11px;
-    line-height: 1.3125rem; /* 190.909% */
-    margin: 0 0 2rem 0;
+    font-size: 12px;
+    line-height: 160%;
+    margin: 2rem auto;
+    padding: 6px 42px;
 }
 </style>

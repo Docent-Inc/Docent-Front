@@ -61,8 +61,10 @@ export default {
 .header {
     display: flex;
     justify-content: space-between;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.3);
+    -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
+
     border: none;
 
     > div {
@@ -70,18 +72,6 @@ export default {
         align-items: center;
         gap: 10px;
     }
-}
-
-.ic_home {
-    font-size: 18px;
-    position: absolute;
-    left: 0;
-    margin-left: 30px;
-}
-
-.logo_docent {
-    font-size: 42px;
-    margin: 0 auto;
 }
 
 // Tooltip - https://deeplify.dev/front-end/markup/tooltip

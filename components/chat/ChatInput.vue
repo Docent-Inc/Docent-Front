@@ -95,6 +95,7 @@ export default {
     max-width: 500px;
     min-height: 10rem;
     background: rgba(255, 255, 255, 0.5);
+    -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
 
     padding-top: 1.5rem;

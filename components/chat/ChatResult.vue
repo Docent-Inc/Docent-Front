@@ -2,29 +2,31 @@
     <div class="chat-result">
         <!-- 타이틀 -->
         <div class="chat-title" v-if="type === 4">
-            <span>{{ type_name.replace(" ", "&nbsp;&nbsp;") }}</span
-            >이 추가 되었습니다!
+            <span>{{ title[0] }}</span
+            >{{ title[1] }}
         </div>
         <div class="chat-title" v-else>
-            <span>{{ type_name.replace(" ", "&nbsp;&nbsp;") }}</span
-            >가 추가 되었습니다!
+            그런 일이 있었군요, 유신님의 말씀을 토대로
+            <span>{{ title[0] }}</span
+            >{{ title[1] }}
         </div>
 
         <!-- 내용 -->
-        <div v-if="type === 1 || type === 2" class="memo">
-            <div class="chat-diary-title">{{ chat.content }}</div>
+        <div v-if="type === 1 || type === 2" class="chat-diary">
+            <div class="chat-more" @click="more">자세히 보러가기</div>
             <img :src="chat.image_url" />
-            <div class="chat-more" @click="more">더 알아보기 &gt;</div>
+            <div class="chat-diary-title">{{ chat.content }}</div>
         </div>
 
-        <div v-if="type === 3">
+        <div v-if="type === 3 || type === 4">
             <div class="chat-memo">
-                {{ chat.content }}
-                <div class="chat-more" @click="more">더 알아보기 &gt;</div>
+                <div class="chat-more" @click="more">자세히 보러가기</div>
+                <div class="chat-memo-title">{{ chat.content }}</div>
+                <div class="chat-memo-content">{{ chat.content }}</div>
             </div>
         </div>
 
-        <div v-if="type === 4">
+        <!-- <div v-if="type === 4">
             <div class="chat-calendar">
                 <div class="chat-calendar-title">
                     {{ chat.content }}
@@ -35,7 +37,7 @@
             </div>
 
             <button class="button" @click="more">자세히 보기</button>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
@@ -64,6 +66,23 @@ export default {
                     return "✏️ 메모";
                 default:
                     return "✅ 일정";
+            }
+        },
+        title() {
+            switch (this.type) {
+                case 1:
+                    return ["일기", "를 추가했어요! ✏️"];
+                case 2:
+                    return ["꿈기록", "을 추가했어요! 🌙"];
+                case 3:
+                    return ["메모", "를 추가했어요! ✏️"];
+                default:
+                    return [
+                        `${this.$dayjs(this.chat.event_time).format(
+                            "ddd요일(MM.DD)"
+                        )} 일정`,
+                        "을 추가했어요! 🗓️",
+                    ];
             }
         },
     },
@@ -102,62 +121,100 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "@/assets/scss/colors.scss";
 .chat-result {
     max-width: 80%;
-    padding: 2rem 1.5rem;
     border-radius: 0.625rem;
-    background: rgba(255, 255, 255, 0.8);
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
     position: relative;
+    margin-top: 8px;
     margin-bottom: 2rem;
+
     .chat-title {
-        color: #000;
+        color: $vc-gray-700;
         font-family: "Pretendard Bold";
-        font-size: 10px;
-        line-height: 1.3125rem; /* 210% */
+        font-size: 20px;
+        line-height: 150%; /* 30px */
         padding-bottom: 0.5rem;
-        border-bottom: 1px solid #eeedf4;
         span {
-            color: #2c9577;
+            color: $vc-indigo-500;
         }
     }
-    .chat-diary-title {
-        font-family: "Pretendard Bold";
-        font-size: 16px;
-        line-height: 1.4rem;
-        width: 80%;
+
+    .chat-diary {
+        width: 350px;
+        border-radius: 8px;
         overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        margin: 1.5rem 0;
+        position: relative;
+        margin-top: 16px;
+
+        img {
+            // width: 100%;
+            width: 350px;
+            height: 305px;
+            object-fit: cover;
+        }
+        .chat-diary-title {
+            width: 100%;
+            padding: 12px;
+
+            font-family: "Pretendard Bold";
+            font-size: 14px;
+            line-height: 160%;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            color: #fff;
+            background: #6e6eff;
+        }
     }
-    img {
-        width: 100%;
-        margin-bottom: 2.31rem;
-    }
+
     .chat-more {
-        color: #2c9577;
-        font-family: "Pretendard SemiBold";
-        font-size: 8px; // 0.5rem;
-        line-height: 1.3125rem; /* 262.5% */
+        font-family: "Pretendard";
+        font-size: 12px;
+        line-height: 160%; /* 19.2px */
+
+        border-radius: 8px;
+        padding: 6px 12px;
+        background: $vc-indigo-50;
+        color: $vc-indigo-500;
+
         position: absolute;
-        bottom: 0;
+        top: 0;
         right: 0;
-        margin-right: 1.5rem;
-        margin-bottom: 1rem;
-        text-align: right;
+        margin: 12px;
         cursor: pointer;
     }
     .chat-more.disabled {
         opacity: 0.5;
     }
     .chat-memo {
+        border-radius: 8px;
+        background: #fff;
+        padding: 12px;
+        position: relative;
+
         color: #000;
-        font-family: "Pretendard";
         font-size: 14px;
         line-height: 20px;
         margin-top: 0.94rem;
         margin-bottom: 2.19rem;
+
+        .chat-memo-title {
+            color: $vc-gray-700;
+            font-family: "Pretendard Bold";
+            font-size: 18px;
+            line-height: 160%; /* 28.8px */
+        }
+
+        .chat-memo-content {
+            color: $vc-gray-400;
+            font-family: "Pretendard";
+            font-size: 14px;
+            line-height: 160%; /* 22.4px */
+            margin-top: 14.5px;
+        }
     }
 }
 .chat-calendar {

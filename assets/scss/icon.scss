@@ -97,6 +97,14 @@
     display: block;
 }
 
+.ic_x {
+    background: url("../images/ic_x.svg") no-repeat center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+// btn
 .ic_mic {
     background: url("../images/ic_mic.svg") no-repeat center/cover;
     width: 28px;
@@ -131,10 +139,11 @@
     align-items: center;
 }
 
-.ic_x {
-    background: url("../images/ic_x.svg") no-repeat center/cover;
-    width: 24px;
-    height: 24px;
+// etc
+.ic_profile_ai {
+    background: url("../images/ic_profile_ai.svg") no-repeat center/cover;
+    width: 28px;
+    height: 28px;
     display: block;
 }
 
