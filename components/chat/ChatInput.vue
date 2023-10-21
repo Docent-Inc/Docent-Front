@@ -24,7 +24,7 @@
 <script>
 import { useGenerateService } from "../../services/generate";
 import { mapState, mapActions } from "pinia";
-import { useChatStore } from "../../store/chat";
+import { useChatStore } from "../../store/chat2";
 import Button from "~/components/common/Button.vue";
 
 export default {

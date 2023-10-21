@@ -22,7 +22,7 @@
 <script>
 import { useGenerateService } from "../../services/generate";
 import { mapState, mapActions } from "pinia";
-import { useChatStore } from "../../store/chat";
+import { useChatStore } from "../../store/chat2";
 
 export default {
     name: "ChatInput",

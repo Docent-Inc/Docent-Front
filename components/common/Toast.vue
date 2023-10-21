@@ -1,7 +1,7 @@
 <template>
     <!-- 토스트 -->
     <div class="toast" :style="{ top: top }">
-        {{ text }}
+        <span>{{ text }}</span>
         <Icon :class="'ic_x'" />
     </div>
 </template>
@@ -27,22 +27,28 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "@/assets/scss/colors.scss";
+
 .toast {
     position: absolute;
     top: 70px;
     width: 90%;
     border-radius: 8px;
-    background: rgba(0, 0, 0, 0.7);
+    background: $vc-gray-800;
+    opacity: 0.9;
 
     display: flex;
     align-items: center;
     justify-content: flex-start;
     color: #fff;
     font-size: 12px;
-    white-space: pre-wrap;
 
     padding: 8px 12px;
 
+    span {
+        max-width: calc(100% - (16px + 24px));
+        white-space: pre-line;
+    }
     .ic_x {
         position: absolute;
         top: 50%;

@@ -1,7 +1,7 @@
 <template>
     <div class="chat-result">
         <!-- 타이틀 -->
-        <div class="chat-title" v-if="type === 4">
+        <div class="chat-title" v-if="type === 3 || type === 4">
             <span>{{ title[0] }}</span
             >{{ title[1] }}
         </div>
@@ -14,30 +14,22 @@
         <!-- 내용 -->
         <div v-if="type === 1 || type === 2" class="chat-diary">
             <div class="chat-more" @click="more">자세히 보러가기</div>
-            <img :src="chat.image_url" />
-            <div class="chat-diary-title">{{ chat.content }}</div>
+            <img :src="result.content.image_url" />
+            <div class="chat-diary-title">{{ result.content.diary_name }}</div>
         </div>
 
         <div v-if="type === 3 || type === 4">
             <div class="chat-memo">
                 <div class="chat-more" @click="more">자세히 보러가기</div>
-                <div class="chat-memo-title">{{ chat.content }}</div>
-                <div class="chat-memo-content">{{ chat.content }}</div>
+                <div class="chat-memo-title">{{ result.content.title }}</div>
+                <div
+                    class="chat-memo-content"
+                    v-if="result.content.content !== ''"
+                >
+                    {{ result.content.content }}
+                </div>
             </div>
         </div>
-
-        <!-- <div v-if="type === 4">
-            <div class="chat-calendar">
-                <div class="chat-calendar-title">
-                    {{ chat.content }}
-                </div>
-                <div class="date">
-                    {{ $dayjs(chat.event_time).format("MM.DD ddd") }}요일
-                </div>
-            </div>
-
-            <button class="button" @click="more">자세히 보기</button>
-        </div> -->
     </div>
 </template>
 <script>
@@ -49,7 +41,7 @@ export default {
             required: true,
             default: 1,
         },
-        chat: {
+        result: {
             type: Object,
             required: true,
             default: () => {},
@@ -71,14 +63,14 @@ export default {
         title() {
             switch (this.type) {
                 case 1:
-                    return ["일기", "를 추가했어요! ✏️"];
-                case 2:
                     return ["꿈기록", "을 추가했어요! 🌙"];
+                case 2:
+                    return ["일기", "를 추가했어요! ✏️"];
                 case 3:
                     return ["메모", "를 추가했어요! ✏️"];
                 default:
                     return [
-                        `${this.$dayjs(this.chat.event_time).format(
+                        `${this.$dayjs(this.result.event_time).format(
                             "ddd요일(MM.DD)"
                         )} 일정`,
                         "을 추가했어요! 🗓️",
@@ -88,34 +80,34 @@ export default {
     },
     methods: {
         more() {
-            switch (this.chat.content_type) {
+            switch (this.result.content_type) {
                 case 1:
                 case 2:
-                    const id =
-                        this.chat.content_type === 1
-                            ? this.chat.MorningDiary_id
-                            : this.chat.NightDiary_id;
+                // const id =
+                //     this.chat.content_type === 1
+                //         ? this.result.MorningDiary_id
+                //         : this.result.NightDiary_id;
 
-                    this.$router.push(
-                        `/diary/${id}?type=${this.chat.content_type}`
-                    );
-                    break;
+                // this.$router.push(
+                //     `/diary/${id}?type=${this.result.content_type}`
+                // );
+                // break;
 
                 case 3:
-                    this.$router.push(`/memo/${this.chat.Memo_id}`);
-                    break;
+                // this.$router.push(`/memo/${this.result.Memo_id}`);
+                // break;
 
                 case 4:
-                    this.$router.push(
-                        `/calendar/?date=${this.chat.event_time}`
-                    );
-                    break;
+                // this.$router.push(
+                //     `/calendar/?date=${this.result.event_time}`
+                // );
+                // break;
                 default:
                     alert("🔔 서비스 오픈 예정입니다.");
                     break;
             }
 
-            console.log("cliclk>>", this.chat);
+            console.log("cliclk>>", this.result);
         },
     },
 };
@@ -123,11 +115,14 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/scss/colors.scss";
 .chat-result {
-    max-width: 80%;
+    // max-width: 80%;
     border-radius: 0.625rem;
     position: relative;
     margin-top: 8px;
     margin-bottom: 2rem;
+
+    display: flex;
+    flex-direction: column;
 
     .chat-title {
         color: $vc-gray-700;
@@ -141,16 +136,18 @@ export default {
     }
 
     .chat-diary {
-        width: 350px;
+        width: 100%;
         border-radius: 8px;
         overflow: hidden;
         position: relative;
         margin-top: 16px;
+        align-self: center;
 
         img {
-            // width: 100%;
-            width: 350px;
+            width: 100%;
+            // width: 350px;
             height: 305px;
+
             object-fit: cover;
         }
         .chat-diary-title {
@@ -202,10 +199,15 @@ export default {
         margin-bottom: 2.19rem;
 
         .chat-memo-title {
+            margin-right: 150px;
             color: $vc-gray-700;
             font-family: "Pretendard Bold";
             font-size: 18px;
             line-height: 160%; /* 28.8px */
+            max-width: 80%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .chat-memo-content {
@@ -214,6 +216,10 @@ export default {
             font-size: 14px;
             line-height: 160%; /* 22.4px */
             margin-top: 14.5px;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 }

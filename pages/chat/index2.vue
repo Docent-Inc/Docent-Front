@@ -40,7 +40,7 @@ import ChatBox from "../../components/chat/ChatBox.vue";
 import ChatResult from "../../components/chat/ChatBox.vue";
 
 import { mapState, mapActions } from "pinia";
-import { useChatStore } from "../../store/chat";
+import { useChatStore } from "../../store/chat2";
 
 export default {
     name: "Chat",
