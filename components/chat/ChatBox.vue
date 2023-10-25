@@ -1,13 +1,15 @@
 <template>
     <div class="chat-box-wrapper" :class="{ right: !chat.is_docent }">
         <!-- 도슨트 -->
-        <div v-if="chat.is_docent" style="width: 100%">
-            <div class="chat-profile">
-                <Icon class="ic_profile_ai" />
-            </div>
+        <div v-if="chat.is_docent" style="width: 100%" class="chat-docent">
+            <div class="chat-docent-profile">
+                <div class="chat-profile">
+                    <Icon class="ic_profile_ai" />
+                </div>
 
-            <div class="chat-title" v-if="chat.type !== 'result'">
-                {{ chat.text }}
+                <div class="chat-title" v-if="chat.type !== 'result'">
+                    {{ chat.text }}
+                </div>
             </div>
 
             <!-- 로딩 -->
@@ -37,7 +39,7 @@
             />
         </div>
         <!-- 유저 -->
-        <div class="chat-box" v-else>
+        <div class="chat-user" v-else>
             {{ chat.text }}
         </div>
 
@@ -62,6 +64,19 @@ export default {
             ],
             selected: null,
         };
+    },
+    computed: {
+        primaryText() {
+            // if (this.chat.type === 'result') {
+            //     if (this.chat.result.type === 3 || this.chat.result.type === 4) {
+            //         return this.title[0];
+            //     } else {
+            //         return '그런 일이 있었군요, 유신님의 말씀을 토대로 ' + this.title[0];
+            //     }
+            // }
+            // return '';
+        },
+        defaultText() {},
     },
     methods: {
         onSelect(idx) {
@@ -89,18 +104,17 @@ export default {
     display: flex;
     justify-content: flex-start;
     width: 100%;
-    margin: 2rem 0;
+    height: fit-content;
+    // border: 1px solid red;
 }
 .chat-box-wrapper.right {
     justify-content: flex-end;
 }
-.chat-box {
+.chat-user {
     display: flex;
     align-items: center;
-    // max-width: 90%;
 
     padding: 12px;
-    // margin-bottom: 1.5rem;
 
     color: $vc-indigo-700;
     background: $vc-indigo-200;
@@ -114,9 +128,7 @@ export default {
     word-break: break-all;
     overflow: hidden;
 }
-.chat-box.right {
-    align-self: right;
-}
+
 .chat-loading {
     width: 100%;
     height: 40px;
@@ -161,5 +173,16 @@ export default {
 }
 .chat-profile {
     margin: 8px 0;
+}
+
+.chat-small {
+    // border: 1px solid green;
+
+    transform: scale(0.8);
+    opacity: 0.5;
+    transition:
+        transform 0.5s,
+        opacity 0.5s;
+    transform-origin: left top;
 }
 </style>

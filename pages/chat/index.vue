@@ -11,9 +11,12 @@
         <div class="chat-date">
             {{ $dayjs().format("YYYY년 M월 D일") }}
         </div>
-        <div v-for="chat in dummyLists" :key="chat.id">
-            <chat-box :chat="chat" />
-        </div>
+        <chat-box
+            v-for="(chat, idx) in dummyLists"
+            :key="idx"
+            :chat="chat"
+            class="chat-box"
+        />
     </div>
 </template>
 
@@ -130,6 +133,19 @@ export default {
     },
     mounted() {
         // this.getFirstPage();
+        const chatBoxEls = document.querySelectorAll(".chat-box");
+        for (let i = 0; i < chatBoxEls.length - 1; i++) {
+            const chatEl = chatBoxEls[i].querySelector(".chat-docent");
+            const chatProEl = chatBoxEls[i].querySelector(
+                ".chat-docent-profile"
+            );
+
+            // chat-docent가 없으면 다음 요소로 넘어감
+            if (!chatEl) continue;
+
+            // chat-small 클래스 추가
+            chatProEl.classList.add("chat-small");
+        }
     },
     methods: {
         // Infinite Loading
@@ -159,6 +175,10 @@ export default {
 
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 .chat-date {
@@ -171,7 +191,8 @@ export default {
     font-family: "Pretendard";
     font-size: 12px;
     line-height: 160%;
-    margin: 2rem auto;
+    // margin: 2rem auto;
+    margin: 0 auto;
     padding: 6px 42px;
 }
 </style>
