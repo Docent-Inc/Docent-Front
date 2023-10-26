@@ -4,11 +4,11 @@
             <v-icon class="nav_home" :class="{ active: isActive('/home') }" />
         </v-btn>
 
-        <v-btn flat @click="navigateTo(`/gallery`)">
-            <v-icon
-                class="nav_gallery"
-                :class="{ active: isActive('/gallery') }"
-            />
+        <v-btn flat @click="navigateTo(`/report`)">
+          <v-icon
+              class="nav_report"
+              :class="{ active: isActive('/report') }"
+          />
         </v-btn>
 
         <v-btn flat @click="navigateTo(`/chat`)">
@@ -22,11 +22,12 @@
             />
         </v-btn>
 
-        <v-btn flat @click="navigateTo(`/report`)">
-            <v-icon
-                class="nav_report"
-                :class="{ active: isActive('/report') }"
-            />
+
+        <v-btn flat @click="navigateTo(`/mypage`)">
+          <v-icon
+              class="nav_mypage"
+              :class="{ active: isActive('/mypage') }"
+          />
         </v-btn>
     </div>
 </template>
@@ -56,7 +57,7 @@ export default {
     flex: 1;
     width: 100%;
     height: 100%;
-    font-size: 30px;
+    font-size: 40px;
 
     display: flex;
     align-items: center;
