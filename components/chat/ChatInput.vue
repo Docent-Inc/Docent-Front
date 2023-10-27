@@ -6,7 +6,7 @@
                 class="btn_mic"
                 @click="mode = 'VOICE'"
             />
-            <Button v-else class="btn_mic_x" @click="mode = 'INPUT'" />
+            <Button v-else class="btn_mic_x" @click="cancelVoice" />
 
             <div class="input">
                 <textarea
@@ -97,6 +97,15 @@ export default {
         setData(res) {
             this.data = res;
             this.mode = "INPUT";
+        },
+        cancelVoice() {
+            this.$eventBus.$emit("onCustomModal", {
+                title: "정말 음성입력을 취소하시겠어요?",
+                desc: "취소하시면 입력한 내용이 사라져요!",
+                callback: () => {
+                    this.setData("");
+                },
+            });
         },
     },
     components: { Button },
