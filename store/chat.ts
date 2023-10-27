@@ -57,6 +57,20 @@ export const useChatStore = defineStore("chat", {
         list: [] as Chat[],
     }),
     actions: {
-        addChat() {},
+        /**
+         * 세션스토리지에서 불러온 채팅 리스트 저장
+         * @param initList (Chat[])
+         */
+        initChatList(initList: Chat[]) {},
+        /**
+         * 채팅 추가
+         * @param chat (Chat)
+         */
+        addChat(chat: Chat) {},
+        /**
+         * 채팅 삭제
+         * @param idx (Number)
+         */
+        removeChat(idx: Number) {},
     },
 });

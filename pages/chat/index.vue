@@ -1,4 +1,3 @@
-<!-- TODO: 스크롤  -->
 <template>
     <div class="contents" ref="scrollable" @click="push">
         <div class="chat-date">
@@ -40,6 +39,12 @@ export default {
                     is_docent: true,
                     type: "select",
                     text: "유신님, 오늘 하루는 어땠어요? \n기록 예시가 필요한가요?",
+                    selectList: [
+                        "꿈을 기록하고 싶어요!",
+                        "일기를 기록하고 싶어요!",
+                        "메모를 하고 싶어요!",
+                        "일정을 입력하고 싶어요!",
+                    ],
                 },
                 {
                     is_docent: true,
@@ -124,6 +129,15 @@ export default {
                         },
                     },
                 },
+                {
+                    is_docent: true,
+                    type: "select",
+                    text: "부적절한 단어가 있어서 그림을 그릴 수 없어요... 그림을 그리고 싶으시다면 다시 입력해 주시겠어요?",
+                    selectList: [
+                        "그림 없이 저장할게요.",
+                        "그림을 그리고 싶어요!",
+                    ],
+                },
             ],
         };
     },
@@ -152,6 +166,8 @@ export default {
 
             return true;
         },
+        getChatList() {},
+        updateChatList() {},
         async push() {
             // Test용
             if (this.lists.length < this.dummyLists.length) {

@@ -23,7 +23,7 @@
             <!-- 선택 버튼  -->
             <div class="chat-select-box" v-if="chat.type === 'select'">
                 <div
-                    v-for="(select, idx) in selectList"
+                    v-for="(select, idx) in chat.selectList"
                     :key="idx"
                     class="chat-select"
                     :class="{ selected: selected === idx }"
@@ -85,6 +85,7 @@ export default {
     font-size: 20px;
     line-height: 150%; /* 30px */
     padding-bottom: 0.5rem;
+
     span {
         color: $vc-indigo-500;
     }
