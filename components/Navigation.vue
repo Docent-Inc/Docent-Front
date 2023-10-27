@@ -55,10 +55,7 @@ export default {
 <style lang="scss" scoped>
 .v-btn {
     flex: 1;
-    width: 100%;
-    height: 100%;
-    font-size: 40px;
-
+    font-size: 56px;
     display: flex;
     align-items: center;
 }

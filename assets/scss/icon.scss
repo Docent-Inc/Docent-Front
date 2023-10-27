@@ -33,6 +33,13 @@
     display: block;
 }
 
+.ic_dream {
+    background: url("../images/ic_dream.svg") no-repeat center;
+    background-size: contain;  /* 이미지가 컨테이너에 맞게 조정되도록 변경 */
+    display: block;
+}
+
+
 .ic_send {
     background: url("../images/ic_send.svg") no-repeat center/cover;
     width: 15px;
@@ -87,53 +94,50 @@
     background: url("../images/nav_home.svg") no-repeat center/cover;
     width: 50px;
     height: 50px;
+    background-size: contain;
     display: block;
 }
 
 .nav_home.active {
     background: url("../images/nav_home_active.svg") no-repeat center/cover;
-}
-
-.nav_gallery {
-    background: url("../images/nav_gallery.svg") no-repeat center/cover;
-    width: 50px;
-    height: 50px;
-    display: block;
-}
-
-.nav_gallery.active {
-    background: url("../images/nav_gallery_active.svg") no-repeat center/cover;
+    background-size: contain;
 }
 
 .nav_calendar {
     background: url("../images/nav_calendar.svg") no-repeat center/cover;
     width: 50px;
     height: 50px;
+    background-size: contain;
     display: block;
 }
 
 .nav_calendar.active {
     background: url("../images/nav_calendar_active.svg") no-repeat center/cover;
+    background-size: contain;
 }
 
 .nav_report {
     background: url("../images/nav_report.svg") no-repeat center/cover;
     width: 50px;
     height: 50px;
+    background-size: contain;
     display: block;
 }
 
 .nav_report.active {
     background: url("../images/nav_report_active.svg") no-repeat center/cover;
+    background-size: contain;
 }
 
 .nav_mypage {
     background: url("../images/nav_mypage.svg") no-repeat center/cover;
     width: 50px;
     height: 50px;
+    background-size: contain;
     display: block;
 }
 
 .nav_mypage.active {
     background: url("../images/nav_mypage_active.svg") no-repeat center/cover;
+    background-size: contain;
 }
