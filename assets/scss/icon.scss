@@ -123,6 +123,24 @@
     align-items: center;
 }
 
+.ic_mic_x {
+    background: url("../images/ic_mic_x.svg") no-repeat center/cover;
+    width: 28px;
+    height: 28px;
+    display: block;
+}
+
+.btn_mic_x {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0px 0px 14px 0px rgba(110, 110, 255, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .ic_send {
     background: url("../images/ic_send.svg") no-repeat center/cover;
     width: 24px;
@@ -138,6 +156,13 @@
     justify-content: center;
     align-items: center;
 }
+
+// .btn_mic_rec {
+//     background: url("../images/btn_mic_rec.svg") no-repeat center/cover;
+//     width: 40px;
+//     height: 40px;
+//     display: block;
+// }
 
 // etc
 .ic_profile_ai {

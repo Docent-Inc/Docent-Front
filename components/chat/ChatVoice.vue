@@ -1,9 +1,17 @@
 <template>
-    <div class="chat-voice">
-        <div>
+    <div class="chat-voice" @click="stop">
+        <!-- <div>
             {{ data }}
+        </div> -->
+        <div
+            class="chat-voice-bg2 animate__animated animate__pulse animate__infinite"
+        >
+            <div
+                class="chat-voice-bg1 animate__animated animate__infinite animate__pulse"
+            >
+                <img src="@/assets/images/btn_mic_rec.svg" />
+            </div>
         </div>
-        <v-icon class="ic_voice big" @click="stop" />
     </div>
 </template>
 
@@ -23,13 +31,14 @@ recognition.onresult = (e) => {
         if (e.results[i].isFinal) {
             data.value += transcript;
             console.log("🎤 ", transcript);
+            emit("change", data.value);
         }
     }
 };
 
 // 1) start
 onMounted(() => {
-    recognition.start();
+    // recognition.start();
 });
 
 // 2) stop
@@ -43,34 +52,30 @@ function stop() {
 <style lang="scss" scoped>
 .chat-voice {
     width: 100%;
-    height: 100%;
-    // background: #00000067;
-    z-index: 20;
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    div {
-        font-family: Pretendard;
-        color: #010101;
-        font-size: 14px;
-        text-align: center;
-
-        position: absolute;
-        left: 50%;
-        bottom: 0;
-        transform: translateX(-50%);
-        margin-bottom: calc(7.44rem + 15rem);
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem 0 0;
 }
 
-.ic_voice.big {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    margin-bottom: 7.44rem;
-    font-size: 15rem;
-    z-index: 20;
+.chat-voice-bg1 {
+    background: url("../../assets/images/btn_mic_rec_bg1.svg") no-repeat
+        center/cover;
+    width: 116px;
+    height: 116px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.chat-voice-bg2 {
+    background: url("../../assets/images/btn_mic_rec_bg2.svg") no-repeat
+        center/cover;
+    width: 146px;
+    height: 146px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

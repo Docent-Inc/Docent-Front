@@ -1,24 +1,35 @@
 <template>
     <div class="chat-input">
-        <Button
-            class="btn_mic"
-            v-if="mode === 'INPUT'"
-            @click="mode = 'VOICE'"
-        />
-
-        <div class="input">
-            <textarea
-                v-model="data"
-                placeholder="도슨트에게 당신의 이야기를 들려주세요"
-                :disabled="isGenerating"
-                :rows="rows"
+        <div class="chat-input-top">
+            <Button
+                v-if="mode === 'INPUT'"
+                class="btn_mic"
+                @click="mode = 'VOICE'"
             />
+            <Button v-else class="btn_mic_x" @click="mode = 'INPUT'" />
 
-            <Button class="btn_send" @click="send" />
+            <div class="input">
+                <textarea
+                    v-model="data"
+                    :placeholder="placeholder"
+                    :disabled="isGenerating || mode === 'VOICE'"
+                    :rows="rows"
+                    :class="{ voice: mode === 'VOICE' }"
+                />
+
+                <Button
+                    v-if="mode === 'INPUT'"
+                    class="btn_send"
+                    @click="send"
+                />
+            </div>
         </div>
+        <chat-voice
+            v-if="mode === 'VOICE'"
+            @change="(x) => (data = x)"
+            @finish="setData"
+        />
     </div>
-
-    <chat-voice v-if="mode === 'VOICE'" @finish="setData" />
 </template>
 
 <script>
@@ -45,6 +56,11 @@ export default {
             const maxRows = 3;
             const rows = this.data.split("\n").length;
             return Math.min(Math.max(rows, minRows), maxRows);
+        },
+        placeholder() {
+            if (this.mode === "INPUT")
+                return "도슨트에게 당신의 이야기를 들려주세요";
+            else return "Looki가 듣고 있어요!";
         },
     },
     methods: {
@@ -98,19 +114,22 @@ export default {
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
 
-    padding-top: 1.5rem;
-    padding-bottom: 3rem;
+    padding: 1.5rem 0 3rem;
     z-index: 10;
     position: fixed;
     bottom: 0;
     bottom: constant(safe-area-inset-bottom);
     bottom: env(safe-area-inset-bottom);
+    // display: flex;
+    // justify-content: space-evenly;
+    // align-items: center;
+}
+
+.chat-input-top {
+    width: 100%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    .ic_voice {
-        font-size: 56px;
-    }
 }
 .ic_voice.big {
     position: absolute;
@@ -147,6 +166,12 @@ export default {
     textarea::placeholder {
         color: #50555c;
         font-size: 12px;
+    }
+    textarea.voice::placeholder {
+        color: $vc-indigo-500;
+        font-size: 14px;
+        font-family: "Pretendard SemiBold";
+        line-height: 160%; /* 22.4px */
     }
     textarea:focus {
         border: 1px solid $vc-indigo-400;
