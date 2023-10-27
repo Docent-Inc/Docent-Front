@@ -33,9 +33,33 @@
     display: block;
 }
 
-.ic_dream {
-    background: url("../images/ic_dream.svg") no-repeat center;
-    background-size: contain;  /* 이미지가 컨테이너에 맞게 조정되도록 변경 */
+.ic_status_dream {
+    background: url("assets/images/ic_status_dream.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_status_diary {
+    background: url("assets/images/ic_status_diary.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_status_memo {
+    background: url("assets/images/ic_status_memo.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_status_same {
+    background: url("assets/images/ic_status_same.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_status_start {
+    background: url("assets/images/ic_status_start.svg") no-repeat center;
+    background-size: contain;
     display: block;
 }
 
