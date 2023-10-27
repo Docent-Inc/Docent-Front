@@ -1,18 +1,11 @@
 <!-- TODO: 스크롤  -->
 <template>
-    <div class="contents" ref="scrollable">
-        <!-- <infinite-loading
-            v-if="chatList?.length"
-            :first-load="false"
-            :distance="1000"
-            :top="true"
-            @infinite="loadMore"
-        /> -->
+    <div class="contents" ref="scrollable" @click="push">
         <div class="chat-date">
             {{ $dayjs().format("YYYY년 M월 D일") }}
         </div>
         <chat-box
-            v-for="(chat, idx) in dummyLists"
+            v-for="(chat, idx) in lists"
             :key="idx"
             :chat="chat"
             class="chat-box"
@@ -28,6 +21,8 @@ import ChatResult from "../../components/chat/ChatBox.vue";
 import { mapState, mapActions } from "pinia";
 import { useChatStore } from "../../store/chat2";
 
+import { smoothScroll } from "@/utils/animation";
+
 export default {
     name: "Chat",
     components: { InfiniteLoading, ChatBox, ChatResult },
@@ -39,6 +34,7 @@ export default {
     data() {
         return {
             isInitialized: false,
+            lists: [],
             dummyLists: [
                 {
                     is_docent: true,
@@ -131,33 +127,42 @@ export default {
             ],
         };
     },
-    mounted() {
-        // this.getFirstPage();
-        const chatBoxEls = document.querySelectorAll(".chat-box");
-        for (let i = 0; i < chatBoxEls.length - 1; i++) {
-            const chatEl = chatBoxEls[i].querySelector(".chat-docent");
-            const chatProEl = chatBoxEls[i].querySelector(
-                ".chat-docent-profile"
-            );
-
-            // chat-docent가 없으면 다음 요소로 넘어감
-            if (!chatEl) continue;
-
-            // chat-small 클래스 추가
-            chatProEl.classList.add("chat-small");
-        }
-    },
+    mounted() {},
+    watch: {},
     methods: {
-        // Infinite Loading
-        async loadMore() {
-            // console.log("here");
-            // if (this.reload) return;
-            this.$nextTick();
-            setTimeout(() => {
-                // if (this.totalCounts > this.list.length) {
-                //     this.getList();
-                // }
-            }, 1000);
+        scrollToBottom() {
+            const scrollableRef = this.$refs.scrollable;
+            smoothScroll(scrollableRef, scrollableRef.scrollHeight, 200);
+        },
+        updateCss() {
+            const chatBoxEls = document.querySelectorAll(".chat-box");
+
+            for (let i = 0; i < chatBoxEls.length - 1; i++) {
+                const chatEl = chatBoxEls[i].querySelector(".chat-docent");
+                const chatProEl = chatBoxEls[i].querySelector(
+                    ".chat-docent-profile"
+                );
+
+                // chat-docent가 없으면 다음 요소로 넘어감
+                if (!chatEl) continue;
+
+                // chat-small 클래스 추가
+                chatProEl.classList.add("chat-small");
+            }
+
+            return true;
+        },
+        async push() {
+            // Test용
+            if (this.lists.length < this.dummyLists.length) {
+                const idx = this.lists.length;
+                this.lists.push(this.dummyLists[idx]);
+                await this.$nextTick();
+                this.updateCss();
+
+                await new Promise((resolve) => setTimeout(resolve, 250));
+                this.scrollToBottom();
+            }
         },
     },
 };
@@ -173,12 +178,14 @@ export default {
     overflow-y: scroll;
     padding: 2rem;
 
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
+    // overscroll-behavior: contain;
+    // -webkit-overflow-scrolling: touch;
 
     display: flex;
     flex-direction: column;
     gap: 2rem;
+
+    scroll-behavior: smooth;
 }
 
 .chat-date {

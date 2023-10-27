@@ -246,6 +246,8 @@ body {
             font-style: normal;
             font-weight: 500;
             line-height: 160%; /* 25.6px */
+
+            cursor: pointer;
         }
         .alert-button.primary {
             background: var(--CTA_accent, #9398ff);

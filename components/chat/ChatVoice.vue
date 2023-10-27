@@ -1,14 +1,21 @@
 <template>
     <div class="chat-voice" @click="stop">
-        <!-- <div>
-            {{ data }}
-        </div> -->
-        <div
-            class="chat-voice-bg2 animate__animated animate__pulse animate__infinite"
-        >
-            <div
-                class="chat-voice-bg1 animate__animated animate__infinite animate__pulse"
-            >
+        <div class="chat-voice-bg">
+            <div>
+                <img
+                    src="@/assets/images/btn_mic_rec_bg2.svg"
+                    class="animate__animated animate__pulse animate__infinite"
+                />
+            </div>
+
+            <div>
+                <img
+                    src="@/assets/images/btn_mic_rec_bg1.svg"
+                    class="animate__animated animate__pulse animate__infinite"
+                />
+            </div>
+
+            <div>
                 <img src="@/assets/images/btn_mic_rec.svg" />
             </div>
         </div>
@@ -16,6 +23,7 @@
 </template>
 
 <script setup>
+const emit = defineEmits(["finish", "change"]);
 const data = ref("");
 
 // Web Speech API
@@ -30,7 +38,7 @@ recognition.onresult = (e) => {
         let transcript = e.results[i][0].transcript;
         if (e.results[i].isFinal) {
             data.value += transcript;
-            console.log("🎤 ", transcript);
+            // console.log("🎤 ", transcript);
             emit("change", data.value);
         }
     }
@@ -38,11 +46,10 @@ recognition.onresult = (e) => {
 
 // 1) start
 onMounted(() => {
-    // recognition.start();
+    recognition.start();
 });
 
 // 2) stop
-const emit = defineEmits(["finish"]);
 function stop() {
     if (recognition) recognition.stop();
     emit("finish", data.value);
@@ -58,24 +65,16 @@ function stop() {
     margin: 3rem 0 0;
 }
 
-.chat-voice-bg1 {
-    background: url("../../assets/images/btn_mic_rec_bg1.svg") no-repeat
-        center/cover;
-    width: 116px;
-    height: 116px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.chat-voice-bg2 {
-    background: url("../../assets/images/btn_mic_rec_bg2.svg") no-repeat
-        center/cover;
+.chat-voice-bg {
+    position: relative;
     width: 146px;
     height: 146px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    div {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
 </style>

@@ -1,5 +1,8 @@
 <template>
-    <div class="chat-box-wrapper" :class="{ right: !chat.is_docent }">
+    <div
+        class="chat-box-wrapper animate__animated animate__slideInUp"
+        :class="{ right: !chat.is_docent }"
+    >
         <!-- 도슨트 -->
         <div v-if="chat.is_docent" style="width: 100%" class="chat-docent">
             <div class="chat-docent-profile">
@@ -64,19 +67,6 @@ export default {
             ],
             selected: null,
         };
-    },
-    computed: {
-        primaryText() {
-            // if (this.chat.type === 'result') {
-            //     if (this.chat.result.type === 3 || this.chat.result.type === 4) {
-            //         return this.title[0];
-            //     } else {
-            //         return '그런 일이 있었군요, 유신님의 말씀을 토대로 ' + this.title[0];
-            //     }
-            // }
-            // return '';
-        },
-        defaultText() {},
     },
     methods: {
         onSelect(idx) {
