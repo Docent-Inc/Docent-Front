@@ -1,6 +1,9 @@
 <template>
     <!-- 토스트 -->
-    <div class="toast" :style="{ top: top }">
+    <div
+        class="toast animate__animated animate__bounceIn"
+        :style="{ top: top }"
+    >
         <span>{{ text }}</span>
         <Icon :class="'ic_x'" />
     </div>
@@ -55,5 +58,9 @@ export default {
         transform: translateY(-50%);
         right: 16px;
     }
+}
+
+.animate__animated.animate__bounceIn {
+    --animate-duration: 1s;
 }
 </style>

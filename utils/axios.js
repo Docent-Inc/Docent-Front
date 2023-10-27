@@ -31,25 +31,25 @@ API.interceptors.response.use(
     },
     (error) => {
         if (error.response && error.response.status) {
-            switch (error.response.status) {
-                case 401:
-                    const url = new URL(window.location.href);
-                    if (
-                        url.pathname !== "/signin" &&
-                        url.pathname !== "/kakao" &&
-                        url.pathname !== "/"
-                    ) {
-                        alert("로그인 후 이용 가능합니다.");
-                        navigateTo({
-                            path: "/signin",
-                            query: { redirectURL: window.location.href },
-                        });
-                    }
-
-                    break;
-                default:
-                    return Promise.reject(error.response.data);
-            }
+            // switch (error.response.status) {
+            //     case 401:
+            //         const url = new URL(window.location.href);
+            //         if (
+            //             url.pathname !== "/signin" &&
+            //             url.pathname !== "/kakao" &&
+            //             url.pathname !== "/"
+            //         ) {
+            //             alert("로그인 후 이용 가능합니다.");
+            //             navigateTo({
+            //                 path: "/signin",
+            //                 query: { redirectURL: window.location.href },
+            //             });
+            //         }
+            //         break;
+            //     default:
+            //         return Promise.reject(error.response.data);
+            // }
+            return Promise.reject(error.response.data);
         }
 
         return Promise.reject(error);
