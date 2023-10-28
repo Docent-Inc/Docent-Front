@@ -63,7 +63,7 @@ export default {
   position: relative;
   width: 100%;
   height: 43px;
-  margin-bottom: 20px;
+  margin-top: 24px;
 }
 
 .tag-icon {

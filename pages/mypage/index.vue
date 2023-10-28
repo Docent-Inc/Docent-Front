@@ -56,9 +56,10 @@
           :selected="type"
       />
     </div>
-    <GalleryListItems :list="list" v-if="mode === 0" />
+    <div v-if="isLoading"></div>
+    <GalleryStarter v-else-if="list.length === 0" />
+    <GalleryListItems :list="list" v-else-if="mode === 0" />
     <GalleryBoardItems :list="list" v-else />
-
     <infinite-loading
         v-if="list?.length"
         :first-load="false"
@@ -77,11 +78,8 @@ import ListDiary from "../../components/gallery/ListDiary.vue";
 import ListMemo from "../../components/gallery/ListMemo.vue";
 import Tags from "../../components/gallery/Tags.vue";
 import {useUserStore} from "~/store/user";
+import Starter from "~/components/gallery/Starter.vue";
 
-const defaultStatus = {
-  iconClass: 'ic_status_start',
-  message: '아직 기록을 하지 않았어요!'
-};
 export default {
   name: "Gallery",
   setup() {
@@ -89,10 +87,11 @@ export default {
       layout: "main",
     });
   },
-  components: { ListDiary, ListMemo, InfiniteLoading, Tags },
+  components: {Starter, ListDiary, ListMemo, InfiniteLoading, Tags },
   data() {
     return {
       maxWidth: 214,
+      isLoading: true,
     };
   },
   watch: {
@@ -113,6 +112,11 @@ export default {
       "total_Memo_count",
     ]),
     ...mapState(useUserStore, ["user"]),
+    formattedTitle() {
+      return this.user?.nickname.length > 6
+          ? this.diary.diary_name.slice(0, 8)
+          : this.user?.nickname;
+    },
     highestCountCategory() {
       const counts = {
         dream: this.total_NightDiary_count,
@@ -142,15 +146,21 @@ export default {
       return counts[maxCategory] > 0 ? categoryInfo[maxCategory] : categoryInfo["start"];
     },
     displayStatus(){
-      return this.highestCountCategory || defaultStatus;
+      return this.highestCountCategory;
     },
     totalCount() {
       return this.total_NightDiary_count + this.total_MorningDiary_count + this.total_Memo_count;
     },
   },
   async mounted() {
-    this.reset();
-    await this.getGalleryList();
+    try{
+      this.reset();
+      await this.getGalleryList();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.isLoading = false;
+    }
   },
   methods: {
     ...mapActions(useGalleryStore, [

@@ -94,9 +94,6 @@ export default {
       text-align: left;
     }
   }
-  //.diary_icon {
-  //  right: 0;
-  //}
 }
 .ic_tag2_diary {
   width: 45px;
