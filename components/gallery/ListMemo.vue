@@ -40,7 +40,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .item_memo {
-    width: 350px;
+    width: 100%;
     height: 80px;
     flex-shrink: 0;
     border-radius: 8px;

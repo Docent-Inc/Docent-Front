@@ -56,7 +56,7 @@ export default {
 
 <style lang="scss" scoped>
 .item_diary {
-  width: 350px;
+  width: 100%;
   height: 80px;
   flex-shrink: 0;
   border-radius: 8px;
@@ -94,6 +94,9 @@ export default {
       text-align: left;
     }
   }
+  //.diary_icon {
+  //  right: 0;
+  //}
 }
 .ic_tag2_diary {
   width: 45px;

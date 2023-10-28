@@ -61,7 +61,7 @@ export default {
 <style scoped>
 .tags {
   position: relative;
-  width: 350px;
+  width: 100%;
   height: 43px;
   margin-bottom: 20px;
 }
