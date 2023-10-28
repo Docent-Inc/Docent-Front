@@ -1,84 +1,108 @@
 <template>
-    <div class="item_diary" @click="showDetail">
-        <img :src="diary.image_url" />
-        <div class="diary_text">
-            <div class="diary_title">{{ diary.diary_name }}</div>
-            <div class="diary_date">
-                {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
-            </div>
-        </div>
-
-        <div class="dot" v-if="diary.content_type === 1"></div>
-        <div class="dot green" v-else></div>
+  <div class="item_diary" @click="showDetail">
+    <div class="diary_content">
+      <div class="diary_title">{{ formattedTitle }}</div>
+      <div class="diary_date">{{ formattedDate }}</div>
     </div>
+    <div class="diary_icon">
+      <!-- diary.type에 따라 아이콘을 동적으로 변경합니다. -->
+      <v-icon :class="iconClass" />
+    </div>
+  </div>
 </template>
+
 <script>
 export default {
-    name: "ListDiary",
-    props: {
-        diary: {
-            type: Object,
-            required: true,
-            default: () => {},
-        },
+  name: "ListDiary",
+  props: {
+    diary: {
+      type: Object,
+      required: true,
+      default: () => {},
     },
-    methods: {
-        showDetail() {
-            console.log("cliclk>>", this.diary);
-            console.log(`type: ${this.diary.diary_type} id: ${this.diary.id}`);
-            this.$router.push(
-                `/diary/${this.diary.id}?type=${this.diary.diary_type}`
-            );
-        },
+  },
+  computed: {
+    formattedTitle() {
+      // 제목이 19자를 초과할 경우 줄여서 표시합니다.
+      return this.diary.diary_name.length > 19
+          ? this.diary.diary_name.slice(0, 19) + '...'
+          : this.diary.diary_name;
     },
+    formattedDate() {
+      return this.$dayjs(this.diary.create_date).format("YYYY.MM.DD");
+    },
+    iconClass() {
+      // 여기서 'type'은 diary 객체의 실제 속성이어야 합니다.
+      // 이 속성은 일기의 타입을 나타내야 하며, 이에 따라 적절한 아이콘을 선택합니다.
+      console.log("diary.type", this.diary.diary_type);
+      switch (this.diary.diary_type) { // 또는 diary.content_type 등의 속성
+        case 1:
+          return 'ic_tag2_dream'; // 꿈 아이콘의 클래스
+        case 2:
+          return 'ic_tag2_diary'; // 일기 아이콘의 클래스
+        case 3:
+          return 'ic_tag2_memo'; // 메모 아이콘의 클래스
+      }
+    }
+  },
+  methods: {
+    showDetail() {
+      this.$router.push(`/diary/${this.diary.id}?type=${this.diary.diary_type}`);
+    },
+  },
 };
 </script>
+
+
 <style lang="scss" scoped>
 .item_diary {
-    width: 100%;
-    // padding: 0.75rem 0;
-    padding: calc(16px * 0.75) 0;
-    border-bottom: 1px solid #000;
-    position: relative;
+  width: 350px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--white, #FFF);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+
+
+  .diary_content {
     display: flex;
-
-    .dot {
-        background: var(--B2BBDA, #b2bbda);
-        border-radius: 50%;
-        width: 0.625rem;
-        height: 0.625rem;
-
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 10px;
-
-        &.green {
-            background: var(--2C9577, #2c9577);
-        }
-    }
-
-    img {
-        width: 25%;
-        height: 25%;
-        border-radius: 0.9375rem;
-    }
-}
-
-.diary_text {
-    margin-left: 10px;
-    width: calc(100% - (30% + 50px));
+    flex-direction: column;
+    justify-content: center;
 
     .diary_title {
-        color: #010101;
-        font-family: "Pretendard SemiBold";
-        font-size: 16px;
+      color: var(--gray-700, #374151);
+      /* b1/b1_med_16 */
+      font-family: Pretendard;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 160%; /* 25.6px */
     }
 
     .diary_date {
-        color: #5c5c5c;
-        font-family: "Pretendard";
-        font-size: 12px;
+      color: var(--gray-400, #9CA3AF);
+      margin-top: 8px;
+      font-family: Pretendard;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 160%;
+      text-align: left;
     }
+  }
+}
+.ic_tag2_diary {
+  width: 45px;
+  height: 32px;
+  margin-bottom: 36px;
+}
+.ic_tag2_dream {
+  width: 35px;
+  height: 32px;
+  margin-bottom: 36px;
 }
 </style>

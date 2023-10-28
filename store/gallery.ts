@@ -18,6 +18,10 @@ interface Data {
 
     Memo?: DiaryOrMemo[];
     Memo_count?: Number;
+
+    total_MorningDiary_count?: Number;
+    total_NightDiary_count?: Number;
+    total_Memo_count?: Number;
 }
 
 export const useGalleryStore = defineStore("gallery", {
@@ -28,6 +32,9 @@ export const useGalleryStore = defineStore("gallery", {
         mode: 0, // List (0), Board(1)
         list: [] as DiaryOrMemo[],
         data: {} as Data,
+        total_MorningDiary_count: 0,
+        total_NightDiary_count: 0,
+        total_Memo_count: 0,
     }),
     actions: {
         async getGalleryList() {
@@ -46,6 +53,9 @@ export const useGalleryStore = defineStore("gallery", {
 
             this.list = res.data.list;
             this.totalCounts = res.data.count;
+            this.total_MorningDiary_count = res.data.total_MorningDiary_count;
+            this.total_NightDiary_count = res.data.total_NightDiary_count;
+            this.total_Memo_count = res.data.total_Memo_count;
             this.pageNo += 1;
         },
         /**
