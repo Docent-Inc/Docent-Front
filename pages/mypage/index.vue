@@ -27,7 +27,7 @@
     <div class="contents-header-3">
       <div class="count-area">
         <div :style="getBarStyle('dream', total_MorningDiary_count)" class="bar">
-          <div v-if="total_NightDiary_count > 0">
+          <div v-if="total_MorningDiary_count > 0">
             <span>꿈 기록</span>
             <span>{{ total_MorningDiary_count }}</span>
           </div>
