@@ -28,7 +28,7 @@ export const useDiaryStore = defineStore("diary", {
             );
 
             const res = await getGalleryList(this.type, this.pageNo);
-            console.log(res);
+            // console.log(res);
 
             if (this.pageNo === 1) this.list = res.data.list;
             else this.list = [...this.list, ...res.data.list];

@@ -206,15 +206,11 @@ export default {
         },
     },
     async mounted() {
-        // this.$eventBus.$emit("onLoading", true);
-
         try {
             this.setPageNo(1);
             await this.getGalleryList();
         } catch (e) {
             console.log(e);
-        } finally {
-            // this.$eventBus.$emit("onLoading", false);
         }
     },
     methods: {
