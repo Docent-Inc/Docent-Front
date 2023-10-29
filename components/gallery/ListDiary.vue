@@ -1,84 +1,88 @@
 <template>
-    <div class="item_diary" @click="showDetail">
-        <img :src="diary.image_url" />
-        <div class="diary_text">
-            <div class="diary_title">{{ diary.diary_name }}</div>
-            <div class="diary_date">
-                {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
-            </div>
-        </div>
-
-        <div class="dot" v-if="diary.content_type === 1"></div>
-        <div class="dot green" v-else></div>
+  <div class="item_diary" @click="showDetail">
+    <div class="diary_content">
+      <div class="diary_title">{{ this.diary.diary_name }}</div>
+      <div class="diary_date">{{ this.$dayjs(this.diary.create_date).format("YYYY.MM.DD") }}</div>
     </div>
+    <div class="diary_icon">
+      <v-icon :class="iconClass" />
+    </div>
+  </div>
 </template>
+
 <script>
 export default {
-    name: "ListDiary",
-    props: {
-        diary: {
-            type: Object,
-            required: true,
-            default: () => {},
-        },
+  name: "ListDiary",
+  props: {
+    diary: {
+      type: Object,
+      required: true,
+      default: () => {},
     },
-    methods: {
-        showDetail() {
-            console.log("cliclk>>", this.diary);
-            console.log(`type: ${this.diary.diary_type} id: ${this.diary.id}`);
-            this.$router.push(
-                `/diary/${this.diary.id}?type=${this.diary.diary_type}`
-            );
-        },
+  },
+  computed: {
+    iconClass() {
+      switch (this.diary.diary_type) {
+        case 1:
+          return 'ic_tag2_dream';
+        case 2:
+          return 'ic_tag2_diary';
+      }
+    }
+  },
+  methods: {
+    showDetail() {
+      this.$router.push(`/diary/${this.diary.id}?type=${this.diary.diary_type}`);
     },
+  },
 };
 </script>
+
 <style lang="scss" scoped>
 .item_diary {
-    width: 100%;
-    // padding: 0.75rem 0;
-    padding: calc(16px * 0.75) 0;
-    border-bottom: 1px solid #000;
-    position: relative;
+  width: 100%;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--white, #FFF);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  .diary_content {
     display: flex;
-
-    .dot {
-        background: var(--B2BBDA, #b2bbda);
-        border-radius: 50%;
-        width: 0.625rem;
-        height: 0.625rem;
-
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 10px;
-
-        &.green {
-            background: var(--2C9577, #2c9577);
-        }
-    }
-
-    img {
-        width: 25%;
-        height: 25%;
-        border-radius: 0.9375rem;
-    }
-}
-
-.diary_text {
-    margin-left: 10px;
-    width: calc(100% - (30% + 50px));
-
+    flex-direction: column;
+    justify-content: center;
+    width: calc(100% - 73px);
     .diary_title {
-        color: #010101;
-        font-family: "Pretendard SemiBold";
-        font-size: 16px;
-    }
+      color: var(--gray-700, #374151);
+      font-family: "Pretendard Medium";
+      font-size: 16px;
+      line-height: 160%;
 
-    .diary_date {
-        color: #5c5c5c;
-        font-family: "Pretendard";
-        font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+    .diary_date {
+      color: var(--gray-400, #9CA3AF);
+      margin-top: 8px;
+      font-family: Pretendard;
+      font-size: 14px;
+      line-height: 160%;
+      text-align: left;
+    }
+  }
+}
+.ic_tag2_diary {
+  width: 45px;
+  height: 32px;
+  margin-bottom: 36px;
+}
+.ic_tag2_dream {
+  width: 35px;
+  height: 32px;
+  margin-bottom: 36px;
 }
 </style>

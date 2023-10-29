@@ -26,5 +26,10 @@ export const useGenerateService = () => {
             const res = await API.get(`/generate/report`);
             return res.data;
         },
+        // async getReport() {
+        //     const res = await API.get(`/today/report`);
+        //     console.log(res.data);
+        //     return res.data;
+        // },
     };
 };

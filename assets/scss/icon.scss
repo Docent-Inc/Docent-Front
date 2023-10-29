@@ -33,6 +33,84 @@
     display: block;
 }
 
+.ic_status_dream {
+    background: url("assets/images/ic_status_dream.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_status_diary {
+    background: url("assets/images/ic_status_diary.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_status_memo {
+    background: url("assets/images/ic_status_memo.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_status_same {
+    background: url("assets/images/ic_status_same.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_status_start {
+    background: url("assets/images/ic_status_start.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_tag_total {
+    background: url("../images/ic_tag_total.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_tag_dream {
+    background: url("../images/ic_tag_dream.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_tag_diary {
+    background: url("../images/ic_tag_diary.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_tag_memo {
+    background: url("../images/ic_tag_memo.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_tag2_dream {
+    background: url("../images/ic_tag2_dream.svg") no-repeat;
+    background-size: contain;
+    display: block;
+}
+
+.ic_tag2_diary {
+    background: url("../images/ic_tag2_diary.svg") no-repeat;
+    background-size: contain;
+    display: block;
+}
+
+.ic_tag2_memo {
+    background: url("../images/ic_tag2_memo.svg") no-repeat;
+    background-size: contain;
+    display: block;
+}
+
+.ic_new_chat {
+    background: url("../images/ic_new_chat.svg") no-repeat center/cover;
+    background-size: contain;
+    display: block;
+}
+
 .ic_send {
     background: url("../images/ic_send.svg") no-repeat center/cover;
     width: 15px;
@@ -87,42 +165,50 @@
     background: url("../images/nav_home.svg") no-repeat center/cover;
     width: 50px;
     height: 50px;
+    background-size: contain;
     display: block;
 }
 
 .nav_home.active {
     background: url("../images/nav_home_active.svg") no-repeat center/cover;
-}
-
-.nav_gallery {
-    background: url("../images/nav_gallery.svg") no-repeat center/cover;
-    width: 50px;
-    height: 50px;
-    display: block;
-}
-
-.nav_gallery.active {
-    background: url("../images/nav_gallery_active.svg") no-repeat center/cover;
+    background-size: contain;
 }
 
 .nav_calendar {
     background: url("../images/nav_calendar.svg") no-repeat center/cover;
     width: 50px;
     height: 50px;
+    background-size: contain;
     display: block;
 }
 
 .nav_calendar.active {
     background: url("../images/nav_calendar_active.svg") no-repeat center/cover;
+    background-size: contain;
 }
 
 .nav_report {
     background: url("../images/nav_report.svg") no-repeat center/cover;
     width: 50px;
     height: 50px;
+    background-size: contain;
     display: block;
 }
 
 .nav_report.active {
     background: url("../images/nav_report_active.svg") no-repeat center/cover;
+    background-size: contain;
+}
+
+.nav_mypage {
+    background: url("../images/nav_mypage.svg") no-repeat center/cover;
+    width: 50px;
+    height: 50px;
+    background-size: contain;
+    display: block;
+}
+
+.nav_mypage.active {
+    background: url("../images/nav_mypage_active.svg") no-repeat center/cover;
+    background-size: contain;
 }

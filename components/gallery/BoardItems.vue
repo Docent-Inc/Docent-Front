@@ -1,10 +1,10 @@
 <template>
-    <div class="board-items">
-        <div v-for="(data, idx) in list" :key="idx" class="item">
-            <BoardMemo :memo="data" v-if="data.diary_type === 3" />
-            <BoardDiary :diary="data" v-else />
-        </div>
+  <div class="board-items">
+    <div v-for="(data, idx) in list" :key="idx" class="item">
+      <BoardMemo :memo="data" v-if="data.diary_type === 3" />
+      <BoardDiary :diary="data" v-else />
     </div>
+  </div>
 </template>
 
 <script>
@@ -12,32 +12,45 @@ import BoardMemo from "../../components/gallery/BoardMemo.vue";
 import BoardDiary from "../../components/gallery/BoardDiary.vue";
 
 export default {
-    name: "BoardItems",
-    components: { BoardMemo, BoardDiary },
-    props: {
-        list: {
-            type: Array,
-            required: true,
-            default: [],
-        },
+  name: "BoardItems",
+  components: { BoardMemo, BoardDiary },
+  props: {
+    list: {
+      type: Array,
+      required: true,
+      default: [],
     },
+  },
 };
 </script>
+
 <style lang="scss" scoped>
 .board-items {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100vw);
+  margin-left: calc(-2.35rem);
+  margin-right: calc(-2.35rem);
+  padding-top: 0;
+  box-sizing: border-box;
+  justify-content: flex-start;
+  gap: 6px;
 
-    .item {
-        width: 100%;
-        aspect-ratio: 1/1;
-        text-align: center;
-        padding: 5%;
+  .item {
+    flex: 0 0 calc(50% - 3px);
+    height: auto;
+    box-sizing: border-box;
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    &:first-child {
+      margin-right: auto;
     }
+
+    &:last-child {
+      margin-left: auto;
+    }
+  }
 }
+
 </style>
+
+

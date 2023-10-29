@@ -1,20 +1,20 @@
 <template>
     <div class="item_board_memo">
-        <div class="memo_text">
-            <div class="memo_date">
-                {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
-            </div>
-            <div class="memo_title">
-                {{ memo.diary_name === "" ? "(제목 없음)" : memo.diary_name }}
-            </div>
-
-            <div
-                class="memo_more"
-                @click="this.$router.push(`/memo/${memo.id}`)"
-            >
-                더 알아보기 &gt;
-            </div>
-        </div>
+      <div class="memo_title">
+        {{ formattedTitle }}
+      </div>
+      <div class="memo_text">
+        {{ formattedContent }}
+      </div>
+      <div class="memo_date">
+        {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
+      </div>
+      <div class="memo_icon"><v-icon class="ic_tag2_memo" /></div>
+        <div
+            class="memo_more"
+            @click="this.$router.push(`/memo/${memo.id}`)"
+        >
+      </div>
     </div>
 </template>
 <script>
@@ -27,25 +27,26 @@ export default {
             default: () => {},
         },
     },
+    computed: {
+    }
 };
 </script>
 <style lang="scss" scoped>
 .item_board_memo {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    display: flex;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.8);
-    // padding: 1rem;
-    padding: 16px;
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+  background-color: #FFFFFF;
+  overflow: hidden;
 
-    .memo_text {
-        width: 90%;
-        text-align: start;
-    }
-
+  .memo_text, .memo_title, {
+    position: absolute;
+    width: calc(100% - 40px);
+    left: 20px;
+  }
     .memo_title {
+        top: 0;
+        margin-top: 12px;
         color: #010101;
         font-family: "Pretendard SemiBold";
         font-size: 16px;
@@ -58,26 +59,43 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
     }
-
+    .memo_text {
+      top: 0;
+      margin-top: 52px;
+      color: var(--gray-400, #9CA3AF);
+      font-family: "Pretendard";
+      font-size: 12px;
+      line-height: 160%;
+    }
     .memo_date {
-        color: #5c5c5c;
-        font-family: "Pretendard";
-        font-size: 12px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      margin-left: 12px;
+      margin-bottom: 12px;
+      display: flex;
+      height: 32px;
+      padding: 7px 11px;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.40);
+      border-radius: 8px;
+      color: var(--gray-50, #F9FAFB);
+      text-align: center;
+      font-family: "Pretendard Medium";
+      font-size: 12px;
+      line-height: 160%;
     }
-
-    .memo_more {
-        color: #2c9577;
-        font-size: 8px; // 0.5rem;
-        line-height: calc(8px * 2); /* 262.5% */
-        // line-height: 1.3125rem; /* 262.5% */
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        // margin: 0 1.5rem 1rem;
-        margin: 0 24px 16px;
-        text-align: right;
-
-        cursor: pointer;
-    }
+  .memo_icon {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-right: 12px;
+    margin-bottom: 12px;
+  }
+  .ic_tag2_memo {
+    width: 45px;
+    height: 32px;
+  }
 }
 </style>
