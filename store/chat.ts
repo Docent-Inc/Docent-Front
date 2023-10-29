@@ -74,12 +74,18 @@ export const useChatStore = defineStore("chat", {
         /**
          * 로딩 채팅 삭제
          */
-        async removeChat() {
+        async removeLoadingChat() {
             this.chatList = this.chatList.filter(
                 (chat) =>
                     !chat.is_docent ||
                     (chat.is_docent && chat.type !== ChatType.LOADING)
             );
+        },
+        /**
+         * 채팅 리스트 초기화
+         */
+        async removeAllChat() {
+            this.chatList = [];
         },
         /**
          * 채팅 전송
@@ -108,7 +114,7 @@ export const useChatStore = defineStore("chat", {
             console.log("✨generateChat >>> ", res);
 
             // (4) 로딩 컴포넌트 삭제
-            this.removeChat();
+            this.removeLoadingChat();
             this.isGenerating = false;
 
             if (!res.success) {

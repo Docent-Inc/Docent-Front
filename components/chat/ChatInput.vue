@@ -64,7 +64,7 @@ export default {
         },
     },
     methods: {
-        ...mapActions(useChatStore, ["addChat", "removeChat", "sendChat"]),
+        ...mapActions(useChatStore, ["sendChat"]),
         async send() {
             // Validation
             if (!this.data || this.data === "") {

@@ -41,9 +41,6 @@ const chatList = computed(() => store.chatList);
 watch(
     () => store.chatList,
     async (newVal, oldVal) => {
-        console.log(`chatList changed!`);
-        console.log(newVal);
-
         updateSessionChatList(newVal);
         updateCSS();
     },
@@ -55,6 +52,12 @@ watch(
  */
 onMounted(() => {
     getSessionChatList();
+    updateCSS();
+});
+
+onUnmounted(() => {
+    window.sessionStorage.removeItem("chatList");
+    store.removeAllChat();
 });
 
 /**
