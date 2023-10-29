@@ -1,10 +1,10 @@
 <template>
-    <div class="contents" ref="scrollable" @click="push">
+    <div class="contents" ref="scrollableRef" @click="push">
         <div class="chat-date">
             {{ $dayjs().format("YYYY년 M월 D일") }}
         </div>
         <chat-box
-            v-for="(chat, idx) in lists"
+            v-for="(chat, idx) in chatList"
             :key="idx"
             :chat="chat"
             class="chat-box"
@@ -13,26 +13,19 @@
 </template>
 
 <script>
-import InfiniteLoading from "v3-infinite-loading";
+import { mapState, mapActions } from "pinia";
+import { useChatStore } from "../../store/chat";
+
 import ChatBox from "../../components/chat/ChatBox.vue";
 import ChatResult from "../../components/chat/ChatBox.vue";
-
-import { mapState, mapActions } from "pinia";
-import { useChatStore } from "../../store/chat2";
-
+import { watch } from "vue";
 import { smoothScroll } from "@/utils/animation";
 
 export default {
     name: "Chat",
-    components: { InfiniteLoading, ChatBox, ChatResult },
-    setup() {
-        definePageMeta({
-            layout: "chat",
-        });
-    },
+    components: { ChatBox, ChatResult },
     data() {
         return {
-            isInitialized: false,
             lists: [],
             dummyLists: [
                 {
@@ -141,52 +134,147 @@ export default {
             ],
         };
     },
-    mounted() {},
-    watch: {},
-    methods: {
-        scrollToBottom() {
-            const scrollableRef = this.$refs.scrollable;
-            smoothScroll(scrollableRef, scrollableRef.scrollHeight, 200);
-        },
-        updateCss() {
-            const chatBoxEls = document.querySelectorAll(".chat-box");
+    // computed: {
+    //     ...mapState(useChatStore, ["chatList"]),
+    // },
+    // methods: {
+    //     //// CSS ////
+    //     scrollToBottom() {
+    //         const scrollableRef = this.$refs.scrollable;
+    //         smoothScroll(scrollableRef, scrollableRef.scrollHeight, 200);
+    //     },
+    //     updateCss() {
+    //         const chatBoxEls = document.querySelectorAll(".chat-box");
 
-            for (let i = 0; i < chatBoxEls.length - 1; i++) {
-                const chatEl = chatBoxEls[i].querySelector(".chat-docent");
-                const chatProEl = chatBoxEls[i].querySelector(
-                    ".chat-docent-profile"
-                );
+    //         for (let i = 0; i < chatBoxEls.length - 1; i++) {
+    //             const chatEl = chatBoxEls[i].querySelector(".chat-docent");
+    //             const chatProEl = chatBoxEls[i].querySelector(
+    //                 ".chat-docent-profile"
+    //             );
 
-                // chat-docent가 없으면 다음 요소로 넘어감
-                if (!chatEl) continue;
+    //             // chat-docent가 없으면 다음 요소로 넘어감
+    //             if (!chatEl) continue;
 
-                // chat-small 클래스 추가
-                chatProEl.classList.add("chat-small");
-            }
+    //             // chat-small 클래스 추가
+    //             chatProEl.classList.add("chat-small");
+    //         }
 
-            return true;
-        },
-        getChatList() {},
-        updateChatList() {},
-        async push() {
-            // Test용
-            if (this.lists.length < this.dummyLists.length) {
-                const idx = this.lists.length;
-                this.lists.push(this.dummyLists[idx]);
-                await this.$nextTick();
-                this.updateCss();
+    //         return true;
+    //     },
+    //     async push() {
+    //         // Test용
+    //         if (this.lists.length < this.dummyLists.length) {
+    //             const idx = this.lists.length;
+    //             this.lists.push(this.dummyLists[idx]);
+    //             await this.$nextTick();
+    //             this.updateCss();
 
-                await new Promise((resolve) => setTimeout(resolve, 250));
-                this.scrollToBottom();
-            }
-        },
+    //             await new Promise((resolve) => setTimeout(resolve, 250));
+    //             this.scrollToBottom();
+    //         }
+    //     },
+    // },
+};
+</script>
+
+<script setup>
+import { useChatStore } from "../../store/chat";
+definePageMeta({
+    layout: "chat",
+});
+
+/**
+ * Data
+ */
+const store = useChatStore();
+const chatList = computed(() => store.chatList);
+watch(
+    () => store.chatList,
+    async (newVal, oldVal) => {
+        console.log(`chatList changed!`);
+        console.log(newVal);
+
+        updateSessionChatList(newVal);
+        updateCSS();
     },
+    { deep: true }
+);
+
+/**
+ * LifeCycle
+ */
+onMounted(() => {
+    getSessionChatList();
+});
+
+/**
+ * Methods
+ */
+
+function getSessionChatList() {
+    const chatList = window.sessionStorage.getItem("chatList");
+    console.log("Chat init! ", chatList);
+
+    if (chatList) {
+        store.initChatList(JSON.parse(chatList));
+    } else {
+        // API & addChatList
+        const testChat = {
+            is_docent: true,
+            type: "select",
+            text: "유신님, 오늘 하루는 어땠어요? \n기록 예시가 필요한가요?",
+            selectList: [
+                "꿈을 기록하고 싶어요!",
+                "일기를 기록하고 싶어요!",
+                "메모를 하고 싶어요!",
+                "일정을 입력하고 싶어요!",
+            ],
+        };
+
+        store.addChat(testChat);
+    }
+}
+
+function updateSessionChatList(chatList) {
+    const jsonChatList = JSON.stringify(chatList);
+    window.sessionStorage.setItem("chatList", jsonChatList);
+}
+
+/**
+ * Methods (CSS)
+ */
+async function updateCSS() {
+    await nextTick();
+    updateChatBoxCss();
+
+    await new Promise((resolve) => setTimeout(resolve, 250));
+    scrollToBottom();
+}
+
+const scrollableRef = ref(null);
+const scrollToBottom = () => {
+    if (!scrollableRef.value) return;
+    smoothScroll(scrollableRef.value, scrollableRef.value.scrollHeight, 200);
+};
+
+const updateChatBoxCss = () => {
+    const chatBoxEls = document.querySelectorAll(".chat-box");
+
+    for (let i = 0; i < chatBoxEls.length - 1; i++) {
+        const chatEl = chatBoxEls[i].querySelector(".chat-docent");
+        const chatProEl = chatBoxEls[i].querySelector(".chat-docent-profile");
+
+        if (!chatEl) continue;
+
+        chatProEl.classList.add("chat-small");
+    }
+
+    return true;
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/assets/scss/colors.scss";
-
 .contents {
     width: 100%;
     height: 100%;

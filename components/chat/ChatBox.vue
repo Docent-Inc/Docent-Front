@@ -38,7 +38,7 @@
                 v-if="chat.type === 'result'"
                 :result="chat.result"
                 :chat="chat.result"
-                :type="chat.result.content_type"
+                :type="chat.result.text_type"
             />
         </div>
         <!-- 유저 -->

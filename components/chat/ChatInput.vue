@@ -36,7 +36,7 @@
 <script>
 import { useGenerateService } from "../../services/generate";
 import { mapState, mapActions } from "pinia";
-import { useChatStore } from "../../store/chat2";
+import { useChatStore } from "../../store/chat";
 import Button from "~/components/common/Button.vue";
 
 export default {
@@ -46,12 +46,11 @@ export default {
         return {
             mode: "INPUT",
             data: "",
-            isGenerating: false,
         };
     },
     setup() {},
     computed: {
-        ...mapState(useChatStore, ["chatList"]),
+        ...mapState(useChatStore, ["chatList", "isGenerating"]),
         rows() {
             const minRows = 1;
             const maxRows = 3;
@@ -65,11 +64,7 @@ export default {
         },
     },
     methods: {
-        ...mapActions(useChatStore, [
-            "setChatList",
-            "getFirstPage",
-            "setReload",
-        ]),
+        ...mapActions(useChatStore, ["addChat", "removeChat", "sendChat"]),
         async send() {
             // Validation
             if (!this.data || this.data === "") {
@@ -77,23 +72,9 @@ export default {
                 return;
             }
             if (this.isGenerating) return;
-            const { generateChat } = useGenerateService();
-            // 로딩 컴포넌트 추가
-            const list = this.chatList;
-            list.push({ content_type: 7 });
-            this.setChatList(list);
-            this.isGenerating = true;
-            // this.setReload(true);
-            const res = await generateChat(this.data);
-            console.log("✨generateChat >>> ", this.data);
-            if (!res.success) {
-                const msg = `${res.status_code}  - ${res.message}`;
-                console.log("Error! > ", msg, res);
-                alert(msg);
-            }
-            this.data = "";
-            this.getFirstPage();
-            this.isGenerating = false;
+
+            const res = await this.sendChat(this.data);
+            if (res) this.data = "";
         },
         setData(res) {
             this.data = res;
@@ -109,7 +90,6 @@ export default {
             });
         },
     },
-    components: { Button },
 };
 </script>
 
