@@ -17,6 +17,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         "/gallery",
         "/report",
         "/calendar",
+        "/setting",
     ];
 
     // console.log("****** MIDDLEWARE ******");
