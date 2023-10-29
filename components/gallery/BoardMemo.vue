@@ -1,10 +1,10 @@
 <template>
     <div class="item_board_memo">
       <div class="memo_title">
-        {{ formattedTitle }}
+        {{ memo.diary_name === "" ? "(제목 없음)" : memo.diary_name }}
       </div>
       <div class="memo_text">
-        {{ formattedContent }}
+        {{ memo.content === "" ? "(내용 없음)" : memo.content }}
       </div>
       <div class="memo_date">
         {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
@@ -46,6 +46,7 @@ export default {
   }
     .memo_title {
         top: 0;
+        width: calc(100% - 60px);
         margin-top: 12px;
         color: #010101;
         font-family: "Pretendard SemiBold";
@@ -53,9 +54,7 @@ export default {
         line-height: 20px;
         max-height: 40px;
 
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
+        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -65,7 +64,14 @@ export default {
       color: var(--gray-400, #9CA3AF);
       font-family: "Pretendard";
       font-size: 12px;
+      word-break: break-all;
       line-height: 160%;
+      width: calc(100% - 60px);
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .memo_date {
       position: absolute;
