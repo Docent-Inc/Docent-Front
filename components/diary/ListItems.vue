@@ -6,8 +6,8 @@
     </div>
 </template>
 <script>
-import ListDiary from "../../components/gallery/ListDiary.vue";
-import ListMemo from "../../components/gallery/ListMemo.vue";
+import ListDiary from "../../components/diary/ListDiary.vue";
+import ListMemo from "../../components/diary/ListMemo.vue";
 export default {
     name: "ListItems",
     components: { ListDiary, ListMemo },
