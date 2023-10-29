@@ -10,6 +10,7 @@
         </div>
     </div>
     <div class="contents">
+        <!-- (1) 프로필 영역 -->
         <div class="contents-header-1">
             <p>
                 <span class="nickname-color">{{ user?.nickname }}</span
@@ -21,11 +22,14 @@
             />
         </div>
         <div class="contents-header-2" v-if="highestCountCategory">
-            <v-icon :class="displayStatus.iconClass" />
+            <div :class="displayStatus.iconClass"></div>
             <p class="status-text">{{ displayStatus.message }}</p>
         </div>
+
+        <!-- (2) 통계 영역 -->
         <div class="contents-header-3">
             <div class="count-area">
+                <div v-if="isSkeleton" class="no-records-message"></div>
                 <div :style="barStyles.dream" class="bar dream-bar">
                     <div v-if="total_MorningDiary_count > 0">
                         <span>꿈 기록</span>
@@ -46,10 +50,11 @@
                 </div>
                 <div
                     v-if="
+                        !isSkeleton &&
                         total_MorningDiary_count +
                             total_NightDiary_count +
                             total_Memo_count ===
-                        0
+                            0
                     "
                     class="no-records-message"
                 >
@@ -57,6 +62,7 @@
                 </div>
             </div>
         </div>
+        <!-- (3) 콘텐츠 영역 -->
         <div class="contents-header-4">
             <Tags
                 :tags="['전체', '꿈', '일기', '메모']"
@@ -64,10 +70,13 @@
                 :selected="type"
             />
         </div>
-        <div v-if="isLoading"></div>
-        <Starter v-else-if="list.length === 0" />
-        <ListItems :list="list" v-else-if="mode === 0" />
-        <BoardItems :list="list" v-else />
+        <div v-if="isSkeleton"></div>
+        <div v-else-if="list?.length > 0">
+            <ListItems :list="list" v-if="mode === 0" />
+            <BoardItems :list="list" v-else />
+        </div>
+        <Starter v-else />
+
         <InfiniteLoading
             v-if="list?.length"
             :first-load="false"
@@ -110,16 +119,16 @@ export default {
     data() {
         return {
             maxWidth: 214,
-            isLoading: true,
         };
     },
     watch: {
         type() {
-            this.reset();
+            this.setPageNo(1);
             this.getGalleryList();
         },
     },
     computed: {
+        ...mapState(useUserStore, ["user"]),
         ...mapState(useDiaryStore, [
             "type",
             "mode",
@@ -128,8 +137,12 @@ export default {
             "total_NightDiary_count",
             "total_MorningDiary_count",
             "total_Memo_count",
+            "pageNo",
         ]),
-        ...mapState(useUserStore, ["user"]),
+        isSkeleton() {
+            if (this.pageNo === 1 && this.list.length < 1) return true;
+            else false;
+        },
         highestCountCategory() {
             const counts = {
                 dream: this.total_NightDiary_count,
@@ -143,7 +156,7 @@ export default {
             const categoryInfo = {
                 dream: {
                     iconClass: "ic_status_dream",
-                    message: "꿈 기록을 가장 많이 작성하셨어요!",
+                    message: "꿈 f기록을 가장 많이 작성하셨어요!",
                 },
                 diary: {
                     iconClass: "ic_status_diary",
@@ -157,10 +170,18 @@ export default {
                     iconClass: "ic_status_start",
                     message: "아직 기록을 하지 않았어요!",
                 },
+                default: {
+                    iconClass: "ic_status_default",
+                    message: "",
+                },
             };
-            return counts[maxCategory] > 0
-                ? categoryInfo[maxCategory]
-                : categoryInfo["start"];
+
+            // TODO: 이미지 사이즈 조정
+            if (this.isSkeleton) return categoryInfo["default"];
+            else
+                return counts[maxCategory] > 0
+                    ? categoryInfo[maxCategory]
+                    : categoryInfo["start"];
         },
         displayStatus() {
             return this.highestCountCategory;
@@ -185,13 +206,15 @@ export default {
         },
     },
     async mounted() {
+        // this.$eventBus.$emit("onLoading", true);
+
         try {
-            this.reset();
+            this.setPageNo(1);
             await this.getGalleryList();
         } catch (e) {
             console.log(e);
         } finally {
-            this.isLoading = false;
+            // this.$eventBus.$emit("onLoading", false);
         }
     },
     methods: {
@@ -199,9 +222,10 @@ export default {
             "setType",
             "changeMode",
             "getGalleryList",
-            "reset",
+            "setPageNo",
         ]),
         loadMore() {
+            // console.log(`loadmore ${this.list.length}/${this.totalCounts}`);
             if (this.list.length < this.totalCounts) {
                 this.getGalleryList();
             }
