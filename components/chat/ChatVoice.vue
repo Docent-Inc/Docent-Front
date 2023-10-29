@@ -24,6 +24,9 @@
 
 <script setup>
 const emit = defineEmits(["finish", "change"]);
+defineExpose({
+    cancel,
+});
 const data = ref("");
 
 // Web Speech API
@@ -49,10 +52,15 @@ onMounted(() => {
     recognition.start();
 });
 
-// 2) stop
+// 2) stop & cancel
 function stop() {
     if (recognition) recognition.stop();
     emit("finish", data.value);
+}
+
+function cancel() {
+    if (recognition) recognition.stop();
+    emit("finish", "");
 }
 </script>
 

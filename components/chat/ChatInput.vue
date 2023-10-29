@@ -26,6 +26,7 @@
         </div>
         <chat-voice
             v-if="mode === 'VOICE'"
+            ref="chatVoiceRef"
             @change="(x) => (data = x)"
             @finish="setData"
         />
@@ -103,7 +104,7 @@ export default {
                 title: "정말 음성입력을 취소하시겠어요?",
                 desc: "취소하시면 입력한 내용이 사라져요!",
                 callback: () => {
-                    this.setData("");
+                    this.$refs.chatVoiceRef.cancel();
                 },
             });
         },
