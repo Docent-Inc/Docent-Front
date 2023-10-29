@@ -27,11 +27,11 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { useGalleryStore } from "~/store/gallery";
+import { useDiaryStore } from "~/store/diary";
 import InfiniteLoading from "v3-infinite-loading";
-import ListDiary from "../../components/gallery/ListDiary.vue";
-import ListMemo from "../../components/gallery/ListMemo.vue";
-import Tags from "../../components/gallery/Tags.vue";
+import ListDiary from "../../components/diary/ListDiary.vue";
+import ListMemo from "../../components/diary/ListMemo.vue";
+import Tags from "../../components/diary/Tags.vue";
 
 export default {
     name: "Gallery",
@@ -52,7 +52,7 @@ export default {
         },
     },
     computed: {
-        ...mapState(useGalleryStore, [
+        ...mapState(useDiaryStore, [
             "type",
             "mode",
             "list",
@@ -65,7 +65,7 @@ export default {
         await this.getGalleryList();
     },
     methods: {
-        ...mapActions(useGalleryStore, [
+        ...mapActions(useDiaryStore, [
             "setType",
             "changeMode",
             "getGalleryList",

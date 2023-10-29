@@ -25,9 +25,7 @@ export default {
             default: () => {},
         },
     },
-    computed: {
-
-    }
+    computed: {},
 };
 </script>
 <style lang="scss" scoped>
@@ -36,12 +34,13 @@ export default {
     height: 80px;
     flex-shrink: 0;
     border-radius: 8px;
-    background: var(--white, #FFF);
+    background: var(--white, #fff);
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
     margin-bottom: 8px;
+    padding: 0 1rem;
 
     .memo_content {
         display: flex;
@@ -51,29 +50,29 @@ export default {
     }
 
     .memo_title {
-      color: var(--gray-700, #374151);
-      font-family: "Pretendard Medium";
-      font-size: 16px;
-      line-height: 160%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+        color: var(--gray-700, #374151);
+        font-family: "Pretendard Medium";
+        font-size: 16px;
+        line-height: 160%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .memo_date {
-      color: var(--gray-400, #9CA3AF);
-      margin-top: 8px;
-      font-family: Pretendard;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 160%;
-      text-align: left;
+        color: var(--gray-400, #9ca3af);
+        margin-top: 8px;
+        font-family: Pretendard;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 160%;
+        text-align: left;
     }
-  .ic_tag2_memo {
-    width: 45px;
-    height: 32px;
-    margin-bottom: 36px;
-  }
+    .ic_tag2_memo {
+        width: 45px;
+        height: 32px;
+        margin-bottom: 36px;
+    }
 }
 </style>
