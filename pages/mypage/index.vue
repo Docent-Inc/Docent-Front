@@ -2,11 +2,9 @@
   <div class="header">
     <div class="header-top">
       <div><span class="mypage-title">마이페이지</span></div>
-      <button>
-        <v-icon class="ic_setting">
-          <img src="~/assets/images/ic_setting.svg" />
-        </v-icon>
-      </button>
+      <v-icon class="ic_setting" @click="showDetail">
+        <img src="~/assets/images/ic_setting.svg" />
+      </v-icon>
     </div>
   </div>
   <div class="contents">
@@ -182,6 +180,11 @@ export default {
       if (this.list.length < this.totalCounts) {
         this.getGalleryList();
       }
+    },
+    showDetail() {
+      this.$router.push(
+          `/setting`
+      );
     },
   },
 };

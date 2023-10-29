@@ -3,11 +3,9 @@
  */
 
 .ic_back {
-    background: url("../images/ic_arrow_back.svg") no-repeat center/cover;
-    width: 22px;
-    height: 22px;
+    background: url("../images/ic_arrow_back.svg") no-repeat;
+    background-size: contain;
     display: block;
-    font-size: 1.3rem !important;
 }
 
 .ic_back_primary {
@@ -17,6 +15,12 @@
     height: 22px;
     display: block;
     font-size: 1.3rem !important;
+}
+
+.ic_profile_setting {
+    background: url("../images/ic_profile_setting.svg") no-repeat;
+    background-size: contain;
+    display: block;
 }
 
 .ic_home {
@@ -35,6 +39,18 @@
 
 .ic_status_dream {
     background: url("assets/images/ic_status_dream.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_kakao_logo {
+    background: url("assets/images/ic_kakao_logo.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_line_logo {
+    background: url("assets/images/ic_line_logo.svg") no-repeat center;
     background-size: contain;
     display: block;
 }
