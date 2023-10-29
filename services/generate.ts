@@ -6,25 +6,30 @@ export const useGenerateService = () => {
          * 채팅 리스트 조회
          */
         async getChatList(page: number) {
-            return await API.get(`/generate/chat/list?page=${page}`);
+            const res = await API.get(`/generate/chat/list?page=${page}`);
+            return res.data;
         },
         /**
          * 챗봇 대화
          * @body text
          */
         async generateChat(text: string) {
-            return await API.post(`/generate/chat`, {
+            const res = await API.post(`/generate/chat`, {
                 content: text,
             });
+            return res.data;
         },
         /**
          * 마음 보고서 생성
          */
         async getReport() {
-            return await API.get(`/generate/report`);
+            const res = await API.get(`/generate/report`);
+            return res.data;
         },
         // async getReport() {
-        //     return await API.get(`/today/report`);
+        //     const res = await API.get(`/today/report`);
+        //     console.log(res.data);
+        //     return res.data;
         // },
     };
 };
