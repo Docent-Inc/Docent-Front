@@ -26,6 +26,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const token = useCookie("access_token").value;
     const refreshToken = useCookie("refresh_token").value;
 
+    // console.log("access Token - ", accessToken);
+    // console.log("token - ", token);
+    // console.log("refrest Token - ", refreshToken);
+
     if (!accessToken) {
         if (token && refreshToken) {
             setAccessToken(token);

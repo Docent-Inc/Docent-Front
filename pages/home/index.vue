@@ -73,23 +73,17 @@ export default {
         const { getTodayCalendar, getTodayRecord, getTodayLucky } =
             useTodayService();
 
-        getTodayCalendar()
-            .then((res) => {
-                this.calendar = res.data;
-            })
-            .catch(() => {});
+        getTodayCalendar().then((res) => {
+            if (res.success) this.calendar = res.data;
+        });
 
-        getTodayRecord()
-            .then((res) => {
-                this.record = res.data;
-            })
-            .catch(() => {});
+        getTodayRecord().then((res) => {
+            if (res.success) this.record = res.data;
+        });
 
-        getTodayLucky()
-            .then((res) => {
-                this.lucky = res.data.luck;
-            })
-            .catch(() => {});
+        getTodayLucky().then((res) => {
+            if (res.success) this.lucky = res.data.luck;
+        });
     },
 };
 </script>
