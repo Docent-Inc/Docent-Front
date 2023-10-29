@@ -9,7 +9,6 @@
       </button>
     </div>
   </div>
-
   <div class="contents">
     <div class="contents-header-1">
       <p>
@@ -271,7 +270,6 @@ export default {
       flex-shrink: 0;
     }
   }
-
   .contents-header-3 {
     margin-top: 12px;
     .count-area {
@@ -352,11 +350,6 @@ export default {
   .contents-header-4 {
     margin-top: 24px;
   }
-
-
-
-  // border: 1px solid red;
-
 }
 .ic_list, .ic_board {
   font-size: 100%;
@@ -368,6 +361,4 @@ export default {
   width: 13.2rem;
   height: 3.6rem;
 }
-
-
 </style>

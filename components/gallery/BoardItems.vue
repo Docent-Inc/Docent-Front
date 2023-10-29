@@ -1,7 +1,6 @@
 <template>
   <div class="board-items">
     <div v-for="(data, idx) in list" :key="idx" class="item">
-      <!-- 조건부 렌더링을 사용하여 메모 또는 일기 컴포넌트 중 하나를 렌더링 -->
       <BoardMemo :memo="data" v-if="data.diary_type === 3" />
       <BoardDiary :diary="data" v-else />
     </div>

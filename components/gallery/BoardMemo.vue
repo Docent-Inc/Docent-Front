@@ -63,7 +63,6 @@ export default {
     width: calc(100% - 40px); // 좌우 패딩 고려한 너비 계산
     left: 20px; // 일관된 좌측 패딩 적용
   }
-
     .memo_title {
         top: 0;
         margin-top: 12px;
@@ -90,7 +89,6 @@ export default {
       font-weight: 400;
       line-height: 160%; /* 19.2px */
     }
-
     .memo_date {
       position: absolute;  // 이미지 위에 표시되도록 설정합니다.
       bottom: 0;  // 왼쪽 하단에 위치하도록 설정합니다.
