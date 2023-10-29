@@ -4,7 +4,7 @@
             <Button
                 v-if="mode === 'INPUT'"
                 class="btn_mic"
-                @click="mode = 'VOICE'"
+                @click="setMode('VOICE')"
             />
             <Button v-else class="btn_mic_x" @click="cancelVoice" />
 
@@ -79,6 +79,9 @@ export default {
         setData(res) {
             this.data = res;
             this.mode = "INPUT";
+        },
+        setMode(mode) {
+            if (!this.isGenerating) this.mode = mode;
         },
         cancelVoice() {
             this.$eventBus.$emit("onCustomModal", {

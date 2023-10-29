@@ -3,7 +3,7 @@
         <!-- 채팅 헤더 -->
         <div class="header">
             <div>
-                <Icon :class="'ic_arrow'" @click="this.$router.push(`/home`)" />
+                <Icon :class="'ic_arrow'" @click="goHome" />
                 <span class="header-title"> Looki </span>
             </div>
 
@@ -31,14 +31,37 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "pinia";
+import { useChatStore } from "../store/chat";
+
 import Toast from "~/components/common/Toast.vue";
 import Icon from "~/components/common/Icon.vue";
 export default {
     components: { Icon, Toast },
+    computed: {
+        ...mapState(useChatStore, ["isGenerating"]),
+    },
     data() {
         return {
             isVisible: false, // 툴팁 visibility
         };
+    },
+    methods: {
+        goHome() {
+            if (this.isGenerating) {
+                this.$eventBus.$emit("onCustomModal", {
+                    title: "채팅 데이터를 생성 중입니다.",
+                    desc: "취소하시면 입력한 내용이 사라져요!",
+                    callback: () => {
+                        this.$router.push(`/home`);
+                    },
+                });
+
+                return;
+            }
+
+            this.$router.push(`/home`);
+        },
     },
 };
 </script>
