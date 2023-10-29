@@ -80,34 +80,32 @@ export default {
     },
     methods: {
         more() {
-            switch (this.result.content_type) {
+            console.log(">", this.result);
+
+            switch (this.result.text_type) {
                 case 1:
                 case 2:
-                // const id =
-                //     this.chat.content_type === 1
-                //         ? this.result.MorningDiary_id
-                //         : this.result.NightDiary_id;
-
-                // this.$router.push(
-                //     `/diary/${id}?type=${this.result.content_type}`
-                // );
-                // break;
+                    console.log("diary", this.result.diary_id);
+                    this.$router.push(
+                        `/diary/${this.result.diary_id}?type=${this.result.text_type}`
+                    );
+                    break;
 
                 case 3:
-                // this.$router.push(`/memo/${this.result.Memo_id}`);
-                // break;
+                    console.log("memo", this.result.diary_id);
+                    this.$router.push(`/memo/${this.result.diary_id}`);
+                    break;
 
                 case 4:
-                // this.$router.push(
-                //     `/calendar/?date=${this.result.event_time}`
-                // );
-                // break;
+                    this.$router.push(
+                        `/calendar/?date=${this.result.content.start_time}`
+                    );
+                    break;
+
                 default:
                     alert("🔔 서비스 오픈 예정입니다.");
                     break;
             }
-
-            console.log("cliclk>>", this.result);
         },
     },
 };

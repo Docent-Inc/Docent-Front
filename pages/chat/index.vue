@@ -26,6 +26,7 @@ export default {
 <script setup>
 import { watch } from "vue";
 
+import { useUserStore } from "../../store/user";
 import { useChatStore } from "../../store/chat";
 import { smoothScroll } from "@/utils/animation";
 
@@ -38,6 +39,7 @@ definePageMeta({
  */
 const store = useChatStore();
 const chatList = computed(() => store.chatList);
+const nickname = computed(() => useUserStore().user?.nickname);
 watch(
     () => store.chatList,
     async (newVal, oldVal) => {
@@ -55,11 +57,6 @@ onMounted(() => {
     updateCSS();
 });
 
-onUnmounted(() => {
-    window.sessionStorage.removeItem("chatList");
-    store.removeAllChat();
-});
-
 /**
  * Methods
  */
@@ -75,7 +72,7 @@ function getSessionChatList() {
         const testChat = {
             is_docent: true,
             type: "select",
-            text: "유신님, 오늘 하루는 어땠어요? \n기록 예시가 필요한가요?",
+            text: `${nickname.value}님, 오늘 하루는 어땠어요? \n기록 예시가 필요한가요?`,
             selectList: [
                 "꿈을 기록하고 싶어요!",
                 "일기를 기록하고 싶어요!",
