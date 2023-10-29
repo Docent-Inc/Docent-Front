@@ -25,19 +25,19 @@
     </div>
     <div class="contents-header-3">
       <div class="count-area">
-        <div :style="getBarStyle('dream', total_MorningDiary_count)" class="bar">
+        <div :style="barStyles.dream" class="bar dream-bar">
           <div v-if="total_MorningDiary_count > 0">
             <span>꿈 기록</span>
             <span>{{ total_MorningDiary_count }}</span>
           </div>
         </div>
-        <div :style="getBarStyle('diary', total_NightDiary_count)" class="bar">
+        <div :style="barStyles.diary" class="bar diary-bar">
           <div v-if="total_NightDiary_count > 0">
             <span>일기</span>
             <span>{{ total_NightDiary_count }}</span>
           </div>
         </div>
-        <div :style="getBarStyle('memo', total_Memo_count)" class="bar">
+        <div :style="barStyles.memo" class="bar memo-bar">
           <div v-if="total_Memo_count > 0">
             <span>메모</span>
             <span>{{ total_Memo_count }}</span>
@@ -111,11 +111,6 @@ export default {
       "total_Memo_count",
     ]),
     ...mapState(useUserStore, ["user"]),
-    formattedTitle() {
-      return this.user?.nickname.length > 6
-          ? this.diary.diary_name.slice(0, 8)
-          : this.user?.nickname;
-    },
     highestCountCategory() {
       const counts = {
         dream: this.total_NightDiary_count,
@@ -150,6 +145,21 @@ export default {
     totalCount() {
       return this.total_NightDiary_count + this.total_MorningDiary_count + this.total_Memo_count;
     },
+    barStyles() {
+      const total = this.totalCount; // 전체 카운트 수
+
+      // 비율을 계산하고 스타일 객체를 반환합니다.
+      const calculateStyle = (count) => {
+        const percentage = total ? (count / total) * 100 : 0;
+        return {width: `${percentage}%`};
+      };
+
+      return {
+        dream: calculateStyle(this.total_MorningDiary_count),
+        diary: calculateStyle(this.total_NightDiary_count),
+        memo: calculateStyle(this.total_Memo_count),
+      };
+    },
   },
   async mounted() {
     try{
@@ -169,26 +179,9 @@ export default {
       "reset",
     ]),
     loadMore() {
-      // 조건 확인 후, pageNo +1 해서 loadMore
       if (this.list.length < this.totalCounts) {
         this.getGalleryList();
       }
-    },
-    getBarStyle(category, count) {
-      const total = this.totalCount;
-      const percentage = total ? (count / total) * 100 : 0;
-      return {
-        width: `${percentage}%`, // 비율에 따라 너비를 설정합니다.
-        backgroundColor: this.getCategoryColor(category), // 카테고리에 따른 색상을 가져옵니다.
-      };
-    },
-    getCategoryColor(category) {
-      const colors = {
-        dream: 'var(--indigo-500, #6366F1)', // 꿈 카테고리의 색상입니다.
-        diary: 'var(--CTA_accent, #9398FF)', // 일기 카테고리의 색상입니다.
-        memo: 'var(--indigo-300, #A5B4FC)', // 메모 카테고리의 색상입니다.
-      };
-      return colors[category] || '#000'; // 해당 카테고리의 색상을 반환하거나, 기본값으로 검정색을 사용합니다.
     },
   },
 };
@@ -212,10 +205,8 @@ export default {
     flex-shrink: 0;
 
     color: var(--gray-800, #1F2937);
-    font-family: Pretendard;
+    font-family: "Pretendard SemiBold";
     font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
     line-height: 150%; /* 24px */
   }
 }
@@ -238,10 +229,8 @@ export default {
     margin-top: 16px;
     display: flex;
     justify-content: space-between;
-    font-family: Pretendard;
+    font-family: "Pretendard Bold";
     font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
     line-height: 100%;
     color: var(--gray-700, #374151);
     .nickname-color {
@@ -257,8 +246,6 @@ export default {
     color: var(--gray-400, #9CA3AF);
     font-family: Pretendard;
     font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
     line-height: 160%;
     .status-text {
       margin-left: 12px;
@@ -273,12 +260,12 @@ export default {
   .contents-header-3 {
     margin-top: 12px;
     .count-area {
-      display: flex; // 이를 flexbox 컨테이너로 만듭니다.
-      width: 100%; // 필요에 따라 조정할 수 있습니다.
-      height: 40px; // 바의 높이입니다. 필요에 따라 조정할 수 있습니다.
-      background-color: #E5E7EB; // 바의 배경색입니다. 선호하는 색상으로 변경할 수 있습니다.
-      border-radius: 8px; // 바의 모서리를 둥글게 합니다.
-      overflow: hidden; // 내부 요소가 바깥으로 나가지 않도록 합니다.
+      display: flex;
+      width: 100%;
+      height: 40px;
+      background-color: #E5E7EB;
+      border-radius: 8px;
+      overflow: hidden;
       justify-content: center;
       align-items: center;
     }
@@ -294,9 +281,7 @@ export default {
       text-align: center;
       font-family: Pretendard;
       font-size: 12px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 160%; /* 19.2px */
+      line-height: 160%;
     }
 
     .bar {
@@ -310,8 +295,8 @@ export default {
 
       > div {
         display: flex;
-        align-items: center; // 세로 중앙 정렬
-        justify-content: center; // 가로 중앙 정렬
+        align-items: center;
+        justify-content: center;
         height: 20px;
         text-align: center;
         width: 100%;
@@ -320,27 +305,21 @@ export default {
         left: 50%;
         transform: translate(-50%, -50%);
 
-        // 텍스트(글자) 스타일 지정
         span:first-child {
           color: var(--white, #FFF);
           text-align: center;
           font-family: Pretendard;
           font-size: 11px;
-          font-style: normal;
-          font-weight: 400;
           line-height: 160%;
           display: inline-block;
-          margin-right: 4px; // 텍스트와 숫자 사이의 공간
+          margin-right: 4px;
         }
 
-        // 숫자 스타일 지정
         span:last-child {
           color: var(--white, #FFF);
           text-align: center;
-          font-family: Pretendard;
+          font-family: "Pretendard Bold";
           font-size: 16px;
-          font-style: normal;
-          font-weight: 700;
           line-height: 160%;
           display: inline-block;
         }
@@ -360,5 +339,14 @@ export default {
   font-size: 100%;
   width: 13.2rem;
   height: 3.6rem;
+}
+.dream-bar {
+  background-color: var(--indigo-500, #6366F1);
+}
+.diary-bar {
+  background-color: var(--CTA_accent, #9398FF);
+}
+.memo-bar {
+  background-color: var(--indigo-300, #A5B4FC);
 }
 </style>

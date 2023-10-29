@@ -1,7 +1,7 @@
 <template>
     <div class="item_board_diary" @click="showDetail">
         <img :src="diary.image_url" />
-        <div class="diary_date">{{ formattedDate }}</div>
+        <div class="diary_date">{{ this.$dayjs(this.diary.create_date).format("YYYY.MM.DD") }}</div>
         <div class="diary_icon"><v-icon :class="iconClass" /></div>
     </div>
 </template>
@@ -16,20 +16,14 @@ export default {
         },
     },
     computed: {
-      formattedDate() {
-        return this.$dayjs(this.diary.create_date).format("YYYY.MM.DD");
-      },
       iconClass() {
-        // 여기서 'type'은 diary 객체의 실제 속성이어야 합니다.
-        // 이 속성은 일기의 타입을 나타내야 하며, 이에 따라 적절한 아이콘을 선택합니다.
-        console.log("diary.type", this.diary.diary_type);
-        switch (this.diary.diary_type) { // 또는 diary.content_type 등의 속성
+        switch (this.diary.diary_type) {
           case 1:
-            return 'ic_tag2_dream'; // 꿈 아이콘의 클래스
+            return 'ic_tag2_dream';
           case 2:
-            return 'ic_tag2_diary'; // 일기 아이콘의 클래스
+            return 'ic_tag2_diary';
           case 3:
-            return 'ic_tag2_memo'; // 메모 아이콘의 클래스
+            return 'ic_tag2_memo';
         }
       }
     },
@@ -57,8 +51,8 @@ export default {
         height: 100%;
     }
   .diary_date {
-    position: absolute;  // 이미지 위에 표시되도록 설정합니다.
-    bottom: 0;  // 왼쪽 하단에 위치하도록 설정합니다.
+    position: absolute;
+    bottom: 0;
     left: 0;
     margin-left: 12px;
     margin-bottom: 12px;
@@ -71,16 +65,13 @@ export default {
     border-radius: 8px;
     color: var(--gray-50, #F9FAFB);
     text-align: center;
-    /* c1/c1_med_12 */
-    font-family: Pretendard;
+    font-family: "Pretendard Medium";
     font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 160%; /* 19.2px */
+    line-height: 160%;
   }
   .diary_icon {
-    position: absolute;  // 이미지 위에 표시되도록 설정합니다.
-    right: 0;  // 왼쪽 하단에 위치하도록 설정합니다.
+    position: absolute;
+    right: 0;
     bottom: 0;
     margin-right: 12px;
     margin-bottom: 12px;

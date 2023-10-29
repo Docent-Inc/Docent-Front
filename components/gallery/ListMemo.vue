@@ -2,10 +2,10 @@
     <div class="item_memo" @click="this.$router.push(`/memo/${memo.id}`)">
         <div class="memo_content">
             <div class="memo_title">
-                {{ formattedTitle }}
+                {{ memo.diary_name === "" ? "(제목 없음)" : memo.diary_name }}
             </div>
             <div class="memo_date">
-                {{ formattedDate }}
+                {{ this.$dayjs(this.memo.create_date).format("YYYY.MM.DD") }}
             </div>
         </div>
         <div class="memo_icon">
@@ -26,15 +26,7 @@ export default {
         },
     },
     computed: {
-        formattedTitle() {
-            // 제목이 19자를 초과할 경우 줄여서 표시합니다.
-            return this.memo.diary_name.length > 19
-                ? this.memo.diary_name.slice(0, 19) + '...'
-                : this.memo.diary_name;
-        },
-        formattedDate() {
-            return this.$dayjs(this.memo.create_date).format("YYYY.MM.DD");
-        },
+
     }
 };
 </script>
@@ -55,16 +47,17 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        width: calc(100% - 73px);
     }
 
     .memo_title {
       color: var(--gray-700, #374151);
-      /* b1/b1_med_16 */
-      font-family: Pretendard;
+      font-family: "Pretendard Medium";
       font-size: 16px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 160%; /* 25.6px */
+      line-height: 160%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .memo_date {

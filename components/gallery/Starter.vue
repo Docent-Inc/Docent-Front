@@ -25,12 +25,9 @@ export default {
   color: #6B7280;
   text-align: center;
 
-  /* b1/b1_med_16 */
-  font-family: Pretendard;
+  font-family: "Pretendard Medium";
   font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 160%; /* 25.6px */
+  line-height: 160%;
   margin-top: 84px;
   margin-left: auto;
   margin-right: auto;
@@ -44,12 +41,9 @@ export default {
   color: #9CA3AF;
   text-align: center;
 
-  /* b2/b2_reg_14 */
   font-family: Pretendard;
   font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 160%; /* 22.4px */
+  line-height: 160%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 49px;
@@ -59,7 +53,6 @@ export default {
   justify-content: center;
   margin-top: 16px;
 }
-
 .ic_new_chat {
   width: 242px;
   height: 48px;
