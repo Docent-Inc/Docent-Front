@@ -25,21 +25,22 @@ API.interceptors.request.use(
 );
 
 API.interceptors.response.use((res) => {
-    const url = new URL(window.location.href);
-    switch (res.data.status_code) {
-        case 4220: // (4220) JWT 토큰이 필요합니다.
-            // if (
-            //     url.pathname !== "/signin" &&
-            //     url.pathname !== "/kakao" &&
-            //     url.pathname !== "/signup"
-            // ) {
-            //     // alert("로그인 후 이용 가능합니다.");
-            //     navigateTo("/signin");
-            // }
-            return res.data;
-        default:
-            return res.data;
-    }
+    // switch (res.data.status_code) {
+    //     case 4220: // (4220) JWT 토큰이 필요합니다.
+    //     // if (
+    //     //     url.pathname !== "/signin" &&
+    //     //     url.pathname !== "/kakao" &&
+    //     //     url.pathname !== "/signup"
+    //     // ) {
+    //     //     // alert("로그인 후 이용 가능합니다.");
+    //     //     navigateTo("/signin");
+    //     // }
+    //     // return res.data;
+    //     default:
+    //         return res.data;
+    // }
+
+    return res.data;
 });
 
 export default API;
