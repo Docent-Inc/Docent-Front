@@ -130,7 +130,7 @@ export default {
       }
     },
     handleTouchEnd() {
-      const inertiaDuration = 100;
+      const inertiaDuration = 50;
       const distance = this.velocity * inertiaDuration;
       const change = Math.round(distance / 36);
 

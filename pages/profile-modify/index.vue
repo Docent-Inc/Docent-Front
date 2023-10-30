@@ -1,9 +1,9 @@
 <template>
   <div class="header">
     <Save ref="modal"/>
-    <div class="setting-top">
+    <div class="modify-top">
       <v-icon class="ic_back"  @click="openModal" />
-      <span class="setting-title">프로필 편집하기</span>
+      <span class="modify-title">프로필 편집하기</span>
     </div>
   </div>
   <div class="contents">
@@ -66,10 +66,16 @@ export default {
 .header {
   padding: 2rem 2rem 2rem 2rem;
 }
-.setting-top {
+.modify-top {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+}
+.modify-title {
+  color: var(--gray-800, #1F2937);
+  font-family: "Pretendard SemiBold";
+  font-size: 16px;
+  line-height: 150%;
 }
 .contents {
   width: 100%;
