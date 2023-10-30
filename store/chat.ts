@@ -103,7 +103,7 @@ export const useChatStore = defineStore("chat", {
             const loadChat: Chat = {
                 is_docent: true,
                 type: ChatType.LOADING,
-                text: "Lookie가 열심히 기록을 확인하고 있어요!",
+                text: "Looki가 열심히 기록을 확인하고 있어요!",
             };
             this.addChat(loadChat);
             this.isGenerating = true;

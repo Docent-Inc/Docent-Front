@@ -24,7 +24,7 @@
             v-if="isVisible"
             @click="isVisible = false"
             text="꿈, 일기, 메모, 일정 등을 자유롭게 기록해 주시면 
-            Lookie가 분류하고 저장해요!"
+            Looki가 분류하고 저장해요!"
             :top="60"
         />
     </div>
