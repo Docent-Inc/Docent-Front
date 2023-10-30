@@ -138,14 +138,11 @@ export default {
 }
 
 .chat-select-box {
-    display: grid;
-    justify-content: start;
-    grid-template-columns: auto auto;
-    grid-auto-flow: row;
-    gap: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; /* 각 아이템 사이의 간격 */
 
     .chat-select {
-        width: fit-content;
         border-radius: 8px;
         background: rgba(255, 255, 255, 0.6);
         color: $vc-gray-500;
