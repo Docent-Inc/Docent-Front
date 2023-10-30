@@ -2,7 +2,7 @@
   <div class="header">
     <div class="header-top">
       <div><span class="mypage-title">마이페이지</span></div>
-      <v-icon class="ic_setting" @click="showDetail">
+      <v-icon class="ic_setting" @click="showSetting">
         <img src="~/assets/images/ic_setting.svg" />
       </v-icon>
     </div>
@@ -181,7 +181,7 @@ export default {
         this.getGalleryList();
       }
     },
-    showDetail() {
+    showSetting() {
       this.$router.push(
           `/setting`
       );
