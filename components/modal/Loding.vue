@@ -2,7 +2,7 @@
     <div class="loading" v-if="visible">
         <v-progress-circular
             indeterminate
-            color="#2C9577"
+            color="#9398FF"
         ></v-progress-circular>
     </div>
 </template>
