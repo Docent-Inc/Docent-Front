@@ -2,7 +2,7 @@
   <div class="modal" v-if="isModalVisible">
     <div class="modal-backdrop"></div>
     <div class="modal-content">
-      <v-icon class="ic_secession_check" />
+      <v-icon class="ic_profile_save" />
       <div class="modal-buttons">
         <button class="cancel" @click="cancel"></button>
         <button class="ok" @click="ok"></button>
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: "Secession",
+  name: "Save",
   data() {
     return {
       isModalVisible: false,
@@ -46,13 +46,14 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .modal-backdrop {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  /*background: rgba(0, 0, 0, 0.5);*/
 }
 
 .modal-content {
@@ -62,7 +63,7 @@ export default {
   height: 155px;
   background: #ffffff;
 }
-.ic_secession_check {
+.ic_profile_save {
   width: 100%;
   height: 100%;
 }

@@ -95,7 +95,7 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  padding: 2rem 2.5rem 2rem 2.5rem;
+  padding: 2rem 2rem 2rem 2rem;
 }
 .setting-top {
   display: inline-flex;
@@ -128,7 +128,7 @@ export default {
   margin-top: calc(60px + constant(safe-area-inset-top));
   margin-top: calc(60px + env(safe-area-inset-top));
   position: relative;
-  padding: 0 2.35rem;
+  padding: 0 2rem;
   max-height: 100vh;
   overflow-y: auto;
 }
