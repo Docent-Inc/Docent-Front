@@ -1,5 +1,6 @@
 <template>
   <div class="header">
+    <SettingSecession ref="modal"/>
     <div class="setting-top">
       <v-icon class="ic_back" @click="this.$router.back()" />
       <span class="setting-title">설정</span>
@@ -9,7 +10,7 @@
     <div class="setting-contents-1">
       <div class="setting-contents-1-top">
         <span class="setting-nickname">{{ user?.nickname }}</span>
-        <v-icon class="ic_profile_setting" />
+        <v-icon class="ic_profile_setting" @click="showModify" />
       </div>
       <div class="setting-content-1-middle">
         <span class="setting-mbti">{{ user?.mbti }}</span>
@@ -38,24 +39,22 @@
       </div>
     </div>
     <div class="setting-contents-3">
-      <div class="push-title-div">
-        <span class="push-title">PUSH 알림 설정</span>
-      </div>
-      <div class="push-content-1">
-        <div class="push-content-1-content">
-          <span class="push-content-1-title">채팅</span>
-          <v-switch class="push-content-1-switch" />
-        </div>
-      </div>
-      <div class="push-content-2">
-
-      </div>
-      <div class="push-content-3">
-
-      </div>
+      <SettingPush />
     </div>
     <div class="setting-contents-4">
-
+      <div class="inquiry">
+        <span class="inquiry-title">문의하기</span>
+        <v-icon class="ic_kakao_inquiry" />
+      </div>
+      <div class="terms">
+        <span class="terms-title">이용약관</span>
+      </div>
+      <div class="privacy">
+        <span class="privacy-title">개인정보처리방침</span>
+      </div>
+      <div class="secession" @click="openModal">
+        <span class="secession-title">탈퇴하기</span>
+      </div>
     </div>
   </div>
 </template>
@@ -64,9 +63,13 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import {useUserStore} from "~/store/user";
+import {Popover} from "v-calendar";
 
 export default {
   name: "setting",
+  components: {
+    Popover
+  },
   setup() {
   },
   data() {
@@ -77,6 +80,16 @@ export default {
   computed: {
     ...mapState(useUserStore, ["user"]),
   },
+  methods: {
+    openModal() {
+      this.$refs.modal.openModal();
+    },
+    showModify() {
+      this.$router.push(
+          `/profile-modify`
+      );
+    },
+  }
 }
 </script>
 
@@ -116,11 +129,14 @@ export default {
   margin-top: calc(60px + env(safe-area-inset-top));
   position: relative;
   padding: 0 2.35rem;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 .setting-contents-1 {
   position: relative;
   top: 0;
   margin-left: -2.35rem;
+  margin-right: -2.35rem;
   width: 100vw;
   height: 170px;
 
@@ -232,32 +248,37 @@ export default {
   font-size: 14px;
   line-height: 160%;
 }
-.setting-contents-3 {
+.setting-contents-4 {
   position: relative;
-  height: 291px;
+  margin-top: 48px;
+  height: 299px;
 }
-.push-title-div {
+.inquiry {
   position: relative;
-  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-
-.push-title {
-  color: var(--gray-600, #4B5563);
-  font-family: "Pretendard Medium";
-  font-size: 18px;
+.inquiry-title, .terms-title, .privacy-title {
+  color: var(--gray-700, #374151);
+  font-family: Pretendard;
+  font-size: 16px;
   line-height: 160%;
 }
-
-.push-content-1, .push-content-2, .push-content-3 {
+.ic_kakao_inquiry {
+  display: flex;
+  width: 152px;
+  height: 32px;
+}
+.terms, .privacy, .secession {
   position: relative;
-  width: 350px;
-  height: 78px;
-  border-radius: 8px;
-  background: var(--indigo-50, #EEF2FF);
+  margin-top: 32px;
+  display: flex;
 }
-
-.push-content-1 {
-  margin-top: 12px;
+.secession-title {
+  color: var(--gray-400, #9CA3AF);
+  font-family: Pretendard;
+  font-size: 16px;
+  line-height: 160%;
 }
-
 </style>
