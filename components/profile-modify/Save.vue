@@ -5,7 +5,7 @@
       <v-icon class="ic_profile_save" />
       <div class="modal-buttons">
         <button class="cancel" @click="cancel"></button>
-        <button class="ok" @click="ok"></button>
+        <button class="ok" @click="this.$router.back()" ></button>
       </div>
     </div>
   </div>
@@ -27,9 +27,6 @@ export default {
       this.isModalVisible = false;
     },
     cancel() {
-      this.closeModal();
-    },
-    ok() {
       this.closeModal();
     },
   },
