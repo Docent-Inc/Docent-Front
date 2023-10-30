@@ -47,14 +47,14 @@ export default {
         };
     },
     methods: {
-        ...mapActions(useChatStore, ["removeAllChat"]),
+        ...mapActions(useChatStore, ["setResetFlag"]),
         goHome() {
             if (this.isGenerating) {
                 this.$eventBus.$emit("onCustomModal", {
                     title: "채팅 데이터를 생성 중입니다.",
                     desc: "취소하시면 입력한 내용이 사라져요!",
                     callback: () => {
-                        // this.resetChatList();
+                        this.setResetFlag(true);
                         this.$router.push(`/home`);
                     },
                 });
@@ -62,12 +62,8 @@ export default {
                 return;
             }
 
-            // this.resetChatList();
+            this.setResetFlag(true);
             this.$router.push(`/home`);
-        },
-        resetChatList() {
-            window.sessionStorage.removeItem("chatList");
-            this.removeAllChat();
         },
     },
 };

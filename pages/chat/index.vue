@@ -40,6 +40,7 @@ definePageMeta({
 const store = useChatStore();
 const chatList = computed(() => store.chatList);
 const nickname = computed(() => useUserStore().user?.nickname);
+const resetFlag = computed(() => store.resetFlag);
 watch(
     () => store.chatList,
     async (newVal, oldVal) => {
@@ -55,6 +56,14 @@ watch(
 onMounted(() => {
     getSessionChatList();
     updateCSS();
+});
+
+onUnmounted(() => {
+    if (resetFlag.value) {
+        window.sessionStorage.removeItem("chatList");
+        store.removeAllChat();
+        store.setResetFlag(false);
+    }
 });
 
 /**

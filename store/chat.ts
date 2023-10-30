@@ -55,6 +55,7 @@ export const useChatStore = defineStore("chat", {
     state: () => ({
         chatList: [] as Chat[],
         isGenerating: false,
+        resetFlag: false, // unmounted 시, 초기화 여부 플래그
     }),
     actions: {
         /**
@@ -135,6 +136,13 @@ export const useChatStore = defineStore("chat", {
             this.addChat(resultChat);
 
             return true;
+        },
+        /**
+         * Reset Flag
+         * goHome()인 경우, resetFlag = true
+         */
+        setResetFlag(resetFlag: boolean) {
+            this.resetFlag = resetFlag;
         },
     },
 });
