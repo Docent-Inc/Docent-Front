@@ -41,6 +41,7 @@
     background: url("assets/images/ic_status_dream.svg") no-repeat center;
     background-size: contain;
     display: block;
+    height: 36px;
 }
 
 .ic_kakao_logo {
@@ -185,24 +186,36 @@
     background: url("assets/images/ic_status_diary.svg") no-repeat center;
     background-size: contain;
     display: block;
+    height: 36px;
 }
 
 .ic_status_memo {
     background: url("assets/images/ic_status_memo.svg") no-repeat center;
     background-size: contain;
     display: block;
+    height: 36px;
 }
 
 .ic_status_same {
     background: url("assets/images/ic_status_same.svg") no-repeat center;
     background-size: contain;
     display: block;
+    height: 36px;
 }
 
 .ic_status_start {
     background: url("assets/images/ic_status_start.svg") no-repeat center;
     background-size: contain;
     display: block;
+    height: 36px;
+}
+
+.ic_status_default {
+    background: var(--gray-200, #e5e7eb);
+    border-radius: 8px;
+    display: block;
+    width: 118px;
+    height: 36px;
 }
 
 .ic_status_balance {
