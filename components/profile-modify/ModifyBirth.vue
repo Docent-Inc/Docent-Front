@@ -49,6 +49,9 @@
 
 
 <script>
+import {mapState} from "pinia";
+import {useUserStore} from "~/store/user";
+
 export default {
   name: "ModifyBirth",
   data() {
@@ -67,7 +70,15 @@ export default {
       velocity: 0
     };
   },
+  computed: {
+    ...mapState(useUserStore, ["user"]),
+  },
   mounted() {
+    const [year, month, day] = this.user.birth.split('-');
+    this.currentYear = parseInt(year);
+    this.currentMonth = parseInt(month);
+    this.currentDay = parseInt(day);
+
     this.setDisplayedYears();
     this.setDisplayedMonths();
     this.setDisplayedDays();
@@ -121,11 +132,13 @@ export default {
       this.lastY = currentY;
       this.lastTime = Date.now();
 
-      if (currentX >= 34 && currentX <= 94) {
+      console.log(currentX);
+
+      if (currentX >= 22 && currentX <= 105) {
         this.handleYearScroll(deltaY);
-      } else if (currentX >= 151 && currentX <= 207) {
+      } else if (currentX >= 155 && currentX <= 225) {
         this.handleMonthScroll(deltaY);
-      } else if (currentX >= 248 && currentX <= 311) {
+      } else if (currentX >= 280 && currentX <= 350) {
         this.handleDayScroll(deltaY);
       }
     },
@@ -134,28 +147,35 @@ export default {
       const distance = this.velocity * inertiaDuration;
       const change = Math.round(distance / 36);
 
-      if (this.lastX >= 34 && this.lastX <= 94) {
+      if (this.lastX >= 22 && this.lastX <= 105) {
         this.currentYear -= change;
         this.setDisplayedYears();
-      } else if (this.lastX >= 151 && this.lastX <= 207) {
+      } else if (this.lastX >= 155 && this.lastX <= 225) {
         this.currentMonth -= change;
         this.setDisplayedMonths();
-      } else if (this.lastX >= 248 && this.lastX <= 311) {
+      } else if (this.lastX >= 280 && this.lastX <= 350) {
         this.currentDay -= change;
         this.setDisplayedDays();
       }
     },
+    emitBirthChange() {
+      const birth = `${this.currentYear}-${String(this.currentMonth).padStart(2, '0')}-${String(this.currentDay).padStart(2, '0')}`;
+      this.$emit('birthSelected', birth);
+    },
     handleYearScroll(deltaY) {
       this.currentYear -= deltaY > 0 ? 1 : -1;
       this.setDisplayedYears();
+      this.emitBirthChange();
     },
     handleMonthScroll(deltaY) {
       this.currentMonth -= deltaY > 0 ? 1 : -1;
       this.setDisplayedMonths();
+      this.emitBirthChange();
     },
     handleDayScroll(deltaY) {
       this.currentDay -= deltaY > 0 ? 1 : -1;
       this.setDisplayedDays();
+      this.emitBirthChange();
     }
   },
   beforeDestroy() {

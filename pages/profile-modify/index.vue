@@ -2,14 +2,25 @@
   <div class="header">
     <Save ref="modal"/>
     <div class="modify-top">
-      <v-icon class="ic_back"  @click="openModal" />
+      <v-icon class="ic_back" v-if="hasChanges" @click="openModal" />
+      <v-icon class="ic_back" v-else @click="this.$router.back()" />
       <span class="modify-title">프로필 편집하기</span>
     </div>
   </div>
   <div class="contents">
+    <div v-if="Success" class="notification">
+      <v-icon class="ic_modify_complete" />
+      <div class="notification-button">
+        <button class="ok" @click="close"></button>
+      </div>
+    </div>
     <div class="modify-nickname-div">
       <span class="modify-nickname-title">닉네임</span>
-      <div class="modify-nickname-content" :class="{editable: isEditable}">
+      <div
+          class="modify-nickname-content"
+          :class="{editable: isEditable}"
+          @blur="nicknameBlur"
+      >
         <input
             type="text"
             v-model="nickname"
@@ -19,11 +30,12 @@
         <v-icon class="ic_modify" @click="toggleEdit" />
       </div>
     </div>
-    <ModifyMbti />
-    <ModifyGender />
-    <ModifyBirth />
+    <ModifyMbti @mbtiSelected="onMbtiSelected" />
+    <ModifyGender @genderSelected="onGenderSelected" />
+    <ModifyBirth @birthSelected="onBirthSelected" />
     <div class="modify_save">
-      <v-icon class="ic_modify_save"/>
+      <v-icon v-if="isDataChanged" class="ic_modify_save_on" @click="saveChanges" />
+      <v-icon v-else class="ic_modify_save_off" />
     </div>
   </div>
 </template>
@@ -35,6 +47,7 @@ import ModifyMbti from "~/components/profile-modify/ModifyMbti.vue";
 import ModifyGender from "~/components/profile-modify/ModifyGender.vue";
 import ModifyBirth from "~/components/profile-modify/ModifyBirth.vue";
 import Save from "~/components/profile-modify/Save.vue";
+import {useSettingService} from "~/services/setting";
 
 export default {
   name: "profile-modify",
@@ -42,22 +55,84 @@ export default {
   data() {
     return {
       nickname: "",
-      isEditable: false
+      gender: "",
+      mbti: "",
+      birth: "",
+      isDataChanged: false,
+      isEditable: false,
+      Success: false,
     }
   },
   computed: {
     ...mapState(useUserStore, ["user"]),
+    hasChanges() {
+      console.log("hasChanges computed:", this.isDataChanged);
+      return this.isDataChanged;
+    },
   },
   mounted() {
     this.nickname = this.user.nickname;
+    this.mbti = this.user.mbti;
+    this.birth = this.user.birth;
+    this.gender = this.user.gender;
   },
   methods: {
+    close() {
+      this.Success = false;
+    },
     openModal() {
       this.$refs.modal.openModal();
     },
     toggleEdit() {
       this.isEditable = !this.isEditable;
+    },
+    onGenderSelected(newGender) {
+      if (newGender !== this.user.gender) {
+        this.isDataChanged = true;
+      }
+      this.gender = newGender;
+    },
+    onMbtiSelected(newMbti) {
+      if (newMbti !== this.user.mbti) {
+        this.isDataChanged = true;
+      }
+      this.mbti = newMbti;
+    },
+    onBirthSelected(newBirth) {
+      if (newBirth !== this.user.birth) {
+        this.isDataChanged = true;
+      }
+      this.birth = newBirth;
+    },
+    onNicknameChange() {
+      if (this.nickname !== this.user.nickname) {
+        this.isDataChanged = true;
+      }
+    },
+    nicknameBlur() {
+      this.toggleEdit();
+      this.onNicknameChange();
+    },
+    async saveChanges() {
+      const { updateAccount } = useSettingService();
+      this.isDataChanged = false;
+      console.log(this.birth);
+      const data = {
+        nickname: this.nickname,
+        mbti: this.mbti,
+        gender: this.gender,
+        birth: this.birth,
+      };
+      const res = await updateAccount(data);
+      if (res) {
+        this.Success = true;
+        await this.userStore.setUser();
+      }
     }
+  },
+  setup() {
+    const userStore = useUserStore();
+    return { userStore };
   }
 }
 </script>
@@ -133,10 +208,47 @@ export default {
   padding: 0 2rem;
 }
 
-.ic_modify_save {
+.ic_modify_save_on,
+.ic_modify_save_off {
   width: 350px;
   height: 48px;
   margin-bottom: 20px;
 }
 
+.notification {
+  position: fixed;
+  margin-top: 16px;
+  width: 350px;
+  height: 40px;
+  z-index: 1000;
+}
+.ic_modify_complete {
+  width: 350px;
+  height: 40px;
+  flex-grow: 1;
+}
+
+.notification {
+  position: fixed;
+  margin-top: 16px;
+  width: 350px;
+  height: 40px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+}
+.notification-button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.ok {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
 </style>

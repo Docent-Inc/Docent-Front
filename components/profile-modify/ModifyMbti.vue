@@ -40,15 +40,23 @@ export default {
   methods: {
     toggleE() {
       this.isE = !this.isE;
+      this.emitMbtiChange();
     },
     toggleN() {
       this.isN = !this.isN;
+      this.emitMbtiChange();
     },
     toggleT() {
       this.isT = !this.isT;
+      this.emitMbtiChange();
     },
     toggleJ() {
       this.isJ = !this.isJ;
+      this.emitMbtiChange();
+    },
+    emitMbtiChange() {
+      const mbti = `${this.isE ? 'E' : 'I'}${this.isN ? 'N' : 'S'}${this.isT ? 'T' : 'F'}${this.isJ ? 'J' : 'P'}`;
+      this.$emit('mbtiSelected', mbti);
     }
   }
 }

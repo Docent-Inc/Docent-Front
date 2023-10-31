@@ -43,7 +43,7 @@ export const useAuthService = () => {
          * @body userId
          */
         async getUserInfo() {
-            return await API.get(`/admin/user/info`);
+            return await API.get(`/auth/info`);
         },
         /**
          * 닉네임 변경 요청

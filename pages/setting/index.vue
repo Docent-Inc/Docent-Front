@@ -22,7 +22,7 @@
         </div>
         <div class="setting-content-1-bottom-contents">
           <span class="gender-content">{{ user?.gender }}</span>
-          <span class="birth-content">2002년 02월 24월</span>
+          <span class="birth-content">{{ formattedBirth }}</span>
         </div>
       </div>
     </div>
@@ -33,7 +33,8 @@
       <div class="account-info-div">
         <div class="email-and-logo">
           <span class="account-info">{{ user?.email }}</span>
-          <v-icon class="ic_kakao_logo" />
+          <v-icon class="ic_kakao_logo" v-if="user?.Oauth_from === 'kakao'" />
+          <v-icon class="ic_line_logo" v-else-if="user?.Oauth_from === 'line'" />
         </div>
         <span class="logout">로그아웃</span>
       </div>
@@ -44,7 +45,7 @@
     <div class="setting-contents-4">
       <div class="inquiry">
         <span class="inquiry-title">문의하기</span>
-        <v-icon class="ic_kakao_inquiry" />
+        <v-icon class="ic_kakao_inquiry" @click="openKakaoLink"/>
       </div>
       <div class="terms">
         <span class="terms-title">이용약관</span>
@@ -75,10 +76,15 @@ export default {
   data() {
     return {
       maxWidth: 214,
+      birth: null,
     };
   },
   computed: {
     ...mapState(useUserStore, ["user"]),
+    formattedBirth() {
+      const dateParts = this.user.birth.split('-');
+      return `${dateParts[0]}년 ${dateParts[1]}월 ${dateParts[2]}일`;
+    }
   },
   methods: {
     openModal() {
@@ -89,6 +95,9 @@ export default {
           `/profile-modify`
       );
     },
+    openKakaoLink() {
+      window.open('https://pf.kakao.com/_vNxnRG', '_blank');
+    }
   }
 }
 </script>

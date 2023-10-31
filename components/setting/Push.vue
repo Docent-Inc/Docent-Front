@@ -8,7 +8,11 @@
       <span class="push-content-1-content">오전 8시에 PUSH로 기록 리마인드 알림을 받아요.</span>
     </div>
     <div class="push-content-1-switch-div">
-      <v-switch class="push-content-1-switch" />
+      <v-switch
+          class="push-content-1-switch"
+          v-model="user.push_morning"
+          @change="updatePushMorning"
+      />
     </div>
   </div>
   <div class="push-content-2">
@@ -17,7 +21,10 @@
       <span class="push-content-2-content">오후 8시에 PUSH로 기록 리마인드 알림을 받아요.</span>
     </div>
     <div class="push-content-2-switch-div">
-      <v-switch class="push-content-2-switch" />
+      <v-switch class="push-content-2-switch"
+          v-model="user.push_night"
+          @change="updatePushNight"
+      />
     </div>
   </div>
   <div class="push-content-3">
@@ -26,14 +33,38 @@
       <span class="push-content-3-content">한 주 돌아보기가 완성되었을때 알림을 보내드려요.</span>
     </div>
     <div class="push-content-3-switch-div">
-      <v-switch class="push-content-3-switch" />
+      <v-switch class="push-content-3-switch"
+                v-model="user.push_report"
+                @change="updatePushReport"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import {mapState} from "pinia";
+import {useUserStore} from "~/store/user";
+import {useSettingService} from "~/services/setting";
+
 export default {
-  name: "Push"
+  name: "Push",
+  computed: {
+    ...mapState(useUserStore, ["user"]),
+  },
+  methods: {
+    async updatePushMorning() {
+      const { updatePushSetting } = useSettingService();
+      const res = await updatePushSetting("morning", this.user.push_morning);
+    },
+    async updatePushNight() {
+      const { updatePushSetting } = useSettingService();
+      const res = await updatePushSetting("night", this.user.push_night);
+    },
+    async updatePushReport() {
+      const { updatePushSetting } = useSettingService();
+      const res = await updatePushSetting("report", this.user.push_report);
+    },
+  }
 }
 </script>
 

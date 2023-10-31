@@ -4,12 +4,9 @@
       <span class="modify-gender-title">성별</span>
     </div>
     <div class="modify-gender-content">
-      <v-icon v-if="male" class="ic_male_on" @click="toggleMale"/>
-      <v-icon v-else class="ic_male_off" @click="toggleMaleOff"/>
-      <v-icon v-if="female" class="ic_female_on" @click="toggleFemale"/>
-      <v-icon v-else class="ic_female_off" @click="toggleFemaleOff"/>
-      <v-icon v-if="unspecified" class="ic_unspecified_on" @click="toggleUnspecified"/>
-      <v-icon v-else class="ic_unspecified_off" @click="toggleUnspecifiedOff"/>
+      <v-icon :class="{ 'ic_male_on': male, 'ic_male_off': !male }" @click="selectGender('남')" />
+      <v-icon :class="{ 'ic_female_on': female, 'ic_female_off': !female }" @click="selectGender('여')" />
+      <v-icon :class="{ 'ic_unspecified_on': unspecified, 'ic_unspecified_off': !unspecified }" @click="selectGender('0')" />
     </div>
   </div>
 </template>
@@ -36,35 +33,23 @@ export default {
     this.unspecified = this.user.gender === '0';
   },
   methods: {
-    toggleMale() {
-      this.male = false;
-      this.female = false;
-      this.unspecified = true;
-    },
-    toggleFemale() {
-      this.male = false;
-      this.female = false;
-      this.unspecified = true;
-    },
-    toggleUnspecified() {
-      this.male = false;
-      this.female = false;
-      this.unspecified = true;
-    },
-    toggleMaleOff() {
-      this.male = true;
-      this.female = false;
-      this.unspecified = false;
-    },
-    toggleFemaleOff() {
-      this.male = false;
-      this.female = true;
-      this.unspecified = false;
-    },
-    toggleUnspecifiedOff() {
-      this.male = false;
-      this.female = false;
-      this.unspecified = true;
+    selectGender(gender) {
+      if (gender === '남') {
+        this.male = true;
+        this.female = false;
+        this.unspecified = false;
+      } else if (gender === '여') {
+        this.male = false;
+        this.female = true;
+        this.unspecified = false;
+      } else {
+        this.male = false;
+        this.female = false;
+        this.unspecified = true;
+      }
+      this.$nextTick(() => {
+        this.$emit('genderSelected', gender);
+      });
     }
   }
 }

@@ -111,8 +111,8 @@ export default {
     ...mapState(useUserStore, ["user"]),
     highestCountCategory() {
       const counts = {
-        dream: this.total_NightDiary_count,
-        diary: this.total_MorningDiary_count,
+        dream: this.total_MorningDiary_count,
+        diary: this.total_NightDiary_count,
         memo: this.total_Memo_count,
       };
       const maxCategory = Object.keys(counts).reduce((a, b) => (counts[a] > counts[b] ? a : b));
@@ -133,8 +133,15 @@ export default {
         start: {
           iconClass: 'ic_status_start',
           message: '아직 기록을 하지 않았어요!',
+        },
+        balance: {
+          iconClass: 'ic_status_balance',
+          message: '기록의 수가 비슷해요!',
         }
       };
+      if (counts[maxCategory] === counts["dream"] && counts[maxCategory] === counts["diary"] && counts[maxCategory] === counts["memo"]) {
+        return categoryInfo["balance"];
+      }
       return counts[maxCategory] > 0 ? categoryInfo[maxCategory] : categoryInfo["start"];
     },
     displayStatus(){
@@ -253,7 +260,6 @@ export default {
     .status-text {
       margin-left: 12px;
       display: flex;
-      width: 206px;
       height: 36px;
       flex-direction: column;
       justify-content: center;
@@ -338,9 +344,24 @@ export default {
   width: 6.4rem;
   height: 3.2rem;
 }
-.ic_status_diary, .ic_status_dream, .ic_status_memo, .ic_status_start {
-  font-size: 100%;
+.ic_status_diary {
+  width: 14.3rem;
+  height: 3.6rem;
+}
+.ic_status_dream {
+  width: 11.8rem;
+  height: 3.6rem;
+}
+.ic_status_memo {
+  width: 11rem;
+  height: 3.6rem;
+}
+.ic_status_start {
   width: 13.2rem;
+  height: 3.6rem;
+}
+.ic_status_balance {
+  width: 17.1rem;
   height: 3.6rem;
 }
 .dream-bar {

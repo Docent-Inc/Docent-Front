@@ -157,8 +157,20 @@
     display: block;
 }
 
-.ic_modify_save {
-    background: url("assets/images/ic_modify_save.svg") no-repeat center;
+.ic_modify_save_on {
+    background: url("assets/images/ic_modify_save_on.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_save_off {
+    background: url("assets/images/ic_modify_save_off.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_complete {
+    background: url("assets/images/ic_modify_complete.svg") no-repeat center;
     background-size: contain;
     display: block;
 }
@@ -189,6 +201,12 @@
 
 .ic_status_start {
     background: url("assets/images/ic_status_start.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_status_balance {
+    background: url("assets/images/ic_status_balance.svg") no-repeat center;
     background-size: contain;
     display: block;
 }

@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import {useSettingService} from "~/services/setting";
+
 export default {
   name: "Secession",
   data() {
@@ -29,8 +31,12 @@ export default {
     cancel() {
       this.closeModal();
     },
-    ok() {
-      this.closeModal();
+    async ok() {
+      const { deleteAccount } = useSettingService();
+      const res = await deleteAccount();
+      if (res) {
+        this.$router.push('/');
+      }
     },
   },
 }
