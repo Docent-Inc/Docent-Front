@@ -1,130 +1,183 @@
-import { useGenerateService } from "../services/generate";
-import dayjs from "dayjs";
+import { useChatService } from "~/services/chat";
+enum ChatType {
+    RESULT = "result",
+    LOADING = "loading",
+    SELECT = "select",
+    DEFAULT = "default",
+}
+
+// content_type 1 - 꿈기록
+interface Dream {
+    diary_name: String;
+    content: String;
+    resolution: String;
+    image_url: String;
+    create_date: String;
+}
+
+// content_type 2 - 일기
+interface Diary {
+    diary_name: String;
+    content: String;
+    image_url: String;
+    create_date: String;
+}
+
+// content_type 3 - 메모
+interface Memo {
+    title: String;
+    content: String;
+    create_date: String;
+}
+
+// content_type 4 - 일정
+interface Calender {
+    title: String;
+    content: String;
+    start_time: String;
+    end_time: String;
+}
+
+interface ChatContent {
+    diary_id: Number;
+    text_type: Number;
+    content: Dream | Diary | Memo | Calender;
+}
 
 interface Chat {
-    id?: Number;
-    User_id?: Number;
-    content_type?: Number;
-
-    NightDiary_id?: Number;
-    Calender_id?: Number;
-    MorningDiary_id?: Number;
-    Memo_id?: Number;
-
-    is_deleted?: Body;
-    is_chatbot?: Boolean;
-    content?: String;
-    image_url?: String;
-    create_date?: String;
+    is_docent: Boolean;
+    type?: ChatType;
+    text?: String;
+    result?: ChatContent;
 }
 
 export const useChatStore = defineStore("chat", {
     state: () => ({
-        list: [] as Chat[],
         chatList: [] as Chat[],
-        pageNo: 1,
-        totalCounts: 0,
-        isFirstPage: false,
-        reload: false, // reload
+        isGenerating: false,
+        resetFlag: false, // unmounted 시, 초기화 여부 플래그
     }),
     actions: {
-        async getList() {
-            const { getChatList } = useGenerateService();
+        /**
+         * 세션스토리지에서 불러온 채팅 리스트 저장
+         * @param initList (Chat[])
+         */
+        async initChatList(initList: Chat[]) {
+            this.chatList = initList;
+        },
+        /**
+         * 첫 인사 문구 추가
+         * @param type
+         */
+        async addWelcomeChat(type: number) {
+            const { getWelcomeChat } = useChatService();
+            const res = await getWelcomeChat(type);
 
-            console.log(`✨addChatList(${this.pageNo})`);
-            console.log(">>" + this.list.length + "/" + this.totalCounts);
-            const res = await getChatList(this.pageNo);
-            // console.log(">> res", res);
+            const welcomeChat = {
+                is_docent: true,
+                type: ChatType.SELECT,
+                text: `${res.data.text} \n기록 예시가 필요한가요?`,
+                selectList: [
+                    "꿈을 기록하고 싶어요!",
+                    "일기를 기록하고 싶어요!",
+                    "메모를 하고 싶어요!",
+                    "일정을 입력하고 싶어요!",
+                ],
+            };
+            this.addChat(welcomeChat);
+        },
+        /**
+         * 도움말 문구 추가
+         */
+        async addHelperChat(type: number) {
+            const { getHelperChat } = useChatService();
+            const res = await getHelperChat(type);
+
+            const helperChat = {
+                is_docent: true,
+                type: ChatType.DEFAULT,
+                text: res.data.text,
+            };
+            this.addChat(helperChat);
+        },
+        /**
+         * 채팅 추가
+         * @param chat (Chat)
+         */
+        async addChat(chat: Chat) {
+            this.chatList.push(chat);
+        },
+        /**
+         * 로딩 채팅 삭제
+         */
+        async removeLoadingChat() {
+            this.chatList = this.chatList.filter(
+                (chat) =>
+                    !chat.is_docent ||
+                    (chat.is_docent && chat.type !== ChatType.LOADING)
+            );
+        },
+        /**
+         * 채팅 리스트 초기화
+         */
+        async removeAllChat() {
+            this.chatList = [];
+        },
+        /**
+         * 채팅 전송
+         * @param input
+         */
+        async sendChat(input: string) {
+            // (1) 내가 보낸 채팅 추가
+            const chat = {
+                is_docent: false,
+                text: input,
+            };
+            this.addChat(chat);
+
+            // (2) 로딩 컴포넌트 추가
+            const loadChat: Chat = {
+                is_docent: true,
+                type: ChatType.LOADING,
+                text: "Looki가 열심히 기록을 확인하고 있어요!",
+            };
+            this.addChat(loadChat);
+            this.isGenerating = true;
+
+            // (3) 채팅 생성
+            const { sendChat } = useChatService();
+            const res = await sendChat(input);
+            console.log("✨generateChat >>> ", res);
+
+            // (4) 로딩 컴포넌트 삭제
+            this.removeLoadingChat();
+            this.isGenerating = false;
 
             if (!res.success) {
                 const msg = `${res.status_code}  - ${res.message}`;
                 console.log("Error! > ", msg, res);
                 alert(msg);
-                return;
+
+                return false;
             }
 
-            this.list = [...res.data.list.reverse(), ...this.list];
-            this.totalCounts = res.data.total_counts;
-            this.pageNo = res.data.page_num + 1;
-            // console.log(">>> ", this.list);
-        },
-        async getFirstPage() {
-            this.pageNo = 1;
-            this.totalCounts = 0;
+            // (5) 결과 채팅 추가
+            const result: ChatContent = res.data;
+            const resultChat: Chat = {
+                is_docent: true,
+                type: ChatType.RESULT,
+                result: result,
+            };
+            this.addChat(resultChat);
 
-            const { getChatList } = useGenerateService();
-
-            console.log(`✨addChatList(${this.pageNo})`);
-            console.log(">>" + this.list.length + "/" + this.totalCounts);
-            const res = await getChatList(this.pageNo);
-            this.list = [...res.data.list.reverse()];
-            this.totalCounts = res.data.total_counts;
-            this.pageNo = res.data.page_num + 1;
-            // console.log(">>> ", this.list);
-
-            // this.isFirstPage = true;
-            //
-            this.reload = true;
+            return true;
         },
         /**
-         * 채팅 리스트 필터링
-         * 1) 도슨트가 보낸 첫번째 메시지 위에는 프로필이 노출된다
-         * 2) 날짜 일이 바뀌면 상단에 년/월/일이 표시된다
+         * Reset Flag
+         * goHome()인 경우, resetFlag = true
          */
-        listToChatList() {
-            const result: Chat[] = [];
-            if (!this.list.length) return result;
-
-            // 0) 가장 첫 채팅은 날짜 무조건 표시
-            result.push({
-                content_type: 6,
-                content: this.list[0].create_date,
-            });
-
-            let isFirstChatbot = true;
-            let prevCreateDate = null;
-
-            for (const chat of this.list) {
-                // 1) is_chatbot으로 시작하는 모든 채팅 중에서 가장 첫번째 채팅의 위에 도슨트 프로필(5) 추가
-                if (chat.is_chatbot && isFirstChatbot) {
-                    result.push({
-                        content_type: 5,
-                        is_chatbot: true,
-                    });
-                    isFirstChatbot = false;
-                } else if (!chat.is_chatbot) {
-                    isFirstChatbot = true;
-                }
-
-                // 2) create_date 기준으로 일이 바뀌는 시점의 채팅 위에 날짜(6) 데이터 추가
-                if (
-                    prevCreateDate &&
-                    chat.create_date &&
-                    dayjs(chat.create_date).format("YYYY/MM/DD") !==
-                        dayjs(prevCreateDate).format("YYYY/MM/DD")
-                ) {
-                    result.push({
-                        content_type: 6,
-                        content: chat.create_date,
-                    });
-                }
-
-                result.push(chat);
-                prevCreateDate = chat.create_date;
-            }
-
-            this.chatList = result;
-        },
-        setChatList(data: Chat[]) {
-            // console.log("dd", data);
-            this.chatList = data;
-        },
-        setIsFirstPage(boolean: boolean) {
-            this.isFirstPage = boolean;
-        },
-        setReload(boolean: boolean) {
-            // console.log("setReload - ", boolean);
-            this.reload = boolean;
+        setResetFlag(resetFlag: boolean) {
+            this.resetFlag = resetFlag;
         },
     },
 });
