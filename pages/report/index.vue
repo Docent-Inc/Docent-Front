@@ -113,6 +113,8 @@ export default {
                 console.log(res);
                 console.log(this.data);
 
+                // TODO: res.data로 수정하고 배포해야됨.
+                // this.data = res.data.content;
                 this.data = res.data;
                 this.status = "SUCCESS";
             })

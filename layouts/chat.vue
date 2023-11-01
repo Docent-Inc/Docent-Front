@@ -2,70 +2,103 @@
     <div class="viewport">
         <!-- 채팅 헤더 -->
         <div class="header">
-            <v-icon class="ic_home" @click="this.$router.push(`/home`)" />
-
-            <div class="tooltip" @click="isVisible = !isVisible">
-                <v-icon class="logo_docent" />
-                <span
-                    class="tooltiptext tooltip-right"
-                    :style="{ visibility: isVisible ? 'visible' : 'hidden' }"
-                >
-                    <b>꿈. 일기. 메모. 일정.</b> <br />자유롭게 기록해 주시면
-                    도슨트가 분류해요!</span
-                >
+            <div>
+                <Icon :class="'ic_arrow'" @click="goHome" />
+                <span class="header-title"> Looki </span>
             </div>
+
+            <Icon
+                :class="'ic_help'"
+                style="margin-right: 10px"
+                @click="isVisible = !isVisible"
+            />
         </div>
 
         <div class="layout">
             <slot />
         </div>
-
         <chat-input />
+
+        <!-- 토스트 -->
+        <Toast
+            v-if="isVisible"
+            @click="isVisible = false"
+            text="꿈, 일기, 메모, 일정 등을 자유롭게 기록해 주시면 
+            Looki가 분류하고 저장해요!"
+            :top="60"
+        />
     </div>
 </template>
 
 <script>
+import { mapState, mapActions } from "pinia";
+import { useChatStore } from "../store/chat";
+
+import Toast from "~/components/common/Toast.vue";
+import Icon from "~/components/common/Icon.vue";
 export default {
+    components: { Icon, Toast },
+    computed: {
+        ...mapState(useChatStore, ["isGenerating"]),
+    },
     data() {
         return {
             isVisible: false, // 툴팁 visibility
         };
     },
+    methods: {
+        ...mapActions(useChatStore, ["setResetFlag"]),
+        goHome() {
+            if (this.isGenerating) {
+                this.$eventBus.$emit("onCustomModal", {
+                    title: "채팅 데이터를 생성 중입니다.",
+                    desc: "취소하시면 입력한 내용이 사라져요!",
+                    callback: () => {
+                        this.setResetFlag(true);
+                        this.$router.push(`/home`);
+                    },
+                });
+
+                return;
+            }
+
+            this.setResetFlag(true);
+            this.$router.push(`/home`);
+        },
+    },
 };
 </script>
 <style lang="scss" scoped>
+@import "@/assets/scss/colors.scss";
 .layout {
-    height: calc(100% - (60px + 10rem));
+    height: calc(100%);
     height: calc(
         100% -
-            (
-                60px + 10rem + constant(safe-area-inset-bottom) +
-                    constant(safe-area-inset-top)
-            )
+            (constant(safe-area-inset-bottom) + constant(safe-area-inset-top))
     );
     height: calc(
-        100% -
-            (
-                60px + 10rem + env(safe-area-inset-bottom) +
-                    env(safe-area-inset-top)
-            )
+        100% - (env(safe-area-inset-bottom) + env(safe-area-inset-top))
     );
 
-    margin-top: 60px;
-    margin-top: calc(60px + constant(safe-area-inset-top));
-    margin-top: calc(60px + env(safe-area-inset-top));
+    padding-top: 60px;
+    padding-bottom: 10rem;
+    background: $gradient_bg_light;
 }
 
-.ic_home {
-    font-size: 18px;
-    position: absolute;
-    left: 0;
-    margin-left: 30px;
-}
+.header {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.3);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
 
-.logo_docent {
-    font-size: 42px;
-    margin: 0 auto;
+    border: none;
+
+    > div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 }
 
 // Tooltip - https://deeplify.dev/front-end/markup/tooltip

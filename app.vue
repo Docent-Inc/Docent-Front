@@ -2,8 +2,10 @@
     <v-app id="app">
         <NuxtLayout>
             <NuxtPage />
-            <modal-login-modal />
+            <ModalLoginModal />
             <ModalLoding />
+            <ModalConfirmModal />
+            <ModalCustomModal />
         </NuxtLayout>
     </v-app>
 </template>

@@ -1,8 +1,9 @@
 /**
  * Default UI
  */
-
 @charset "UTF-8";
+@import "@/assets/scss/colors.scss";
+
 html {
     background-color: #eeeeee;
 }
@@ -171,5 +172,86 @@ body {
     input:disabled {
         color: rgba(0, 0, 0, 0.7);
         border-bottom: 1px solid rgba(117, 117, 117, 0.7);
+    }
+}
+
+// Popup
+.dim {
+    background: rgba($color: #000000, $alpha: 0.2);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.alert {
+    width: 85%;
+    border-radius: 12px;
+    background: #fff;
+    padding: 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    .alert-title {
+        color: $vc-gray-700;
+        /* h3/h3_bold_18 */
+        font-family: "Pretendard SemiBold";
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 160%; /* 28.8px */
+    }
+
+    .alert-desc {
+        color: var(--gray-400, #9ca3af);
+
+        /* b2/b2_reg_14 */
+        font-family: "Pretendard";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 160%; /* 22.4px */
+    }
+
+    .alert-buttons {
+        align-self: flex-end;
+        display: flex;
+        gap: 12px;
+
+        /* b1/b1_med_16 */
+        font-family: "Pretendard";
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 160%; /* 25.6px */
+
+        margin-top: 24px;
+
+        .alert-button {
+            border-radius: 12px;
+            padding: 11px 26px;
+            text-align: center;
+
+            color: var(--gray-400, #9ca3af);
+
+            /* b1/b1_med_16 */
+            font-family: Pretendard;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 160%; /* 25.6px */
+
+            cursor: pointer;
+        }
+        .alert-button.primary {
+            background: var(--CTA_accent, #9398ff);
+            color: var(--white, #fff);
+        }
     }
 }

@@ -25,11 +25,13 @@ export default defineNuxtConfig({
     css: [
         "@mdi/font/css/materialdesignicons.min.css",
         "vuetify/lib/styles/main.sass",
+        "animate.css/animate.min.css",
         "@/assets/scss/base/font.scss",
         "@/assets/scss/base/reset.scss",
         "@/assets/scss/main.scss",
         "@/assets/scss/title.scss",
         "@/assets/scss/icon.scss",
+        "@/assets/scss/colors.scss",
     ],
     build: {
         transpile: ["vuetify"],

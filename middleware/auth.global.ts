@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const restrictedPathsNotLogin = [
         "/home",
         "/chat",
-        "/gallery",
+        "/mypage",
         "/report",
         "/calendar",
     ];
@@ -25,6 +25,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         useUserStore();
     const token = useCookie("access_token").value;
     const refreshToken = useCookie("refresh_token").value;
+
+    // console.log("access Token - ", accessToken);
+    // console.log("token - ", token);
+    // console.log("refrest Token - ", refreshToken);
 
     if (!accessToken) {
         if (token && refreshToken) {
