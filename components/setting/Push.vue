@@ -55,6 +55,12 @@ export default {
     async updatePushMorning() {
       const { updatePushSetting } = useSettingService();
       const res = await updatePushSetting("morning", this.user.push_morning);
+      if (!res.success) {
+        const msg = `${res.status_code}  - ${res.message}`;
+        console.log("Error! > ", msg, res);
+        alert(msg);
+        return;
+      }
     },
     async updatePushNight() {
       const { updatePushSetting } = useSettingService();

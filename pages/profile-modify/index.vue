@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="contents">
-    <div v-if="Success" class="notification">
+    <div v-if="isSuccess" class="notification">
       <v-icon class="ic_modify_complete" />
       <div class="notification-button">
         <button class="ok" @click="close"></button>
@@ -60,7 +60,7 @@ export default {
       birth: "",
       isDataChanged: false,
       isEditable: false,
-      Success: false,
+      isSuccess: false,
     }
   },
   computed: {
@@ -125,7 +125,7 @@ export default {
       };
       const res = await updateAccount(data);
       if (res) {
-        this.Success = true;
+        this.isSuccess = true;
         await this.userStore.setUser();
       }
     }

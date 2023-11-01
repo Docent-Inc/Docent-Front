@@ -4,8 +4,8 @@
     <div class="modal-content">
       <v-icon class="ic_secession_check" />
       <div class="modal-buttons">
-        <button class="cancel" @click="cancel"></button>
-        <button class="ok" @click="ok"></button>
+        <button class="cancel" @click="closeModal"></button>
+        <button class="ok" @click="closeModal"></button>
       </div>
     </div>
   </div>
@@ -25,12 +25,6 @@ export default {
     },
     closeModal() {
       this.isModalVisible = false;
-    },
-    cancel() {
-      this.closeModal();
-    },
-    ok() {
-      this.closeModal();
     },
   },
 }
