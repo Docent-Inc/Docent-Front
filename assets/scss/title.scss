@@ -1,3 +1,5 @@
+@import "@/assets/scss/colors.scss";
+
 /**
  * Text 
  */
@@ -66,4 +68,12 @@
     font-family: "Pretendard Bold";
     font-size: 18px;
     line-height: 21px; /* 116.667% */
+}
+
+// renew
+.header-title {
+    color: $vc-gray-800;
+    font-family: "Pretendard SemiBold";
+    font-size: 16px;
+    line-height: 150%; /* 1.5rem */
 }

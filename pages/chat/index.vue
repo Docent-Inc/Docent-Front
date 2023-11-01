@@ -1,132 +1,133 @@
-<!-- TODO: 스크롤  -->
 <template>
-    <div class="contents" ref="scrollable">
-        <infinite-loading
-            v-if="chatList?.length"
-            :first-load="false"
-            :distance="1000"
-            :top="true"
-            @infinite="loadMore"
-        />
-        <div v-for="chat in chatList" :key="chat.id">
-            <chat-box v-if="chat.content_type === 5" type="docent" />
-            <chat-box v-if="chat.content_type === 7" type="loading" />
-            <chat-box
-                v-if="chat.content_type === 6"
-                :text="chat.content"
-                type="date"
-            />
-            <chat-result
-                v-if="
-                    chat.is_chatbot && [1, 2, 3, 4].includes(chat.content_type)
-                "
-                :type="chat.content_type"
-                :chat="chat"
-            />
-            <chat-box
-                v-if="
-                    !chat.is_chatbot &&
-                    [1, 2, 3, 4, null].includes(chat.content_type)
-                "
-                :text="chat.content"
-            />
+    <div class="contents" ref="scrollableRef" @click="push">
+        <div class="chat-date">
+            {{ $dayjs().format("YYYY년 M월 D일") }}
         </div>
+        <chat-box
+            v-for="(chat, idx) in chatList"
+            :key="idx"
+            :chat="chat"
+            class="chat-box"
+            @select="onSelect"
+        />
     </div>
 </template>
 
 <script>
-import InfiniteLoading from "v3-infinite-loading";
 import ChatBox from "../../components/chat/ChatBox.vue";
 import ChatResult from "../../components/chat/ChatBox.vue";
 
-import { mapState, mapActions } from "pinia";
-import { useChatStore } from "../../store/chat";
-
 export default {
     name: "Chat",
-    components: { InfiniteLoading, ChatBox, ChatResult },
-    setup() {
-        definePageMeta({
-            layout: "chat",
-        });
-    },
-    data() {
-        return {
-            isInitialized: false,
-        };
-    },
-    computed: {
-        ...mapState(useChatStore, [
-            "list",
-            "chatList",
-            "totalCounts",
-            "pageNo",
-            "reload",
-            // "isFirstPage",
-        ]),
-    },
-    watch: {
-        list() {
-            this.listToChatList();
-        },
-        reload() {
-            // console.log(this.reload);
-            // TODO: 스크롤 관련 처리
-            if (this.reload) {
-                // console.log("스크롤 실행!");
-                const scrollRef = this.$refs.scrollable;
-                const targetOffset = scrollRef.scrollHeight;
-                // console.log("*", scrollRef.scrollTop, ", ", targetOffset);
-                scrollRef.scrollTo({
-                    top: targetOffset,
-                    behavior: "smooth",
-                });
+    components: { ChatBox, ChatResult },
+};
+</script>
 
-                scrollRef.addEventListener("scroll", () => {
-                    const check =
-                        scrollRef.scrollTop + scrollRef.clientHeight >=
-                        targetOffset - 0.5;
+<script setup>
+import { watch } from "vue";
 
-                    // console.log(
-                    //     " check -> ",
-                    //     scrollRef.scrollTop + scrollRef.clientHeight,
-                    //     ", ",
-                    //     targetOffset - 0.5
-                    // );
-                    if (check) {
-                        this.setReload(false);
-                    }
-                });
-            }
-        },
+import { useUserStore } from "../../store/user";
+import { useChatStore } from "../../store/chat";
+import { smoothScroll } from "@/utils/animation";
+import { getHourType } from "@/utils/utils";
+
+definePageMeta({
+    layout: "chat",
+});
+
+/**
+ * Data
+ */
+const store = useChatStore();
+const chatList = computed(() => store.chatList);
+const nickname = computed(() => useUserStore().user?.nickname);
+const resetFlag = computed(() => store.resetFlag);
+watch(
+    () => store.chatList,
+    async (newVal, oldVal) => {
+        updateSessionChatList(newVal);
+        updateCSS();
     },
-    mounted() {
-        this.getFirstPage();
-    },
-    methods: {
-        ...mapActions(useChatStore, [
-            "getList",
-            "listToChatList",
-            "getFirstPage",
-            "setIsFirstPage",
-            "setReload",
-        ]),
-        // Infinite Loading
-        async loadMore() {
-            // console.log("here");
-            // if (this.reload) return;
-            this.$nextTick();
-            setTimeout(() => {
-                if (this.totalCounts > this.list.length) {
-                    this.getList();
-                }
-            }, 1000);
-        },
-    },
+    { deep: true }
+);
+
+/**
+ * LifeCycle
+ */
+onMounted(() => {
+    getSessionChatList();
+    updateCSS();
+});
+
+onUnmounted(() => {
+    if (resetFlag.value) {
+        window.sessionStorage.removeItem("chatList");
+        store.removeAllChat();
+        store.setResetFlag(false);
+    }
+});
+
+/**
+ * Methods
+ */
+
+async function getSessionChatList() {
+    const chatList = window.sessionStorage.getItem("chatList");
+    console.log("Chat init! ", chatList);
+
+    if (chatList) {
+        store.initChatList(JSON.parse(chatList));
+    } else {
+        // Welcome Chat 추가
+        const type = getHourType(new Date().getHours());
+        store.addWelcomeChat(type);
+    }
+}
+
+function updateSessionChatList(chatList) {
+    const jsonChatList = JSON.stringify(chatList);
+    window.sessionStorage.setItem("chatList", jsonChatList);
+}
+
+function onSelect(idx) {
+    store.addHelperChat(idx + 1);
+}
+
+/**
+ * Methods (CSS)
+ */
+async function updateCSS() {
+    await nextTick();
+    updateChatBoxCss();
+
+    await new Promise((resolve) => setTimeout(resolve, 250));
+    scrollToBottom();
+}
+
+const scrollableRef = ref(null);
+const scrollToBottom = () => {
+    if (!scrollableRef.value) return;
+    smoothScroll(scrollableRef.value, scrollableRef.value.scrollHeight, 200);
+};
+
+const updateChatBoxCss = () => {
+    const chatBoxEls = document.querySelectorAll(".chat-box");
+
+    for (let i = 0; i < chatBoxEls.length - 1; i++) {
+        const chatEl = chatBoxEls[i].querySelector(".chat-docent");
+        const chatProEl = chatBoxEls[i].querySelector(".chat-docent-profile");
+
+        if (!chatEl) continue;
+
+        chatProEl.classList.add("chat-small");
+    }
+
+    return true;
 };
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/scss/colors.scss";
 .contents {
     width: 100%;
     height: 100%;
@@ -134,7 +135,28 @@ export default {
     overflow-y: scroll;
     padding: 2rem;
 
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
+    // overscroll-behavior: contain;
+    // -webkit-overflow-scrolling: touch;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    scroll-behavior: smooth;
+}
+
+.chat-date {
+    width: fit-content;
+    color: $vc-gray-500;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.6);
+
+    text-align: center;
+    font-family: "Pretendard";
+    font-size: 12px;
+    line-height: 160%;
+    // margin: 2rem auto;
+    margin: 0 auto;
+    padding: 6px 42px;
 }
 </style>

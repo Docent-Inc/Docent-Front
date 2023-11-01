@@ -173,6 +173,96 @@
     display: block;
 }
 
+// renew
+.ic_arrow {
+    background: url("../images/ic_arrow.svg") no-repeat center/cover;
+    width: 32px;
+    height: 32px;
+    display: block;
+}
+
+.ic_help {
+    background: url("../images/ic_help.svg") no-repeat center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_x {
+    background: url("../images/ic_x.svg") no-repeat center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+// btn
+.ic_mic {
+    background: url("../images/ic_mic.svg") no-repeat center/cover;
+    width: 28px;
+    height: 28px;
+    display: block;
+}
+
+.btn_mic {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0px 0px 14px 0px rgba(110, 110, 255, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ic_mic_x {
+    background: url("../images/ic_mic_x.svg") no-repeat center/cover;
+    width: 28px;
+    height: 28px;
+    display: block;
+}
+
+.btn_mic_x {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0px 0px 14px 0px rgba(110, 110, 255, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ic_send {
+    background: url("../images/ic_send.svg") no-repeat center/cover;
+    width: 24px;
+    height: 20px;
+    display: block;
+}
+
+.btn_send {
+    width: 48px;
+    height: 48px;
+    padding: 14px 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// .btn_mic_rec {
+//     background: url("../images/btn_mic_rec.svg") no-repeat center/cover;
+//     width: 40px;
+//     height: 40px;
+//     display: block;
+// }
+
+// etc
+.ic_profile_ai {
+    background: url("../images/ic_profile_ai.svg") no-repeat center/cover;
+    width: 28px;
+    height: 28px;
+    display: block;
+}
+
 // Navigation
 .nav_home {
     background: url("../images/nav_home.svg") no-repeat center/cover;

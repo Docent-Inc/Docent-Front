@@ -1,13 +1,32 @@
 <template>
-    <div class="chat-voice">
-        <div>
-            {{ data }}
+    <div class="chat-voice" @click="stop">
+        <div class="chat-voice-bg">
+            <div>
+                <img
+                    src="@/assets/images/btn_mic_rec_bg2.svg"
+                    class="animate__animated animate__pulse animate__infinite"
+                />
+            </div>
+
+            <div>
+                <img
+                    src="@/assets/images/btn_mic_rec_bg1.svg"
+                    class="animate__animated animate__pulse animate__infinite"
+                />
+            </div>
+
+            <div>
+                <img src="@/assets/images/btn_mic_rec.svg" />
+            </div>
         </div>
-        <v-icon class="ic_voice big" @click="stop" />
     </div>
 </template>
 
 <script setup>
+const emit = defineEmits(["finish", "change"]);
+defineExpose({
+    cancel,
+});
 const data = ref("");
 
 // Web Speech API
@@ -22,7 +41,8 @@ recognition.onresult = (e) => {
         let transcript = e.results[i][0].transcript;
         if (e.results[i].isFinal) {
             data.value += transcript;
-            console.log("🎤 ", transcript);
+            // console.log("🎤 ", transcript);
+            emit("change", data.value);
         }
     }
 };
@@ -32,45 +52,37 @@ onMounted(() => {
     recognition.start();
 });
 
-// 2) stop
-const emit = defineEmits(["finish"]);
+// 2) stop & cancel
 function stop() {
     if (recognition) recognition.stop();
     emit("finish", data.value);
+}
+
+function cancel() {
+    if (recognition) recognition.stop();
+    emit("finish", "");
 }
 </script>
 
 <style lang="scss" scoped>
 .chat-voice {
     width: 100%;
-    height: 100%;
-    // background: #00000067;
-    z-index: 20;
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    div {
-        font-family: Pretendard;
-        color: #010101;
-        font-size: 14px;
-        text-align: center;
-
-        position: absolute;
-        left: 50%;
-        bottom: 0;
-        transform: translateX(-50%);
-        margin-bottom: calc(7.44rem + 15rem);
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem 0 0;
 }
 
-.ic_voice.big {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    margin-bottom: 7.44rem;
-    font-size: 15rem;
-    z-index: 20;
+.chat-voice-bg {
+    position: relative;
+    width: 146px;
+    height: 146px;
+
+    div {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
 </style>

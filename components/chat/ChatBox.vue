@@ -1,110 +1,176 @@
 <template>
-    <div class="chat-box-wrapper" :class="{ right: type === 'text' }">
-        <!-- 프로필 -->
-        <div class="chat-profile" v-if="type === 'docent'">
-            <v-icon class="ic_docent" />
-            <div>도슨트</div>
+    <div
+        class="chat-box-wrapper animate__animated animate__slideInUp"
+        :class="{ right: !chat.is_docent }"
+    >
+        <!-- 도슨트 -->
+        <div v-if="chat.is_docent" style="width: 100%" class="chat-docent">
+            <div class="chat-docent-profile">
+                <div class="chat-profile">
+                    <Icon class="ic_profile_ai" />
+                </div>
+
+                <div class="chat-title" v-if="chat.type !== 'result'">
+                    {{ chat.text }}
+                </div>
+            </div>
+
+            <!-- 로딩 -->
+            <div class="chat-loading" v-if="chat.type === 'loading'">
+                <img src="../../assets/images/loading-dot.gif" />
+            </div>
+
+            <!-- 선택 버튼  -->
+            <div class="chat-select-box" v-if="chat.type === 'select'">
+                <div
+                    v-for="(select, idx) in chat.selectList"
+                    :key="idx"
+                    class="chat-select"
+                    :class="{ selected: selected === idx }"
+                    @click="onSelect(idx)"
+                >
+                    {{ select }}
+                </div>
+            </div>
+
+            <!-- 결과  -->
+            <chat-result
+                v-if="chat.type === 'result'"
+                :result="chat.result"
+                :chat="chat.result"
+                :type="chat.result.text_type"
+            />
+        </div>
+        <!-- 유저 -->
+        <div class="chat-user" v-else>
+            {{ chat.text }}
         </div>
 
         <!-- 날짜 -->
-        <div class="chat-date" v-if="type === 'date'">
-            {{ $dayjs(text).format("YYYY년 M월 D일") }}
-        </div>
-
-        <!-- 로딩 -->
-        <div class="chat-box loading" v-if="type === 'loading'">
-            <img :src="loadingGIF" />
-        </div>
-
-        <!-- 기본 -->
-        <div class="chat-box" v-if="type === 'text'">{{ text }}</div>
     </div>
 </template>
-<script setup>
-import loadingGIF from "../../assets/images/loading-dot.gif";
-// Lottie Setting
-// import lottie from "vue-lottie/src/lottie.vue";
-// import lottie from "lottie-web";
-// import LoadingDotJSON from "../../assets/images/loading-dot.json";
-// import * as animationData from "../../assets/images/loading-dot.json";
-// const lottieOptions = {
-//     animationData: animationData.nginx.conf,
-//     rendererSettings: {
-//         viewBoxSize: "480 250 960 540",
-//     },
-// };
+<script>
+import Icon from "~/components/common/Icon.vue";
 
-const props = defineProps({
-    type: { type: String, required: false, default: "text" },
-    text: { type: String, required: false, default: "" },
-});
+export default {
+    components: { Icon },
+    props: {
+        chat: { type: Object, required: true, default: () => {} },
+    },
+    data() {
+        return {
+            selectList: [
+                "꿈을 기록하고 싶어요!",
+                "일기를 기록하고 싶어요!",
+                "메모를 하고 싶어요!",
+                "일정을 입력하고 싶어요!",
+            ],
+            selected: null,
+        };
+    },
+    methods: {
+        onSelect(idx) {
+            this.selected = idx;
+            this.$emit("select", idx);
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/scss/colors.scss";
+.chat-title {
+    color: $vc-gray-700;
+    font-family: "Pretendard Bold";
+    font-size: 20px;
+    line-height: 150%; /* 30px */
+    padding-bottom: 0.5rem;
+
+    span {
+        color: $vc-indigo-500;
+    }
+}
+
 .chat-box-wrapper {
     display: flex;
     justify-content: flex-start;
+    width: 100%;
+    height: fit-content;
+    // border: 1px solid red;
 }
 .chat-box-wrapper.right {
     justify-content: flex-end;
 }
-.chat-box {
+.chat-user {
     display: flex;
-    padding: 1.0625rem 2rem;
     align-items: center;
-    max-width: 90%;
-    border-radius: 0.625rem;
-    border: 0.3px solid #000;
-    margin-bottom: 1.5rem;
-    color: #010101;
-    font-family: "Pretendard";
+
+    padding: 12px;
+
+    color: $vc-indigo-700;
+    background: $vc-indigo-200;
+    border-radius: 8px;
+
+    font-family: "Pretendard Medium";
     font-size: 14px;
-    line-height: 21px; /* 150% */
+    line-height: 160%;
+
     white-space: normal;
     word-break: break-all;
     overflow: hidden;
 }
-.chat-box.right {
-    align-self: right;
-}
-.chat-box.loading {
-    width: 78px;
-    height: 50px;
+
+.chat-loading {
+    width: 100%;
+    height: 40px;
+    margin: 16px 0;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
 
     padding: 2rem 1.5rem;
-    border-radius: 0.625rem;
-    background: rgba(255, 255, 255, 0.8);
-    border: none;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background: #fff;
     img {
-        width: 500%;
-        margin-top: 150%;
+        height: 160px;
+    }
+}
+
+.chat-select-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; /* 각 아이템 사이의 간격 */
+
+    .chat-select {
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.6);
+        color: $vc-gray-500;
+        font-family: "Pretendard";
+        font-size: 12px;
+        line-height: 160%; /* 19.2px */
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+    .chat-select.selected {
+        background: $vc-violet-200;
+        color: $vc-violet-500;
+        font-family: "Pretendard Medium";
     }
 }
 .chat-profile {
-    display: flex;
-    margin: 0.5rem 0;
-    align-items: center;
-    color: #010101;
-    font-family: Pretendard;
-    font-size: 14px;
-    .ic_docent {
-        margin-right: 5px;
-        font-size: 18px;
-    }
+    margin: 8px 0;
 }
-.chat-date {
-    width: 100%;
-    text-align: center;
-    color: #50555c;
-    text-align: center;
-    font-family: "Pretendard";
-    font-size: 11px;
-    line-height: 1.3125rem; /* 190.909% */
-    margin: 0 0 2rem 0;
+
+.chat-small {
+    // border: 1px solid green;
+
+    transform: scale(0.8);
+    opacity: 0.5;
+    transition:
+        transform 0.5s,
+        opacity 0.5s;
+    transform-origin: left top;
 }
 </style>
