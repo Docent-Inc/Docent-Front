@@ -29,24 +29,5 @@ export const useDiaryService = () => {
                 page: page,
             });
         },
-        /**
-         * 캘린더 목록 조회
-         */
-        async getCalendarList(year: number, month: number) {
-            return await API.post(`/diary/list/calender`, {
-                year: year,
-                month: month,
-            });
-        },
-        /**
-         * 캘린더 조회
-         */
-        async getCalendar(year: number, month: number, day: number) {
-            return await API.post(`/diary/list/calender`, {
-                year: year,
-                month: month,
-                day: day,
-            });
-        },
     };
 };

@@ -30,6 +30,7 @@
         "prettier": "^3.0.2",
         "v-calendar": "^3.0.3",
         "v3-infinite-loading": "^1.2.2",
-        "vuetify": "^3.4.0-alpha.0"
+        "vuetify": "^3.4.0-alpha.0",
+        "yarn": "^1.22.19"
     }
 }
