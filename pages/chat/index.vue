@@ -29,6 +29,7 @@ import { watch } from "vue";
 import { useUserStore } from "../../store/user";
 import { useChatStore } from "../../store/chat";
 import { smoothScroll } from "@/utils/animation";
+import { getHourType } from "@/utils/utils";
 
 definePageMeta({
     layout: "chat",
@@ -70,27 +71,16 @@ onUnmounted(() => {
  * Methods
  */
 
-function getSessionChatList() {
+async function getSessionChatList() {
     const chatList = window.sessionStorage.getItem("chatList");
     console.log("Chat init! ", chatList);
 
     if (chatList) {
         store.initChatList(JSON.parse(chatList));
     } else {
-        // API & addChatList
-        const testChat = {
-            is_docent: true,
-            type: "select",
-            text: `${nickname.value}님, 오늘 하루는 어땠어요? \n기록 예시가 필요한가요?`,
-            selectList: [
-                "꿈을 기록하고 싶어요!",
-                "일기를 기록하고 싶어요!",
-                "메모를 하고 싶어요!",
-                "일정을 입력하고 싶어요!",
-            ],
-        };
-
-        store.addChat(testChat);
+        // Welcome Chat 추가
+        const type = getHourType(new Date().getHours());
+        store.addWelcomeChat(type);
     }
 }
 
@@ -100,19 +90,7 @@ function updateSessionChatList(chatList) {
 }
 
 function onSelect(idx) {
-    const helperChatList = [
-        "\“꽃밭에서 꽃을 꺾다가 벌한테 쏘이는 꿈을 꿨어요.\” 같이 입력하시면 좋아요!",
-        "일기는 자신의 생각과 감정 위주로 적는 게 좋아요! 오늘 있었던 일에 대해 어떤 생각을 갖고 계신가요?",
-        "해야할 일이나 기억하고 싶은 것을 간단하게 입력하세요!",
-        "\“9월 18일 20시 김친구 생일\” 같이 날짜와 간단한 내용을 입력하시면 자동으로 일정에 등록해드릴게요!",
-    ];
-
-    const helperChat = {
-        is_docent: true,
-        type: "default",
-        text: helperChatList[idx],
-    };
-    store.addChat(helperChat);
+    store.addHelperChat(idx + 1);
 }
 
 /**

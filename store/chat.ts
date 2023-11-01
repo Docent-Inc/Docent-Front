@@ -66,6 +66,41 @@ export const useChatStore = defineStore("chat", {
             this.chatList = initList;
         },
         /**
+         * 첫 인사 문구 추가
+         * @param type
+         */
+        async addWelcomeChat(type: number) {
+            const { getWelcomeChat } = useChatService();
+            const res = await getWelcomeChat(type);
+
+            const welcomeChat = {
+                is_docent: true,
+                type: ChatType.SELECT,
+                text: `${res.data.text} \n기록 예시가 필요한가요?`,
+                selectList: [
+                    "꿈을 기록하고 싶어요!",
+                    "일기를 기록하고 싶어요!",
+                    "메모를 하고 싶어요!",
+                    "일정을 입력하고 싶어요!",
+                ],
+            };
+            this.addChat(welcomeChat);
+        },
+        /**
+         * 도움말 문구 추가
+         */
+        async addHelperChat(type: number) {
+            const { getHelperChat } = useChatService();
+            const res = await getHelperChat(type);
+
+            const helperChat = {
+                is_docent: true,
+                type: ChatType.DEFAULT,
+                text: res.data.text,
+            };
+            this.addChat(helperChat);
+        },
+        /**
          * 채팅 추가
          * @param chat (Chat)
          */
