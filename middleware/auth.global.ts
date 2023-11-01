@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const restrictedPathsNotLogin = [
         "/home",
         "/chat",
-        "/gallery",
+        "/mypage",
         "/report",
         "/calendar",
     ];
