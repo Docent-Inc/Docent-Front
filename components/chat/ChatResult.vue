@@ -6,7 +6,7 @@
             >{{ title[1] }}
         </div>
         <div class="chat-title" v-else>
-            그런 일이 있었군요, 유신님의 말씀을 토대로
+            그런 일이 있었군요, {{ user?.nickname }}님의 말씀을 토대로
             <span>{{ title[0] }}</span
             >{{ title[1] }}
         </div>
@@ -33,6 +33,8 @@
     </div>
 </template>
 <script>
+import { mapState } from "pinia";
+import { useUserStore } from "~/store/user";
 export default {
     name: "ChatResult",
     props: {
@@ -48,6 +50,7 @@ export default {
         },
     },
     computed: {
+        ...mapState(useUserStore, ["user"]),
         type_name() {
             switch (this.type) {
                 case 1:
