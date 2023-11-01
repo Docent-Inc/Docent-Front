@@ -1,4 +1,4 @@
-import { useGenerateService } from "../services/generate";
+import { useChatService } from "~/services/chat";
 import dayjs from "dayjs";
 
 interface Chat {
@@ -29,7 +29,7 @@ export const useChatStore = defineStore("chat", {
     }),
     actions: {
         async getList() {
-            const { getChatList } = useGenerateService();
+            const { getChatList } = useChatService();
 
             console.log(`✨addChatList(${this.pageNo})`);
             console.log(">>" + this.list.length + "/" + this.totalCounts);
@@ -52,7 +52,7 @@ export const useChatStore = defineStore("chat", {
             this.pageNo = 1;
             this.totalCounts = 0;
 
-            const { getChatList } = useGenerateService();
+            const { getChatList } = useChatService();
 
             console.log(`✨addChatList(${this.pageNo})`);
             console.log(">>" + this.list.length + "/" + this.totalCounts);

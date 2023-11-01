@@ -1,4 +1,4 @@
-import { useGenerateService } from "../services/generate";
+import { useChatService } from "~/services/chat";
 enum ChatType {
     RESULT = "result",
     LOADING = "loading",
@@ -110,8 +110,8 @@ export const useChatStore = defineStore("chat", {
             this.isGenerating = true;
 
             // (3) 채팅 생성
-            const { generateChat } = useGenerateService();
-            const res = await generateChat(input);
+            const { sendChat } = useChatService();
+            const res = await sendChat(input);
             console.log("✨generateChat >>> ", res);
 
             // (4) 로딩 컴포넌트 삭제

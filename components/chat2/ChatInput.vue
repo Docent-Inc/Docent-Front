@@ -21,6 +21,7 @@
 
 <script>
 import { useGenerateService } from "../../services/generate";
+import { useChatService } from "../../services/chat";
 import { mapState, mapActions } from "pinia";
 import { useChatStore } from "../../store/chat2";
 
@@ -52,7 +53,7 @@ export default {
 
             if (this.isGenerating) return;
 
-            const { generateChat } = useGenerateService();
+            const { sendChat } = useChatService();
 
             // 로딩 컴포넌트 추가
             const list = this.chatList;
@@ -61,8 +62,8 @@ export default {
             this.isGenerating = true;
             // this.setReload(true);
 
-            const res = await generateChat(this.data);
-            console.log("✨generateChat >>> ", this.data);
+            const res = await sendChat(this.data);
+            console.log("sendChat >>> ", this.data);
 
             if (!res.success) {
                 const msg = `${res.status_code}  - ${res.message}`;
