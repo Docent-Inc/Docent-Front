@@ -140,6 +140,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
 
     textarea {
         width: 100%;
