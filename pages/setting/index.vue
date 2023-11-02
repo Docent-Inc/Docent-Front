@@ -53,7 +53,7 @@
       <div class="privacy">
         <span class="privacy-title">개인정보처리방침</span>
       </div>
-      <div class="secession" @click="openModal">
+      <div class="secession" @click="openCustomModal">
         <span class="secession-title">탈퇴하기</span>
       </div>
     </div>
@@ -87,8 +87,16 @@ export default {
     }
   },
   methods: {
-    openModal() {
-      this.$refs.modal.openModal();
+    openCustomModal() {
+      this.$eventBus.$emit("onCustomModal", {
+        title: "정말 탈퇴하시겠어요?",
+        desc: "탈퇴하시면 등록된 정보와 기록이 모두 삭제돼요.",
+        cancel: "취소하기",
+        confirm: "탈퇴하기",
+        callback: () => {
+          this.setData("");
+        },
+      });
     },
     showModify() {
       this.$router.push(
@@ -104,7 +112,8 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  padding: 2rem 2rem 2rem 2rem;
+  padding: 0.8rem 2rem 0.8rem 2rem;
+  height: 48px;
 }
 .setting-top {
   display: inline-flex;
@@ -133,9 +142,9 @@ export default {
   height: calc(100% - (60px + constant(safe-area-inset-top)));
   height: calc(100% - (60px + env(safe-area-inset-top)));
 
-  margin-top: 60px;
-  margin-top: calc(60px + constant(safe-area-inset-top));
-  margin-top: calc(60px + env(safe-area-inset-top));
+  margin-top: 48px;
+  margin-top: calc(48px + constant(safe-area-inset-top));
+  margin-top: calc(48px + env(safe-area-inset-top));
   position: relative;
   padding: 0 2rem;
   max-height: 100vh;

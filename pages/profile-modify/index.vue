@@ -1,19 +1,18 @@
 <template>
   <div class="header">
-    <Save ref="modal"/>
     <div class="modify-top">
-      <v-icon class="ic_back" v-if="hasChanges" @click="openModal" />
+      <v-icon class="ic_back" v-if="hasChanges" @click="openCustomModal" />
       <v-icon class="ic_back" v-else @click="this.$router.back()" />
       <span class="modify-title">프로필 편집하기</span>
     </div>
+    <Toast
+        v-if="isSuccess"
+        @click="isSuccess = false"
+        text="변경사항이 반영되었어요!"
+        :top="64"
+    />
   </div>
   <div class="contents">
-    <div v-if="isSuccess" class="notification">
-      <v-icon class="ic_modify_complete" />
-      <div class="notification-button">
-        <button class="ok" @click="close"></button>
-      </div>
-    </div>
     <div class="modify-nickname-div">
       <span class="modify-nickname-title">닉네임</span>
       <div
@@ -46,12 +45,12 @@ import {useUserStore} from "~/store/user";
 import ModifyMbti from "~/components/profile-modify/ModifyMbti.vue";
 import ModifyGender from "~/components/profile-modify/ModifyGender.vue";
 import ModifyBirth from "~/components/profile-modify/ModifyBirth.vue";
-import Save from "~/components/profile-modify/Save.vue";
 import {useSettingService} from "~/services/setting";
+import Toast from "~/components/common/Toast.vue";
 
 export default {
   name: "profile-modify",
-  components: {Save, ModifyBirth, ModifyGender, ModifyMbti},
+  components: {ModifyBirth, ModifyGender, ModifyMbti, Toast},
   data() {
     return {
       nickname: "",
@@ -78,10 +77,18 @@ export default {
   },
   methods: {
     close() {
-      this.Success = false;
+      this.isSuccess = false;
     },
-    openModal() {
-      this.$refs.modal.openModal();
+    openCustomModal() {
+      this.$eventBus.$emit("onCustomModal", {
+        title: "프로필 편집을 취소하시겠어요?",
+        desc: "저장하지 않은 변경사항이 있어요! 그대로 나가실건가요?",
+        cancel: "이어서 편집하기",
+        confirm: "편집 나가기",
+        callback: () => {
+          this.$router.back();
+        },
+      });
     },
     toggleEdit() {
       this.isEditable = !this.isEditable;
@@ -139,7 +146,8 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  padding: 2rem 2rem 2rem 2rem;
+  padding: 0.8rem 2rem 0.8rem 2rem;
+  height: 48px;
 }
 .modify-top {
   display: inline-flex;
@@ -158,9 +166,9 @@ export default {
   height: calc(100% - (60px + constant(safe-area-inset-top)));
   height: calc(100% - (60px + env(safe-area-inset-top)));
 
-  margin-top: 60px;
-  margin-top: calc(60px + constant(safe-area-inset-top));
-  margin-top: calc(60px + env(safe-area-inset-top));
+  margin-top: 48px;
+  margin-top: calc(48px + constant(safe-area-inset-top));
+  margin-top: calc(48px + env(safe-area-inset-top));
   position: relative;
   padding: 0 2rem;
   min-height: 100vh;
