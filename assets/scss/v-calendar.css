@@ -90,12 +90,14 @@
 
 .vc-day {
     position: relative;
-    min-height: 32px;
     z-index: 1;
-    /* &.is-not-in-month * {
-      opacity: 0;
-      pointer-events: none;
-    } */
+    display: flex;
+    width: 48px;
+    height: 74px;
+    padding: 4px 14px 50px 14px;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
 }
 .vc-monthly .is-not-in-month * {
     opacity: 0;
@@ -200,8 +202,12 @@
     z-index: -1;
 }
 .vc-highlight {
-    width: 28px;
-    height: 28px;
+    position: absolute;
+    top: 0;
+    width: 24px;
+    height: 4px;
+    flex-shrink: 0;
+    border-radius: 8px;
 }
 .vc-highlight.vc-highlight-base-start {
     width: 50% !important;
@@ -224,7 +230,7 @@
 .vc-highlight-bg-none {
     background-color: var(--vc-highlight-outline-bg);
     border: 2px solid;
-    border-color: var(--vc-highlight-outline-border);
+    border-color: #6366F1;
     border-radius: var(--vc-rounded-full);
 }
 .vc-highlight-bg-light {
@@ -262,9 +268,16 @@
     align-items: center;
 }
 .vc-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 9999px;
+    display: flex;
+    width: 40px;
+    height: 12px;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--indigo-800, #3730A3);
+    font-family: Pretendard;
+    font-size: 10px;
+    line-height: 160%;
     transition: var(--vc-day-content-transition);
 }
 .vc-dot:not(:last-child) {
@@ -353,6 +366,7 @@
     /* overflow: auto; */
     -webkit-overflow-scrolling: touch;
     padding: 6px;
+    gap: 4px;
     min-width: 232px;
 }
 .vc-weeks.vc-show-weeknumbers-left {
@@ -379,6 +393,8 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     position: relative;
+    background-color: white !important;
+    border-radius: 12px;
 }
 
 .vc-popover-content-wrapper {
@@ -1270,6 +1286,7 @@
 .vc-container,
 .vc-container * {
     box-sizing: border-box;
+    background-color: transparent;
 }
 
 .vc-container:focus,

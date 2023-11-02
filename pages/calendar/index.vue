@@ -1,35 +1,42 @@
 <template>
+    <div class="header">
+      <div class="header-title">
+        <span class="header-title-text">캘린더</span>
+        <v-icon class="ic_setting" />
+      </div>
+    </div>
     <div class="contents">
-        <client-only>
-            <VCalendar
-                ref="vcalendar"
-                style="width: 90%"
-                trim-weeks
-                :initial-page="page"
-                :attributes="attributes"
-                @dayclick="(day) => setDate(day.date)"
-                @did-move="(pages) => setPage(new Date(pages[0].id))"
-            />
-        </client-only>
-        <div class="bottom-sheet">
-            <div class="calendar-title">
-                {{ $dayjs(date.date).format("D. dd") }}
-            </div>
-            <div class="calendar-contents" v-if="todos && todos.length > 0">
-                <div class="calendar-content" v-for="todo in todos" :key="todo">
-                    <div class="circle"></div>
-                    {{ todo.diary_name }}
-                </div>
-            </div>
-
-            <div class="calendar-none" v-else>일정이 없습니다</div>
+        <div class="contents-title">
+          <div class="contents-title-div">
+            <span class="contents-title-text">오늘은 일정이 </span>
+            <span class="highlight-text">{{ todayCount }}개 </span>
+            <span class="contents-title-text">있어요!</span>
+          </div>
+            <v-icon class="ic_runner_man" />
         </div>
+      <client-only>
+        <VCalendar
+            ref="vcalendar"
+            style="width: 92.3%"
+            locale="ko"
+            trim-weeks
+            :initial-page="page"
+            :attributes="attributes"
+            @dayclick="(day) => setDate(day.date)"
+            @did-move="handleCalendarMove"
+        >
+          <template v-slot:header-title="{ title }">
+            {{ title.split(' ').reverse().join('년 ') }}
+          </template>
+        </VCalendar>
+      </client-only>
     </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "pinia";
 import { useCalendarStore } from "~/store/calendar";
+
 export default {
     name: "Calendar",
     setup() {
@@ -38,7 +45,7 @@ export default {
         });
     },
     computed: {
-        ...mapState(useCalendarStore, ["page", "date", "attributes", "todos"]),
+        ...mapState(useCalendarStore, ["page", "date", "attributes", "todos", "todayCount"]),
     },
     async mounted() {
         this.reset();
@@ -47,87 +54,73 @@ export default {
         if (!date || isNaN(date)) date = new Date();
         this.setDate(date);
     },
-    methods: {
+  methods: {
         ...mapActions(useCalendarStore, ["setDate", "setPage", "reset"]),
+      handleCalendarMove(pages) {
+        this.setPage(new Date(pages[0].id));
+      },
     },
 };
 </script>
 
 <style lang="scss" scoped>
+.header {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  height: 48px;
+}
 .contents {
     width: 100%;
     height: 100%;
-    padding: 0;
+    padding-top: 48px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: linear-gradient(0deg, #DED2FF -20.81%, #D2DAFF -8.19%, #DEE4FF 13.84%, #FFF 117.04%);
 }
-
-.bottom-sheet {
-    width: 100%;
-    height: 45%;
-    position: relative;
-    overflow: scroll;
-    // border-top: 0.0625rem solid #cbd5e1;
-    border-top: 0.96px solid #cbd5e1;
-
-    // padding: 2rem 1.5rem 1rem;
-    // margin-top: 2rem;
-    padding: 32px 24px 16px;
-    margin-top: 32px;
-
-    color: #5c5c5c;
-    font-family: Pretendard;
-    // font-size: 0.75rem;
-    // line-height: 1.3125rem; /* 175% */
-    font-size: 12px;
-    line-height: 21px; /* 175% */
-
-    .calendar-title {
-        color: #010101;
-        font-family: "Pretendard Bold";
-        // font-size: 1.25rem;
-        // line-height: 1.3125rem; /* 105% */
-        font-size: 20px;
-        line-height: 21px; /* 105% */
-    }
-
-    .calendar-none {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .calendar-contents {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        // gap: 0.5rem;
-        gap: 8px;
-
-        // margin-top: 1.2rem;
-        margin-top: 19.2px;
-
-        .calendar-content {
-            display: flex;
-            align-items: center;
-        }
-        .circle {
-            // width: 0.5rem;
-            // height: 0.5rem;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #b2bbda;
-            // margin-right: 1rem;
-            margin-right: 16px;
-        }
-    }
+.header-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.contents-title-div {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.contents-title {
+  background: #FFFFFF;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.ic_setting {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+.ic_runner_man {
+  width: 3.6rem;
+  height: 3.6rem;
+}
+.header-title-text {
+  color: var(--gray-800, #1F2937);
+  font-family: "Pretendard SemiBold";
+  font-size: 16px;
+  line-height: 150%;
+}
+.highlight-text,
+.contents-title-text {
+  color: var(--gray-700, #374151);
+  font-family: "Pretendard Bold";
+  font-size: 24px;
+  line-height: 150%;
+}
+.highlight-text {
+  color: var(--indigo-500, #6366F1);
 }
 </style>

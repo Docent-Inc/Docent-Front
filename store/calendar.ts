@@ -11,6 +11,7 @@ interface Attribute {
 interface Calendar {
     id: number;
     diary_name: string;
+    content: string;
     start_time: string;
     end_time: string;
 }
@@ -27,6 +28,7 @@ const initialState = () => ({
     attributes: [] as Attribute[],
     list: [] as Calendar[],
     todos: [] as Calendar[],
+    todayCount: 0,
 });
 
 export const useCalendarStore = defineStore("calendar", {
@@ -92,7 +94,8 @@ export const useCalendarStore = defineStore("calendar", {
         async getCalendarList() {
             const { getCalendarList } = useDiaryService();
             const res = await getCalendarList(this.page.year, this.page.month);
-            this.list = res.data;
+            this.list = res.data.list;
+            this.todayCount = res.data.today_count;
 
             this.setAttributes();
         },
@@ -103,7 +106,9 @@ export const useCalendarStore = defineStore("calendar", {
                 this.date.date.getMonth() + 1,
                 this.date.date.getDate()
             );
-            this.todos = res.data;
+            console.log(res.data);
+            this.todayCount = res.data.today_count;
+            this.todos = res.data.list;
         },
         reset() {
             Object.assign(this.$state, initialState());
