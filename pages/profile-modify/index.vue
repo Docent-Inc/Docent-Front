@@ -90,6 +90,18 @@ export default {
         },
       });
     },
+    openErrorModal(message) {
+      console.log(message)
+      this.$eventBus.$emit("onCustomModal", {
+        title: "오류가 발생했어요!",
+        desc: message,
+        cancel: " ",
+        confirm: "확인",
+        callback: () => {
+          this.setData("");
+        },
+      });
+    },
     toggleEdit() {
       this.isEditable = !this.isEditable;
     },
@@ -131,9 +143,12 @@ export default {
         birth: this.birth,
       };
       const res = await updateAccount(data);
-      if (res) {
+      if (res.success) {
         this.isSuccess = true;
         await this.userStore.setUser();
+      }
+      else {
+        this.openErrorModal(res.message);
       }
     }
   },

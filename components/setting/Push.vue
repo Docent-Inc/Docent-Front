@@ -52,23 +52,38 @@ export default {
     ...mapState(useUserStore, ["user"]),
   },
   methods: {
+    openErrorModal(message) {
+      console.log(message)
+      this.$eventBus.$emit("onCustomModal", {
+        title: "오류가 발생했어요!",
+        desc: message,
+        cancel: " ",
+        confirm: "확인",
+        callback: () => {
+          this.setData("");
+        },
+      });
+    },
     async updatePushMorning() {
       const { updatePushSetting } = useSettingService();
       const res = await updatePushSetting("morning", this.user.push_morning);
       if (!res.success) {
-        const msg = `${res.status_code}  - ${res.message}`;
-        console.log("Error! > ", msg, res);
-        alert(msg);
-        return;
+        this.openErrorModal(res.message);
       }
     },
     async updatePushNight() {
       const { updatePushSetting } = useSettingService();
       const res = await updatePushSetting("night", this.user.push_night);
+      if (!res.success) {
+        this.openErrorModal(res.message);
+      }
     },
     async updatePushReport() {
       const { updatePushSetting } = useSettingService();
       const res = await updatePushSetting("report", this.user.push_report);
+      if (!res.success) {
+        this.openErrorModal(res.message);
+      }
     },
   }
 }
