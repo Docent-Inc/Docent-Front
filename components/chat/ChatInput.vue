@@ -59,7 +59,7 @@ export default {
         },
         placeholder() {
             if (this.mode === "INPUT")
-                return "도슨트에게 당신의 이야기를 들려주세요";
+                return "Looki에게 당신의 이야기를 들려주세요";
             else return "Looki가 듣고 있어요!";
         },
     },
