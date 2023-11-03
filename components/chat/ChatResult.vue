@@ -73,7 +73,7 @@ export default {
                     return ["메모", "를 추가했어요! ✏️"];
                 default:
                     return [
-                        `${this.$dayjs(this.result.event_time).format(
+                        `${this.$dayjs(this.result.content.start_time).format(
                             "ddd요일(MM.DD)"
                         )} 일정`,
                         "을 추가했어요! 🗓️",

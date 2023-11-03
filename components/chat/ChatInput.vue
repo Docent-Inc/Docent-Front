@@ -59,7 +59,7 @@ export default {
         },
         placeholder() {
             if (this.mode === "INPUT")
-                return "도슨트에게 당신의 이야기를 들려주세요";
+                return "Looki에게 당신의 이야기를 들려주세요";
             else return "Looki가 듣고 있어요!";
         },
     },
@@ -75,6 +75,12 @@ export default {
 
             const res = await this.sendChat(this.data);
             if (res) this.data = "";
+            else {
+                this.$eventBus.$emit("onConfirmModal", {
+                    title: "채팅 생성에 실패했습니다 ",
+                    desc: "다시 시도해 주세요!",
+                });
+            }
         },
         setData(res) {
             this.data = res;

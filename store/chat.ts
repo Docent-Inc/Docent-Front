@@ -155,8 +155,7 @@ export const useChatStore = defineStore("chat", {
 
             if (!res.success) {
                 const msg = `${res.status_code}  - ${res.message}`;
-                console.log("Error! > ", msg, res);
-                alert(msg);
+                console.log("채팅 생성 실패 >>> ", msg, res);
 
                 return false;
             }
