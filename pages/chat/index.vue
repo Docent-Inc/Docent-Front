@@ -103,7 +103,7 @@ function updateSessionChatList(chatList) {
 
 function onSelect(idx) {
     // 채팅 생성 중에는 예시 문구 추가 불가
-    if (isGenerating) {
+    if (isGenerating.value) {
         isVisible.value = true;
 
         setTimeout(() => {
