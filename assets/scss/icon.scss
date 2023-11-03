@@ -3,11 +3,9 @@
  */
 
 .ic_back {
-    background: url("../images/ic_arrow_back.svg") no-repeat center/cover;
-    width: 22px;
-    height: 22px;
+    background: url("../images/ic_arrow_back.svg") no-repeat;
+    background-size: contain;
     display: block;
-    font-size: 1.3rem !important;
 }
 
 .ic_back_primary {
@@ -17,6 +15,12 @@
     height: 22px;
     display: block;
     font-size: 1.3rem !important;
+}
+
+.ic_profile_setting {
+    background: url("../images/ic_profile_setting.svg") no-repeat;
+    background-size: contain;
+    display: block;
 }
 
 .ic_home {
@@ -38,6 +42,150 @@
     background-size: contain;
     display: block;
     height: 36px;
+}
+
+.ic_kakao_logo {
+    background: url("assets/images/ic_kakao_logo.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_line_logo {
+    background: url("assets/images/ic_line_logo.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_kakao_inquiry {
+    background: url("assets/images/ic_kakao_inquiry.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_secession_check {
+    background: url("assets/images/ic_secession_check.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_setting {
+    background: url("assets/images/ic_setting.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify {
+    background: url("assets/images/ic_modify.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_e {
+    background: url("assets/images/ic_modify_e.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_i {
+    background: url("assets/images/ic_modify_i.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_n {
+    background: url("assets/images/ic_modify_n.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_s {
+    background: url("assets/images/ic_modify_s.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_t {
+    background: url("assets/images/ic_modify_t.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_f {
+    background: url("assets/images/ic_modify_f.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_j {
+    background: url("assets/images/ic_modify_j.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_p {
+    background: url("assets/images/ic_modify_p.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_male_on {
+    background: url("assets/images/ic_male_on.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_male_off {
+    background: url("assets/images/ic_male_off.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_female_on {
+    background: url("assets/images/ic_female_on.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_female_off {
+    background: url("assets/images/ic_female_off.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_unspecified_on {
+    background: url("assets/images/ic_unspecified_on.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_unspecified_off {
+    background: url("assets/images/ic_unspecified_off.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_save_on {
+    background: url("assets/images/ic_modify_save_on.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_save_off {
+    background: url("assets/images/ic_modify_save_off.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_complete {
+    background: url("assets/images/ic_modify_complete.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_profile_save {
+    background: url("assets/images/ic_profile_save.svg") no-repeat center;
+    background-size: contain;
+    display: block;
 }
 
 .ic_status_diary {
@@ -74,6 +222,12 @@
     display: block;
     width: 118px;
     height: 36px;
+}
+
+.ic_status_balance {
+    background: url("assets/images/ic_status_balance.svg") no-repeat center;
+    background-size: contain;
+    display: block;
 }
 
 .ic_tag_total {

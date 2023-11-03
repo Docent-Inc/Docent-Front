@@ -1,12 +1,8 @@
 <template>
     <div class="header">
         <div class="header-top">
-            <div><span class="mypage-title">마이페이지</span></div>
-            <button>
-                <v-icon class="ic_setting">
-                    <img src="~/assets/images/ic_setting.svg" />
-                </v-icon>
-            </button>
+          <span class="mypage-title">마이페이지</span>
+          <v-icon class="ic_setting" @click="goSetting"/>
         </div>
     </div>
     <div class="contents">
@@ -226,18 +222,23 @@ export default {
                 this.getGalleryList();
             }
         },
+        goSetting() {
+            this.$router.push(`/setting`);
+        },
     },
 };
 </script>
 
 <style lang="scss" scoped>
 .header {
-    padding: 2rem 2.5rem;
+    padding: 2rem 2rem;
 
     .header-top {
         width: 100%;
+        height: 48px;
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
     .mypage-title {
         display: flex;
@@ -263,7 +264,7 @@ export default {
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
 
-    padding: 1.31rem 2.35rem;
+    padding: 1.31rem 2rem;
     background: #f8f8f8;
 
     .contents-header-1 {
@@ -394,5 +395,9 @@ export default {
 }
 .memo-bar {
     background-color: var(--indigo-300, #a5b4fc);
+}
+.ic_setting {
+    width: 3.2rem;
+    height: 3.2rem;
 }
 </style>
