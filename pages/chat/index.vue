@@ -10,16 +10,25 @@
             class="chat-box"
             @select="onSelect"
         />
+
+        <!-- 토스트 -->
+        <Toast
+            v-if="isVisible"
+            @close="isVisible = false"
+            text="텍스트 생성 중입니다..."
+            :top="60"
+        />
     </div>
 </template>
 
 <script>
 import ChatBox from "../../components/chat/ChatBox.vue";
 import ChatResult from "../../components/chat/ChatBox.vue";
+import Toast from "../../components/common/Toast.vue";
 
 export default {
     name: "Chat",
-    components: { ChatBox, ChatResult },
+    components: { ChatBox, ChatResult, Toast },
 };
 </script>
 
@@ -40,8 +49,9 @@ definePageMeta({
  */
 const store = useChatStore();
 const chatList = computed(() => store.chatList);
-const nickname = computed(() => useUserStore().user?.nickname);
 const resetFlag = computed(() => store.resetFlag);
+const isGenerating = computed(() => store.isGenerating);
+const isVisible = ref(false);
 watch(
     () => store.chatList,
     async (newVal, oldVal) => {
@@ -57,6 +67,8 @@ watch(
 onMounted(() => {
     getSessionChatList();
     updateCSS();
+
+    isVisible.value = false;
 });
 
 onUnmounted(() => {
@@ -90,6 +102,15 @@ function updateSessionChatList(chatList) {
 }
 
 function onSelect(idx) {
+    // 채팅 생성 중에는 예시 문구 추가 불가
+    if (isGenerating) {
+        isVisible.value = true;
+
+        setTimeout(() => {
+            isVisible.value = false;
+        }, 3000);
+        return;
+    }
     store.addHelperChat(idx + 1);
 }
 
