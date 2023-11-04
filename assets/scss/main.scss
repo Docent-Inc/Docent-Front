@@ -93,32 +93,39 @@ body {
     top: env(safe-area-inset-top);
 }
 
+// Button
+// 일반 버튼: 48px
+// Fixed 버튼: 48px + 40px = 88px
 .button {
-    width: calc(100% - 60px);
-    height: 4.5rem;
+    width: calc(100% - 40px);
+    height: 48px;
     border-radius: 12px;
-    background-color: #00847e;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    font-family: "Pretendard Bold";
-    color: #eeedf4;
+    background-color: #9398ff;
+    color: var(--white, #fff);
+    font-family: "Pretendard Medium";
+    font-size: 16px;
 }
 
 .button.fixed-bottom {
     position: fixed;
     bottom: 0;
-    bottom: constant(safe-area-inset-bottom);
-    bottom: env(safe-area-inset-bottom);
+    // bottom: calc(constant(safe-area-inset-bottom) + 40px);
+    // bottom: calc(env(safe-area-inset-bottom) + 40px);
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 40px;
+    margin-bottom: calc(constant(safe-area-inset-bottom) + 40px);
+    margin-bottom: calc(env(safe-area-inset-bottom) + 40px);
 }
 
 .button.disabled {
-    background-color: rgba(0, 132, 126, 0.5);
+    background: var(--gray-200, #e5e7eb);
+    color: var(--gray-400, #9ca3af);
 }
 
 .v-progress-linear {
