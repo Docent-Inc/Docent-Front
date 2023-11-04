@@ -31,7 +31,16 @@ export const useUserStore = defineStore("user", {
             const { getUserInfo } = useAuthService();
             if (this.accessToken && !this.user) {
                 const res = await getUserInfo();
-                // console.log(res);
+                if (res.success) {
+                    this.user = res.data;
+                    this.loginStatus = true;
+                }
+            }
+        },
+        async updateUser() {
+            const { getUserInfo } = useAuthService();
+            if (this.accessToken) {
+                const res = await getUserInfo();
                 if (res.success) {
                     this.user = res.data;
                     this.loginStatus = true;

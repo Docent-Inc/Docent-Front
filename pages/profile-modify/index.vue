@@ -147,7 +147,7 @@ export default {
       const res = await updateAccount(data);
       if (res.success) {
         this.isSuccess = true;
-        await this.userStore.setUser();
+        await this.userStore.updateUser();
       }
       else {
         this.openErrorModal(res.message);
