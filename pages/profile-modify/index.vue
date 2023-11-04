@@ -13,25 +13,27 @@
     />
   </div>
   <div class="contents">
-    <div class="modify-nickname-div">
-      <span class="modify-nickname-title">닉네임</span>
-      <div
-          class="modify-nickname-content"
-          :class="{editable: isEditable}"
-          @blur="nicknameBlur"
-      >
-        <input
-            type="text"
-            v-model="nickname"
-            :readonly="!isEditable"
-            class="nickname-input"
-            :placeholder="nickname">
-        <v-icon class="ic_modify" @click="toggleEdit" />
+    <div class="contents-top">
+      <div class="modify-nickname-div">
+        <span class="modify-nickname-title">닉네임</span>
+        <div
+            class="modify-nickname-content"
+            :class="{editable: isEditable}"
+            @blur="nicknameBlur"
+        >
+          <input
+              type="text"
+              v-model="nickname"
+              :readonly="!isEditable"
+              class="nickname-input"
+              :placeholder="nickname">
+          <v-icon class="ic_modify" @click="toggleEdit" />
+        </div>
       </div>
+      <ModifyMbti @mbtiSelected="onMbtiSelected" />
+      <ModifyGender @genderSelected="onGenderSelected" />
+      <ModifyBirth @birthSelected="onBirthSelected" />
     </div>
-    <ModifyMbti @mbtiSelected="onMbtiSelected" />
-    <ModifyGender @genderSelected="onGenderSelected" />
-    <ModifyBirth @birthSelected="onBirthSelected" />
     <div class="modify_save">
       <v-icon v-if="isDataChanged" class="ic_modify_save_on" @click="saveChanges" />
       <v-icon v-else class="ic_modify_save_off" />
@@ -169,6 +171,9 @@ export default {
   align-items: center;
   gap: 10px;
 }
+.contents-top {
+  height: 781px;
+}
 .modify-title {
   color: var(--gray-800, #1F2937);
   font-family: "Pretendard SemiBold";
@@ -229,49 +234,13 @@ export default {
   left: 0;
   right: 0;
   padding: 0 2rem;
+  background: #FFFFFF;
 }
 
 .ic_modify_save_on,
 .ic_modify_save_off {
-  width: 350px;
+  width: 100%;
   height: 48px;
   margin-bottom: 20px;
-}
-
-.notification {
-  position: fixed;
-  margin-top: 16px;
-  width: 350px;
-  height: 40px;
-  z-index: 1000;
-}
-.ic_modify_complete {
-  width: 350px;
-  height: 40px;
-  flex-grow: 1;
-}
-
-.notification {
-  position: fixed;
-  margin-top: 16px;
-  width: 350px;
-  height: 40px;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-}
-.notification-button {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.ok {
-  width: 40px;
-  height: 40px;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
 }
 </style>
