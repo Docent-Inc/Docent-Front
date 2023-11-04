@@ -18,7 +18,7 @@ export const useTodayService = () => {
          * 오늘 운세 조회
          */
         async getTodayLucky() {
-            return await API.get(`/generate/luck`);
+            return await API.get(`/today/luck`);
         },
     };
 };
