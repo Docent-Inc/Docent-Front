@@ -112,15 +112,14 @@ body {
 }
 
 .button.fixed-bottom {
-    position: fixed;
+    // position: fixed;
+    position: absolute;
     bottom: 0;
-    // bottom: calc(constant(safe-area-inset-bottom) + 40px);
-    // bottom: calc(env(safe-area-inset-bottom) + 40px);
     left: 50%;
     transform: translateX(-50%);
-    margin-bottom: 40px;
-    margin-bottom: calc(constant(safe-area-inset-bottom) + 40px);
-    margin-bottom: calc(env(safe-area-inset-bottom) + 40px);
+    margin-bottom: 30px;
+    margin-bottom: calc(constant(safe-area-inset-bottom) + 30px);
+    margin-bottom: calc(env(safe-area-inset-bottom) + 30px);
 }
 
 .button.disabled {

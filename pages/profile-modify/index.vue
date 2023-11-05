@@ -29,13 +29,13 @@
             <ModifyMbti @mbtiSelected="onMbtiSelected" />
             <ModifyGender @genderSelected="onGenderSelected" />
             <ModifyBirth @birthSelected="onBirthSelected" />
-            <div
-                class="button primary fixed-bottom"
-                :class="{ disabled: !isDataChanged }"
-                @click="saveChanges"
-            >
-                변경사항 저장하기
-            </div>
+        </div>
+        <div
+            class="button primary fixed-bottom"
+            :class="{ disabled: !isDataChanged }"
+            @click="saveChanges"
+        >
+            변경사항 저장하기
         </div>
     </div>
 </template>
