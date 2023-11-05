@@ -1,35 +1,41 @@
 <template>
     <div class="chat-input">
-        <div class="chat-input-top">
-            <Button
-                v-if="mode === 'INPUT'"
-                class="btn_mic"
-                @click="setMode('VOICE')"
-            />
-            <Button v-else class="btn_mic_x" @click="cancelVoice" />
-
-            <div class="input">
-                <textarea
-                    v-model="data"
-                    :placeholder="placeholder"
-                    :disabled="isGenerating || mode === 'VOICE'"
-                    :rows="rows"
-                    :class="{ voice: mode === 'VOICE' }"
-                />
-
+        <div v-if="isGenerating" class="chat-loading">
+            <img src="../../assets/images/loading-dot.gif" />
+        </div>
+        <div v-else>
+            <div class="chat-input-top">
                 <Button
                     v-if="mode === 'INPUT'"
-                    class="btn_send"
-                    @click="send"
+                    class="btn_mic"
+                    @click="setMode('VOICE')"
                 />
+                <Button v-else class="btn_mic_x" @click="cancelVoice" />
+
+                <div class="input">
+                    <textarea
+                        v-model="data"
+                        :placeholder="placeholder"
+                        :disabled="isGenerating || mode === 'VOICE'"
+                        :rows="rows"
+                        :class="{ voice: mode === 'VOICE' }"
+                    />
+
+                    <Button
+                        v-if="mode === 'INPUT'"
+                        class="btn_send"
+                        @click="send"
+                    />
+                </div>
             </div>
+
+            <chat-voice
+                v-if="mode === 'VOICE'"
+                ref="chatVoiceRef"
+                @change="(x) => (data = x)"
+                @finish="setData"
+            />
         </div>
-        <chat-voice
-            v-if="mode === 'VOICE'"
-            ref="chatVoiceRef"
-            @change="(x) => (data = x)"
-            @finish="setData"
-        />
     </div>
 </template>
 
@@ -64,7 +70,7 @@ export default {
         },
     },
     methods: {
-        ...mapActions(useChatStore, ["sendChat"]),
+        ...mapActions(useChatStore, ["sendChat", "removeLastChat"]),
         async send() {
             // Validation
             if (!this.data || this.data === "") {
@@ -74,11 +80,11 @@ export default {
             if (this.isGenerating) return;
 
             const res = await this.sendChat(this.data);
-            if (res) this.data = "";
+            if (res.success) this.data = "";
             else {
                 this.$eventBus.$emit("onConfirmModal", {
-                    title: "채팅 생성에 실패했습니다 ",
-                    desc: "다시 시도해 주세요!",
+                    title: "채팅 생성에 실패했습니다.",
+                    desc: res.message,
                 });
             }
         },
@@ -181,6 +187,22 @@ export default {
     .btn_send {
         position: absolute;
         right: 0;
+    }
+}
+
+.chat-loading {
+    width: 100%;
+    height: 40px;
+    margin: 16px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    padding: 2rem 1.5rem;
+
+    img {
+        height: 160px;
     }
 }
 </style>
