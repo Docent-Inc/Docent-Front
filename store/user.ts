@@ -7,7 +7,15 @@ interface User {
     mbti?: String;
 }
 
-const initialState = () => ({
+type State = {
+    user: User | null;
+    nickname: string;
+    accessToken: string;
+    refreshToken: string;
+    loginStatus: boolean;
+};
+
+const initialState = (): State => ({
     user: null,
     nickname: "",
     accessToken: "",
