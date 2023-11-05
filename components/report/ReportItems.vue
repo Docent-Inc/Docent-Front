@@ -17,9 +17,9 @@
                             2023년 10월 2일 ~ 2023년 10월 8일
                         </div>
                     </div>
-                    <div class="report-tags">
-                        <div class="report-tag">스타트업</div>
-                        <div class="report-tag">스트레스 관리</div>
+                    <div class="tag-wrap row">
+                        <div class="tag primary">스타트업</div>
+                        <div class="tag primary">스트레스 관리</div>
                     </div>
                 </div>
                 <span class="report-dot"></span>
@@ -91,11 +91,12 @@ export default {
     display: flex;
     border-radius: 8px;
     background: #231a3d;
-    height: 128px;
+    min-height: 128px;
 
     img {
-        width: 128px;
-        height: 128px;
+        min-width: 128px;
+        min-height: 128px;
+
         border-radius: 8px 0px 0px 8px;
         background: #9ca3af;
     }

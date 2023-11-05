@@ -71,13 +71,13 @@ export default {
 
 <style lang="scss" scoped>
 .contents {
-    height: calc(100% - (60px));
-    height: calc(100% - (60px + constant(safe-area-inset-top)));
-    height: calc(100% - (60px + env(safe-area-inset-top)));
+    // height: calc(100% - (60px));
+    // height: calc(100% - (60px + constant(safe-area-inset-top)));
+    // height: calc(100% - (60px + env(safe-area-inset-top)));
 
-    margin-top: 60px;
-    margin-top: calc(60px + constant(safe-area-inset-top));
-    margin-top: calc(60px + env(safe-area-inset-top));
+    padding-top: 60px;
+    padding-top: calc(60px + constant(safe-area-inset-top));
+    padding-top: calc(60px + env(safe-area-inset-top));
 
     color: #fff;
     background: linear-gradient(
