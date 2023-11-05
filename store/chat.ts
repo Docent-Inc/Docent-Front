@@ -1,3 +1,4 @@
+import { ChatContentModel } from "~/models/chat";
 import { useChatService } from "~/services/chat";
 enum ChatType {
     RESULT = "result",
@@ -6,49 +7,11 @@ enum ChatType {
     DEFAULT = "default",
 }
 
-// content_type 1 - 꿈기록
-interface Dream {
-    diary_name: String;
-    content: String;
-    resolution: String;
-    image_url: String;
-    create_date: String;
-}
-
-// content_type 2 - 일기
-interface Diary {
-    diary_name: String;
-    content: String;
-    image_url: String;
-    create_date: String;
-}
-
-// content_type 3 - 메모
-interface Memo {
-    title: String;
-    content: String;
-    create_date: String;
-}
-
-// content_type 4 - 일정
-interface Calender {
-    title: String;
-    content: String;
-    start_time: String;
-    end_time: String;
-}
-
-interface ChatContent {
-    diary_id: Number;
-    text_type: Number;
-    content: Dream | Diary | Memo | Calender;
-}
-
 interface Chat {
     is_docent: Boolean;
     type?: ChatType;
     text?: String;
-    result?: ChatContent;
+    result?: ChatContentModel;
 }
 
 export const useChatStore = defineStore("chat", {
@@ -72,6 +35,7 @@ export const useChatStore = defineStore("chat", {
         async addWelcomeChat(type: number) {
             const { getWelcomeChat } = useChatService();
             const res = await getWelcomeChat(type);
+            console.log(res);
 
             const welcomeChat = {
                 is_docent: true,
@@ -161,7 +125,7 @@ export const useChatStore = defineStore("chat", {
             }
 
             // (5) 결과 채팅 추가
-            const result: ChatContent = res.data;
+            const result: ChatContentModel = res.data;
             const resultChat: Chat = {
                 is_docent: true,
                 type: ChatType.RESULT,
