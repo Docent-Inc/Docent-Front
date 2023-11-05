@@ -1,42 +1,51 @@
 <template>
-    <div class="navigation">
-        <v-btn flat @click="navigateTo(`/home`)">
-            <v-icon class="nav_home" :class="{ active: isActive('/home') }" />
-        </v-btn>
+    <div class="navigation" :class="{ dark: isDark }">
+        <Icon
+            @click="navigateTo(`/home`)"
+            class="icon nav_home"
+            :class="{ active: isActive('/home') }"
+        >
+        </Icon>
 
-        <v-btn flat @click="navigateTo(`/report`)">
-          <v-icon
-              class="nav_report"
-              :class="{ active: isActive('/report') }"
-          />
-        </v-btn>
+        <Icon
+            @click="navigateTo(`/report`)"
+            class="icon nav_report"
+            :class="{ active: isActive('/report') }"
+        >
+        </Icon>
 
-        <v-btn flat @click="navigateTo(`/chat`)">
-            <img :src="docentSVG" />
-        </v-btn>
+        <img :src="docentSVG" @click="navigateTo(`/chat`)" class="icon" />
 
-        <v-btn flat @click="navigateTo(`/calendar`)">
-            <v-icon
-                class="nav_calendar"
-                :class="{ active: isActive('/calendar') }"
-            />
-        </v-btn>
+        <Icon
+            @click="navigateTo(`/calendar`)"
+            class="icon nav_calendar"
+            :class="{ active: isActive('/calendar') }"
+        >
+        </Icon>
 
-
-        <v-btn flat @click="navigateTo(`/mypage`)">
-          <v-icon
-              class="nav_mypage"
-              :class="{ active: isActive('/mypage') }"
-          />
-        </v-btn>
+        <Icon
+            @click="navigateTo(`/mypage`)"
+            class="icon nav_mypage"
+            :class="{ active: isActive('/mypage') }"
+        >
+        </Icon>
     </div>
 </template>
 
 <script>
 import DOCENTSVG from "../assets/images/nav_docent.svg";
+import Icon from "~/components/common/Icon.vue";
 
 export default {
     name: "Navigation",
+    components: { Icon },
+    props: {
+        isDark: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+    },
     data() {
         return {
             docentSVG: DOCENTSVG,
@@ -53,10 +62,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.v-btn {
+.icon {
     flex: 1;
-    font-size: 56px;
-    display: flex;
-    align-items: center;
+}
+
+.navigation.dark {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(16px);
 }
 </style>

@@ -417,6 +417,49 @@
     display: block;
 }
 
+.ic_box {
+    background: url("../images/ic_box.svg") no-repeat center/cover;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.ic_checked {
+    background: url("../images/ic_checked.svg") no-repeat center/cover;
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+.ic_edit {
+    background: url("../images/ic_edit.svg") no-repeat center/cover;
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+.ic_frame {
+    background: url("../images/ic_frame.svg") no-repeat center/cover;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.ic_pencil {
+    background: url("../images/ic_pencil.svg") no-repeat center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+// img
+.img_illust_night {
+    background: url("../images/img_illust_night.svg") no-repeat center;
+    width: calc(257px - 97px);
+    height: 137px;
+    display: block;
+}
+
 // Navigation
 .nav_home {
     background: url("../images/nav_home.svg") no-repeat center/cover;
