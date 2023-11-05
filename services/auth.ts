@@ -1,9 +1,11 @@
+import { GET } from "~/services";
 import API from "../utils/axios";
+import { UserModel } from "~/models/auth";
 
 /**
- * @interface signupModel
+ * @interface signupData
  */
-interface signupModel {
+interface signupData {
     nickname: string;
     mbti: string;
     age: string;
@@ -33,35 +35,16 @@ export const useAuthService = () => {
          * 초기 정보 등록
          * @body user
          */
-        async signup(data: signupModel) {
+        async signup(data: signupData) {
             return await API.post(`/auth/update`, {
                 ...data,
             });
         },
         /**
          * 유저 정보 조회
-         * @body userId
          */
         async getUserInfo() {
-            return await API.get(`/auth/info`);
-        },
-        /**
-         * 닉네임 변경 요청
-         * @body nickname
-         */
-        async changeNickname(nickname: string) {
-            return await API.post(`/auth/change/nickname`, {
-                nickname: nickname,
-            });
-        },
-        /**
-         * MBTI 변경 요청
-         * @body mbti
-         */
-        async changeMBTI(mbti: string) {
-            return await API.post(`/auth/change/mbti`, {
-                mbti: mbti,
-            });
+            return await GET<UserModel>(`/auth/info`);
         },
         /**
          * 액세스 토큰 재발급
