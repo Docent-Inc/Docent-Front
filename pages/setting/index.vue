@@ -1,65 +1,67 @@
 <template>
-    <div class="header">
-        <div class="setting-top">
-            <v-icon class="ic_back" @click="this.$router.back()" />
-            <span class="setting-title">설정</span>
+    <div class="viewport">
+        <div class="header">
+            <div class="setting-top">
+                <v-icon class="ic_back" @click="this.$router.back()" />
+                <span class="setting-title">설정</span>
+            </div>
         </div>
-    </div>
-    <div class="contents">
-        <div class="setting-contents-1">
-            <div class="setting-contents-1-top">
-                <span class="setting-nickname">{{ user?.nickname }}</span>
-                <v-icon class="ic_profile_setting" @click="showModify" />
-            </div>
-            <div class="setting-content-1-middle">
-                <span class="setting-mbti">{{ user?.mbti }}</span>
-            </div>
-            <div class="setting-content-1-bottom">
-                <div class="setting-content-1-bottom-title">
-                    <span class="gender">성별</span>
-                    <span class="birth">생년월일</span>
+        <div class="contents">
+            <div class="setting-contents-1">
+                <div class="setting-contents-1-top">
+                    <span class="setting-nickname">{{ user?.nickname }}</span>
+                    <v-icon class="ic_profile_setting" @click="showModify" />
                 </div>
-                <div class="setting-content-1-bottom-contents">
-                    <span class="gender-content">{{ user?.gender }}</span>
-                    <span class="birth-content">{{ formattedBirth }}</span>
+                <div class="setting-content-1-middle">
+                    <span class="setting-mbti">{{ user?.mbti }}</span>
+                </div>
+                <div class="setting-content-1-bottom">
+                    <div class="setting-content-1-bottom-title">
+                        <span class="gender">성별</span>
+                        <span class="birth">생년월일</span>
+                    </div>
+                    <div class="setting-content-1-bottom-contents">
+                        <span class="gender-content">{{ user?.gender }}</span>
+                        <span class="birth-content">{{ formattedBirth }}</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="setting-contents-2">
-            <div class="account-info-title-div">
-                <span class="account-info-title">계정정보</span>
-            </div>
-            <div class="account-info-div">
-                <div class="email-and-logo">
-                    <span class="account-info">{{ user?.email }}</span>
-                    <v-icon
-                        class="ic_kakao_logo"
-                        v-if="user?.Oauth_from === 'kakao'"
-                    />
-                    <v-icon
-                        class="ic_line_logo"
-                        v-else-if="user?.Oauth_from === 'line'"
-                    />
+            <div class="setting-contents-2">
+                <div class="account-info-title-div">
+                    <span class="account-info-title">계정정보</span>
                 </div>
-                <span class="logout">로그아웃</span>
+                <div class="account-info-div">
+                    <div class="email-and-logo">
+                        <span class="account-info">{{ user?.email }}</span>
+                        <v-icon
+                            class="ic_kakao_logo"
+                            v-if="user?.Oauth_from === 'kakao'"
+                        />
+                        <v-icon
+                            class="ic_line_logo"
+                            v-else-if="user?.Oauth_from === 'line'"
+                        />
+                    </div>
+                    <span class="logout">로그아웃</span>
+                </div>
             </div>
-        </div>
-        <div class="setting-contents-3">
-            <SettingPush />
-        </div>
-        <div class="setting-contents-4">
-            <div class="inquiry">
-                <span class="inquiry-title">문의하기</span>
-                <v-icon class="ic_kakao_inquiry" @click="openKakaoLink" />
+            <div class="setting-contents-3">
+                <SettingPush />
             </div>
-            <div class="terms">
-                <span class="terms-title">이용약관</span>
-            </div>
-            <div class="privacy">
-                <span class="privacy-title">개인정보처리방침</span>
-            </div>
-            <div class="secession" @click="openCustomModal">
-                <span class="secession-title">탈퇴하기</span>
+            <div class="setting-contents-4">
+                <div class="inquiry">
+                    <span class="inquiry-title">문의하기</span>
+                    <v-icon class="ic_kakao_inquiry" @click="openKakaoLink" />
+                </div>
+                <div class="terms">
+                    <span class="terms-title">이용약관</span>
+                </div>
+                <div class="privacy">
+                    <span class="privacy-title">개인정보처리방침</span>
+                </div>
+                <div class="secession" @click="openCustomModal">
+                    <span class="secession-title">탈퇴하기</span>
+                </div>
             </div>
         </div>
     </div>
@@ -112,10 +114,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.header {
-    padding: 0.8rem 2rem 0.8rem 2rem;
-    height: 48px;
-}
+// .header {
+//     padding: 0.8rem 2rem 0.8rem 2rem;
+//     height: 48px;
+// }
 .setting-top {
     display: inline-flex;
     align-items: center;
@@ -143,23 +145,18 @@ export default {
     height: calc(100% - (60px + constant(safe-area-inset-top)));
     height: calc(100% - (60px + env(safe-area-inset-top)));
 
-    margin-top: 48px;
-    margin-top: calc(48px + constant(safe-area-inset-top));
-    margin-top: calc(48px + env(safe-area-inset-top));
+    margin-top: 60px;
+    margin-top: calc(60px + constant(safe-area-inset-top));
+    margin-top: calc(60px + env(safe-area-inset-top));
     position: relative;
-    padding: 0 2rem;
-    max-height: 100vh;
-    overflow-y: auto;
 }
 .setting-contents-1 {
     position: relative;
     top: 0;
-    margin-left: -2.35rem;
-    margin-right: -2.35rem;
-    width: 100vw;
+    padding: 0 2rem;
+    width: 100%;
     height: 170px;
 
-    flex-shrink: 0;
     background: linear-gradient(
         183deg,
         #ded2ff -94.64%,
@@ -171,8 +168,7 @@ export default {
 .setting-contents-1-top {
     top: 20px;
     position: relative;
-    margin-right: 2.35rem;
-    margin-left: 2.35rem;
+
     display: flex;
     justify-content: space-between;
 }
@@ -196,8 +192,7 @@ export default {
 .setting-content-1-middle {
     position: relative;
     top: 20px;
-    margin-right: 2.35rem;
-    margin-left: 2.35rem;
+
     display: flex;
 }
 .setting-mbti {
@@ -210,8 +205,7 @@ export default {
 .setting-content-1-bottom {
     position: relative;
     top: 40px;
-    margin-right: 2.35rem;
-    margin-left: 2.35rem;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -235,6 +229,7 @@ export default {
     position: relative;
     width: 100%;
     height: 138px;
+    padding: 0 2rem;
 }
 .account-info-title-div {
     position: relative;
@@ -274,10 +269,15 @@ export default {
     font-size: 14px;
     line-height: 160%;
 }
+
+.setting-contents-3 {
+    padding: 0 2rem;
+}
 .setting-contents-4 {
     position: relative;
     margin-top: 48px;
     height: 299px;
+    padding: 0 2rem;
 }
 .inquiry {
     position: relative;
