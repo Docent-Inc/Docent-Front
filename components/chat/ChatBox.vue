@@ -10,14 +10,17 @@
                     <Icon class="ic_profile_ai" />
                 </div>
 
-                <div class="chat-title" v-if="chat.type !== 'result'">
+                <div class="chat-title" v-if="chat.type === 'loading'">
+                    잠시 후 기록 결과를 말씀드릴게요! 📑
+                </div>
+                <div class="chat-title" v-else-if="chat.type !== 'result'">
                     {{ chat.text }}
                 </div>
-            </div>
 
-            <!-- 로딩 -->
-            <div class="chat-loading" v-if="chat.type === 'loading'">
-                <img src="../../assets/images/loading-dot.gif" />
+                <!-- 로딩 -->
+                <div class="chat-desc" v-if="chat.type === 'loading'">
+                    {{ chat.text }}
+                </div>
             </div>
 
             <!-- 선택 버튼  -->
@@ -91,6 +94,16 @@ export default {
     }
 }
 
+.chat-desc {
+    color: var(--gray-500, #6b7280);
+    /* b1/b1_reg_16 */
+    font-family: "Pretendard";
+    font-size: 16px;
+    line-height: 160%; /* 25.6px */
+    word-break: break-all;
+    margin: 10px 0 20px;
+}
+
 .chat-box-wrapper {
     display: flex;
     justify-content: flex-start;
@@ -118,23 +131,6 @@ export default {
     white-space: normal;
     word-break: break-all;
     overflow: hidden;
-}
-
-.chat-loading {
-    width: 100%;
-    height: 40px;
-    margin: 16px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-
-    padding: 2rem 1.5rem;
-    border-radius: 8px;
-    background: #fff;
-    img {
-        height: 160px;
-    }
 }
 
 .chat-select-box {
