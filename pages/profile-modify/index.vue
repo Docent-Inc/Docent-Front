@@ -1,12 +1,7 @@
 <template>
     <div class="viewport">
         <div class="header">
-            <v-icon
-                class="ic_back"
-                v-if="hasChanges"
-                @click="openCustomModal"
-            />
-            <v-icon class="ic_back" v-else @click="this.$router.back()" />
+            <v-icon class="ic_back" @click="goBack" />
             <span class="modify-title">프로필 편집하기</span>
             <Toast
                 v-if="isSuccess"
@@ -18,19 +13,17 @@
         <div class="contents">
             <div class="modify-nickname-div">
                 <span class="modify-nickname-title">닉네임</span>
-                <div
-                    class="modify-nickname-content"
-                    :class="{ editable: isEditable }"
-                    @blur="nicknameBlur"
-                >
+                <div class="modify-nickname-content">
                     <input
                         type="text"
                         v-model="nickname"
-                        :readonly="!isEditable"
-                        class="nickname-input"
-                        :placeholder="nickname"
+                        @input="onNicknameChange"
+                        ref="nicknameRef"
                     />
-                    <v-icon class="ic_modify" @click="toggleEdit" />
+                    <v-icon
+                        class="ic_modify"
+                        @click="this.$refs.nicknameRef.focus()"
+                    />
                 </div>
             </div>
             <ModifyMbti @mbtiSelected="onMbtiSelected" />
@@ -59,6 +52,10 @@ import Toast from "~/components/common/Toast.vue";
 export default {
     name: "profile-modify",
     components: { ModifyBirth, ModifyGender, ModifyMbti, Toast },
+    setup() {
+        const userStore = useUserStore();
+        return { userStore };
+    },
     data() {
         return {
             nickname: "",
@@ -66,16 +63,11 @@ export default {
             mbti: "",
             birth: "",
             isDataChanged: false,
-            isEditable: false,
             isSuccess: false,
         };
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
-        hasChanges() {
-            console.log("hasChanges computed:", this.isDataChanged);
-            return this.isDataChanged;
-        },
     },
     mounted() {
         this.nickname = this.user.nickname;
@@ -84,8 +76,50 @@ export default {
         this.gender = this.user.gender;
     },
     methods: {
-        close() {
-            this.isSuccess = false;
+        onGenderSelected(newGender) {
+            if (newGender !== this.user.gender) {
+                this.isDataChanged = true;
+            }
+            this.gender = newGender;
+        },
+        onMbtiSelected(newMbti) {
+            if (newMbti !== this.user.mbti) {
+                this.isDataChanged = true;
+            }
+            this.mbti = newMbti;
+        },
+        onBirthSelected(newBirth) {
+            if (newBirth !== this.user.birth) {
+                this.isDataChanged = true;
+            }
+            this.birth = newBirth;
+        },
+        onNicknameChange() {
+            if (this.nickname !== this.user.nickname) {
+                this.isDataChanged = true;
+            }
+        },
+        async saveChanges() {
+            const { updateAccount } = useSettingService();
+            this.isDataChanged = false;
+            console.log(this.birth);
+            const data = {
+                nickname: this.nickname,
+                mbti: this.mbti,
+                gender: this.gender,
+                birth: this.birth,
+            };
+            const res = await updateAccount(data);
+            if (res.success) {
+                this.isSuccess = true;
+                await this.userStore.updateUser();
+            } else {
+                this.openErrorModal(res.message);
+            }
+        },
+        goBack() {
+            if (this.isDataChanged) this.openCustomModal();
+            else this.$router.back();
         },
         openCustomModal() {
             this.$eventBus.$emit("onCustomModal", {
@@ -110,58 +144,6 @@ export default {
                 },
             });
         },
-        toggleEdit() {
-            this.isEditable = !this.isEditable;
-        },
-        onGenderSelected(newGender) {
-            if (newGender !== this.user.gender) {
-                this.isDataChanged = true;
-            }
-            this.gender = newGender;
-        },
-        onMbtiSelected(newMbti) {
-            if (newMbti !== this.user.mbti) {
-                this.isDataChanged = true;
-            }
-            this.mbti = newMbti;
-        },
-        onBirthSelected(newBirth) {
-            if (newBirth !== this.user.birth) {
-                this.isDataChanged = true;
-            }
-            this.birth = newBirth;
-        },
-        onNicknameChange() {
-            if (this.nickname !== this.user.nickname) {
-                this.isDataChanged = true;
-            }
-        },
-        nicknameBlur() {
-            this.toggleEdit();
-            this.onNicknameChange();
-        },
-        async saveChanges() {
-            const { updateAccount } = useSettingService();
-            this.isDataChanged = false;
-            console.log(this.birth);
-            const data = {
-                nickname: this.nickname,
-                mbti: this.mbti,
-                gender: this.gender,
-                birth: this.birth,
-            };
-            const res = await updateAccount(data);
-            if (res.success) {
-                this.isSuccess = true;
-                await this.userStore.updateUser();
-            } else {
-                this.openErrorModal(res.message);
-            }
-        },
-    },
-    setup() {
-        const userStore = useUserStore();
-        return { userStore };
     },
 };
 </script>
@@ -215,33 +197,36 @@ export default {
 }
 
 .modify-nickname-content {
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: relative;
     margin-top: 8px;
-    background: var(--indigo-50, #eef2ff);
-    color: var(--gray-700, #374151);
-    font-family: "Pretendard";
-    font-size: 14px;
-    line-height: 160%;
-    border: 1px solid transparent;
 
-    &.editable {
-        border-color: var(--indigo-400, #6568fe);
-    }
-    .nickname-input {
-        flex-grow: 1;
+    input {
+        width: 100%;
         padding: 13px 12px;
         border-radius: 8px;
-        border: none;
-        margin-left: 12px;
+        border: 1px solid transparent;
+        background: var(--indigo-50, #eef2ff);
+
+        color: var(--gray-700, #374151);
+        font-family: "Pretendard";
+        font-size: 14px;
+        line-height: 160%;
     }
+
+    input:focus {
+        border: 1px solid #6568fe;
+    }
+
     .ic_modify {
         cursor: pointer;
         width: 20px;
         height: 20px;
         margin-right: 12px;
+
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
     }
 }
 </style>
