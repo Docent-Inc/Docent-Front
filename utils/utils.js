@@ -17,3 +17,23 @@ export function getHourType(hour) {
         return 4;
     }
 }
+
+/**
+ * 랜덤 인덱스 제너레이터 함수
+ * @param {number} min 시작 인덱스
+ * @param {number} max 끝 인덱스
+ */
+export function randomInt(min, max) {
+    return Math.floor(random() * (max - min + 1) + min);
+}
+
+function random() {
+    const x = Math.sin(getRandomNumberBasedOnTime()) * 10000;
+    return x - Math.floor(x);
+}
+
+function getRandomNumberBasedOnTime() {
+    const currentTime = new Date().getTime();
+    const randomSeed = currentTime % 11; // 0~10 사이의 숫자를 얻기 위해 11로 나눈 나머지를 사용
+    return randomSeed;
+}

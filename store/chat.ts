@@ -1,54 +1,21 @@
+import { ChatContentModel } from "~/models/chat";
 import { useChatService } from "~/services/chat";
+import loadingJSON from "../assets/json/loading.json";
+
 enum ChatType {
     RESULT = "result",
     LOADING = "loading",
     SELECT = "select",
     DEFAULT = "default",
-}
-
-// content_type 1 - 꿈기록
-interface Dream {
-    diary_name: String;
-    content: String;
-    resolution: String;
-    image_url: String;
-    create_date: String;
-}
-
-// content_type 2 - 일기
-interface Diary {
-    diary_name: String;
-    content: String;
-    image_url: String;
-    create_date: String;
-}
-
-// content_type 3 - 메모
-interface Memo {
-    title: String;
-    content: String;
-    create_date: String;
-}
-
-// content_type 4 - 일정
-interface Calender {
-    title: String;
-    content: String;
-    start_time: String;
-    end_time: String;
-}
-
-interface ChatContent {
-    diary_id: Number;
-    text_type: Number;
-    content: Dream | Diary | Memo | Calender;
+    SUCCESS = "success",
+    FAIL = "fail",
 }
 
 interface Chat {
     is_docent: Boolean;
     type?: ChatType;
     text?: String;
-    result?: ChatContent;
+    result?: ChatContentModel;
 }
 
 export const useChatStore = defineStore("chat", {
@@ -72,6 +39,7 @@ export const useChatStore = defineStore("chat", {
         async addWelcomeChat(type: number) {
             const { getWelcomeChat } = useChatService();
             const res = await getWelcomeChat(type);
+            console.log(res);
 
             const welcomeChat = {
                 is_docent: true,
@@ -106,6 +74,7 @@ export const useChatStore = defineStore("chat", {
          */
         async addChat(chat: Chat) {
             this.chatList.push(chat);
+            return this.chatList.length - 1;
         },
         /**
          * 로딩 채팅 삭제
@@ -116,6 +85,13 @@ export const useChatStore = defineStore("chat", {
                     !chat.is_docent ||
                     (chat.is_docent && chat.type !== ChatType.LOADING)
             );
+        },
+        /**
+         * 로딩 채팅 삭제
+         */
+        async removeChatAt(idx: number) {
+            this.chatList.splice(idx, 1);
+            console.log("removed!");
         },
         /**
          * 채팅 리스트 초기화
@@ -132,14 +108,17 @@ export const useChatStore = defineStore("chat", {
             const chat = {
                 is_docent: false,
                 text: input,
+                type: ChatType.SUCCESS,
             };
-            this.addChat(chat);
+            const chatIdx = await this.addChat(chat);
 
             // (2) 로딩 컴포넌트 추가
+            const idx = randomInt(0, loadingJSON.length - 1);
+            const loadText = loadingJSON[idx];
             const loadChat: Chat = {
                 is_docent: true,
                 type: ChatType.LOADING,
-                text: "Looki가 열심히 기록을 확인하고 있어요!",
+                text: loadText,
             };
             this.addChat(loadChat);
             this.isGenerating = true;
@@ -155,14 +134,14 @@ export const useChatStore = defineStore("chat", {
 
             if (!res.success) {
                 const msg = `${res.status_code}  - ${res.message}`;
-                console.log("Error! > ", msg, res);
-                alert(msg);
+                console.log("채팅 생성 실패 >>> ", msg, res);
+                Object.assign(this.chatList[chatIdx], { type: ChatType.FAIL });
 
-                return false;
+                return res;
             }
 
             // (5) 결과 채팅 추가
-            const result: ChatContent = res.data;
+            const result: ChatContentModel = res.data;
             const resultChat: Chat = {
                 is_docent: true,
                 type: ChatType.RESULT,
@@ -170,7 +149,7 @@ export const useChatStore = defineStore("chat", {
             };
             this.addChat(resultChat);
 
-            return true;
+            return res;
         },
         /**
          * Reset Flag
