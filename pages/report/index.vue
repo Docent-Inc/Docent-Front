@@ -4,12 +4,15 @@
     <div class="contents">
         <div class="report-content report-content-1">
             <div class="report-content-1-title">
-                <!-- 이번주에 <b>{{ 5 - generated_total_count }}개</b> 더
-                기록해주시면 <br />
-                월요일 아침에 돌아보기가 완성돼요! -->
-
-                이번 한 주도 수고했어요 :&#41;<br />
-                <b>월요일 아침</b>에 돌아보기가 완성돼요!
+                <div v-if="generated_total_count < 5">
+                    이번주에 <b>{{ 5 - generated_total_count }}개</b> 더
+                    기록해주시면 <br />
+                    월요일 아침에 돌아보기가 완성돼요!
+                </div>
+                <div v-else>
+                    이번 한 주도 수고했어요 :&#41;<br />
+                    <b>월요일 아침</b>에 돌아보기가 완성돼요!
+                </div>
             </div>
             <div class="report-progress-wrap">
                 <div
