@@ -4,16 +4,24 @@
  * ReportListModel
  */
 export interface ReportListModel {
-    total_count: number;
-    list: ReportList[];
+    generated_total_count: number;
+    list_count: number;
+    reports: ReportList[];
 }
 
 interface ReportList {
     id: number;
+    title: string;
+    period: Period;
     main_keyword: string[];
     image_url: string;
     create_date: string;
     is_read: boolean;
+}
+
+interface Period {
+    start_date: string;
+    end_date: string;
 }
 
 /**
