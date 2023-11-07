@@ -4,9 +4,12 @@
     <div class="contents">
         <div class="report-content report-content-1">
             <div class="report-content-1-title">
-                이번주에 <b>{{ 5 - generated_total_count }}개</b> 더
+                <!-- 이번주에 <b>{{ 5 - generated_total_count }}개</b> 더
                 기록해주시면 <br />
-                월요일 아침에 돌아보기가 완성돼요!
+                월요일 아침에 돌아보기가 완성돼요! -->
+
+                이번 한 주도 수고했어요 :&#41;<br />
+                <b>월요일 아침</b>에 돌아보기가 완성돼요!
             </div>
             <div class="report-progress-wrap">
                 <div
@@ -35,16 +38,31 @@
                 일요일 밤에 한 주 돌아보기를 보내드려요.
             </div>
 
-            <ReportItems :reports="reports" />
+            <ReportItems
+                :reports="reports"
+                :list_count="list_count"
+                @loadMore="loadMore"
+            />
+
+            <InfiniteLoading
+                v-if="reports?.length"
+                :first-load="false"
+                :distance="1000"
+                :top="true"
+                @infinite="loadMore"
+            />
         </div>
     </div>
 </template>
 
 <script>
-import { mapState } from "pinia";
-import { useUserStore } from "~/store/user";
 import ReportItems from "../../components/report/ReportItems.vue";
 import Icon from "~/components/common/Icon.vue";
+import InfiniteLoading from "v3-infinite-loading";
+
+import { mapState } from "pinia";
+import { useUserStore } from "~/store/user";
+
 import { useReportService } from "../../services/report";
 
 export default {
@@ -54,7 +72,7 @@ export default {
             layout: "main-dark",
         });
     },
-    components: { ReportItems, Icon },
+    components: { ReportItems, Icon, InfiniteLoading },
     computed: {
         ...mapState(useUserStore, ["user"]),
         generated_list() {
@@ -72,19 +90,38 @@ export default {
             generated_total_count: 0,
             list_count: 0,
             reports: [],
+            page: 1,
         };
     },
     async mounted() {
         const { getReportList } = useReportService();
-        const res = await getReportList(1);
+        const res = await getReportList(this.page);
 
         if (res.success) {
             this.generated_total_count = res.data.generated_total_count;
-            this.generated_total_count = res.data.generated_total_count;
+            this.list_count = res.data.list_count;
             this.reports = res.data.reports;
         }
+    },
+    methods: {
+        async loadMore() {
+            console.log(
+                "loadMore: ",
+                `${this.reports.length}/${this.list_count}`
+            );
+            if (this.reports.length < this.list_count) {
+                // page +1 해서 호출
+                this.page += 1;
 
-        console.log(this.reports);
+                const { getReportList } = useReportService();
+                const res = await getReportList(this.page);
+                if (res.success) {
+                    this.generated_total_count = res.data.generated_total_count;
+                    this.list_count = res.data.list_count;
+                    this.reports = [...this.reports, ...res.data.reports];
+                }
+            }
+        },
     },
 };
 </script>
