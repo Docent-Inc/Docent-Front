@@ -1,4 +1,4 @@
-import { GET } from "services";
+import { GET } from "~/services";
 
 export const useReportService = () => {
     return {

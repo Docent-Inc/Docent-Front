@@ -1,28 +1,39 @@
 <template>
     <div class="report-items">
-        <div class="report-empty" v-if="itemList.length < 1">
+        <div class="report-empty" v-if="reports.length < 1">
             <Icon class="ic_pencil" />
             <div>
                 한 주 돌아보기는 이곳에 <br />
-                차곡차곡 보관될거에요
+                차곡차곡 보관될 거예요
             </div>
         </div>
         <div class="report-item-list" v-else>
-            <div class="report-item" v-for="item in itemList">
-                <img />
+            <div
+                class="report-item"
+                v-for="report in reports"
+                @click="goReportDetail(report.id)"
+            >
+                <img :src="report.image_url" />
                 <div class="report-item-content">
                     <div>
-                        <div class="report-item-title">세번째 돌아보기</div>
+                        <div class="report-item-title">
+                            {{ report.title }}
+                        </div>
                         <div class="report-item-date">
-                            2023년 10월 2일 ~ 2023년 10월 8일
+                            {{ report.period.start_date }} ~
+                            {{ report.period.end_date }}
                         </div>
                     </div>
-                    <div class="tag-wrap row">
-                        <div class="tag primary">스타트업</div>
-                        <div class="tag primary">스트레스 관리</div>
+                    <div class="tag-wrap row report-tags">
+                        <div
+                            class="tag primary"
+                            v-for="tag in report.main_keyword"
+                        >
+                            {{ tag }}
+                        </div>
                     </div>
                 </div>
-                <span class="report-dot"></span>
+                <span class="report-dot" v-if="!report.is_read"></span>
             </div>
         </div>
     </div>
@@ -34,16 +45,17 @@ export default {
     name: "Statistics",
     components: { Icon },
     props: {
-        itemList: {
+        reports: {
             type: Array,
             required: true,
             default: [],
         },
     },
-    data() {
-        return {};
+    methods: {
+        goReportDetail(id) {
+            this.$router.push(`/report/${id}`);
+        },
     },
-    computed: {},
 };
 </script>
 <style lang="scss" scoped>
@@ -94,7 +106,7 @@ export default {
     min-height: 128px;
 
     img {
-        min-width: 128px;
+        width: 128px;
         min-height: 128px;
 
         border-radius: 8px 0px 0px 8px;
@@ -130,19 +142,9 @@ export default {
         }
 
         .report-tags {
-            display: flex;
-            gap: 10px;
-
-            .report-tag {
-                border-radius: 12px;
-                background: rgba(167, 139, 250, 0.2);
-                color: var(--violet-400, #a78bfa);
-                font-family: "Pretendard Bold";
-                font-size: 12px;
-                line-height: 160%; /* 19.2px */
-
-                padding: 6px 11px;
-            }
+            width: 100%;
+            overflow-y: scroll;
+            flex-wrap: nowrap;
         }
     }
 }

@@ -4,19 +4,23 @@
     <div class="contents">
         <div class="report-content report-content-1">
             <div class="report-content-1-title">
-                이번주에 <b>2개</b> 더 기록해주시면 <br />
+                이번주에 <b>{{ 5 - generated_total_count }}개</b> 더
+                기록해주시면 <br />
                 월요일 아침에 돌아보기가 완성돼요!
             </div>
             <div class="report-progress-wrap">
                 <div
-                    v-for="progress in progressList"
+                    v-for="generated in generated_list"
                     class="report-progress"
-                    :class="{ inactive: !progress }"
+                    :class="{ inactive: !generated }"
                 >
-                    <Icon class="ic_checked" v-if="progress" />
+                    <Icon class="ic_checked" v-if="generated" />
                     <Icon class="ic_edit" v-else />
                 </div>
-                <div class="report-progress-result">
+                <div
+                    class="report-progress-result"
+                    :class="{ inactive: generated_total_count < 5 }"
+                >
                     <Icon class="ic_frame" />
                 </div>
             </div>
@@ -24,14 +28,14 @@
         </div>
         <div class="report-content report-content-2">
             <div class="report-content-2-title">
-                <Icon class="ic_box" />서준님의 돌아보기
+                <Icon class="ic_box" />{{ user?.nickname }}님의 돌아보기
             </div>
             <div class="report-content-2-desc">
                 하루하루 열심히 기록하신 꿈, 일기, 일정을 바탕으로 <br />
                 일요일 밤에 한 주 돌아보기를 보내드려요.
             </div>
 
-            <ReportItems :itemList="itemList" />
+            <ReportItems :reports="reports" />
         </div>
     </div>
 </template>
@@ -39,9 +43,9 @@
 <script>
 import { mapState } from "pinia";
 import { useUserStore } from "~/store/user";
-import { useGenerateService } from "../../services/generate";
 import ReportItems from "../../components/report/ReportItems.vue";
 import Icon from "~/components/common/Icon.vue";
+import { useReportService } from "../../services/report";
 
 export default {
     name: "Report",
@@ -53,28 +57,40 @@ export default {
     components: { ReportItems, Icon },
     computed: {
         ...mapState(useUserStore, ["user"]),
+        generated_list() {
+            const list = [false, false, false, false, false];
+            for (let i = 0; i < 5; i++) {
+                if (i >= this.generated_total_count) break;
+                list[i] = true;
+            }
+
+            return list;
+        },
     },
     data() {
         return {
-            data: {
-                create_date: "2023-08-29T14:36:18",
-            },
-            name: "",
-            status: "LOADING", // LOADING, SUCCESS, NODATA
-            progressList: [true, true, false, false, false],
-            itemList: [1, 2],
+            generated_total_count: 0,
+            list_count: 0,
+            reports: [],
         };
     },
-    async mounted() {},
+    async mounted() {
+        const { getReportList } = useReportService();
+        const res = await getReportList(1);
+
+        if (res.success) {
+            this.generated_total_count = res.data.generated_total_count;
+            this.generated_total_count = res.data.generated_total_count;
+            this.reports = res.data.reports;
+        }
+
+        console.log(this.reports);
+    },
 };
 </script>
 
 <style lang="scss" scoped>
 .contents {
-    // height: calc(100% - (60px));
-    // height: calc(100% - (60px + constant(safe-area-inset-top)));
-    // height: calc(100% - (60px + env(safe-area-inset-top)));
-
     padding-top: 60px;
     padding-top: calc(60px + constant(safe-area-inset-top));
     padding-top: calc(60px + env(safe-area-inset-top));

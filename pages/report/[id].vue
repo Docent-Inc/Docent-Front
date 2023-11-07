@@ -1,9 +1,12 @@
 <template>
-    <div class="header"><Icon class="ic_back_white" />한 주 돌아보기</div>
+    <div class="header">
+        <Icon class="ic_back_white" @click="this.$router.back()" />한 주
+        돌아보기
+    </div>
     <div class="contents">
         <Icon class="img_blur_elipsis" />
 
-        <div class="report-detail-title">이번주 서준님은,</div>
+        <div class="report-detail-title">이번주 {{ user?.nickname }}님은,</div>
         <div class="report-detail-date">2023년 10월 2일 ~ 2023년 10월 8일</div>
         <div class="report-detail-desc">
             한 주 동안의 기록을 바탕으로 그림을 그려보았어요
@@ -16,25 +19,20 @@
                     <Icon class="ic_memo" />주요 키워드
                 </div>
                 <div class="tag-wrap row">
-                    <div class="tag primary">스타트업</div>
-                    <div class="tag primary">스트레스 관리</div>
-                    <div class="tag primary">도슨트</div>
-                    <div class="tag primary">서비스 기획</div>
-                    <div class="tag primary">휴식</div>
+                    <div
+                        class="tag primary"
+                        v-for="keyword in data.statistics[1]"
+                    >
+                        {{ keyword }}
+                    </div>
                 </div>
-                <!-- <div class="report-detail-section-desc"></div> -->
             </div>
             <div class="report-detail-section">
                 <div class="report-detail-section-title">
                     <Icon class="ic_ballon" />마음상태 분석
                 </div>
                 <div class="report-detail-section-desc">
-                    서준님께서는 최근 몇 주 동안의 꿈을 통해 생활에 대한
-                    스트레스를 받고 계시며 불안과 혼란을 느끼고 있는 것으로
-                    보입니다. 이러한 상황은 서준님의 스타트업 활동과 관련된
-                    의사결정에 큰 영향을 미치고 있습니다. 그러나 일기를 통해
-                    보이는 의지와 역량이 이러한 상황을 이겨낼 수 있을 것으로
-                    보입니다.
+                    {{ data.mental_state }}
                 </div>
             </div>
             <div class="report-detail-section">
@@ -45,23 +43,13 @@
                     <div class="report-activity-box">
                         <div class="report-activity-title">외향적 활동</div>
                         <div class="report-activity-desc">
-                            스타트업 대표로 활동 <br />
-                            <br />
-                            GCS의 프로그램에 참여하여 공덕의 디캠프 및 서울 창업
-                            <br />
-                            <br />
-                            허브에 방문 부산 여행 <br />
+                            {{ data.extroverted_activities.join("\n\n") }}
                         </div>
                     </div>
                     <div class="report-activity-box violet">
                         <div class="report-activity-title">내향적 활동</div>
                         <div class="report-activity-desc">
-                            스타트업 대표로 활동 <br />
-                            <br />
-                            GCS의 프로그램에 참여하여 공덕의 디캠프 및 서울 창업
-                            <br />
-                            <br />
-                            허브에 방문 부산 여행 <br />
+                            {{ data.introverted_activities.join("\n\n") }}
                         </div>
                     </div>
                 </div>
@@ -72,13 +60,12 @@
                     부분이에요!
                 </div>
                 <div class="tag-wrap">
-                    <div class="tag blue">높은 열정과 확고한 의지</div>
+                    <div class="tag blue">
+                        {{ data.positives.main_keyword }}
+                    </div>
                 </div>
                 <div class="report-detail-section-desc">
-                    스타트업 성과에 대한 높은 열정과 확고한 의지를
-                    보여주셨습니다. 다양한 이야기를 나누며 스타트업 성공에 대한
-                    다양한 관점을 얻으셨습니다.주변 사람들의 도움을 적극적으로
-                    받으며, 이들와 함께 성장하려는 노력을 보이셨습니다.
+                    {{ data.positives.comment }}
                 </div>
             </div>
 
@@ -88,13 +75,10 @@
                     않으셨나요?
                 </div>
                 <div class="tag-wrap">
-                    <div class="tag red">높은 열정과 확고한 의지</div>
+                    <div class="tag red">{{ data.negatives.main_keyword }}</div>
                 </div>
                 <div class="report-detail-section-desc">
-                    스타트업 성과에 대한 높은 열정과 확고한 의지를
-                    보여주셨습니다. 다양한 이야기를 나누며 스타트업 성공에 대한
-                    다양한 관점을 얻으셨습니다.주변 사람들의 도움을 적극적으로
-                    받으며, 이들와 함께 성장하려는 노력을 보이셨습니다.
+                    {{ data.negatives.comment }}
                 </div>
             </div>
             <div class="report-detail-section">
@@ -102,25 +86,11 @@
                     <Icon class="ic_rocket" />추천활동
                 </div>
                 <div class="tag-wrap col">
-                    <div class="tag primary big">
-                        레크리에이션 활동이나 휴가를 통한 휴식 시간을 가져보시는
-                        것이 어떠세요?
-                    </div>
-                    <div class="tag primary big">
-                        레크리에이션 활동이나 휴가를 통한 휴식 시간을 가져보시는
-                        것이 어떠세요?
-                    </div>
-                    <div class="tag primary big">
-                        레크리에이션 활동이나 휴가를 통한 휴식 시간을 가져보시는
-                        것이 어떠세요?
-                    </div>
-                    <div class="tag primary big">
-                        레크리에이션 활동이나 휴가를 통한 휴식 시간을 가져보시는
-                        것이 어떠세요?
-                    </div>
-                    <div class="tag primary big">
-                        레크리에이션 활동이나 휴가를 통한 휴식 시간을 가져보시는
-                        것이 어떠세요?
+                    <div
+                        class="tag primary big left"
+                        v-for="rec in data.recommendations"
+                    >
+                        {{ rec }}
                     </div>
                 </div>
             </div>
@@ -136,8 +106,10 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
 import Icon from "~/components/common/Icon.vue";
+import { mapState } from "pinia";
+import { useUserStore } from "~/store/user";
+import { useReportService } from "../../services/report";
 
 export default {
     name: "Report",
@@ -147,19 +119,29 @@ export default {
         });
     },
     components: { Icon },
-    computed: {},
+    computed: { ...mapState(useUserStore, ["user"]) },
     data() {
         return {
             data: {
-                create_date: "2023-08-29T14:36:18",
+                extroverted_activities: [],
+                introverted_activities: [],
+                mental_state: "",
+                negatives: { comment: "", main_keyword: "" },
+                positives: { comment: "", main_keyword: "" },
+                recommendations: [],
+                statistics: [{}, []],
             },
-            name: "",
-            status: "LOADING", // LOADING, SUCCESS, NODATA
-            progressList: [true, true, false, false, false],
-            itemList: [1, 2],
         };
     },
-    async mounted() {},
+    async mounted() {
+        const id = this.$route.params.id;
+        const { getReportDetail } = useReportService();
+        const res = await getReportDetail(id);
+
+        if (res.success) {
+            Object.assign(this.data, res.data);
+        }
+    },
 };
 </script>
 
@@ -311,7 +293,7 @@ export default {
     margin-top: 16px;
 
     .report-activity-box {
-        flex: 1;
+        width: 50%;
         border-radius: 8px;
         background: rgba(217, 217, 217, 0.11);
 
@@ -339,6 +321,8 @@ export default {
             font-family: "Pretendard Bold";
             font-size: 14px;
             line-height: 160%; /* 22.4px */
+
+            white-space: pre;
         }
     }
 
