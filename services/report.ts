@@ -1,3 +1,4 @@
+import { ReportDetailModel, ReportListModel } from "~/models/report";
 import { GET } from "~/services";
 
 export const useReportService = () => {
@@ -7,14 +8,14 @@ export const useReportService = () => {
          * @param {number} page
          */
         async getReportList(page: number) {
-            return await GET(`/report/list/${page}`);
+            return await GET<ReportListModel>(`/report/list/${page}`);
         },
         /**
          * 보고서 상세 조회
          * @param {number} id
          */
         async getReportDetail(id: number) {
-            return await GET(`/report/${id}`);
+            return await GET<ReportDetailModel>(`/report/${id}`);
         },
     };
 };

@@ -28,15 +28,22 @@ interface Period {
  * ReportDetailModel
  */
 export interface ReportDetailModel {
+    id: number;
+    content: ReportDetailContent;
+    image_url: string;
+    create_date: string;
+    period: Period;
+}
+
+interface ReportDetailContent {
     mental_state: string;
     positives: ReportPosOrNeg;
     negatives: ReportPosOrNeg;
     extroverted_activities: string[];
     introverted_activities: string[];
     recommendations: string[];
-    statistics: string;
+    keywords: string[];
 }
-
 interface ReportPosOrNeg {
     comment: string;
     main_keyword: string;

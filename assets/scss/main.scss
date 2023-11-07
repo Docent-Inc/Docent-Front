@@ -285,6 +285,7 @@ body {
 }
 
 .tag {
+    flex: 0 0 auto;
     display: flex;
     padding: 6px 11px;
     justify-content: center;
@@ -294,8 +295,6 @@ body {
     font-family: "Pretendard Bold";
     font-size: 12px;
     line-height: 160%; /* 19.2px */
-
-    width: fit-content;
 }
 
 .tag.primary {

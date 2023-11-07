@@ -7,11 +7,13 @@
         <Icon class="img_blur_elipsis" />
 
         <div class="report-detail-title">이번주 {{ user?.nickname }}님은,</div>
-        <div class="report-detail-date">2023년 10월 2일 ~ 2023년 10월 8일</div>
+        <div class="report-detail-date">
+            {{ data.period.start_date }} ~ {{ data.period.end_date }}
+        </div>
         <div class="report-detail-desc">
             한 주 동안의 기록을 바탕으로 그림을 그려보았어요
         </div>
-        <img class="report-detail-img" />
+        <img class="report-detail-img" :src="data.image_url" />
 
         <div class="report-detail-sections">
             <div class="report-detail-section">
@@ -21,7 +23,7 @@
                 <div class="tag-wrap row">
                     <div
                         class="tag primary"
-                        v-for="keyword in data.statistics[1]"
+                        v-for="keyword in content.keywords"
                     >
                         {{ keyword }}
                     </div>
@@ -32,7 +34,7 @@
                     <Icon class="ic_ballon" />마음상태 분석
                 </div>
                 <div class="report-detail-section-desc">
-                    {{ data.mental_state }}
+                    {{ content.mental_state }}
                 </div>
             </div>
             <div class="report-detail-section">
@@ -43,13 +45,13 @@
                     <div class="report-activity-box">
                         <div class="report-activity-title">외향적 활동</div>
                         <div class="report-activity-desc">
-                            {{ data.extroverted_activities.join("\n\n") }}
+                            {{ content.extroverted_activities.join("\n\n") }}
                         </div>
                     </div>
                     <div class="report-activity-box violet">
                         <div class="report-activity-title">내향적 활동</div>
                         <div class="report-activity-desc">
-                            {{ data.introverted_activities.join("\n\n") }}
+                            {{ content.introverted_activities.join("\n\n") }}
                         </div>
                     </div>
                 </div>
@@ -61,11 +63,11 @@
                 </div>
                 <div class="tag-wrap">
                     <div class="tag blue">
-                        {{ data.positives.main_keyword }}
+                        {{ content.positives.main_keyword }}
                     </div>
                 </div>
                 <div class="report-detail-section-desc">
-                    {{ data.positives.comment }}
+                    {{ content.positives.comment }}
                 </div>
             </div>
 
@@ -75,10 +77,12 @@
                     않으셨나요?
                 </div>
                 <div class="tag-wrap">
-                    <div class="tag red">{{ data.negatives.main_keyword }}</div>
+                    <div class="tag red">
+                        {{ content.negatives.main_keyword }}
+                    </div>
                 </div>
                 <div class="report-detail-section-desc">
-                    {{ data.negatives.comment }}
+                    {{ content.negatives.comment }}
                 </div>
             </div>
             <div class="report-detail-section">
@@ -88,7 +92,7 @@
                 <div class="tag-wrap col">
                     <div
                         class="tag primary big left"
-                        v-for="rec in data.recommendations"
+                        v-for="rec in content.recommendations"
                     >
                         {{ rec }}
                     </div>
@@ -123,13 +127,20 @@ export default {
     data() {
         return {
             data: {
+                period: {
+                    start_date: "",
+                    end_date: "",
+                },
+                image_url: "",
+            },
+            content: {
                 extroverted_activities: [],
                 introverted_activities: [],
                 mental_state: "",
                 negatives: { comment: "", main_keyword: "" },
                 positives: { comment: "", main_keyword: "" },
                 recommendations: [],
-                statistics: [{}, []],
+                keywords: [],
             },
         };
     },
@@ -140,6 +151,7 @@ export default {
 
         if (res.success) {
             Object.assign(this.data, res.data);
+            Object.assign(this.content, res.data.content);
         }
     },
 };
@@ -322,7 +334,7 @@ export default {
             font-size: 14px;
             line-height: 160%; /* 22.4px */
 
-            white-space: pre;
+            white-space: pre-wrap;
         }
     }
 
