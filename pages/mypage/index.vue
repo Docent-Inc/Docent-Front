@@ -1,8 +1,8 @@
 <template>
     <div class="header">
         <div class="header-top">
-          <span class="mypage-title">마이페이지</span>
-          <v-icon class="ic_setting" @click="goSetting"/>
+            <span class="mypage-title">마이페이지</span>
+            <v-icon class="ic_setting" @click="goSetting" />
         </div>
     </div>
     <div class="contents">
@@ -264,12 +264,15 @@ export default {
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
 
-    padding: 1.31rem 2rem;
+    // padding: 1.31rem 2rem;
+    padding: 1.31rem 0;
     background: #f8f8f8;
 
     .contents-header-1 {
         width: 100%;
         margin-top: 16px;
+        padding: 0 2rem;
+
         display: flex;
         justify-content: space-between;
         font-family: "Pretendard Bold";
@@ -283,6 +286,8 @@ export default {
 
     .contents-header-2 {
         margin-top: 36px;
+        padding: 0 2rem;
+
         width: 100%;
         height: 40px;
         display: flex;
@@ -302,6 +307,7 @@ export default {
     }
     .contents-header-3 {
         margin-top: 12px;
+        padding: 0 2rem;
         .count-area {
             display: flex;
             width: 100%;
