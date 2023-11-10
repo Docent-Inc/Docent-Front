@@ -1,7 +1,7 @@
 <template>
     <div class="report-stat">
-        <!-- <img :src="IMG.IntrovertSVG" id="introvert" :style="style_introvert" />
-        <img :src="IMG.ExtrovertSVG" id="extrovert" :style="style_extrovert" /> -->
+        <img :src="IMG.IntrovertSVG" id="introvert" :style="style_introvert" />
+        <img :src="IMG.ExtrovertSVG" id="extrovert" :style="style_extrovert" />
         <div id="introvert_txt">
             내향 <br />
             {{ introvert }} %
@@ -13,8 +13,8 @@
     </div>
 </template>
 <script>
-// import IntrovertSVG from "../../assets/images/img_introvert.svg";
-// import ExtrovertSVG from "../../assets/images/img_extrovert.svg";
+import IntrovertSVG from "../../assets/images/img_introvert.svg";
+import ExtrovertSVG from "../../assets/images/img_extrovert.svg";
 export default {
     name: "Statistics",
     props: {
@@ -23,14 +23,14 @@ export default {
             default: () => {},
         },
     },
-    // data() {
-    //     return {
-    //         IMG: {
-    //             IntrovertSVG: IntrovertSVG,
-    //             ExtrovertSVG: ExtrovertSVG,
-    //         },
-    //     };
-    // },
+    data() {
+        return {
+            IMG: {
+                IntrovertSVG: IntrovertSVG,
+                ExtrovertSVG: ExtrovertSVG,
+            },
+        };
+    },
     computed: {
         introvert() {
             if (!this.statistics) return 0;

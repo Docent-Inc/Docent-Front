@@ -1,7 +1,7 @@
 <template>
     <div class="chat-input">
         <div v-if="isGenerating" class="chat-loading">
-            <img src="@/assets/images/pages/chat/loading-dot.gif" />
+            <img src="../../assets/images/loading-dot.gif" />
         </div>
         <div v-else>
             <div class="chat-input-top">

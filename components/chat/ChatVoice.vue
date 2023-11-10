@@ -3,20 +3,20 @@
         <div class="chat-voice-bg">
             <div>
                 <img
-                    src="@/assets/images/pages/chat/btn_mic_rec_bg2.svg"
+                    src="@/assets/images/btn_mic_rec_bg2.svg"
                     class="animate__animated animate__pulse animate__infinite"
                 />
             </div>
 
             <div>
                 <img
-                    src="@/assets/images/pages/chat/btn_mic_rec_bg1.svg"
+                    src="@/assets/images/btn_mic_rec_bg1.svg"
                     class="animate__animated animate__pulse animate__infinite"
                 />
             </div>
 
             <div>
-                <img src="@/assets/images/pages/chat/btn_mic_rec.svg" />
+                <img src="@/assets/images/btn_mic_rec.svg" />
             </div>
         </div>
     </div>
