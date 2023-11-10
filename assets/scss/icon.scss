@@ -46,6 +46,17 @@
     display: block;
 }
 
+.btn_x {
+    background: rgba(0, 0, 0, 0.1);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .ic_close {
     background: url("../images/commons/ic_close.svg") no-repeat center/cover;
     width: 56px;
@@ -55,6 +66,14 @@
 
 .ic_delete {
     background: url("../images/commons/ic_delete.svg") no-repeat center/cover;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.ic_delete_white {
+    background: url("../images/commons/ic_delete_white.svg") no-repeat
+        center/cover;
     width: 20px;
     height: 20px;
     display: block;

@@ -1,23 +1,22 @@
 <template>
     <div class="viewport" :style="dynamicBackgrond">
-        <v-icon class="ic_close" @click="this.$router.back()" />
-
-        <img class="image" :src="diary.image_url" @click="open" />
+        <Button class="btn_x" @click="this.$router.back()" />
 
         <div class="diary-title-box">
-            <div class="diary-title">
-                {{ diary.diary_name }}
-            </div>
             <div class="diary-date">
                 {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
             </div>
-            <!-- <div class="diary-tags">
-                <div class="tag">tags</div>
-                <div class="tag">tags</div>
-                <div class="tag">tags</div>
-                <div class="tag">tags</div>
-            </div> -->
+            <div class="diary-title">
+                {{ diary.diary_name }}
+            </div>
         </div>
+        <Image
+            class="diary-image"
+            :url="diary.image_url"
+            width="80%"
+            @click="open"
+        />
+        <div class="diary-delete"><Icon class="ic_delete_white" />삭제하기</div>
 
         <bottom-sheet ref="myBottomSheet" :overlay="true">
             <div class="diary-bottom">
@@ -53,11 +52,17 @@
 import { useDiaryService } from "../../services/diary";
 import BottomSheet from "../../components/BottonSheet.vue";
 import { ref } from "vue";
+import Button from "~/components/common/Button.vue";
+import Icon from "~/components/common/Icon.vue";
+import Image from "~/components/common/Image.vue";
 
 export default {
     name: "Diary",
     components: {
         BottomSheet,
+        Button,
+        Icon,
+        Image,
     },
     setup() {
         const myBottomSheet = ref(null);
@@ -124,12 +129,16 @@ export default {
     position: relative;
     align-items: center;
     justify-content: center;
+
+    gap: 22px;
+    padding-bottom: 50px;
 }
 
 .diary-bottom {
     padding-bottom: 20px;
 }
-.ic_close {
+
+.btn_x {
     font-size: 14px;
 
     margin: 2.5rem;
@@ -138,11 +147,9 @@ export default {
     top: 0;
 }
 
-.image {
-    width: 80%;
+.diary-image {
     border-radius: 0.94rem;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    margin-bottom: 2rem;
 }
 
 .diary-tags {
@@ -169,15 +176,26 @@ export default {
     width: 80%;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 
     .diary-title {
         width: 100%;
-        font-size: 16px; // 2rem
-        color: #fff;
+        color: var(--white, #fff);
+
+        /* h1/h1_bold_24 */
+        font-family: "Pretendard Bold";
+        font-size: 20px;
+        line-height: 150%; /* 36px */
     }
     .diary-date {
-        font-size: 12px; // 1rem;
-        color: #fff;
+        color: var(--white, #fff);
+
+        /* b2/b2_med_14 */
+        font-family: "Pretendard Medium";
+        font-size: 14px;
+        line-height: 160%; /* 22.4px */
     }
     .diary-tags {
         margin-top: 0.5rem;
@@ -195,5 +213,21 @@ hr {
     height: 1px;
     background: #757575;
     margin: 2rem 0;
+}
+
+.diary-delete {
+    color: var(--white, #fff);
+
+    /* c1/c1_reg_12 */
+    font-family: "Pretendard";
+    font-size: 12px;
+    line-height: 160%; /* 19.2px */
+
+    display: flex;
+    gap: 4px;
+    align-items: center;
+
+    align-self: flex-start;
+    margin: 0 10%;
 }
 </style>
