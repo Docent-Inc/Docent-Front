@@ -1,6 +1,23 @@
 // models/diary.vue
 
 /**
+ * DiaryRatioModel
+ */
+export interface DiaryRatioModel {
+    ratio: DiaryRatio;
+}
+
+export interface DiaryRatio {
+    max_category: number;
+    memo_count: number;
+    memo_ratio: number;
+    morning_diary_count: number;
+    morning_diary_ratio: number;
+    night_diary_count: number;
+    night_diary_ratio: number;
+}
+
+/**
  * DiaryListModel
  */
 export interface DiaryListModel {

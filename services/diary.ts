@@ -1,4 +1,6 @@
+import { GET } from "~/services";
 import API from "../utils/axios";
+import { DiaryRatio } from "~/models/diary";
 
 export const useDiaryService = () => {
     return {
@@ -47,6 +49,12 @@ export const useDiaryService = () => {
                 month: month,
                 day: day,
             });
+        },
+        /**
+         * 마이페이지 상세 조회 (비율)
+         */
+        async getRatio() {
+            return await GET<DiaryRatio>(`/diary/ratio`);
         },
     };
 };

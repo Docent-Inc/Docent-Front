@@ -1,3 +1,4 @@
+import { DiaryRatio } from "models/diary";
 import { useDiaryService } from "../services/diary";
 
 interface DiaryOrMemo {
@@ -19,6 +20,7 @@ export const useDiaryStore = defineStore("diary", {
         total_MorningDiary_count: 0,
         total_NightDiary_count: 0,
         total_Memo_count: 0,
+        ratio: {} as DiaryRatio,
     }),
     actions: {
         async getGalleryList() {
@@ -28,17 +30,25 @@ export const useDiaryStore = defineStore("diary", {
             );
 
             const res = await getGalleryList(this.type, this.pageNo);
-            // console.log(res);
+            console.log(res);
 
             if (this.pageNo === 1) this.list = res.data.list;
             else this.list = [...this.list, ...res.data.list];
             this.pageNo += 1;
 
             // Counts
-            this.total_MorningDiary_count = res.data.total_MorningDiary_count;
-            this.total_NightDiary_count = res.data.total_NightDiary_count;
-            this.total_Memo_count = res.data.total_Memo_count;
-            this.computeTotalCounts();
+            // this.total_MorningDiary_count = res.data.total_MorningDiary_count;
+            // this.total_NightDiary_count = res.data.total_NightDiary_count;
+            // this.total_Memo_count = res.data.total_Memo_count;
+            // this.computeTotalCounts();
+            this.totalCounts = res.data.total_count;
+        },
+        async getRatio() {
+            const { getRatio } = useDiaryService();
+            const res = await getRatio();
+            console.log("getRatio", res);
+
+            this.ratio = res.data.ratio;
         },
         /**
          * Getter

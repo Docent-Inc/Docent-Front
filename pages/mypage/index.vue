@@ -18,8 +18,8 @@
             />
         </div>
         <div class="contents-header-2" v-if="highestCountCategory">
-            <div :class="displayStatus.iconClass"></div>
-            <p class="status-text">{{ displayStatus.message }}</p>
+            <div :class="highestCountCategory.iconClass"></div>
+            <p class="status-text">{{ highestCountCategory.message }}</p>
         </div>
 
         <!-- (2) 통계 영역 -->
@@ -27,29 +27,29 @@
             <div class="count-area">
                 <div v-if="isSkeleton" class="no-records-message"></div>
                 <div :style="barStyles.dream" class="bar dream-bar">
-                    <div v-if="total_MorningDiary_count > 0">
+                    <div>
                         <span>꿈 기록</span>
-                        <span>{{ total_MorningDiary_count }}</span>
+                        <span>{{ ratio.night_diary_count }}</span>
                     </div>
                 </div>
                 <div :style="barStyles.diary" class="bar diary-bar">
-                    <div v-if="total_NightDiary_count > 0">
+                    <div>
                         <span>일기</span>
-                        <span>{{ total_NightDiary_count }}</span>
+                        <span>{{ ratio.night_diary_count }}</span>
                     </div>
                 </div>
                 <div :style="barStyles.memo" class="bar memo-bar">
-                    <div v-if="total_Memo_count > 0">
+                    <div>
                         <span>메모</span>
-                        <span>{{ total_Memo_count }}</span>
+                        <span>{{ ratio.memo_count }}</span>
                     </div>
                 </div>
                 <div
                     v-if="
                         !isSkeleton &&
-                        total_MorningDiary_count +
-                            total_NightDiary_count +
-                            total_Memo_count ===
+                        ratio.morning_diary_count +
+                            ratio.night_diary_count +
+                            ratio.memo_count ===
                             0
                     "
                     class="no-records-message"
@@ -87,6 +87,7 @@
 import { mapState, mapActions } from "pinia";
 import { useDiaryStore } from "~/store/diary";
 import { useUserStore } from "~/store/user";
+import { useDiaryService } from "~/services/diary";
 
 import InfiniteLoading from "v3-infinite-loading";
 import ListDiary from "../../components/diary/ListDiary.vue";
@@ -134,76 +135,53 @@ export default {
             "total_MorningDiary_count",
             "total_Memo_count",
             "pageNo",
+            "ratio",
         ]),
         isSkeleton() {
             if (this.pageNo === 1 && this.list.length < 1) return true;
             else false;
         },
         highestCountCategory() {
-            const counts = {
-                dream: this.total_NightDiary_count,
-                diary: this.total_MorningDiary_count,
-                memo: this.total_Memo_count,
-            };
-            const maxCategory = Object.keys(counts).reduce((a, b) =>
-                counts[a] > counts[b] ? a : b
-            );
-
-            const categoryInfo = {
-                dream: {
-                    iconClass: "ic_status_dream",
-                    message: "꿈 f기록을 가장 많이 작성하셨어요!",
-                },
-                diary: {
-                    iconClass: "ic_status_diary",
-                    message: "일기를 가장 많이 작성하셨어요!",
-                },
-                memo: {
-                    iconClass: "ic_status_memo",
-                    message: "메모를 가장 많이 작성하셨어요!",
-                },
-                start: {
+            const categoryInfo = [
+                {
                     iconClass: "ic_status_start",
                     message: "아직 기록을 하지 않았어요!",
                 },
-                default: {
+                {
+                    iconClass: "ic_status_dream",
+                    message: "꿈 기록을 가장 많이 작성하셨어요!",
+                },
+                {
+                    iconClass: "ic_status_diary",
+                    message: "일기를 가장 많이 작성하셨어요!",
+                },
+                {
+                    iconClass: "ic_status_memo",
+                    message: "메모를 가장 많이 작성하셨어요!",
+                },
+                {
                     iconClass: "ic_status_default",
                     message: "",
                 },
-            };
+            ];
 
+            console.log(">>", this.ratio.max_category);
             // TODO: 이미지 사이즈 조정
-            if (this.isSkeleton) return categoryInfo["default"];
-            else
-                return counts[maxCategory] > 0
-                    ? categoryInfo[maxCategory]
-                    : categoryInfo["start"];
-        },
-        displayStatus() {
-            return this.highestCountCategory;
+            if (this.isSkeleton) return categoryInfo[4];
+            else return categoryInfo[this.ratio.max_category];
         },
         barStyles() {
-            const total =
-                this.total_NightDiary_count +
-                this.total_MorningDiary_count +
-                this.total_Memo_count;
-
-            // 비율을 계산하고 스타일 객체를 반환합니다.
-            const calculateStyle = (count) => {
-                const percentage = total ? (count / total) * 100 : 0;
-                return { width: `${percentage}%` };
-            };
-
             return {
-                dream: calculateStyle(this.total_MorningDiary_count),
-                diary: calculateStyle(this.total_NightDiary_count),
-                memo: calculateStyle(this.total_Memo_count),
+                dream: { width: `${this.ratio.night_diary_ratio}%` },
+                diary: { width: `${this.ratio.morning_diary_ratio}%` },
+                memo: { width: `${this.ratio.memo_ratio}%` },
             };
         },
     },
     async mounted() {
         try {
             this.setPageNo(1);
+            this.getRatio();
             await this.getGalleryList();
         } catch (e) {
             console.log(e);
@@ -215,6 +193,7 @@ export default {
             "changeMode",
             "getGalleryList",
             "setPageNo",
+            "getRatio",
         ]),
         loadMore() {
             // console.log(`loadmore ${this.list.length}/${this.totalCounts}`);
