@@ -14,7 +14,11 @@
         >
         </Icon>
 
-        <img :src="docentSVG" @click="navigateTo(`/chat`)" class="icon" />
+        <img
+            src="@/assets/images/commons/navigations/nav_docent.svg"
+            @click="navigateTo(`/chat`)"
+            class="icon"
+        />
 
         <Icon
             @click="navigateTo(`/calendar`)"
@@ -33,7 +37,6 @@
 </template>
 
 <script>
-import DOCENTSVG from "../assets/images/nav_docent.svg";
 import Icon from "~/components/common/Icon.vue";
 
 export default {
@@ -45,11 +48,6 @@ export default {
             required: false,
             default: false,
         },
-    },
-    data() {
-        return {
-            docentSVG: DOCENTSVG,
-        };
     },
     methods: {
         navigateTo(route) {

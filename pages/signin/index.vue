@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import kakaoLogo from "../../assets/images/button_kakao_login.svg";
+import kakaoLogo from "../../assets/images/commons/logos/button_kakao_login.svg";
 import { useAuthService } from "../../services/auth";
 
 const { getKakaoLogin } = useAuthService();

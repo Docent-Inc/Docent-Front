@@ -110,7 +110,7 @@ export default {
         async loadMore() {
             console.log(
                 "loadMore: ",
-                `${this.reports.length}/${this.list_count}`
+                `${this.reports.length}/${this.list_count}`,
             );
             if (this.reports.length < this.list_count) {
                 // page +1 해서 호출
