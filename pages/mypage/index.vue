@@ -190,13 +190,9 @@ export default {
         },
     },
     async mounted() {
-        try {
-            this.setPageNo(1);
-            this.getRatio();
-            await this.getGalleryList();
-        } catch (e) {
-            console.log(e);
-        }
+        this.setPageNo(1);
+        this.getRatio();
+        this.getGalleryList();
     },
     methods: {
         ...mapActions(useDiaryStore, [
@@ -207,8 +203,9 @@ export default {
             "getRatio",
         ]),
         loadMore() {
-            // console.log(`loadmore ${this.list.length}/${this.totalCounts}`);
+            console.log(`loadmore ${this.list.length}/${this.totalCounts}`);
             if (this.list.length < this.totalCounts) {
+                this.setPageNo(this.pageNo + 1);
                 this.getGalleryList();
             }
         },

@@ -27,28 +27,18 @@ export const useDiaryStore = defineStore("diary", {
             );
 
             const res = await getGalleryList(this.type, this.pageNo);
-            console.log(res);
+            // console.log(res);
 
             if (this.pageNo === 1) this.list = res.data.list;
             else this.list = [...this.list, ...res.data.list];
-            this.pageNo += 1;
             this.totalCounts = res.data.total_count;
         },
         async getRatio() {
             const { getRatio } = useDiaryService();
             const res = await getRatio();
-            console.log("getRatio", res);
+            // console.log("getRatio", res);
 
             this.ratio = res.data.ratio;
-            // this.ratio = {
-            //     max_category: 1,
-            //     morning_diary_count: 22,
-            //     night_diary_count: 7,
-            //     memo_count: 37,
-            //     morning_diary_ratio: 33.33333333333333,
-            //     night_diary_ratio: 10.606060606060606,
-            //     memo_ratio: 56.060606060606055,
-            // };
         },
         /**
          * Setter
