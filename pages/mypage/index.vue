@@ -25,11 +25,11 @@
         <!-- (2) 통계 영역 -->
         <div class="contents-header-3">
             <div class="count-area">
-                <div v-if="isSkeleton" class="no-records-message"></div>
+                <div v-if="isSkeleton" class="bg_count_area_default"></div>
                 <div :style="barStyles.dream" class="bar dream-bar">
                     <div v-if="ratio.morning_diary_ratio > 0">
-                        <span>꿈 기록</span>
-                        <span>{{ ratio.night_diary_count }}</span>
+                        <span>꿈</span>
+                        <span>{{ ratio.morning_diary_count }}</span>
                     </div>
                 </div>
                 <div :style="barStyles.diary" class="bar diary-bar">
@@ -176,15 +176,15 @@ export default {
                 dream: {
                     width: `${this.ratio.morning_diary_ratio}%`,
                     "min-width":
-                        this.ratio.morning_diary_ratio > 0 ? "25%" : "0",
+                        this.ratio.morning_diary_ratio > 0 ? "20%" : "0",
                 },
                 diary: {
                     width: `${this.ratio.night_diary_ratio}%`,
-                    "min-width": this.ratio.night_diary_ratio > 0 ? "25%" : "0",
+                    "min-width": this.ratio.night_diary_ratio > 0 ? "20%" : "0",
                 },
                 memo: {
                     width: `${this.ratio.memo_ratio}%`,
-                    "min-width": this.ratio.memo_ratio > 0 ? "25%" : "0",
+                    "min-width": this.ratio.memo_ratio > 0 ? "20%" : "0",
                 },
             };
         },
@@ -301,14 +301,10 @@ export default {
 
         .no-records-message {
             display: flex;
-            width: 206px;
-            height: 36px;
             flex-direction: column;
             justify-content: center;
-            flex-shrink: 0;
-            color: var(--gray-400, #9ca3af);
             text-align: center;
-            font-family: Pretendard;
+            font-family: "Pretendard";
             font-size: 12px;
             line-height: 160%;
         }

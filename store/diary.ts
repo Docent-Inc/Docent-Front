@@ -23,7 +23,7 @@ export const useDiaryStore = defineStore("diary", {
         async getGalleryList() {
             const { getGalleryList } = useDiaryService();
             console.log(
-                `getGalleryList(page: ${this.pageNo}, type: ${this.type})`
+                `getGalleryList(page: ${this.pageNo}, type: ${this.type})`,
             );
 
             const res = await getGalleryList(this.type, this.pageNo);
