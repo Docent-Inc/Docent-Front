@@ -78,6 +78,8 @@
 import { mapState } from "pinia";
 import { useUserStore } from "~/store/user";
 import { useGenerateService } from "../../services/generate";
+import IntrovertSVG from "../../assets/images/img_introvert.svg";
+import ExtrovertSVG from "../../assets/images/img_extrovert.svg";
 import Statistics from "../../components/report/Statistics.vue";
 
 export default {
@@ -93,6 +95,10 @@ export default {
     },
     data() {
         return {
+            IMG: {
+                IntrovertSVG: IntrovertSVG,
+                ExtrovertSVG: ExtrovertSVG,
+            },
             data: {
                 create_date: "2023-08-29T14:36:18",
             },
