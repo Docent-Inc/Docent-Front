@@ -13,7 +13,7 @@
         <div class="report-detail-desc">
             한 주 동안의 기록을 바탕으로 그림을 그려보았어요
         </div>
-        <img class="report-detail-img" :src="data.image_url" />
+        <Image class="report-detail-img" :url="data.image_url" width="100%" />
 
         <div class="report-detail-sections">
             <div class="report-detail-section">
@@ -114,6 +114,7 @@ import Icon from "~/components/common/Icon.vue";
 import { mapState } from "pinia";
 import { useUserStore } from "~/store/user";
 import { useReportService } from "../../services/report";
+import Image from "~/components/common/Image.vue";
 
 export default {
     name: "Report",
@@ -122,7 +123,7 @@ export default {
             layout: "dark",
         });
     },
-    components: { Icon },
+    components: { Icon, Image },
     computed: { ...mapState(useUserStore, ["user"]) },
     data() {
         return {
@@ -237,10 +238,7 @@ export default {
 }
 
 .report-detail-img {
-    width: 100%;
-    aspect-ratio: 1/1;
     border-radius: 8px;
-    background: #fff;
     margin-top: 32px;
 }
 
