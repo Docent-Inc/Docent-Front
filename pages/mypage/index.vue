@@ -85,9 +85,8 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { useDiaryStore } from "~/store/diary";
+import { useMypageStore } from "~/store/mypage";
 import { useUserStore } from "~/store/user";
-import { useDiaryService } from "~/services/diary";
 
 import InfiniteLoading from "v3-infinite-loading";
 import ListDiary from "../../components/diary/ListDiary.vue";
@@ -128,7 +127,7 @@ export default {
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
-        ...mapState(useDiaryStore, [
+        ...mapState(useMypageStore, [
             "type",
             "mode",
             "list",
@@ -195,7 +194,7 @@ export default {
         this.getGalleryList();
     },
     methods: {
-        ...mapActions(useDiaryStore, [
+        ...mapActions(useMypageStore, [
             "setType",
             "changeMode",
             "getGalleryList",

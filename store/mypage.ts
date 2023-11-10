@@ -10,7 +10,7 @@ interface DiaryOrMemo {
     diary_name: string;
 }
 
-export const useDiaryStore = defineStore("diary", {
+export const useMypageStore = defineStore("mypage", {
     state: () => ({
         pageNo: 1,
         type: 0, // ALL (0), Dream (1), Diary(2), Memo(3)
