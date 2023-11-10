@@ -11,6 +11,8 @@
     background: url("../images/commons/ic_arrow_back.svg") no-repeat;
     background-size: contain;
     display: block;
+    width: 32px;
+    height: 32px;
 }
 
 .ic_back_primary {
@@ -48,6 +50,13 @@
     background: url("../images/commons/ic_close.svg") no-repeat center/cover;
     width: 56px;
     height: 56px;
+    display: block;
+}
+
+.ic_delete {
+    background: url("../images/commons/ic_delete.svg") no-repeat center/cover;
+    width: 20px;
+    height: 20px;
     display: block;
 }
 

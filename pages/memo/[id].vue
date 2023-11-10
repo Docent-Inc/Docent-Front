@@ -1,23 +1,39 @@
 <template>
     <div class="viewport">
         <div class="header">
-            <v-icon class="ic_back_primary" @click="this.$router.back()" />
-            <span class="memo">Memo</span>
+            <Icon class="ic_back" @click="this.$router.back()" />
+            <span class="memo">메모</span>
         </div>
         <div class="contents">
-            <div class="memo-title">
-                {{ memo.title === "" ? "(제목 없음)" : memo.title }}
+            <div class="memo-contents memo-contents-1">
+                <div class="memo-date-n-button">
+                    <div class="memo-date">
+                        {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
+                    </div>
+                    <div class="memo-delete">
+                        <Icon class="ic_delete" />삭제하기
+                    </div>
+                </div>
+
+                <div class="memo-title">
+                    {{ memo.title === "" ? "(제목 없음)" : memo.title }}
+                </div>
             </div>
-            <div class="memo-date">
-                {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
-            </div>
-            <div class="memo-contents">
-                {{ memo.content }}
+            <div class="memo-contents memo-contents-2">
+                <div class="tag-wrap">
+                    <div class="tag primary">전시</div>
+                    <div class="tag primary">가고 싶은 곳</div>
+                    <div class="tag primary">계획</div>
+                </div>
+                <div class="memo-content">
+                    {{ memo.content }}
+                </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+import Icon from "~/components/common/Icon.vue";
 import { useDiaryService } from "~/services/diary";
 
 export default {
@@ -35,6 +51,7 @@ export default {
     },
     computed: {},
     methods: {},
+    components: { Icon },
 };
 </script>
 <style lang="scss" scoped>
@@ -46,51 +63,84 @@ export default {
     margin-top: 60px;
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
-
-    // padding: 2rem;
-    padding: 32px;
 }
 
 .memo {
-    color: var(--2C9577, #2c9577);
-    font-family: Pretendard;
-    // font-size: 0.875rem;
-    font-size: 14px;
-    // line-height: 1.3125rem; /* 150% */
-    line-height: calc(14px * 1.5); /* 150% */
-    // margin-left: 0.8rem;
-    margin-left: calc(16px * 0.8);
-}
-
-.memo-title {
-    color: #000;
-    font-family: "Pretendard Bold";
-    // font-size: 2rem;
-    font-size: 30px;
-    // line-height: 1.3125rem; /* 70% */
-}
-
-.memo-date {
-    color: #5c5c5c;
-    font-family: Pretendard;
-    // font-size: 0.75rem;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    // line-height: 1.3125rem; /* 175% */
-    line-height: calc(12px * 1.75); /* 175% */
-    margin-top: 17px;
+    color: var(--gray-800, #1f2937);
+    font-family: "Pretendard SemiBold";
+    font-size: 16px;
+    line-height: 150%; /* 24px */
+    margin-left: 10px;
 }
 
 .memo-contents {
-    color: rgba(0, 0, 0, 0.95);
-    font-family: Pretendard;
-    // font-size: 1rem;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: calc(16px * 1.3); /* 130% */
-    text-transform: capitalize;
-    margin-top: 29px;
+    padding: 20px;
+}
+.memo-contents-1 {
+    width: 100%;
+    background: linear-gradient(
+        27deg,
+        #ded2ff -75.98%,
+        #d2daff -58.29%,
+        #dee4ff -27.42%,
+        #fff 114.43%
+    );
+
+    .memo-date-n-button {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .memo-date {
+            color: var(--gray-500, #6b7280);
+
+            /* b2/b2_med_14 */
+            font-family: "Pretendard Medium";
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 160%; /* 22.4px */
+        }
+
+        .memo-delete {
+            color: var(--gray-400, #9ca3af);
+
+            /* c1/c1_reg_12 */
+            font-family: "Pretendard";
+            font-size: 12px;
+            line-height: 160%; /* 19.2px */
+
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+    }
+
+    .memo-title {
+        color: var(--gray-700, #374151);
+
+        /* h1/h1_bold_24 */
+        font-family: "Pretendard Bold";
+        font-size: 24px;
+        line-height: 150%; /* 36px */
+
+        margin-bottom: 30px;
+    }
+}
+
+.memo-contents-2 {
+    .tag-wrap {
+        margin: 0 0 20px;
+    }
+
+    .memo-content {
+        color: var(--gray-500, #6b7280);
+
+        /* b1/b1_reg_16 */
+        font-family: "Pretendard";
+        font-size: 16px;
+        line-height: 160%; /* 25.6px */
+        text-transform: capitalize;
+    }
 }
 </style>
