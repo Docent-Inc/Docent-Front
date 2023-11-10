@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <!-- <v-icon class="logo_docent" /> -->
+        <v-icon class="logo_docent" />
     </div>
     <div class="contents">
         <div class="title">{{ $dayjs().format("YYYY.MM.DD") }}</div>
@@ -118,10 +118,10 @@ export default {
     }
 }
 
-// .logo_docent {
-//     font-size: 42px;
-//     margin: 0 auto;
-// }
+.logo_docent {
+    font-size: 42px;
+    margin: 0 auto;
+}
 
 .title {
     margin-bottom: 1.7rem;

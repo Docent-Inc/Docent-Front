@@ -33,12 +33,12 @@
                 <div class="account-info-div">
                     <div class="email-and-logo">
                         <span class="account-info">{{ user?.email }}</span>
-                        <Icon
-                            class="logo_kakao"
+                        <v-icon
+                            class="ic_kakao_logo"
                             v-if="user?.Oauth_from === 'kakao'"
                         />
-                        <Icon
-                            class="logo_line"
+                        <v-icon
+                            class="ic_line_logo"
                             v-else-if="user?.Oauth_from === 'line'"
                         />
                     </div>
@@ -71,13 +71,11 @@
 import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
 import { Popover } from "v-calendar";
-import Icon from "~/components/common/Icon.vue";
 
 export default {
     name: "setting",
     components: {
         Popover,
-        Icon,
     },
     setup() {},
     data() {
@@ -246,7 +244,7 @@ export default {
     font-size: 16px;
     line-height: 160%;
 }
-.logo_kakao {
+.ic_kakao_logo {
     position: relative;
     width: 32px;
     height: 32px;
