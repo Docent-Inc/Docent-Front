@@ -12,7 +12,7 @@
                 placeholder="도슨트에게 당신의 이야기를 들려주세요"
                 :disabled="isGenerating"
             />
-            <v-icon class="ic_send2" @click="send" />
+            <v-icon class="ic_send" @click="send" />
         </div>
     </div>
 

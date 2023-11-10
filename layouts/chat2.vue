@@ -5,7 +5,7 @@
             <v-icon class="ic_home" @click="this.$router.push(`/home`)" />
 
             <div class="tooltip" @click="isVisible = !isVisible">
-                <v-icon class="logo_docent" />
+                <!-- <v-icon class="logo_docent" /> -->
                 <span
                     class="tooltiptext tooltip-right"
                     :style="{ visibility: isVisible ? 'visible' : 'hidden' }"
@@ -63,10 +63,10 @@ export default {
     margin-left: 30px;
 }
 
-.logo_docent {
-    font-size: 42px;
-    margin: 0 auto;
-}
+// .logo_docent {
+//     font-size: 42px;
+//     margin: 0 auto;
+// }
 
 // Tooltip - https://deeplify.dev/front-end/markup/tooltip
 .tooltip {

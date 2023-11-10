@@ -5,14 +5,14 @@
         </v-btn>
 
         <v-btn flat @click="navigateTo(`/report`)">
-          <v-icon
-              class="nav_report"
-              :class="{ active: isActive('/report') }"
-          />
+            <v-icon
+                class="nav_report"
+                :class="{ active: isActive('/report') }"
+            />
         </v-btn>
 
         <v-btn flat @click="navigateTo(`/chat`)">
-            <img :src="docentSVG" />
+            <img src="@/assets/images/commons/navigations/nav_docent.svg" />
         </v-btn>
 
         <v-btn flat @click="navigateTo(`/calendar`)">
@@ -22,26 +22,18 @@
             />
         </v-btn>
 
-
         <v-btn flat @click="navigateTo(`/mypage`)">
-          <v-icon
-              class="nav_mypage"
-              :class="{ active: isActive('/mypage') }"
-          />
+            <v-icon
+                class="nav_mypage"
+                :class="{ active: isActive('/mypage') }"
+            />
         </v-btn>
     </div>
 </template>
 
 <script>
-import DOCENTSVG from "../assets/images/nav_docent.svg";
-
 export default {
     name: "Navigation",
-    data() {
-        return {
-            docentSVG: DOCENTSVG,
-        };
-    },
     methods: {
         navigateTo(route) {
             this.$router.push(route);
