@@ -18,7 +18,7 @@
             />
         </div>
         <div class="contents-header-2" v-if="highestCountCategory">
-            <div :class="highestCountCategory.iconClass"></div>
+            <Icon :class="highestCountCategory.iconClass" />
             <p class="status-text">{{ highestCountCategory.message }}</p>
         </div>
 
@@ -27,19 +27,19 @@
             <div class="count-area">
                 <div v-if="isSkeleton" class="no-records-message"></div>
                 <div :style="barStyles.dream" class="bar dream-bar">
-                    <div>
+                    <div v-if="ratio.morning_diary_ratio > 0">
                         <span>꿈 기록</span>
                         <span>{{ ratio.night_diary_count }}</span>
                     </div>
                 </div>
                 <div :style="barStyles.diary" class="bar diary-bar">
-                    <div>
+                    <div v-if="ratio.night_diary_ratio > 0">
                         <span>일기</span>
                         <span>{{ ratio.night_diary_count }}</span>
                     </div>
                 </div>
                 <div :style="barStyles.memo" class="bar memo-bar">
-                    <div>
+                    <div v-if="ratio.memo_ratio > 0">
                         <span>메모</span>
                         <span>{{ ratio.memo_count }}</span>
                     </div>
@@ -96,6 +96,7 @@ import ListItems from "../../components/diary/ListItems.vue";
 import BoardItems from "../../components/diary/BoardItems.vue";
 import Tags from "../../components/diary/Tags.vue";
 import Starter from "../../components/diary/Starter.vue";
+import Icon from "~/components/common/Icon.vue";
 
 export default {
     name: "Gallery",
@@ -112,6 +113,7 @@ export default {
         Tags,
         BoardItems,
         ListItems,
+        Icon,
     },
     data() {
         return {
@@ -131,9 +133,6 @@ export default {
             "mode",
             "list",
             "totalCounts",
-            "total_NightDiary_count",
-            "total_MorningDiary_count",
-            "total_Memo_count",
             "pageNo",
             "ratio",
         ]),
@@ -160,21 +159,33 @@ export default {
                     message: "메모를 가장 많이 작성하셨어요!",
                 },
                 {
+                    iconClass: "ic_status_same",
+                    message: "기록의 수가 비슷해요!",
+                },
+                {
                     iconClass: "ic_status_default",
                     message: "",
                 },
             ];
 
-            console.log(">>", this.ratio.max_category);
-            // TODO: 이미지 사이즈 조정
-            if (this.isSkeleton) return categoryInfo[4];
+            if (this.isSkeleton) return categoryInfo[5];
             else return categoryInfo[this.ratio.max_category];
         },
         barStyles() {
             return {
-                dream: { width: `${this.ratio.night_diary_ratio}%` },
-                diary: { width: `${this.ratio.morning_diary_ratio}%` },
-                memo: { width: `${this.ratio.memo_ratio}%` },
+                dream: {
+                    width: `${this.ratio.morning_diary_ratio}%`,
+                    "min-width":
+                        this.ratio.morning_diary_ratio > 0 ? "25%" : "0",
+                },
+                diary: {
+                    width: `${this.ratio.night_diary_ratio}%`,
+                    "min-width": this.ratio.night_diary_ratio > 0 ? "25%" : "0",
+                },
+                memo: {
+                    width: `${this.ratio.memo_ratio}%`,
+                    "min-width": this.ratio.memo_ratio > 0 ? "25%" : "0",
+                },
             };
         },
     },
@@ -243,7 +254,6 @@ export default {
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
 
-    // padding: 1.31rem 2rem;
     padding: 1.31rem 0;
     background: #f8f8f8;
 
@@ -268,21 +278,15 @@ export default {
         padding: 0 2rem;
 
         width: 100%;
-        height: 40px;
         display: flex;
         color: var(--gray-400, #9ca3af);
-        font-family: Pretendard;
+        font-family: "Pretendard";
         font-size: 12px;
         line-height: 160%;
-        .status-text {
-            margin-left: 12px;
-            display: flex;
-            width: 206px;
-            height: 36px;
-            flex-direction: column;
-            justify-content: center;
-            flex-shrink: 0;
-        }
+
+        display: flex;
+        align-items: center;
+        gap: 12px;
     }
     .contents-header-3 {
         margin-top: 12px;
@@ -363,14 +367,6 @@ export default {
     font-size: 100%;
     width: 6.4rem;
     height: 3.2rem;
-}
-.ic_status_diary,
-.ic_status_dream,
-.ic_status_memo,
-.ic_status_start {
-    font-size: 100%;
-    width: 13.2rem;
-    height: 3.6rem;
 }
 .dream-bar {
     background-color: var(--indigo-500, #6366f1);

@@ -17,9 +17,6 @@ export const useDiaryStore = defineStore("diary", {
         mode: 0, // List (0), Board(1)
         list: [] as DiaryOrMemo[],
         totalCounts: 0,
-        total_MorningDiary_count: 0,
-        total_NightDiary_count: 0,
-        total_Memo_count: 0,
         ratio: {} as DiaryRatio,
     }),
     actions: {
@@ -35,12 +32,6 @@ export const useDiaryStore = defineStore("diary", {
             if (this.pageNo === 1) this.list = res.data.list;
             else this.list = [...this.list, ...res.data.list];
             this.pageNo += 1;
-
-            // Counts
-            // this.total_MorningDiary_count = res.data.total_MorningDiary_count;
-            // this.total_NightDiary_count = res.data.total_NightDiary_count;
-            // this.total_Memo_count = res.data.total_Memo_count;
-            // this.computeTotalCounts();
             this.totalCounts = res.data.total_count;
         },
         async getRatio() {
@@ -49,26 +40,15 @@ export const useDiaryStore = defineStore("diary", {
             console.log("getRatio", res);
 
             this.ratio = res.data.ratio;
-        },
-        /**
-         * Getter
-         */
-        computeTotalCounts() {
-            if (this.type === 0)
-                this.totalCounts =
-                    Number(this.total_MorningDiary_count) +
-                    Number(this.total_NightDiary_count) +
-                    Number(this.total_Memo_count);
-            else if (this.type === 1)
-                this.totalCounts = Number(this.total_MorningDiary_count);
-            else if (this.type === 2)
-                this.totalCounts = Number(this.total_NightDiary_count);
-            else this.totalCounts = Number(this.total_Memo_count);
-        },
-        computeEachCategory() {
-            // TODO: 이쪽으로 옮기기 or api로 분리
-            // 1. MaxCategory 계산 후, icon & 문구 세팅
-            // 2. 각 카테고리 퍼센트 계산
+            // this.ratio = {
+            //     max_category: 1,
+            //     morning_diary_count: 22,
+            //     night_diary_count: 7,
+            //     memo_count: 37,
+            //     morning_diary_ratio: 33.33333333333333,
+            //     night_diary_ratio: 10.606060606060606,
+            //     memo_ratio: 56.060606060606055,
+            // };
         },
         /**
          * Setter
