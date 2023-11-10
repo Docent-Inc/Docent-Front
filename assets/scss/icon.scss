@@ -5,14 +5,6 @@
  * 3) Logo (commons/logos)
  * 4) Page (pages)
  */
-// Navigation
-.nav_home {
-    background: url("../images/nav_home.svg") no-repeat center/cover;
-    width: 50px;
-    height: 50px;
-    background-size: contain;
-    display: block;
-}
 
 // 1) Common
 .ic_back {
@@ -30,6 +22,14 @@
     height: 22px;
     display: block;
     font-size: 1.3rem !important;
+}
+
+.ic_back_white {
+    background: url("../images/commons/ic_arrow_back_white.svg") no-repeat
+        center/cover;
+    width: 32px;
+    height: 32px;
+    display: block;
 }
 
 .ic_arrow {
@@ -123,14 +123,6 @@
 }
 
 // 3) Logo
-// .logo_docent {
-//     background: url("../images/commons/logos/logo_docent.svg") no-repeat
-//         center/cover;
-//     width: 42px;
-//     height: 42px;
-//     display: block;
-// }
-
 .logo_kakao {
     background: url("../images/commons/logos/logo_kakao.svg") no-repeat center;
     display: block;
@@ -143,6 +135,14 @@
     display: block;
     width: 32px;
     height: 32px;
+}
+
+.logo_full {
+    background: url("../images/commons/logos/logo_full.svg") no-repeat
+        center/cover;
+    width: 192px;
+    height: 33px;
+    display: block;
 }
 
 // 4) 페이지
@@ -226,14 +226,15 @@
 
 // Report - TODO
 .ic_box {
-    background: url("../images/ic_box.svg") no-repeat center/cover;
+    background: url("../images/pages/report/ic_box.svg") no-repeat center/cover;
     width: 20px;
     height: 20px;
     display: block;
 }
 
 .ic_checked {
-    background: url("../images/ic_checked.svg") no-repeat center/cover;
+    background: url("../images/pages/report/ic_checked.svg") no-repeat
+        center/cover;
     width: 18px;
     height: 18px;
     display: block;
@@ -247,59 +248,69 @@
 }
 
 .ic_frame {
-    background: url("../images/ic_frame.svg") no-repeat center/cover;
+    background: url("../images/pages/report/ic_frame.svg") no-repeat
+        center/cover;
     width: 20px;
     height: 20px;
     display: block;
 }
 
 .ic_pencil {
-    background: url("../images/ic_pencil.svg") no-repeat center/cover;
+    background: url("../images/pages/report/ic_pencil.svg") no-repeat
+        center/cover;
     width: 24px;
     height: 24px;
     display: block;
 }
 
 .ic_ballon {
-    background: url("../images/ic_ballon.svg") no-repeat center/cover;
+    background: url("../images/pages/report/ic_ballon.svg") no-repeat
+        center/cover;
     width: 24px;
     height: 24px;
     display: block;
 }
 .ic_memo {
-    background: url("../images/ic_memo.svg") no-repeat center/cover;
+    background: url("../images/pages/report/ic_memo.svg") no-repeat center/cover;
     width: 24px;
     height: 24px;
     display: block;
 }
+
 .ic_rocket {
-    background: url("../images/ic_rocket.svg") no-repeat center/cover;
+    background: url("../images/pages/report/ic_rocket.svg") no-repeat
+        center/cover;
     width: 24px;
     height: 24px;
     display: block;
 }
+
 .ic_star {
-    background: url("../images/ic_star.svg") no-repeat center/cover;
+    background: url("../images/pages/report/ic_star.svg") no-repeat center/cover;
     width: 24px;
     height: 24px;
     display: block;
 }
 
 .ic_hands {
-    background: url("../images/ic_hands.svg") no-repeat center/cover;
+    background: url("../images/pages/report/ic_hands.svg") no-repeat
+        center/cover;
     width: 24px;
     height: 24px;
     display: block;
 }
+
 .ic_sweat {
-    background: url("../images/ic_sweat.svg") no-repeat center/cover;
+    background: url("../images/pages/report/ic_sweat.svg") no-repeat
+        center/cover;
     width: 24px;
     height: 24px;
     display: block;
 }
 
 .img_illust_night {
-    background: url("../images/img_illust_night.svg") no-repeat center;
+    background: url("../images/pages/report/img_illust_night.svg") no-repeat
+        center;
     width: calc(257px - 97px);
     height: 137px;
     display: block;
