@@ -1,6 +1,9 @@
 /**
  * Color 
  */
+$vc-black: #000;
+$vc-white: #fff;
+
 $vc-accent: #9398ff;
 
 $vc-indigo-50: #eef2ff;
@@ -11,6 +14,11 @@ $vc-indigo-400: #6568fe;
 $vc-indigo-500: #6366f1;
 $vc-indigo-600: #4f46e5;
 $vc-indigo-700: #4338ca;
+$vc-indigo-800: #3730a3;
+$vc-indigo-900: #312e81;
+$vc-indigo-950: #1e1b4b;
+
+$vc-white: #fff;
 
 $vc-gray-50: #f9fafb;
 $vc-gray-100: #f3f4f6;
@@ -20,9 +28,32 @@ $vc-gray-500: #6b7280;
 $vc-gray-600: #4b5563;
 $vc-gray-700: #374151;
 $vc-gray-800: #1f2937;
+$vc-gray-900: #111827;
+$vc-gray-950: #030712;
 
+$vc-violet-50: #f5f3ff;
+$vc-violet-100: #ede9fe;
 $vc-violet-200: #ddd6fe;
+$vc-violet-300: #c4b5fd;
+$vc-violet-400: #a78bfa;
 $vc-violet-500: #8b5cf6;
+$vc-violet-600: #7c3aed;
+$vc-violet-700: #6d28d9;
+$vc-violet-800: #5b21b6;
+$vc-violet-900: #4c1d95;
+$vc-violet-950: #2e1065;
+
+$vc-red-50: #fef2f2;
+$vc-red-100: #fee2e2;
+$vc-red-200: #fecaca;
+$vc-red-300: #fca5a5;
+$vc-red-400: #f87171;
+$vc-red-500: #ef4444;
+$vc-red-600: #dc2626;
+$vc-red-700: #b91c1c;
+$vc-red-800: #991b1b;
+$vc-red-900: #7f1d1d;
+$vc-red-950: #450a0a;
 
 $gradient_bg_light: linear-gradient(
     0deg,
