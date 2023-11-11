@@ -18,12 +18,14 @@ interface Chat {
     result?: ChatContentModel;
 }
 
+const initialState = () => ({
+    chatList: [] as Chat[],
+    isGenerating: false,
+    resetFlag: false, // unmounted 시, 초기화 여부 플래그
+});
+
 export const useChatStore = defineStore("chat", {
-    state: () => ({
-        chatList: [] as Chat[],
-        isGenerating: false,
-        resetFlag: false, // unmounted 시, 초기화 여부 플래그
-    }),
+    state: initialState,
     actions: {
         /**
          * 세션스토리지에서 불러온 채팅 리스트 저장
@@ -157,6 +159,9 @@ export const useChatStore = defineStore("chat", {
          */
         setResetFlag(resetFlag: boolean) {
             this.resetFlag = resetFlag;
+        },
+        reset() {
+            Object.assign(this.$state, initialState());
         },
     },
 });
