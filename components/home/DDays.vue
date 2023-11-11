@@ -12,7 +12,7 @@
                 캘린더 보러가기
             </button>
         </div>
-        <div class="calendar__empty skeleton" v-if="true" />
+        <div class="calendar__empty skeleton" v-if="isCalendarLoading" />
         <div class="calendar__empty" v-if="calendarIsEmpty">
             다가오는 일정이 없습니다. 좋은 하루 보내세요!
         </div>
@@ -102,7 +102,7 @@ export default {
         @media screen and (max-width: 320px) {
             flex-direction: column;
             justify-content: center;
-            text-align: center;
+            align-items: stretch;
         }
         .title-box {
             display: flex;
@@ -130,7 +130,7 @@ export default {
             font-weight: 600;
 
             @media screen and (max-width: 320px) {
-                margin-top: 1.5rem;
+                margin: 1.5rem 0 0 0;
             }
         }
     }

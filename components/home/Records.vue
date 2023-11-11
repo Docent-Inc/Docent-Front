@@ -105,7 +105,7 @@ export default {
         @media screen and (max-width: 320px) {
             flex-direction: column;
             justify-content: center;
-            text-align: center;
+            align-items: stretch;
         }
 
         .title-box {
