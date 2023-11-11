@@ -80,30 +80,6 @@ export default {
             isModalOpenedToday: false,
         };
     },
-    methods: {
-        openModal() {
-            this.modalOpen = true;
-            this.isModalOpenedToday = true;
-            this.checkLastModalUpDate();
-        },
-        closeModal() {
-            this.modalOpen = false;
-        },
-        checkLastModalUpDate() {
-            const lastModalDate = localStorage.getItem("lastModalDate");
-            const today = new Date().toDateString();
-            localStorage.setItem("lastModalDate", today);
-
-            if (lastModalDate !== today) {
-                this.isModalOpenedToday = false;
-            } else {
-                this.isModalOpenedToday = true;
-            }
-        },
-    },
-    mounted() {
-        this.checkLastModalUpDate();
-    },
     computed: {
         luckData() {
             if (this.luck) {
@@ -149,6 +125,30 @@ export default {
         // isSkeleton() {
         // return !this.user || !this.user.nickname;
         // },
+    },
+    mounted() {
+        this.checkLastModalUpDate();
+    },
+    methods: {
+        openModal() {
+            this.modalOpen = true;
+            this.isModalOpenedToday = true;
+            this.checkLastModalUpDate();
+        },
+        closeModal() {
+            this.modalOpen = false;
+        },
+        checkLastModalUpDate() {
+            const lastModalDate = localStorage.getItem("lastModalDate");
+            const today = new Date().toDateString();
+            localStorage.setItem("lastModalDate", today);
+
+            if (lastModalDate !== today) {
+                this.isModalOpenedToday = false;
+            } else {
+                this.isModalOpenedToday = true;
+            }
+        },
     },
 };
 </script>
@@ -312,6 +312,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 2rem;
 
     &__loading {
         @include loading;

@@ -53,10 +53,6 @@ export default {
             layout: "main",
         });
     },
-    computed: {
-        ...mapState(useUserStore, ["user"]),
-    },
-    methods: {},
     data() {
         return {
             calendar: [],
@@ -64,6 +60,9 @@ export default {
             record: {},
             luck: "",
         };
+    },
+    computed: {
+        ...mapState(useUserStore, ["user"]),
     },
     mounted() {
         const { getTodayLucky, getTodayCalendar, getTodayRecord } =

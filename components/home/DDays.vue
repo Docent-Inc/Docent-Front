@@ -12,7 +12,7 @@
                 캘린더 보러가기
             </button>
         </div>
-        <div class="calendar__empty skeleton" v-if="isCalendarLoading" />
+        <div class="calendar__empty skeleton" v-if="true" />
         <div class="calendar__empty" v-if="calendarIsEmpty">
             다가오는 일정이 없습니다. 좋은 하루 보내세요!
         </div>
@@ -78,7 +78,6 @@ export default {
             return startTime.format("HH:mm");
         },
     },
-    mounted() {},
 };
 </script>
 
