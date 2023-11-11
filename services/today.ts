@@ -12,7 +12,7 @@ export const useTodayService = () => {
          * 오늘 기록 조회
          */
         async getTodayRecord() {
-            return await API.get(`/today/calender`);
+            return await API.get(`/today/history`);
         },
         /**
          * 오늘 운세 조회

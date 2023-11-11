@@ -62,6 +62,17 @@
     display: block;
 }
 
+.ic_home_logo {
+    background: url("../images/commons/logos/logo_look.svg") no-repeat
+        center/cover;
+    display: block;
+}
+.ic_add {
+    background: url("../images/commons/ic_add.svg") no-repeat center/cover;
+    background-size: contain;
+    display: block;
+}
+
 // 2) Navigation
 .nav_home {
     background: url("../images/commons/navigations/nav_home.svg") no-repeat
@@ -149,13 +160,35 @@
 // 4) 페이지
 
 // Home - TODO) 사용 안 하면 지우기
-// ic_calender.svg, logo_docent_big.svg - 지울 것
-// .ic_calendar {
-//     background: url("../images/ic_calendar.svg") no-repeat center/cover;
-//     width: 25px;
-//     height: 25px;
-//     display: block;
-// }
+
+.ic_fortune {
+    background: url("../images/pages/home/ic_fortune.svg") no-repeat center;
+    display: block;
+}
+
+.ic_airplane {
+    background: url("../images/pages/home/ic_airplane.svg") no-repeat
+        center/cover;
+    background-size: contain;
+    display: block;
+}
+
+.ic_calendar_color {
+    background: url("../images/pages/home/ic_calendar_color.svg") no-repeat
+        center/cover;
+    background-size: contain;
+    display: block;
+}
+
+// weathers
+.ic_cloud {
+    background: url("../images/pages/home/weathers/ic_cloud.svg") no-repeat
+        center/cover;
+    background-size: contain;
+    display: block;
+    width: 20px;
+    height: 20px;
+}
 
 // Chat
 .ic_voice {
