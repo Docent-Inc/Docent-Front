@@ -14,7 +14,9 @@
 
         <!-- 2. 중간 영역 (이미지, 삭제 버튼) -->
         <Image class="diary-image" :url="diary.image_url" width="80%" />
-        <div class="diary-delete"><Icon class="ic_delete_white" />삭제하기</div>
+        <div class="diary-delete" @click="deleteDiary">
+            <Icon class="ic_delete_white" />삭제하기
+        </div>
 
         <!-- 3. 바텀시트 영역 -->
         <BottomSheet>
@@ -111,6 +113,9 @@ export default {
             console.log("goBack!");
             this.$router.back();
         },
+        deleteDiary() {
+            console.log("delete!");
+        },
     },
 };
 </script>
@@ -190,6 +195,8 @@ export default {
 
     align-self: flex-start;
     margin: 0 10%;
+
+    z-index: 2; // 바텀 시트 때문에 z-index 추가
 }
 
 .bottom-diary {

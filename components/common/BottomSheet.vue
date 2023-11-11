@@ -1,14 +1,14 @@
 <template>
-    <div class="bottom-sheet-wrapper" @click="(e) => onClick(e, 'wrapper')">
-        <div class="bottom-sheet" :class="animateClass">
-            <div class="bottom-sheet-top">
-                <Icon class="ic_detail" @click="(e) => onClick(e, 'button')" />
-            </div>
-            <div class="bottom-sheet-contents" v-if="isOpen">
-                <slot></slot>
-            </div>
+    <!-- <div class="bottom-sheet-wrapper" @click="(e) => onClick(e, 'wrapper')"> -->
+    <div class="bottom-sheet" :class="animateClass">
+        <div class="bottom-sheet-top">
+            <Icon class="ic_detail" @click="(e) => onClick(e, 'button')" />
+        </div>
+        <div class="bottom-sheet-contents" v-if="isOpen">
+            <slot></slot>
         </div>
     </div>
+    <!-- </div> -->
 </template>
 
 <script>
@@ -58,6 +58,10 @@ export default {
 }
 
 .bottom-sheet {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
     width: 100%;
     max-height: 90%;
     border-radius: 12px 12px 0px 0px;
@@ -66,6 +70,7 @@ export default {
 
     color: #fff;
     padding: 20px;
+    z-index: 99; // z-index 추가
 
     .bottom-sheet-top {
         height: 32px;
