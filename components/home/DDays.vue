@@ -83,7 +83,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/colors.scss";
+@import "@/assets/scss/variables.scss";
 @import "@/assets/scss/mixins.scss";
 
 .calendar {
@@ -126,7 +126,7 @@ export default {
             color: $vc-indigo-500;
             height: 100%;
             padding: 0.5rem 1rem;
-            border-radius: 8px;
+            border-radius: $border-radius-default;
             height: 30px;
             font-weight: 600;
 
@@ -145,7 +145,7 @@ export default {
         box-shadow: 0px 9px 34px rgba(204, 205, 227, 0.45);
         padding: 1.2rem;
         margin-top: 1.6rem;
-        border-radius: 8px;
+        border-radius: $border-radius-default;
     }
 
     &__data {
@@ -171,7 +171,7 @@ export default {
         box-shadow: 0px 9px 34px rgba(204, 205, 227, 0.45);
         padding: 1.2rem;
         margin-top: 0.8rem;
-        border-radius: 8px;
+        border-radius: $border-radius-default;
         position: relative;
 
         @media screen and (max-width: 320px) {
@@ -191,7 +191,7 @@ export default {
             width: 8px;
             height: 8px;
             background-color: $vc-accent;
-            border-radius: 50%;
+            border-radius: $border-circle;
 
             @media screen and (max-width: 320px) {
                 display: none;

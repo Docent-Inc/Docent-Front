@@ -148,11 +148,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/colors.scss";
+@import "@/assets/scss/variables.scss";
 @import "@/assets/scss/mixins.scss";
 
 .landing {
-    padding: 2rem;
+    padding: $padding-default;
     height: 188px;
     width: 100%;
     margin-top: 0;
@@ -240,7 +240,7 @@ export default {
 }
 
 .fortune-box {
-    border-radius: 8px;
+    border-radius: $border-radius-default;
     background-color: rgba(255, 255, 255, 0.39);
     width: 52px;
     height: 52px;
@@ -252,7 +252,7 @@ export default {
 
     .red-dot {
         background-color: $vc-red-400;
-        border-radius: 50%;
+        border-radius: $border-circle;
         position: absolute;
         width: 8px;
         height: 8px;
@@ -280,7 +280,7 @@ export default {
 .ic_fortune-modal {
     width: 172px;
     height: 172px;
-    border-radius: 50%;
+    border-radius: $border-circle;
     background: $gradient_bg_light;
     display: flex;
     justify-content: center;
@@ -300,7 +300,7 @@ export default {
 .modal {
     background: $vc-white;
     color: $vc-gray-800;
-    padding: 2rem;
+    padding: $padding-default;
     border-radius: 12px;
     display: flex;
     flex-direction: column;

@@ -25,10 +25,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/colors.scss";
+@import "@/assets/scss/variables.scss";
 
 .modal-background {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     top: 0;
     right: 0;
@@ -42,11 +42,11 @@ export default {
 
     .close-icon {
         position: absolute;
-        top: 2rem;
-        left: 2rem;
+        top: $padding-default;
+        left: $padding-default;
         width: 36px;
         height: 36px;
-        border-radius: 8px;
+        border-radius: $border-radius-default;
         display: flex;
         justify-content: center;
         align-items: center;

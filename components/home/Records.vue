@@ -77,7 +77,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/colors.scss";
+@import "@/assets/scss/variables.scss";
 @import "@/assets/scss/mixins.scss";
 
 .records {
@@ -115,7 +115,7 @@ export default {
 
             h2 {
                 margin-left: 0.5rem;
-                font-family: "Pretendard Bold";
+                font-family: $font-bold;
                 font-size: 18px;
 
                 @media screen and (max-width: 320px) {
@@ -130,7 +130,7 @@ export default {
             color: $vc-indigo-500;
             height: 100%;
             padding: 0.5rem 1rem;
-            border-radius: 8px;
+            border-radius: $border-radius-default;
             height: 30px;
             font-weight: 600;
 
