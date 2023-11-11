@@ -45,10 +45,8 @@
             </div>
             <div
                 v-if="!luckData.keyword && !luckData.description"
-                class="modal__loading"
-            >
-                <div class="spinner" />
-            </div>
+                class="modal__skeleton"
+            />
             <div v-else class="modal__contents">
                 <h1 class="modal__title">
                     오늘의 운세는 <br />
@@ -314,8 +312,10 @@ export default {
     align-items: center;
     margin-top: 2rem;
 
-    &__loading {
-        @include loading;
+    &__skeleton {
+        @include skeleton;
+        margin-top: 2rem;
+        border-radius: $border-radius-default;
         width: 200px;
         height: 150px;
     }
@@ -352,7 +352,7 @@ export default {
     background-color: transparent;
     border-radius: 10px;
 
-    @include loading;
+    @include skeleton;
 
     /* &__date {
     @include skeleton;
