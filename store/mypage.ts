@@ -22,9 +22,9 @@ export const useMypageStore = defineStore("mypage", {
     actions: {
         async getGalleryList() {
             const { getGalleryList } = useDiaryService();
-            console.log(
-                `getGalleryList(page: ${this.pageNo}, type: ${this.type})`,
-            );
+            // console.log(
+            //     `getGalleryList(page: ${this.pageNo}, type: ${this.type})`,
+            // );
 
             const res = await getGalleryList(this.type, this.pageNo);
             // console.log(res);
