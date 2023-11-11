@@ -1,7 +1,8 @@
 <template>
     <div class="viewport" :style="dynamicBackgrond">
-        <Button class="btn_x" @click="this.$router.back()" />
+        <Button class="btn_x" @click="goBack" />
 
+        <!-- 1. 상단 영역 (날짜, 제목) -->
         <div class="diary-title-box">
             <div class="diary-date">
                 {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
@@ -10,13 +11,12 @@
                 {{ diary.diary_name }}
             </div>
         </div>
-        <Image
-            class="diary-image"
-            :url="diary.image_url"
-            width="80%"
-            @click="open"
-        />
+
+        <!-- 2. 중간 영역 (이미지, 삭제 버튼) -->
+        <Image class="diary-image" :url="diary.image_url" width="80%" />
         <div class="diary-delete"><Icon class="ic_delete_white" />삭제하기</div>
+
+        <!-- 3. 바텀시트 영역 -->
         <BottomSheet>
             <div class="bottom-diary">
                 <div class="bottom-diary-title-box">
@@ -41,12 +41,12 @@
                     </div>
 
                     <div class="bottom-diary-content-desc">
-                        <div class="tag-wrap">
+                        <!-- <div class="tag-wrap">
                             <div class="tag accent">높은 목표와 이상</div>
                             <div class="tag accent">높은 목표와 이상</div>
                             <div class="tag accent">높은 목표와 이상</div>
-                        </div>
-                        {{ diary.content }}
+                        </div> -->
+                        {{ diary.resolution }}
                     </div>
                 </div>
             </div>
@@ -55,7 +55,6 @@
 </template>
 <script>
 import { useDiaryService } from "../../services/diary";
-import { ref } from "vue";
 import Button from "~/components/common/Button.vue";
 import Icon from "~/components/common/Icon.vue";
 import Image from "~/components/common/Image.vue";
@@ -69,33 +68,11 @@ export default {
         Image,
         BottomSheet,
     },
-    setup() {
-        const myBottomSheet = ref(null);
-        return {
-            myBottomSheet,
-        };
-    },
     data() {
         return {
             diary: {},
             type: "1",
         };
-    },
-    async mounted() {
-        const { getMorningdiary, getNightdiary } = useDiaryService();
-
-        const id = this.$route.params.id;
-        const type = this.$route.query.type;
-        this.type = type;
-        console.log("id", id);
-        console.log("type", type);
-        console.log("type2", this.type);
-
-        // Call API
-        const res =
-            type === "1" ? await getMorningdiary(id) : await getNightdiary(id);
-        console.log(res);
-        this.diary = res.data.diary;
     },
     computed: {
         dynamicBackgrond() {
@@ -112,18 +89,27 @@ export default {
                 }
             }
 
-            console.log(">>> ", background_color);
             return {
                 background: background_color,
             };
         },
     },
+    async mounted() {
+        const { getMorningdiary, getNightdiary } = useDiaryService();
+
+        const id = this.$route.params.id;
+        const type = this.$route.query.type;
+        this.type = type;
+
+        const res =
+            type === "1" ? await getMorningdiary(id) : await getNightdiary(id);
+        // console.log(res);
+        this.diary = res.data.diary;
+    },
     methods: {
-        open() {
-            this.$refs.myBottomSheet.open();
-        },
-        close() {
-            this.$refs.myBottomSheet.close();
+        goBack() {
+            console.log("goBack!");
+            this.$router.back();
         },
     },
 };
@@ -139,42 +125,18 @@ export default {
     padding-bottom: 50px;
 }
 
-.diary-bottom {
-    padding-bottom: 20px;
-}
-
 .btn_x {
-    font-size: 14px;
-
-    margin: 2.5rem;
+    margin: 10%;
     position: absolute;
     left: 0;
     top: 0;
+
+    z-index: 2; // 바텀 시트 때문에 z-index 추가
 }
 
 .diary-image {
     border-radius: 0.94rem;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-}
-
-.diary-tags {
-    display: flex;
-    width: 100%;
-    overflow-x: scroll;
-    margin: 1.61rem 0 2.97rem 0;
-
-    .tag {
-        border-radius: 20px;
-        border: 1px solid #000;
-
-        color: #000;
-        font-family: Pretendard;
-        font-size: 14px;
-
-        line-height: 21px; /* 150% */
-        padding: 0.3rem 0.8rem;
-        margin-right: 0.5rem;
-    }
 }
 
 .diary-title-box {
@@ -195,6 +157,7 @@ export default {
     font-size: 20px;
     line-height: 150%; /* 36px */
 }
+
 .diary-date {
     color: var(--white, #fff);
 
