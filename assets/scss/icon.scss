@@ -1,3 +1,4 @@
+@import "@/assets/scss/mixins.scss";
 /**
  * Icon UI
  * 1) Common (commons)
@@ -11,6 +12,8 @@
     background: url("../images/commons/ic_arrow_back.svg") no-repeat;
     background-size: contain;
     display: block;
+    width: 24px;
+    height: 24px;
 }
 
 .ic_back_primary {
@@ -20,6 +23,14 @@
     height: 22px;
     display: block;
     font-size: 1.3rem !important;
+}
+
+.ic_back_white {
+    background: url("../images/commons/ic_arrow_back_white.svg") no-repeat
+        center/cover;
+    width: 32px;
+    height: 32px;
+    display: block;
 }
 
 .ic_arrow {
@@ -124,14 +135,6 @@
 }
 
 // 3) Logo
-// .logo_docent {
-//     background: url("../images/commons/logos/logo_docent.svg") no-repeat
-//         center/cover;
-//     width: 42px;
-//     height: 42px;
-//     display: block;
-// }
-
 .logo_kakao {
     background: url("../images/commons/logos/logo_kakao.svg") no-repeat center;
     display: block;
@@ -144,6 +147,14 @@
     display: block;
     width: 32px;
     height: 32px;
+}
+
+.logo_full {
+    background: url("../images/commons/logos/logo_full.svg") no-repeat
+        center/cover;
+    width: 192px;
+    height: 33px;
+    display: block;
 }
 
 // 4) 페이지
@@ -247,6 +258,106 @@
     display: block;
 }
 
+// Report - TODO
+.ic_box {
+    background: url("../images/pages/report/ic_box.svg") no-repeat center/cover;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.ic_checked {
+    background: url("../images/pages/report/ic_checked.svg") no-repeat
+        center/cover;
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+.ic_edit {
+    background: url("../images/ic_edit.svg") no-repeat center/cover;
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+.ic_frame {
+    background: url("../images/pages/report/ic_frame.svg") no-repeat
+        center/cover;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.ic_pencil {
+    background: url("../images/pages/report/ic_pencil.svg") no-repeat
+        center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_ballon {
+    background: url("../images/pages/report/ic_ballon.svg") no-repeat
+        center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+.ic_memo {
+    background: url("../images/pages/report/ic_memo.svg") no-repeat center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_rocket {
+    background: url("../images/pages/report/ic_rocket.svg") no-repeat
+        center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_star {
+    background: url("../images/pages/report/ic_star.svg") no-repeat center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_hands {
+    background: url("../images/pages/report/ic_hands.svg") no-repeat
+        center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_sweat {
+    background: url("../images/pages/report/ic_sweat.svg") no-repeat
+        center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.img_illust_night {
+    background: url("../images/pages/report/img_illust_night.svg") no-repeat
+        center;
+    width: calc(257px - 97px);
+    height: 137px;
+    display: block;
+}
+
+.img_blur_elipsis {
+    width: 236px;
+    height: 236px;
+    background: linear-gradient(177deg, #8a80ff 7.83%, #b3c4ff 97.57%);
+    opacity: 0.2;
+    filter: blur(82px);
+}
+
 // Mypage
 .ic_list {
     background: url("../images/pages/mypage/ic_list.svg") no-repeat center/cover;
@@ -263,19 +374,68 @@
     display: block;
 }
 
+.ic_status_dream {
+    background: url("../images/pages/setting/ic_status_dream.svg") no-repeat
+        center;
+    display: block;
+    width: 118px;
+    height: 36px;
+}
+
+.ic_status_diary {
+    background: url("../images/pages/mypage/ic_status_diary.svg") no-repeat
+        center;
+    width: 144px;
+    height: 36px;
+}
+
+.ic_status_memo {
+    background: url("../images/pages/mypage/ic_status_memo.svg") no-repeat
+        center;
+    width: 110px;
+    height: 36px;
+}
+
+.ic_status_same {
+    background: url("assets/images/pages/mypage/ic_status_same.svg") no-repeat
+        center;
+    width: 171px;
+    height: 36px;
+}
+
+.ic_status_start {
+    background: url("../images/pages/mypage/ic_status_start.svg") no-repeat
+        center;
+    width: 132px;
+    height: 36px;
+}
+
+.ic_status_default {
+    border-radius: 8px;
+    display: block;
+    width: 118px;
+    height: 36px;
+
+    position: relative !important;
+    @include skeleton;
+}
+
+.bg_count_area_default {
+    display: block;
+    width: 100%;
+    height: 40px;
+    background-color: #e5e7eb;
+    border-radius: 8px;
+
+    position: relative !important;
+    @include skeleton;
+}
+
 // Setting
 .ic_profile_setting {
     background: url("../images/pages/setting/ic_profile_setting.svg") no-repeat;
     background-size: contain;
     display: block;
-}
-
-.ic_status_dream {
-    background: url("../images/pages/setting/ic_status_dream.svg") no-repeat
-        center;
-    background-size: contain;
-    display: block;
-    height: 36px;
 }
 
 .ic_kakao_inquiry {
@@ -407,53 +567,6 @@
 
 .ic_profile_save {
     background: url("../images/pages/setting/ic_profile_save.svg") no-repeat
-        center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_status_diary {
-    background: url("../images/pages/setting/ic_status_diary.svg") no-repeat
-        center;
-    background-size: contain;
-    display: block;
-    height: 36px;
-}
-
-.ic_status_memo {
-    background: url("../images/pages/setting/ic_status_memo.svg") no-repeat
-        center;
-    background-size: contain;
-    display: block;
-    height: 36px;
-}
-
-.ic_status_same {
-    background: url("assets/images/pages/setting/ic_status_same.svg") no-repeat
-        center;
-    background-size: contain;
-    display: block;
-    height: 36px;
-}
-
-.ic_status_start {
-    background: url("../images/pages/setting/ic_status_start.svg") no-repeat
-        center;
-    background-size: contain;
-    display: block;
-    height: 36px;
-}
-
-.ic_status_default {
-    background: var(--gray-200, #e5e7eb);
-    border-radius: 8px;
-    display: block;
-    width: 118px;
-    height: 36px;
-}
-
-.ic_status_balance {
-    background: url("../images/pages/setting/ic_status_balance.svg") no-repeat
         center;
     background-size: contain;
     display: block;

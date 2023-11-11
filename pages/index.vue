@@ -1,16 +1,28 @@
 <template>
     <div class="viewport">
-        <img :src="docentSVG" />
+        <div class="video-container">
+            <client-only>
+                <video
+                    class="video"
+                    ref="videoRef"
+                    autoplay
+                    muted
+                    @ended="onVideoEnded"
+                >
+                    <source :src="splashVideo" type="video/mp4" />
+                </video>
+            </client-only>
+        </div>
     </div>
 </template>
 
 <script setup>
 import { useAuthService } from "~/services/auth";
 import { useUserStore } from "~/store/user";
-import docentSVG from "../assets/images/logo_docent_big.svg";
+import splashVideo from "../assets/video/splash.mp4";
 
 const router = useRouter();
-onMounted(async () => {
+async function onVideoEnded() {
     const { accessToken, refreshToken } = useUserStore();
     if (!accessToken || !refreshToken) {
         setTimeout(() => {
@@ -44,7 +56,7 @@ onMounted(async () => {
             useCookie("refresh_token").value = null;
             router.push(`/signin`);
         });
-});
+}
 </script>
 
 <style lang="scss" scoped>
@@ -52,5 +64,18 @@ onMounted(async () => {
     display: flex;
     justify-content: center;
     align-items: center;
+    background: var(--CTA_accent, #a1a1ff);
+}
+
+.video-container {
+    width: 100%;
+    // max-width: 1000px;
+    display: flex;
+    justify-content: center;
+    margin-inline: auto;
+}
+video {
+    width: 100%;
+    height: auto;
 }
 </style>

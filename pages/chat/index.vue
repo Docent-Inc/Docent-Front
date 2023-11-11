@@ -74,8 +74,7 @@ onMounted(() => {
 onUnmounted(() => {
     if (resetFlag.value) {
         window.sessionStorage.removeItem("chatList");
-        store.removeAllChat();
-        store.setResetFlag(false);
+        store.reset();
     }
 });
 
