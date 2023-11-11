@@ -43,7 +43,13 @@
                     <v-icon class="ic_fortune" />
                 </div>
             </div>
-            <div class="modal__contents">
+            <div
+                v-if="!luckData.keyword && !luckData.description"
+                class="modal__loading"
+            >
+                <div class="spinner" />
+            </div>
+            <div v-else class="modal__contents">
                 <h1 class="modal__title">
                     오늘의 운세는 <br />
                     <span class="point">"{{ luckData.keyword }}"</span>
@@ -306,6 +312,12 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    &__loading {
+        @include loading;
+        width: 200px;
+        height: 150px;
+    }
 
     &__contents {
         margin: 2rem;
