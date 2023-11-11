@@ -20,11 +20,11 @@
                 </div>
             </div>
             <div class="memo-contents memo-contents-2">
-                <div class="tag-wrap">
+                <!-- <div class="tag-wrap">
                     <div class="tag primary">전시</div>
                     <div class="tag primary">가고 싶은 곳</div>
                     <div class="tag primary">계획</div>
-                </div>
+                </div> -->
                 <div class="memo-content">
                     {{ memo.content }}
                 </div>
