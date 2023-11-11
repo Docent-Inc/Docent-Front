@@ -28,7 +28,7 @@
 
                 <div class="bottom-diary-content">
                     <div class="bottom-diary-content-title">
-                        <Icon class="ic_x" /> 일기 내용
+                        <Icon class="ic_memo" /> 일기 내용
                     </div>
                     <div class="bottom-diary-content-desc">
                         {{ diary.content }}
@@ -37,7 +37,7 @@
 
                 <div v-if="type == 1" class="bottom-diary-content">
                     <div class="bottom-diary-content-title">
-                        <Icon class="ic_x" />꿈을 통해 본 서준님의 마음
+                        <Icon class="ic_crystal" />꿈을 통해 본 서준님의 마음
                     </div>
 
                     <div class="bottom-diary-content-desc">
