@@ -17,52 +17,57 @@
             @click="open"
         />
         <div class="diary-delete"><Icon class="ic_delete_white" />삭제하기</div>
-
-        <bottom-sheet ref="myBottomSheet" :overlay="true">
-            <div class="diary-bottom">
-                <div class="diary-title">{{ diary.diary_name }}</div>
-                <div class="diary-date">
-                    {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
+        <BottomSheet>
+            <div class="bottom-diary">
+                <div class="bottom-diary-title-box">
+                    <div class="diary-date">
+                        {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
+                    </div>
+                    <div class="diary-title">{{ diary.diary_name }}</div>
                 </div>
 
-                <div class="diary-tags">
-                    <!-- <div class="tag">tags</div>
-                    <div class="tag">tags</div>
-                    <div class="tag">tags</div>
-                    <div class="tag">tags</div> -->
+                <div class="bottom-diary-content">
+                    <div class="bottom-diary-content-title">
+                        <Icon class="ic_x" /> 일기 내용
+                    </div>
+                    <div class="bottom-diary-content-desc">
+                        {{ diary.content }}
+                    </div>
                 </div>
 
-                <div class="diary-subtitle">Artist Note</div>
-                <div class="diary-content">
-                    {{ diary.content }}
-                </div>
+                <div v-if="type == 1" class="bottom-diary-content">
+                    <div class="bottom-diary-content-title">
+                        <Icon class="ic_x" />꿈을 통해 본 서준님의 마음
+                    </div>
 
-                <div v-if="type === '1'">
-                    <hr />
-                    <div class="diary-subtitle">Detail</div>
-                    <div class="diary-content">
-                        {{ diary.resolution }}
+                    <div class="bottom-diary-content-desc">
+                        <div class="tag-wrap">
+                            <div class="tag accent">높은 목표와 이상</div>
+                            <div class="tag accent">높은 목표와 이상</div>
+                            <div class="tag accent">높은 목표와 이상</div>
+                        </div>
+                        {{ diary.content }}
                     </div>
                 </div>
             </div>
-        </bottom-sheet>
+        </BottomSheet>
     </div>
 </template>
 <script>
 import { useDiaryService } from "../../services/diary";
-import BottomSheet from "../../components/BottonSheet.vue";
 import { ref } from "vue";
 import Button from "~/components/common/Button.vue";
 import Icon from "~/components/common/Icon.vue";
 import Image from "~/components/common/Image.vue";
+import BottomSheet from "~/components/common/BottomSheet.vue";
 
 export default {
     name: "Diary",
     components: {
-        BottomSheet,
         Button,
         Icon,
         Image,
+        BottomSheet,
     },
     setup() {
         const myBottomSheet = ref(null);
@@ -179,40 +184,33 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 4px;
-
-    .diary-title {
-        width: 100%;
-        color: var(--white, #fff);
-
-        /* h1/h1_bold_24 */
-        font-family: "Pretendard Bold";
-        font-size: 20px;
-        line-height: 150%; /* 36px */
-    }
-    .diary-date {
-        color: var(--white, #fff);
-
-        /* b2/b2_med_14 */
-        font-family: "Pretendard Medium";
-        font-size: 14px;
-        line-height: 160%; /* 22.4px */
-    }
-    .diary-tags {
-        margin-top: 0.5rem;
-        .tag {
-            font-size: 14px; // 1.2rem;;
-            color: #fff;
-            background-color: rgba(0, 0, 0, 0.1);
-            border: none;
-        }
-    }
 }
 
-hr {
+.diary-title {
     width: 100%;
-    height: 1px;
-    background: #757575;
-    margin: 2rem 0;
+    color: var(--white, #fff);
+
+    /* h1/h1_bold_24 */
+    font-family: "Pretendard Bold";
+    font-size: 20px;
+    line-height: 150%; /* 36px */
+}
+.diary-date {
+    color: var(--white, #fff);
+
+    /* b2/b2_med_14 */
+    font-family: "Pretendard Medium";
+    font-size: 14px;
+    line-height: 160%; /* 22.4px */
+}
+.diary-tags {
+    margin-top: 0.5rem;
+    .tag {
+        font-size: 14px; // 1.2rem;;
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.1);
+        border: none;
+    }
 }
 
 .diary-delete {
@@ -229,5 +227,44 @@ hr {
 
     align-self: flex-start;
     margin: 0 10%;
+}
+
+.bottom-diary {
+    margin-bottom: 60px;
+    .bottom-diary-title-box {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .bottom-diary-content {
+        margin-top: 36px;
+
+        .bottom-diary-content-title {
+            color: var(--white, #fff);
+
+            /* b1/b1_bold_16 */
+            font-family: "Pretendard Bold";
+            font-size: 16px;
+            line-height: 160%; /* 25.6px */
+
+            display: flex;
+            gap: 12px;
+        }
+
+        .bottom-diary-content-desc {
+            color: var(--white, #fff);
+
+            /* b2/b2_reg_14 */
+            font-family: "Pretendard";
+            font-size: 14px;
+            line-height: 160%; /* 22.4px */
+
+            margin-top: 8px;
+
+            .tag-wrap {
+                margin: 0 0 12px;
+            }
+        }
+    }
 }
 </style>

@@ -40,36 +40,6 @@
     line-height: calc(14px * 1.5); /* 150% */
 }
 
-// Diary
-.diary-title {
-    color: #010101;
-    font-family: "Pretendard Bold";
-    font-size: 16px;
-    line-height: 21px; /* 131.25% */
-}
-
-.diary-date {
-    color: #5c5c5c;
-    font-family: "Pretendard";
-    font-size: 12px;
-    line-height: 21px; /* 175% */
-}
-
-.diary-content {
-    color: #5c5c5c;
-    font-family: "Pretendard";
-    font-size: 12px;
-    line-height: 21px; /* 175% */
-    margin-top: 0.75rem;
-}
-
-.diary-subtitle {
-    color: #010101;
-    font-family: "Pretendard Bold";
-    font-size: 18px;
-    line-height: 21px; /* 116.667% */
-}
-
 // renew
 .header-title {
     color: $vc-gray-800;
