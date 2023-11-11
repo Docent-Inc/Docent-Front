@@ -1,8 +1,8 @@
 <template>
     <div class="header">
         <div class="header-top">
-          <span class="mypage-title">마이페이지</span>
-          <v-icon class="ic_setting" @click="goSetting"/>
+            <span class="mypage-title">마이페이지</span>
+            <v-icon class="ic_setting" @click="goSetting" />
         </div>
     </div>
     <div class="contents">
@@ -18,38 +18,38 @@
             />
         </div>
         <div class="contents-header-2" v-if="highestCountCategory">
-            <div :class="displayStatus.iconClass"></div>
-            <p class="status-text">{{ displayStatus.message }}</p>
+            <Icon :class="highestCountCategory.iconClass" />
+            <p class="status-text">{{ highestCountCategory.message }}</p>
         </div>
 
         <!-- (2) 통계 영역 -->
         <div class="contents-header-3">
             <div class="count-area">
-                <div v-if="isSkeleton" class="no-records-message"></div>
+                <div v-if="isSkeleton" class="bg_count_area_default"></div>
                 <div :style="barStyles.dream" class="bar dream-bar">
-                    <div v-if="total_MorningDiary_count > 0">
-                        <span>꿈 기록</span>
-                        <span>{{ total_MorningDiary_count }}</span>
+                    <div v-if="ratio.morning_diary_ratio > 0">
+                        <span>꿈</span>
+                        <span>{{ ratio.morning_diary_count }}</span>
                     </div>
                 </div>
                 <div :style="barStyles.diary" class="bar diary-bar">
-                    <div v-if="total_NightDiary_count > 0">
+                    <div v-if="ratio.night_diary_ratio > 0">
                         <span>일기</span>
-                        <span>{{ total_NightDiary_count }}</span>
+                        <span>{{ ratio.night_diary_count }}</span>
                     </div>
                 </div>
                 <div :style="barStyles.memo" class="bar memo-bar">
-                    <div v-if="total_Memo_count > 0">
+                    <div v-if="ratio.memo_ratio > 0">
                         <span>메모</span>
-                        <span>{{ total_Memo_count }}</span>
+                        <span>{{ ratio.memo_count }}</span>
                     </div>
                 </div>
                 <div
                     v-if="
                         !isSkeleton &&
-                        total_MorningDiary_count +
-                            total_NightDiary_count +
-                            total_Memo_count ===
+                        ratio.morning_diary_count +
+                            ratio.night_diary_count +
+                            ratio.memo_count ===
                             0
                     "
                     class="no-records-message"
@@ -85,7 +85,7 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { useDiaryStore } from "~/store/diary";
+import { useMypageStore } from "~/store/mypage";
 import { useUserStore } from "~/store/user";
 
 import InfiniteLoading from "v3-infinite-loading";
@@ -95,6 +95,7 @@ import ListItems from "../../components/diary/ListItems.vue";
 import BoardItems from "../../components/diary/BoardItems.vue";
 import Tags from "../../components/diary/Tags.vue";
 import Starter from "../../components/diary/Starter.vue";
+import Icon from "~/components/common/Icon.vue";
 
 export default {
     name: "Gallery",
@@ -111,6 +112,7 @@ export default {
         Tags,
         BoardItems,
         ListItems,
+        Icon,
     },
     data() {
         return {
@@ -125,100 +127,84 @@ export default {
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
-        ...mapState(useDiaryStore, [
+        ...mapState(useMypageStore, [
             "type",
             "mode",
             "list",
             "totalCounts",
-            "total_NightDiary_count",
-            "total_MorningDiary_count",
-            "total_Memo_count",
             "pageNo",
+            "ratio",
         ]),
         isSkeleton() {
             if (this.pageNo === 1 && this.list.length < 1) return true;
             else false;
         },
         highestCountCategory() {
-            const counts = {
-                dream: this.total_NightDiary_count,
-                diary: this.total_MorningDiary_count,
-                memo: this.total_Memo_count,
-            };
-            const maxCategory = Object.keys(counts).reduce((a, b) =>
-                counts[a] > counts[b] ? a : b
-            );
-
-            const categoryInfo = {
-                dream: {
-                    iconClass: "ic_status_dream",
-                    message: "꿈 f기록을 가장 많이 작성하셨어요!",
-                },
-                diary: {
-                    iconClass: "ic_status_diary",
-                    message: "일기를 가장 많이 작성하셨어요!",
-                },
-                memo: {
-                    iconClass: "ic_status_memo",
-                    message: "메모를 가장 많이 작성하셨어요!",
-                },
-                start: {
+            const categoryInfo = [
+                {
                     iconClass: "ic_status_start",
                     message: "아직 기록을 하지 않았어요!",
                 },
-                default: {
+                {
+                    iconClass: "ic_status_dream",
+                    message: "꿈 기록을 가장 많이 작성하셨어요!",
+                },
+                {
+                    iconClass: "ic_status_diary",
+                    message: "일기를 가장 많이 작성하셨어요!",
+                },
+                {
+                    iconClass: "ic_status_memo",
+                    message: "메모를 가장 많이 작성하셨어요!",
+                },
+                {
+                    iconClass: "ic_status_same",
+                    message: "기록의 수가 비슷해요!",
+                },
+                {
                     iconClass: "ic_status_default",
                     message: "",
                 },
-            };
+            ];
 
-            // TODO: 이미지 사이즈 조정
-            if (this.isSkeleton) return categoryInfo["default"];
-            else
-                return counts[maxCategory] > 0
-                    ? categoryInfo[maxCategory]
-                    : categoryInfo["start"];
-        },
-        displayStatus() {
-            return this.highestCountCategory;
+            if (this.isSkeleton) return categoryInfo[5];
+            else return categoryInfo[this.ratio.max_category];
         },
         barStyles() {
-            const total =
-                this.total_NightDiary_count +
-                this.total_MorningDiary_count +
-                this.total_Memo_count;
-
-            // 비율을 계산하고 스타일 객체를 반환합니다.
-            const calculateStyle = (count) => {
-                const percentage = total ? (count / total) * 100 : 0;
-                return { width: `${percentage}%` };
-            };
-
             return {
-                dream: calculateStyle(this.total_MorningDiary_count),
-                diary: calculateStyle(this.total_NightDiary_count),
-                memo: calculateStyle(this.total_Memo_count),
+                dream: {
+                    width: `${this.ratio.morning_diary_ratio}%`,
+                    "min-width":
+                        this.ratio.morning_diary_ratio > 0 ? "20%" : "0",
+                },
+                diary: {
+                    width: `${this.ratio.night_diary_ratio}%`,
+                    "min-width": this.ratio.night_diary_ratio > 0 ? "20%" : "0",
+                },
+                memo: {
+                    width: `${this.ratio.memo_ratio}%`,
+                    "min-width": this.ratio.memo_ratio > 0 ? "20%" : "0",
+                },
             };
         },
     },
     async mounted() {
-        try {
-            this.setPageNo(1);
-            await this.getGalleryList();
-        } catch (e) {
-            console.log(e);
-        }
+        this.setPageNo(1);
+        this.getRatio();
+        this.getGalleryList();
     },
     methods: {
-        ...mapActions(useDiaryStore, [
+        ...mapActions(useMypageStore, [
             "setType",
             "changeMode",
             "getGalleryList",
             "setPageNo",
+            "getRatio",
         ]),
         loadMore() {
-            // console.log(`loadmore ${this.list.length}/${this.totalCounts}`);
+            console.log(`loadmore ${this.list.length}/${this.totalCounts}`);
             if (this.list.length < this.totalCounts) {
+                this.setPageNo(this.pageNo + 1);
                 this.getGalleryList();
             }
         },
@@ -264,12 +250,14 @@ export default {
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
 
-    padding: 1.31rem 2rem;
+    padding: 1.31rem 0;
     background: #f8f8f8;
 
     .contents-header-1 {
         width: 100%;
         margin-top: 16px;
+        padding: 0 2rem;
+
         display: flex;
         justify-content: space-between;
         font-family: "Pretendard Bold";
@@ -283,25 +271,22 @@ export default {
 
     .contents-header-2 {
         margin-top: 36px;
+        padding: 0 2rem;
+
         width: 100%;
-        height: 40px;
         display: flex;
         color: var(--gray-400, #9ca3af);
-        font-family: Pretendard;
+        font-family: "Pretendard";
         font-size: 12px;
         line-height: 160%;
-        .status-text {
-            margin-left: 12px;
-            display: flex;
-            width: 206px;
-            height: 36px;
-            flex-direction: column;
-            justify-content: center;
-            flex-shrink: 0;
-        }
+
+        display: flex;
+        align-items: center;
+        gap: 12px;
     }
     .contents-header-3 {
         margin-top: 12px;
+        padding: 0 2rem;
         .count-area {
             display: flex;
             width: 100%;
@@ -315,14 +300,10 @@ export default {
 
         .no-records-message {
             display: flex;
-            width: 206px;
-            height: 36px;
             flex-direction: column;
             justify-content: center;
-            flex-shrink: 0;
-            color: var(--gray-400, #9ca3af);
             text-align: center;
-            font-family: Pretendard;
+            font-family: "Pretendard";
             font-size: 12px;
             line-height: 160%;
         }
@@ -378,14 +359,6 @@ export default {
     font-size: 100%;
     width: 6.4rem;
     height: 3.2rem;
-}
-.ic_status_diary,
-.ic_status_dream,
-.ic_status_memo,
-.ic_status_start {
-    font-size: 100%;
-    width: 13.2rem;
-    height: 3.6rem;
 }
 .dream-bar {
     background-color: var(--indigo-500, #6366f1);

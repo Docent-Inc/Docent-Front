@@ -1,8 +1,10 @@
 <template>
-    <div v-for="(data, idx) in list" :key="idx">
-        <ListMemo :memo="data" v-if="data.diary_type === 3" />
-        <ListDiary :diary="data" v-else />
-        <hr />
+    <div class="list-items">
+        <div v-for="(data, idx) in list" :key="idx">
+            <ListMemo :memo="data" v-if="data.diary_type === 3" />
+            <ListDiary :diary="data" v-else />
+            <hr />
+        </div>
     </div>
 </template>
 <script>
@@ -20,4 +22,8 @@ export default {
     },
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.list-items {
+    padding: 1.25rem;
+}
+</style>
