@@ -7,7 +7,8 @@
         <div class="contents">
             <div class="memo-contents memo-contents-1">
                 <div class="memo-date-n-button">
-                    <div class="memo-date">
+                    <div class="memo-date__skeleton" v-if="isLoading"></div>
+                    <div class="memo-date" v-else>
                         {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
                     </div>
                     <!-- <div class="memo-delete">
@@ -15,7 +16,8 @@
                     </div> -->
                 </div>
 
-                <div class="memo-title">
+                <div class="memo-title__skeleton" v-if="isLoading"></div>
+                <div class="memo-title" v-else>
                     {{ memo.title === "" ? "(제목 없음)" : memo.title }}
                 </div>
             </div>
@@ -41,6 +43,7 @@ export default {
     data() {
         return {
             memo: {},
+            isLoading: true,
         };
     },
     async mounted() {
@@ -49,6 +52,7 @@ export default {
         const res = await getMemo(memo_id);
         this.memo = res.data.memo;
         this.memo.keyword = JSON.parse(this.memo.tags);
+        this.isLoading = false;
     },
     computed: {},
     methods: {},
@@ -56,6 +60,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "@/assets/scss/mixins.scss";
 .contents {
     height: calc(100% - (60px));
     height: calc(100% - (60px + constant(safe-area-inset-top)));
@@ -101,6 +106,12 @@ export default {
             font-style: normal;
             font-weight: 500;
             line-height: 160%; /* 22.4px */
+
+            &__skeleton {
+                @include skeleton;
+                width: 20%;
+                height: calc(14px * 1.6);
+            }
         }
 
         .memo-delete {
@@ -126,6 +137,13 @@ export default {
         line-height: 150%; /* 36px */
 
         margin-bottom: 30px;
+
+        &__skeleton {
+            @include skeleton;
+            width: 80%;
+            height: calc(24px * 1.5);
+            margin: 5px 0 30px;
+        }
     }
 }
 

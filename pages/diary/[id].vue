@@ -4,11 +4,18 @@
 
         <!-- 1. 상단 영역 (날짜, 제목) -->
         <div class="diary-title-box">
-            <div class="diary-date">
-                {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
+            <div v-if="isLoading">
+                <div class="diary-date__skeleton"></div>
+                <div class="diary-title__skeleton"></div>
             </div>
-            <div class="diary-title">
-                {{ diary.diary_name }}
+            <div v-else>
+                <div class="diary-date">
+                    {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
+                </div>
+
+                <div class="diary-title">
+                    {{ diary.diary_name }}
+                </div>
             </div>
         </div>
 
@@ -81,6 +88,7 @@ export default {
         return {
             diary: {},
             type: "1",
+            isLoading: true,
         };
     },
     computed: {
@@ -116,6 +124,7 @@ export default {
         // console.log(res);
         this.diary = res.data.diary;
         this.diary.keyword = JSON.parse(this.diary.main_keyword);
+        this.isLoading = false;
     },
     methods: {
         deleteDiary() {
@@ -125,6 +134,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "@/assets/scss/mixins.scss";
 .viewport {
     // "(138, 137, 140)"
     position: relative;
@@ -166,6 +176,13 @@ export default {
     font-family: "Pretendard Bold";
     font-size: 20px;
     line-height: 150%; /* 36px */
+
+    &__skeleton {
+        @include skeleton;
+        width: 80%;
+        height: calc(20px * 1.5);
+        margin-top: 5px;
+    }
 }
 
 .diary-date {
@@ -175,6 +192,12 @@ export default {
     font-family: "Pretendard Medium";
     font-size: 14px;
     line-height: 160%; /* 22.4px */
+
+    &__skeleton {
+        @include skeleton;
+        width: 20%;
+        height: calc(14px * 1.5);
+    }
 }
 .diary-tags {
     margin-top: 0.5rem;
