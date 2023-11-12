@@ -1,6 +1,6 @@
 <template>
     <div class="viewport" :style="dynamicBackgrond">
-        <Button class="btn_x" @click="goBack" />
+        <Button class="btn_x" @click="this.$router.back()" />
 
         <!-- 1. 상단 영역 (날짜, 제목) -->
         <div class="diary-title-box">
@@ -14,9 +14,9 @@
 
         <!-- 2. 중간 영역 (이미지, 삭제 버튼) -->
         <Image class="diary-image" :url="diary.image_url" width="80%" />
-        <div class="diary-delete" @click="deleteDiary">
+        <!-- <div class="diary-delete" @click="deleteDiary">
             <Icon class="ic_delete_white" />삭제하기
-        </div>
+        </div> -->
 
         <!-- 3. 바텀시트 영역 -->
         <BottomSheet>
@@ -39,15 +39,19 @@
 
                 <div v-if="type == 1" class="bottom-diary-content">
                     <div class="bottom-diary-content-title">
-                        <Icon class="ic_crystal" />꿈을 통해 본 서준님의 마음
+                        <Icon class="ic_crystal" />꿈을 통해 본
+                        {{ user?.nickname }}님의 마음
                     </div>
 
                     <div class="bottom-diary-content-desc">
-                        <!-- <div class="tag-wrap">
-                            <div class="tag accent">높은 목표와 이상</div>
-                            <div class="tag accent">높은 목표와 이상</div>
-                            <div class="tag accent">높은 목표와 이상</div>
-                        </div> -->
+                        <div class="tag-wrap">
+                            <div
+                                class="tag accent"
+                                v-for="tag in diary.keyword"
+                            >
+                                {{ tag }}
+                            </div>
+                        </div>
                         {{ diary.resolution }}
                     </div>
                 </div>
@@ -56,6 +60,9 @@
     </div>
 </template>
 <script>
+import { mapState } from "pinia";
+import { useUserStore } from "~/store/user";
+
 import { useDiaryService } from "../../services/diary";
 import Button from "~/components/common/Button.vue";
 import Icon from "~/components/common/Icon.vue";
@@ -77,6 +84,7 @@ export default {
         };
     },
     computed: {
+        ...mapState(useUserStore, ["user"]),
         dynamicBackgrond() {
             let background_color = `rgb(0, 0, 0)`;
 
@@ -107,12 +115,9 @@ export default {
             type === "1" ? await getMorningdiary(id) : await getNightdiary(id);
         // console.log(res);
         this.diary = res.data.diary;
+        this.diary.keyword = JSON.parse(this.diary.main_keyword);
     },
     methods: {
-        goBack() {
-            console.log("goBack!");
-            this.$router.back();
-        },
         deleteDiary() {
             console.log("delete!");
         },
