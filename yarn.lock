@@ -1476,13 +1476,6 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.3.8.tgz#f044942142e1d3a395f24132e6203a784838542d"
   integrity sha512-8PGwybFwM4x8pcfgqEQFy70NaQxASvOC5DJwLQfpArw1UDfUXrJkdxD3BhVTMS+0Lef/TU7YO0Jvr0jJY8T+mw==
 
-"@webzlodimir/vue-bottom-sheet@^3.0.5":
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/@webzlodimir/vue-bottom-sheet/-/vue-bottom-sheet-3.0.5.tgz#d4b64f7bd47dc82d77e253572cebbc3fa8d56958"
-  integrity sha512-y5OHRa4EAv8G43Ti+GXtTyPflxeb8J171QuKAnX1BatdJkFUZd1d3HmKbHkd18P21ffGKJzX3eFD0aNAkOWWmA==
-  dependencies:
-    hammerjs "^2.0.8"
-
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
