@@ -10,7 +10,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const [fullPath] = to.fullPath.split("?") || from.fullPath.split("?");
 
     // 로그인 시 접근 불가 페이지, 미로그인 시 접근 불가 페이지
-    const restrictedPathsOnLogin = ["/signin"];
+    const restrictedPathsOnLogin = ["/signin", "/profile/starter"];
     const restrictedPathsNotLogin = [
         "/home",
         "/chat",
@@ -19,7 +19,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         "/calendar",
         "/setting",
         "/mypage",
-        "/profile-modify",
+        "/profile/modify",
     ];
 
     // console.log("****** MIDDLEWARE ******");
@@ -51,7 +51,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         const { loginStatus } = useUserStore();
         if (!loginStatus) {
             const isNotLoginPath = !!restrictedPathsNotLogin.filter((path) =>
-                fullPath.toLowerCase().includes(path)
+                fullPath.toLowerCase().includes(path),
             ).length;
             if (isNotLoginPath) return navigateTo("/signin");
         }
@@ -61,7 +61,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const { loginStatus } = useUserStore();
     if (loginStatus) {
         const isLoginPath = !!restrictedPathsOnLogin.filter((path) =>
-            fullPath.toLowerCase().includes(path)
+            fullPath.toLowerCase().includes(path),
         ).length;
         if (isLoginPath) return navigateTo("/home");
     }
