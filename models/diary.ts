@@ -45,3 +45,45 @@ interface DiaryList {
     modify_date: string;
     is_deleted: boolean;
 }
+
+/**
+ * DiaryModel
+ */
+export interface DiaryModel {
+    diary: Diary;
+}
+
+interface Diary {
+    User_id: number;
+    id: number;
+    diary_name: string;
+    content: string;
+    image_url: string;
+    background_color: string; // TODO: string[]
+    create_date: string;
+    modify_date: string;
+    is_deleted: boolean;
+
+    // 해몽 내용 (꿈인 경우에만 사용)
+    is_completed?: boolean;
+    resolution?: string;
+    main_keyword?: string; // TODO: string[]
+}
+
+/**
+ * MemoModel
+ */
+export interface MemoModel {
+    memo: Memo;
+}
+
+interface Memo {
+    User_id: number;
+    id: number;
+    title: string;
+    content: string;
+    create_date: string;
+    modify_date: string;
+    is_deleted: boolean;
+    tags: string; // TODO: string[]
+}

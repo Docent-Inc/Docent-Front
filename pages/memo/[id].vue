@@ -10,9 +10,9 @@
                     <div class="memo-date">
                         {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
                     </div>
-                    <div class="memo-delete">
+                    <!-- <div class="memo-delete">
                         <Icon class="ic_delete" />삭제하기
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="memo-title">
@@ -20,11 +20,11 @@
                 </div>
             </div>
             <div class="memo-contents memo-contents-2">
-                <!-- <div class="tag-wrap">
-                    <div class="tag primary">전시</div>
-                    <div class="tag primary">가고 싶은 곳</div>
-                    <div class="tag primary">계획</div>
-                </div> -->
+                <div class="tag-wrap">
+                    <div class="tag primary" v-for="keyword in memo.keyword">
+                        {{ keyword }}
+                    </div>
+                </div>
                 <div class="memo-content">
                     {{ memo.content }}
                 </div>
@@ -48,6 +48,7 @@ export default {
         const { getMemo } = useDiaryService();
         const res = await getMemo(memo_id);
         this.memo = res.data.memo;
+        this.memo.keyword = JSON.parse(this.memo.tags);
     },
     computed: {},
     methods: {},
