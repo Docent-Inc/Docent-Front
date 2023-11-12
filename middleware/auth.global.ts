@@ -1,3 +1,4 @@
+import { useAuthService } from "~/services/auth";
 import { useUserStore } from "~/store/user";
 
 /**
@@ -31,14 +32,42 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     // console.log("access Token - ", accessToken);
     // console.log("token - ", token);
-    // console.log("refrest Token - ", refreshToken);
+    // console.log("refresh Token - ", refreshToken);
 
     if (!accessToken) {
         if (token && refreshToken) {
+            // (2) 쿠키의 액세스 토큰으로 로그인 처리
             setAccessToken(token);
             setRefreshToken(refreshToken);
 
             try {
+                await setUser();
+            } catch (e) {
+                console.error(e);
+                useCookie("access_token").value = null;
+                useCookie("refresh_token").value = null;
+            }
+        } else if (refreshToken) {
+            // (3) 쿠키의 리프레시 토큰으로 액세스 토큰 재발급
+            try {
+                const { refresh } = useAuthService();
+                const result = await refresh(refreshToken);
+
+                const now = new Date();
+                const accessTokenExpires = new Date(
+                    now.getTime() + result.data.expires_in * 1000,
+                );
+                const refreshTokenExpires = new Date(
+                    now.getTime() + result.data.refresh_expires_in * 1000,
+                );
+                useCookie("access_token", {
+                    expires: accessTokenExpires,
+                }).value = result.data.access_token;
+                useCookie("refresh_token", {
+                    expires: refreshTokenExpires,
+                }).value = result.data.refresh_token;
+                setAccessToken(result.data.access_token);
+                setRefreshToken(result.data.refresh_token);
                 await setUser();
             } catch (e) {
                 console.error(e);
@@ -51,7 +80,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         const { loginStatus } = useUserStore();
         if (!loginStatus) {
             const isNotLoginPath = !!restrictedPathsNotLogin.filter((path) =>
-                fullPath.toLowerCase().includes(path)
+                fullPath.toLowerCase().includes(path),
             ).length;
             if (isNotLoginPath) return navigateTo("/signin");
         }
@@ -61,10 +90,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const { loginStatus } = useUserStore();
     if (loginStatus) {
         const isLoginPath = !!restrictedPathsOnLogin.filter((path) =>
-            fullPath.toLowerCase().includes(path)
+            fullPath.toLowerCase().includes(path),
         ).length;
         if (isLoginPath) return navigateTo("/home");
     }
 
-    // console.log("****** MIDDLEWARE END ******");
+    console.log("****** MIDDLEWARE END ******");
 });
