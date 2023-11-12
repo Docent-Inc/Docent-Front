@@ -106,7 +106,7 @@ export default {
             });
         },
         showModify() {
-            this.$router.push(`/profile-modify`);
+            this.$router.push(`/profile/modify`);
         },
         openKakaoLink() {
             window.open("https://pf.kakao.com/_vNxnRG", "_blank");

@@ -156,8 +156,7 @@ export default {
 @import "@/assets/scss/mixins.scss";
 
 .landing {
-    padding: $padding-default;
-    height: 188px;
+    padding: 2rem 2rem 4rem 2rem;
     width: 100%;
     margin-top: 0;
     color: $vc-gray-100;
@@ -178,14 +177,14 @@ export default {
 
         @media screen and (max-width: 320px) {
             flex-direction: column;
-            align-items: center;
+            align-items: left;
             margin-bottom: 4rem;
         }
     }
 
     &__greeting {
         color: $vc-white;
-        margin: 2.3rem 0 1rem 0;
+        margin: 2.3rem 0 2rem 0;
         display: flex;
         align-items: center;
         justify-content: space-between;

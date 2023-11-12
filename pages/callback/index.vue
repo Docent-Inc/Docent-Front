@@ -33,7 +33,7 @@ onMounted(async () => {
         setRefreshToken(res.data.refresh_token);
         setUser();
 
-        if (res.data.is_signup) router.push(`/signup/1-nickname`);
+        if (res.data.is_signup) router.push(`/profile/starter`);
         else router.push(`/home`);
     } else {
         const { reset } = useUserStore();
