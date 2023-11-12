@@ -51,7 +51,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         const { loginStatus } = useUserStore();
         if (!loginStatus) {
             const isNotLoginPath = !!restrictedPathsNotLogin.filter((path) =>
-                fullPath.toLowerCase().includes(path)
+                fullPath.toLowerCase().includes(path),
             ).length;
             if (isNotLoginPath) return navigateTo("/signin");
         }
@@ -61,7 +61,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const { loginStatus } = useUserStore();
     if (loginStatus) {
         const isLoginPath = !!restrictedPathsOnLogin.filter((path) =>
-            fullPath.toLowerCase().includes(path)
+            fullPath.toLowerCase().includes(path),
         ).length;
         if (isLoginPath) return navigateTo("/home");
     }

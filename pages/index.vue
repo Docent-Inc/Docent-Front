@@ -33,22 +33,33 @@ async function onVideoEnded() {
     const { refresh } = useAuthService();
     refresh(refreshToken)
         .then((res) => {
-            const result = res.data;
             // 성공 시, 액세스 토큰 저장 후 /home 이동
             const { setAccessToken, setRefreshToken, setUser } = useUserStore();
+
+            const now = new Date();
+            const accessTokenExpires = new Date(
+                now.getTime() + res.data.expires_in * 1000,
+            );
+            const refreshTokenExpires = new Date(
+                now.getTime() + res.data.refresh_expires_in * 1000,
+            );
+
             useCookie("access_token", {
-                maxAge: result.data.expires_in * 24 * 60 * 60 * 1000,
-            }).value = result.data.access_token;
+                expires: accessTokenExpires,
+            }).value = res.data.access_token;
             useCookie("refresh_token", {
-                maxAge: result.data.refresh_expires_in * 24 * 60 * 60 * 1000,
-            }).value = result.data.refresh_token;
-            setAccessToken(result.data.access_token);
-            setRefreshToken(result.data.refresh_token);
+                expires: refreshTokenExpires,
+            }).value = res.data.refresh_token;
+
+            setAccessToken(res.data.access_token);
+            setRefreshToken(res.data.refresh_token);
             setUser();
 
             router.push(`/home`);
         })
         .catch((e) => {
+            console.error(e);
+
             // 실패 시, 다 삭제하고 /signin으로 이동
             const { reset } = useUserStore();
             reset();
