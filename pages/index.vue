@@ -36,11 +36,19 @@ async function onVideoEnded() {
             const result = res.data;
             // 성공 시, 액세스 토큰 저장 후 /home 이동
             const { setAccessToken, setRefreshToken, setUser } = useUserStore();
+            const now = new Date();
+            const accessTokenExpires = new Date(
+                now.getTime() + res.data.expires_in * 1000,
+            );
+            const refreshTokenExpires = new Date(
+                now.getTime() + res.data.refresh_expires_in * 1000,
+            );
+
             useCookie("access_token", {
-                maxAge: result.data.expires_in * 24 * 60 * 60 * 1000,
+                expires: accessTokenExpires,
             }).value = result.data.access_token;
             useCookie("refresh_token", {
-                maxAge: result.data.refresh_expires_in * 24 * 60 * 60 * 1000,
+                expires: refreshTokenExpires,
             }).value = result.data.refresh_token;
             setAccessToken(result.data.access_token);
             setRefreshToken(result.data.refresh_token);

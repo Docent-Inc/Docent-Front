@@ -23,12 +23,23 @@ onMounted(async () => {
     if (res.success) {
         // 로그인 성공 시, 쿠키/store 세팅
         const { setAccessToken, setRefreshToken, setUser } = useUserStore();
+
+        const now = new Date();
+        const accessTokenExpires = new Date(
+            now.getTime() + res.data.expires_in * 1000,
+        );
+        const refreshTokenExpires = new Date(
+            now.getTime() + res.data.refresh_expires_in * 1000,
+        );
+
         useCookie("access_token", {
-            maxAge: res.data.expires_in * 24 * 60 * 60 * 1000,
+            expires: accessTokenExpires,
         }).value = res.data.access_token;
+
         useCookie("refresh_token", {
-            maxAge: res.data.refresh_expires_in * 24 * 60 * 60 * 1000,
+            expires: refreshTokenExpires,
         }).value = res.data.refresh_token;
+
         setAccessToken(res.data.access_token);
         setRefreshToken(res.data.refresh_token);
         setUser();
