@@ -323,6 +323,11 @@ body {
 .tag.left {
     justify-content: flex-start;
 }
-// ::-webkit-scrollbar {
-//     width: 0;
-// }
+
+.blind {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+}
