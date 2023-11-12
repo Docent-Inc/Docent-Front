@@ -123,7 +123,7 @@ export default {
             type === "1" ? await getMorningdiary(id) : await getNightdiary(id);
         // console.log(res);
         this.diary = res.data.diary;
-        this.diary.keyword = JSON.parse(this.diary.main_keyword);
+        if (type == 1) this.diary.keyword = JSON.parse(this.diary.main_keyword);
         this.isLoading = false;
     },
     methods: {
