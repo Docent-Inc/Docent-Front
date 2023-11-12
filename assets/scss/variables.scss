@@ -22,6 +22,7 @@ $vc-white: #fff;
 
 $vc-gray-50: #f9fafb;
 $vc-gray-100: #f3f4f6;
+$vc-gray-200: #e5e7eb;
 $vc-gray-300: #d1d5db;
 $vc-gray-400: #9ca3af;
 $vc-gray-500: #6b7280;
@@ -66,3 +67,21 @@ $gradient_bg_light: linear-gradient(
 $gradient_dawn_dusk: linear-gradient(200deg, #a78bfa 9.08%, #a5b4fc 86.42%);
 $gradient_day: linear-gradient(126deg, #95acff 28.01%, #cbddff 97.28%);
 $gradient_night: linear-gradient(144deg, #000 -18.87%, #4d54f1 143.07%);
+
+/**
+ * Font
+ */
+$font-default: "Pretendard";
+$font-bold: "Pretendard Bold";
+
+/**
+ * Border
+ */
+
+$border-radius-default: 8px;
+$border-circle: 50%;
+
+/**
+ * Border
+ */
+$padding-default: 2rem;

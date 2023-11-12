@@ -58,7 +58,7 @@ watch(
         updateSessionChatList(newVal);
         updateCSS();
     },
-    { deep: true }
+    { deep: true },
 );
 
 /**
@@ -147,7 +147,7 @@ const updateChatBoxCss = () => {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/colors.scss";
+@import "@/assets/scss/variables.scss";
 .contents {
     width: 100%;
     height: 100%;
