@@ -1,4 +1,5 @@
 import { useUserStore } from "~/store/user";
+import { useAuthService } from "~/services/auth";
 
 /**
  * 로그인 미들웨어
@@ -35,10 +36,40 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     if (!accessToken) {
         if (token && refreshToken) {
+            // (2) 액세스 토큰 있을 시, store에도 저장
             setAccessToken(token);
             setRefreshToken(refreshToken);
 
             try {
+                await setUser();
+            } catch (e) {
+                console.error(e);
+                useCookie("access_token").value = null;
+                useCookie("refresh_token").value = null;
+            }
+        } else if (refreshToken) {
+            // (3) 리프레시 토큰 있을 시, 재발급 받아 store에도 저장
+            try {
+                const { refresh } = useAuthService();
+                const res = await refresh(refreshToken);
+
+                const now = new Date();
+                const accessTokenExpires = new Date(
+                    now.getTime() + res.data.expires_in * 1000,
+                );
+                const refreshTokenExpires = new Date(
+                    now.getTime() + res.data.refresh_expires_in * 1000,
+                );
+
+                useCookie("access_token", {
+                    expires: accessTokenExpires,
+                }).value = res.data.access_token;
+                useCookie("refresh_token", {
+                    expires: refreshTokenExpires,
+                }).value = res.data.refresh_token;
+
+                setAccessToken(res.data.access_token);
+                setRefreshToken(res.data.refresh_token);
                 await setUser();
             } catch (e) {
                 console.error(e);
