@@ -269,6 +269,7 @@ body {
     border-radius: 10px;
     background: #fff;
 }
+
 .tag-wrap {
     display: flex;
     margin-top: 16px;
@@ -310,6 +311,11 @@ body {
 .tag.red {
     background: rgba(239, 68, 68, 0.2);
     color: var(--red-400, #f87171);
+}
+
+.tag.accent {
+    background: var(--CTA_accent, #9398ff);
+    color: #fff;
 }
 
 .tag.big {

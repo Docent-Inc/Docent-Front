@@ -55,10 +55,43 @@
     display: block;
 }
 
+.btn_x {
+    background: rgba(0, 0, 0, 0.1);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .ic_close {
     background: url("../images/commons/ic_close.svg") no-repeat center/cover;
     width: 56px;
     height: 56px;
+    display: block;
+}
+
+.ic_delete {
+    background: url("../images/commons/ic_delete.svg") no-repeat center/cover;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.ic_delete_white {
+    background: url("../images/commons/ic_delete_white.svg") no-repeat
+        center/cover;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.ic_detail {
+    background: url("../images/commons/ic_detail.svg") no-repeat center/cover;
+    width: 32px;
+    height: 32px;
     display: block;
 }
 
@@ -67,6 +100,7 @@
         center/cover;
     display: block;
 }
+
 .ic_add {
     background: url("../images/commons/ic_add.svg") no-repeat center/cover;
     background-size: contain;
@@ -281,7 +315,7 @@
 }
 
 .ic_edit {
-    background: url("../images/ic_edit.svg") no-repeat center/cover;
+    background: url("../images/pages/report/ic_edit.svg") no-repeat center/cover;
     width: 18px;
     height: 18px;
     display: block;
@@ -342,6 +376,14 @@
 
 .ic_sweat {
     background: url("../images/pages/report/ic_sweat.svg") no-repeat
+        center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_crystal {
+    background: url("../images/pages/report/ic_crystal.svg") no-repeat
         center/cover;
     width: 24px;
     height: 24px;

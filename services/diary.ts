@@ -1,6 +1,6 @@
 import { GET } from "~/services";
 import API from "../utils/axios";
-import { DiaryRatio } from "~/models/diary";
+import { DiaryModel, DiaryRatio, MemoModel } from "~/models/diary";
 
 export const useDiaryService = () => {
     return {
@@ -8,19 +8,23 @@ export const useDiaryService = () => {
          * 아침 다이어리 조회
          */
         async getMorningdiary(diary_id: number) {
-            return await API.get(`/diary/morning/read?diary_id=${diary_id}`);
+            return await GET<DiaryModel>(
+                `/diary/morning/read?diary_id=${diary_id}`,
+            );
         },
         /**
          * 저녁 다이어리 조회
          */
         async getNightdiary(diary_id: number) {
-            return await API.get(`/diary/night/read?diary_id=${diary_id}`);
+            return await GET<DiaryModel>(
+                `/diary/night/read?diary_id=${diary_id}`,
+            );
         },
         /**
          * 메모 조회
          */
         async getMemo(memo_id: number) {
-            return await API.get(`/diary/memo/read?memo_id=${memo_id}`);
+            return await GET<MemoModel>(`/diary/memo/read?memo_id=${memo_id}`);
         },
         /**
          * 마이페이지 목록 조회 (아침, 저녁, 메모)

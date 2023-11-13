@@ -19,6 +19,7 @@ export default {
         url: {
             type: String,
             required: true,
+            default: "",
         },
         width: {
             type: String,
