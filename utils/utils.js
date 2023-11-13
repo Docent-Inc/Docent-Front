@@ -37,3 +37,21 @@ function getRandomNumberBasedOnTime() {
     const randomSeed = currentTime % 11; // 0~10 사이의 숫자를 얻기 위해 11로 나눈 나머지를 사용
     return randomSeed;
 }
+
+/**
+ * 배경 색상 밝기 판단 함수
+ * @param {string[]} backgroundColors - ex. ['rgb(255, 255, 255)']
+ */
+export function getTextColorForBackground(backgroundColors) {
+    let totalBrightness = 0;
+    backgroundColors.forEach((color) => {
+        const rgb = color.match(/\d+/g).map(Number);
+        totalBrightness += getBrightness(rgb[0], rgb[1], rgb[2]);
+    });
+    const avgBrightness = totalBrightness / backgroundColors.length;
+    return avgBrightness > 128 ? "#1F2937" : "#fff";
+}
+
+function getBrightness(r, g, b) {
+    return 0.299 * r + 0.587 * g + 0.114 * b;
+}

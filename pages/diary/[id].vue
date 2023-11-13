@@ -95,20 +95,27 @@ export default {
         ...mapState(useUserStore, ["user"]),
         dynamicBackgrond() {
             let background_color = `rgb(0, 0, 0)`;
+            let text_color = "#fff";
 
             if (this.diary.background_color) {
                 const colorList = JSON.parse(this.diary.background_color);
-                console.log(colorList);
 
                 if (colorList.length > 1) {
                     background_color = `linear-gradient(rgb${colorList[0]}, rgb${colorList[1]})`;
+                    text_color = getTextColorForBackground(
+                        colorList.map((color) => `rgb${color}`),
+                    );
                 } else {
                     background_color = `rgb${colorList[0]}`;
+                    text_color = getTextColorForBackground([
+                        `rgb${colorList[0]}`,
+                    ]);
                 }
             }
 
             return {
                 background: background_color,
+                color: text_color,
             };
         },
         bottomSheetTitle() {
@@ -170,11 +177,12 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 4px;
+
+    // color: var(--white, #fff);
 }
 
 .diary-title {
     width: 100%;
-    color: var(--white, #fff);
 
     /* h1/h1_bold_24 */
     font-family: "Pretendard Bold";
@@ -190,8 +198,6 @@ export default {
 }
 
 .diary-date {
-    color: var(--white, #fff);
-
     /* b2/b2_med_14 */
     font-family: "Pretendard Medium";
     font-size: 14px;
