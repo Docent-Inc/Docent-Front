@@ -23,16 +23,16 @@ export default {
             default: "30%",
         },
     },
+    data() {
+        return {
+            isOpen: false,
+        };
+    },
     computed: {
         animateClass() {
             if (this.isOpen) return "animate__animated animate__slideInUp";
             else return "";
         },
-    },
-    data() {
-        return {
-            isOpen: false,
-        };
     },
     methods: {
         onClick(e, area) {
