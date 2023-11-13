@@ -17,15 +17,15 @@
                     <label for="nickname">닉네임</label>
                     <SignUpNickname @update:nickname="nickname = $event" />
                 </div>
-                <div v-else class="mbti-box">
-                    <div>성별</div>
+                <div v-else>
+                    <div class="signup-prop__title">성별</div>
                     <SignUpGender @update:gender="gender = $event" />
                 </div>
             </section>
 
             <section class="signup-prop">
                 <div v-if="step === 1">
-                    <div>MBTI</div>
+                    <div class="signup-prop__title">MBTI</div>
                     <SignUpMBTI @update:mbtiType="mbti = $event" />
                 </div>
                 <div v-else>
@@ -151,7 +151,11 @@ export default {
     label {
         display: block;
         font-family: $font-medium;
-        margin-bottom: 1rem;
+        margin-bottom: 1.2rem;
+    }
+
+    &__title {
+        margin-bottom: 1.2rem;
     }
 }
 
