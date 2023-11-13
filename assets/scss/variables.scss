@@ -56,6 +56,13 @@ $vc-red-800: #991b1b;
 $vc-red-900: #7f1d1d;
 $vc-red-950: #450a0a;
 
+$gradient_bg_accent: linear-gradient(
+    180deg,
+    #9397ff 0%,
+    #aeb1ff 30%,
+    #fff 75%,
+    #fff 100%
+);
 $gradient_bg_light: linear-gradient(
     0deg,
     #ded2ff -46.93%,
@@ -72,7 +79,17 @@ $gradient_night: linear-gradient(144deg, #000 -18.87%, #4d54f1 143.07%);
  * Font
  */
 $font-default: "Pretendard";
+
+$font-black: "Pretendard Black";
+$font-medium: "Pretendard Medium";
+
+$font-light: "Pretendard Light";
+$font-extra-light: "Pretendard ExtraLight";
+$font-thin: "Pretendard Thin";
+
+$font-semi-bold: "Pretendard SemiBold";
 $font-bold: "Pretendard Bold";
+$font-extra-bold: "Pretendard Bold";
 
 /**
  * Border
