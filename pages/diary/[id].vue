@@ -26,7 +26,7 @@
         </div> -->
 
         <!-- 3. 바텀시트 영역 -->
-        <BottomSheet>
+        <BottomSheet :title="bottomSheetTitle">
             <div class="bottom-diary">
                 <div class="bottom-diary-title-box">
                     <div class="diary-date">
@@ -110,6 +110,10 @@ export default {
             return {
                 background: background_color,
             };
+        },
+        bottomSheetTitle() {
+            if (this.type === "1") return "꿈 해석 보기";
+            else return "일기 자세히 보기";
         },
     },
     async mounted() {

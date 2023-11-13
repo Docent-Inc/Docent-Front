@@ -2,6 +2,7 @@
     <!-- <div class="bottom-sheet-wrapper" @click="(e) => onClick(e, 'wrapper')"> -->
     <div class="bottom-sheet" :class="animateClass">
         <div class="bottom-sheet-top">
+            <div v-if="title" class="bottom-sheet-title">{{ title }}</div>
             <Icon class="ic_detail" @click="(e) => onClick(e, 'button')" />
         </div>
         <div class="bottom-sheet-contents" v-if="isOpen">
@@ -18,6 +19,10 @@ export default {
     name: "BottomSheet",
     components: { Icon },
     props: {
+        title: {
+            type: String,
+            required: false,
+        },
         minHeight: {
             type: String,
             default: "30%",
@@ -73,10 +78,20 @@ export default {
     z-index: 99; // z-index 추가
 
     .bottom-sheet-top {
-        height: 32px;
+        // height: calc(12px + (12px * 1.5) + 32px + 14px);
         margin-bottom: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
         .ic_detail {
             margin: 0 auto;
+        }
+
+        .bottom-sheet-title {
+            text-align: center;
+            font-family: "Pretendard";
+            font-size: 12px;
+            line-height: 150%; /* 1.125rem */
         }
     }
 
