@@ -32,7 +32,7 @@ onMounted(() => {
     }, 5000);
 });
 
-async function checkAutoLogin() {
+function checkAutoLogin() {
     console.log("Called!"); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
     isChecked.value = true;
 
