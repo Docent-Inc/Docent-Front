@@ -1,7 +1,7 @@
 <template>
     <div class="viewport">
         <div class="video-container">
-            <client-only>
+            <!-- <client-only>
                 <video
                     class="video"
                     ref="videoRef"
@@ -12,7 +12,15 @@
                 >
                     <source :src="splashVideo" type="video/mp4" />
                 </video>
-            </client-only>
+            </client-only> -->
+
+            <img
+                src="@/assets/images/commons/logos/logo_splash.svg"
+                id="logo"
+                class="small"
+            />
+
+            <div id="logo_box"></div>
         </div>
     </div>
 </template>
@@ -29,7 +37,7 @@ onMounted(() => {
     setTimeout(() => {
         console.log("check", isChecked.value); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
         if (!isChecked.value) checkAutoLogin();
-    }, 5000);
+    }, 2000); // 2초
 });
 
 function checkAutoLogin() {
@@ -94,8 +102,18 @@ function checkAutoLogin() {
     justify-content: center;
     margin-inline: auto;
 }
+
 video {
     width: 100%;
     height: auto;
+}
+
+#logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 80%;
 }
 </style>
