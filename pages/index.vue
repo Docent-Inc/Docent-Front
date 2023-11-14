@@ -7,7 +7,8 @@
                     ref="videoRef"
                     autoplay
                     muted
-                    @ended="onVideoEnded"
+                    playsinline
+                    @ended="checkAutoLogin"
                 >
                     <source :src="splashVideo" type="video/mp4" />
                 </video>
@@ -21,14 +22,22 @@ import { useAuthService } from "~/services/auth";
 import { useUserStore } from "~/store/user";
 import splashVideo from "../assets/video/splash.mp4";
 
+const isChecked = ref(false);
 const router = useRouter();
-async function onVideoEnded() {
+
+onMounted(() => {
+    setTimeout(() => {
+        console.log("check", isChecked.value); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
+        if (!isChecked.value) checkAutoLogin();
+    }, 5000);
+});
+
+async function checkAutoLogin() {
+    console.log("Called!"); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
+    isChecked.value = true;
+
     const { accessToken, refreshToken } = useUserStore();
-    if (!accessToken || !refreshToken) {
-        setTimeout(() => {
-            router.push(`/signin`);
-        }, 200);
-    }
+    if (!accessToken || !refreshToken) router.push(`/signin`);
 
     const { refresh } = useAuthService();
     refresh(refreshToken)
