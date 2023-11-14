@@ -84,7 +84,7 @@ async function checkAutoLogin() {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--CTA_accent, #a1a1ff);
+    background: var(--CTA_accent, #9398ff); // 9398FF a1a1ff
 }
 
 .video-container {
