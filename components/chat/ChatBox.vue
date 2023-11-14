@@ -81,7 +81,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/colors.scss";
+@import "@/assets/scss/variables.scss";
 .chat-title {
     color: $vc-gray-700;
     font-family: "Pretendard Bold";

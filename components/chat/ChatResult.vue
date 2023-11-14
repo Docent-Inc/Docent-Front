@@ -74,7 +74,7 @@ export default {
                 default:
                     return [
                         `${this.$dayjs(this.result.content.start_time).format(
-                            "ddd요일(MM.DD)"
+                            "ddd요일(MM.DD)",
                         )} 일정`,
                         "을 추가했어요! 🗓️",
                     ];
@@ -90,7 +90,7 @@ export default {
                 case 2:
                     console.log("diary", this.result.diary_id);
                     this.$router.push(
-                        `/diary/${this.result.diary_id}?type=${this.result.text_type}`
+                        `/diary/${this.result.diary_id}?type=${this.result.text_type}`,
                     );
                     break;
 
@@ -101,7 +101,7 @@ export default {
 
                 case 4:
                     this.$router.push(
-                        `/calendar/?date=${this.result.content.start_time}`
+                        `/calendar/?date=${this.result.content.start_time}`,
                     );
                     break;
 
@@ -114,7 +114,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "@/assets/scss/colors.scss";
+@import "@/assets/scss/variables.scss";
 .chat-result {
     // max-width: 80%;
     border-radius: 0.625rem;

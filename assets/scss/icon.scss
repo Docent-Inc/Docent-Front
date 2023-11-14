@@ -1,15 +1,23 @@
+@import "@/assets/scss/mixins.scss";
 /**
  * Icon UI
+ * 1) Common (commons)
+ * 2) Navigation (commons/navigations)  
+ * 3) Logo (commons/logos)
+ * 4) Page (pages)
  */
 
+// 1) Common
 .ic_back {
-    background: url("../images/ic_arrow_back.svg") no-repeat;
+    background: url("../images/commons/ic_arrow_back.svg") no-repeat;
     background-size: contain;
     display: block;
+    width: 24px;
+    height: 24px;
 }
 
 .ic_back_primary {
-    background: url("../images/ic_arrow_back_primary.svg") no-repeat
+    background: url("../images/commons/ic_arrow_back_primary.svg") no-repeat
         center/cover;
     width: 22px;
     height: 22px;
@@ -17,341 +25,221 @@
     font-size: 1.3rem !important;
 }
 
-.ic_profile_setting {
-    background: url("../images/ic_profile_setting.svg") no-repeat;
-    background-size: contain;
+.ic_back_white {
+    background: url("../images/commons/ic_arrow_back_white.svg") no-repeat
+        center/cover;
+    width: 32px;
+    height: 32px;
     display: block;
 }
 
-.ic_home {
-    background: url("../images/ic_home.svg") no-repeat center/cover;
-    width: 17px;
-    height: 18px;
-    display: block;
-}
-
-.logo_docent {
-    background: url("../images/logo_docent.svg") no-repeat center/cover;
-    width: 42px;
-    height: 42px;
-    display: block;
-}
-
-.ic_status_dream {
-    background: url("assets/images/ic_status_dream.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-    height: 36px;
-}
-
-.ic_kakao_logo {
-    background: url("assets/images/ic_kakao_logo.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_line_logo {
-    background: url("assets/images/ic_line_logo.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_kakao_inquiry {
-    background: url("assets/images/ic_kakao_inquiry.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_secession_check {
-    background: url("assets/images/ic_secession_check.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_setting {
-    background: url("assets/images/ic_setting.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_modify {
-    background: url("assets/images/ic_modify.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_modify_e {
-    background: url("assets/images/ic_modify_e.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_modify_i {
-    background: url("assets/images/ic_modify_i.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_modify_n {
-    background: url("assets/images/ic_modify_n.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_modify_s {
-    background: url("assets/images/ic_modify_s.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_modify_t {
-    background: url("assets/images/ic_modify_t.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_modify_f {
-    background: url("assets/images/ic_modify_f.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_modify_j {
-    background: url("assets/images/ic_modify_j.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_modify_p {
-    background: url("assets/images/ic_modify_p.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_male_on {
-    background: url("assets/images/ic_male_on.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_male_off {
-    background: url("assets/images/ic_male_off.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_female_on {
-    background: url("assets/images/ic_female_on.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_female_off {
-    background: url("assets/images/ic_female_off.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_unspecified_on {
-    background: url("assets/images/ic_unspecified_on.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_unspecified_off {
-    background: url("assets/images/ic_unspecified_off.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_modify_save_on {
-    background: url("assets/images/ic_modify_save_on.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_modify_save_off {
-    background: url("assets/images/ic_modify_save_off.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_modify_complete {
-    background: url("assets/images/ic_modify_complete.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_profile_save {
-    background: url("assets/images/ic_profile_save.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_status_diary {
-    background: url("assets/images/ic_status_diary.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-    height: 36px;
-}
-
-.ic_status_memo {
-    background: url("assets/images/ic_status_memo.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-    height: 36px;
-}
-
-.ic_status_same {
-    background: url("assets/images/ic_status_same.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-    height: 36px;
-}
-
-.ic_status_start {
-    background: url("assets/images/ic_status_start.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-    height: 36px;
-}
-
-.ic_status_default {
-    background: var(--gray-200, #e5e7eb);
-    border-radius: 8px;
-    display: block;
-    width: 118px;
-    height: 36px;
-}
-
-.ic_status_balance {
-    background: url("assets/images/ic_status_balance.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_tag_total {
-    background: url("../images/ic_tag_total.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_tag_dream {
-    background: url("../images/ic_tag_dream.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_tag_diary {
-    background: url("../images/ic_tag_diary.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_tag_memo {
-    background: url("../images/ic_tag_memo.svg") no-repeat center;
-    background-size: contain;
-    display: block;
-}
-
-.ic_tag2_dream {
-    background: url("../images/ic_tag2_dream.svg") no-repeat;
-    background-size: contain;
-    display: block;
-}
-
-.ic_tag2_diary {
-    background: url("../images/ic_tag2_diary.svg") no-repeat;
-    background-size: contain;
-    display: block;
-}
-
-.ic_tag2_memo {
-    background: url("../images/ic_tag2_memo.svg") no-repeat;
-    background-size: contain;
-    display: block;
-}
-
-.ic_new_chat {
-    background: url("../images/ic_new_chat.svg") no-repeat center/cover;
-    background-size: contain;
-    display: block;
-}
-
-.ic_send {
-    background: url("../images/ic_send.svg") no-repeat center/cover;
-    width: 15px;
-    height: 11px;
-    display: block;
-}
-
-.ic_voice {
-    background: url("../images/ic_voice.svg") no-repeat center/cover;
-    width: 56px;
-    height: 56px;
-    display: block;
-}
-
-.ic_docent {
-    background: url("../images/ic_docent.svg") no-repeat center/cover;
-    width: 56px;
-    height: 56px;
-    display: block;
-}
-
-.ic_close {
-    background: url("../images/ic_close.svg") no-repeat center/cover;
-    width: 56px;
-    height: 56px;
-    display: block;
-}
-
-.ic_calendar {
-    background: url("../images/ic_calendar.svg") no-repeat center/cover;
-    width: 25px;
-    height: 25px;
-    display: block;
-}
-
-.ic_list {
-    background: url("../images/ic_list.svg") no-repeat center/cover;
-    width: 25px;
-    height: 25px;
-    display: block;
-}
-
-.ic_board {
-    background: url("../images/ic_board.svg") no-repeat center/cover;
-    width: 25px;
-    height: 25px;
-    display: block;
-}
-
-// renew
 .ic_arrow {
-    background: url("../images/ic_arrow.svg") no-repeat center/cover;
+    background: url("../images/commons/ic_arrow_back.svg") no-repeat
+        center/cover;
     width: 32px;
     height: 32px;
     display: block;
 }
 
 .ic_help {
-    background: url("../images/ic_help.svg") no-repeat center/cover;
+    background: url("../images/commons/ic_help.svg") no-repeat center/cover;
     width: 24px;
     height: 24px;
     display: block;
 }
 
 .ic_x {
-    background: url("../images/ic_x.svg") no-repeat center/cover;
+    background: url("../images/commons/ic_x.svg") no-repeat center/cover;
     width: 24px;
     height: 24px;
     display: block;
 }
 
-// btn
+.btn_x {
+    background: rgba(0, 0, 0, 0.1);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ic_close {
+    background: url("../images/commons/ic_close.svg") no-repeat center/cover;
+    width: 56px;
+    height: 56px;
+    display: block;
+}
+
+.ic_delete {
+    background: url("../images/commons/ic_delete.svg") no-repeat center/cover;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.ic_delete_white {
+    background: url("../images/commons/ic_delete_white.svg") no-repeat
+        center/cover;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.ic_detail {
+    background: url("../images/commons/ic_detail.svg") no-repeat center/cover;
+    width: 32px;
+    height: 32px;
+    display: block;
+}
+
+.ic_home_logo {
+    background: url("../images/commons/logos/logo_look.svg") no-repeat
+        center/cover;
+    display: block;
+}
+
+.ic_add {
+    background: url("../images/commons/ic_add.svg") no-repeat center/cover;
+    background-size: contain;
+    display: block;
+}
+
+// 2) Navigation
+.nav_home {
+    background: url("../images/commons/navigations/nav_home.svg") no-repeat
+        center/cover;
+    width: 50px;
+    height: 50px;
+    background-size: contain;
+    display: block;
+}
+
+.nav_home.active {
+    background: url("../images/commons/navigations/nav_home_active.svg")
+        no-repeat center/cover;
+    background-size: contain;
+}
+
+.nav_calendar {
+    background: url("../images/commons/navigations/nav_calendar.svg") no-repeat
+        center/cover;
+    width: 50px;
+    height: 50px;
+    background-size: contain;
+    display: block;
+}
+
+.nav_calendar.active {
+    background: url("../images/commons/navigations/nav_calendar_active.svg")
+        no-repeat center/cover;
+    background-size: contain;
+}
+
+.nav_report {
+    background: url("../images/commons/navigations/nav_report.svg") no-repeat
+        center/cover;
+    width: 50px;
+    height: 50px;
+    background-size: contain;
+    display: block;
+}
+
+.nav_report.active {
+    background: url("../images/commons/navigations/nav_report_active.svg")
+        no-repeat center/cover;
+    background-size: contain;
+}
+
+.nav_mypage {
+    background: url("../images/commons/navigations/nav_mypage.svg") no-repeat
+        center/cover;
+    width: 50px;
+    height: 50px;
+    background-size: contain;
+    display: block;
+}
+
+.nav_mypage.active {
+    background: url("../images/commons/navigations/nav_mypage_active.svg")
+        no-repeat center/cover;
+    background-size: contain;
+}
+
+// 3) Logo
+.logo_kakao {
+    background: url("../images/commons/logos/logo_kakao.svg") no-repeat center;
+    display: block;
+    width: 32px;
+    height: 32px;
+}
+
+.logo_line {
+    background: url("../images/commons/logos/logo_line.svg") no-repeat center;
+    display: block;
+    width: 32px;
+    height: 32px;
+}
+
+.logo_full {
+    background: url("../images/commons/logos/logo_full.svg") no-repeat
+        center/cover;
+    width: 192px;
+    height: 33px;
+    display: block;
+}
+
+.logo_look_white {
+    background: url("../images/commons/logos/logo_look_white.svg") no-repeat
+        center/cover;
+    display: block;
+}
+
+// 4) 페이지
+
+// Home - TODO) 사용 안 하면 지우기
+
+.ic_fortune {
+    background: url("../images/pages/home/ic_fortune.svg") no-repeat center;
+    display: block;
+}
+
+.ic_airplane {
+    background: url("../images/pages/home/ic_airplane.svg") no-repeat
+        center/cover;
+    background-size: contain;
+    display: block;
+}
+
+.ic_calendar_color {
+    background: url("../images/pages/home/ic_calendar_color.svg") no-repeat
+        center/cover;
+    background-size: contain;
+    display: block;
+}
+
+// weathers
+.ic_cloud {
+    background: url("../images/pages/home/weathers/ic_cloud.svg") no-repeat
+        center/cover;
+    background-size: contain;
+    display: block;
+    width: 20px;
+    height: 20px;
+}
+
+// Chat
+.ic_voice {
+    background: url("../images/pages/chat/ic_voice.svg") no-repeat center/cover;
+    width: 56px;
+    height: 56px;
+    display: block;
+}
+
 .ic_mic {
-    background: url("../images/ic_mic.svg") no-repeat center/cover;
+    background: url("../images/pages/chat/ic_mic.svg") no-repeat center/cover;
     width: 28px;
     height: 28px;
     display: block;
@@ -369,7 +257,7 @@
 }
 
 .ic_mic_x {
-    background: url("../images/ic_mic_x.svg") no-repeat center/cover;
+    background: url("../images/pages/chat/ic_mic_x.svg") no-repeat center/cover;
     width: 28px;
     height: 28px;
     display: block;
@@ -387,7 +275,7 @@
 }
 
 .ic_send {
-    background: url("../images/ic_send.svg") no-repeat center/cover;
+    background: url("../images/pages/chat/ic_send.svg") no-repeat center/cover;
     width: 24px;
     height: 20px;
     display: block;
@@ -402,70 +290,381 @@
     align-items: center;
 }
 
-// .btn_mic_rec {
-//     background: url("../images/btn_mic_rec.svg") no-repeat center/cover;
-//     width: 40px;
-//     height: 40px;
-//     display: block;
-// }
-
-// etc
 .ic_profile_ai {
-    background: url("../images/ic_profile_ai.svg") no-repeat center/cover;
+    background: url("../images/pages/chat/ic_profile_ai.svg") no-repeat
+        center/cover;
     width: 28px;
     height: 28px;
     display: block;
 }
 
-// Navigation
-.nav_home {
-    background: url("../images/nav_home.svg") no-repeat center/cover;
-    width: 50px;
-    height: 50px;
+// Report - TODO
+.ic_box {
+    background: url("../images/pages/report/ic_box.svg") no-repeat center/cover;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.ic_checked {
+    background: url("../images/pages/report/ic_checked.svg") no-repeat
+        center/cover;
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+.ic_edit {
+    background: url("../images/pages/report/ic_edit.svg") no-repeat center/cover;
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+.ic_frame {
+    background: url("../images/pages/report/ic_frame.svg") no-repeat
+        center/cover;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.ic_pencil {
+    background: url("../images/pages/report/ic_pencil.svg") no-repeat
+        center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_ballon {
+    background: url("../images/pages/report/ic_ballon.svg") no-repeat
+        center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+.ic_memo {
+    background: url("../images/pages/report/ic_memo.svg") no-repeat center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_rocket {
+    background: url("../images/pages/report/ic_rocket.svg") no-repeat
+        center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_star {
+    background: url("../images/pages/report/ic_star.svg") no-repeat center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_hands {
+    background: url("../images/pages/report/ic_hands.svg") no-repeat
+        center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_sweat {
+    background: url("../images/pages/report/ic_sweat.svg") no-repeat
+        center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_crystal {
+    background: url("../images/pages/report/ic_crystal.svg") no-repeat
+        center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.img_illust_night {
+    background: url("../images/pages/report/img_illust_night.svg") no-repeat
+        center;
+    width: calc(257px - 97px);
+    height: 137px;
+    display: block;
+}
+
+.img_blur_elipsis {
+    width: 236px;
+    height: 236px;
+    background: linear-gradient(177deg, #8a80ff 7.83%, #b3c4ff 97.57%);
+    opacity: 0.2;
+    filter: blur(82px);
+}
+
+// Mypage
+.ic_list {
+    background: url("../images/pages/mypage/ic_list.svg") no-repeat center/cover;
+    width: 25px;
+    height: 25px;
+    display: block;
+}
+
+.ic_board {
+    background: url("../images/pages/mypage/ic_board.svg") no-repeat
+        center/cover;
+    width: 25px;
+    height: 25px;
+    display: block;
+}
+
+.ic_status_dream {
+    background: url("../images/pages/setting/ic_status_dream.svg") no-repeat
+        center;
+    display: block;
+    width: 118px;
+    height: 36px;
+}
+
+.ic_status_diary {
+    background: url("../images/pages/mypage/ic_status_diary.svg") no-repeat
+        center;
+    width: 144px;
+    height: 36px;
+}
+
+.ic_status_memo {
+    background: url("../images/pages/mypage/ic_status_memo.svg") no-repeat
+        center;
+    width: 110px;
+    height: 36px;
+}
+
+.ic_status_same {
+    background: url("assets/images/pages/mypage/ic_status_same.svg") no-repeat
+        center;
+    width: 171px;
+    height: 36px;
+}
+
+.ic_status_start {
+    background: url("../images/pages/mypage/ic_status_start.svg") no-repeat
+        center;
+    width: 132px;
+    height: 36px;
+}
+
+.ic_status_default {
+    border-radius: 8px;
+    display: block;
+    width: 118px;
+    height: 36px;
+
+    position: relative !important;
+    @include skeleton;
+}
+
+.bg_count_area_default {
+    display: block;
+    width: 100%;
+    height: 40px;
+    background-color: #e5e7eb;
+    border-radius: 8px;
+
+    position: relative !important;
+    @include skeleton;
+}
+
+// Setting
+.ic_profile_setting {
+    background: url("../images/pages/setting/ic_profile_setting.svg") no-repeat;
     background-size: contain;
     display: block;
 }
 
-.nav_home.active {
-    background: url("../images/nav_home_active.svg") no-repeat center/cover;
-    background-size: contain;
-}
-
-.nav_calendar {
-    background: url("../images/nav_calendar.svg") no-repeat center/cover;
-    width: 50px;
-    height: 50px;
+.ic_kakao_inquiry {
+    background: url("../images/pages/setting/ic_kakao_inquiry.svg") no-repeat
+        center;
     background-size: contain;
     display: block;
 }
 
-.nav_calendar.active {
-    background: url("../images/nav_calendar_active.svg") no-repeat center/cover;
-    background-size: contain;
-}
-
-.nav_report {
-    background: url("../images/nav_report.svg") no-repeat center/cover;
-    width: 50px;
-    height: 50px;
+.ic_setting {
+    background: url("../images/pages/setting/ic_setting.svg") no-repeat center;
     background-size: contain;
     display: block;
 }
 
-.nav_report.active {
-    background: url("../images/nav_report_active.svg") no-repeat center/cover;
-    background-size: contain;
-}
-
-.nav_mypage {
-    background: url("../images/nav_mypage.svg") no-repeat center/cover;
-    width: 50px;
-    height: 50px;
+.ic_modify {
+    background: url("../images/pages/setting/ic_modify.svg") no-repeat center;
     background-size: contain;
     display: block;
 }
 
-.nav_mypage.active {
-    background: url("../images/nav_mypage_active.svg") no-repeat center/cover;
+.ic_modify_e {
+    background: url("../images/pages/setting/ic_modify_e.svg") no-repeat center;
     background-size: contain;
+    display: block;
+}
+
+.ic_modify_i {
+    background: url("../images/pages/setting/ic_modify_i.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_n {
+    background: url("../images/pages/setting/ic_modify_n.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_s {
+    background: url("../images/pages/setting/ic_modify_s.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_t {
+    background: url("../images/pages/setting/ic_modify_t.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_f {
+    background: url("../images/pages/setting/ic_modify_f.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_j {
+    background: url("../images/pages/setting/ic_modify_j.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_p {
+    background: url("../images/pages/setting/ic_modify_p.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_male_on {
+    background: url("../images/pages/setting/ic_male_on.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_male_off {
+    background: url("../images/pages/setting/ic_male_off.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_female_on {
+    background: url("../images/pages/setting/ic_female_on.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_female_off {
+    background: url("../images/pages/setting/ic_female_off.svg") no-repeat
+        center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_unspecified_on {
+    background: url("../images/pages/setting/ic_unspecified_on.svg") no-repeat
+        center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_unspecified_off {
+    background: url("../images/pages/setting/ic_unspecified_off.svg") no-repeat
+        center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_save_on {
+    background: url("../images/pages/setting/ic_modify_save_on.svg") no-repeat
+        center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_save_off {
+    background: url("../images/pages/setting/ic_modify_save_off.svg") no-repeat
+        center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_modify_complete {
+    background: url("../images/pages/setting/ic_modify_complete.svg") no-repeat
+        center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_profile_save {
+    background: url("../images/pages/setting/ic_profile_save.svg") no-repeat
+        center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_tag_total {
+    background: url("../images/pages/setting/ic_tag_total.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_tag_dream {
+    background: url("../images/pages/setting/ic_tag_dream.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_tag_diary {
+    background: url("../images/pages/setting/ic_tag_diary.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_tag_memo {
+    background: url("../images/pages/setting/ic_tag_memo.svg") no-repeat center;
+    background-size: contain;
+    display: block;
+}
+
+.ic_tag2_dream {
+    background: url("../images/pages/setting/ic_tag2_dream.svg") no-repeat;
+    background-size: contain;
+    display: block;
+}
+
+.ic_tag2_diary {
+    background: url("../images/pages/setting/ic_tag2_diary.svg") no-repeat;
+    background-size: contain;
+    display: block;
+}
+
+.ic_tag2_memo {
+    background: url("../images/pages/setting/ic_tag2_memo.svg") no-repeat;
+    background-size: contain;
+    display: block;
+}
+
+.ic_new_chat {
+    background: url("../images/pages/setting/ic_new_chat.svg") no-repeat
+        center/cover;
+    background-size: contain;
+    display: block;
 }

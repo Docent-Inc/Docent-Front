@@ -1,0 +1,89 @@
+// models/diary.vue
+
+/**
+ * DiaryRatioModel
+ */
+export interface DiaryRatioModel {
+    ratio: DiaryRatio;
+}
+
+export interface DiaryRatio {
+    max_category: number;
+    memo_count: number;
+    memo_ratio: number;
+    morning_diary_count: number;
+    morning_diary_ratio: number;
+    night_diary_count: number;
+    night_diary_ratio: number;
+}
+
+/**
+ * DiaryListModel
+ */
+export interface DiaryListModel {
+    list: DiaryList[];
+    count: number;
+    total_MorningDiary_count: number;
+    total_NightDiary_count: number;
+    total_Memo_count: number;
+    // 통계 정보
+    max_category: number;
+    MoriningDiary_ratio: number;
+    NightDiary_ratio: number;
+    Memo_ratio: number;
+}
+
+interface DiaryList {
+    id: number;
+    User_id: number;
+    diary_name: string;
+    diary_type: number;
+    resolution?: string;
+    image_url: string;
+    background_color: string;
+    create_date: string;
+    modify_date: string;
+    is_deleted: boolean;
+}
+
+/**
+ * DiaryModel
+ */
+export interface DiaryModel {
+    diary: Diary;
+}
+
+interface Diary {
+    User_id: number;
+    id: number;
+    diary_name: string;
+    content: string;
+    image_url: string;
+    background_color: string; // TODO: string[]
+    create_date: string;
+    modify_date: string;
+    is_deleted: boolean;
+
+    // 해몽 내용 (꿈인 경우에만 사용)
+    is_completed?: boolean;
+    resolution?: string;
+    main_keyword?: string; // TODO: string[]
+}
+
+/**
+ * MemoModel
+ */
+export interface MemoModel {
+    memo: Memo;
+}
+
+interface Memo {
+    User_id: number;
+    id: number;
+    title: string;
+    content: string;
+    create_date: string;
+    modify_date: string;
+    is_deleted: boolean;
+    tags: string; // TODO: string[]
+}

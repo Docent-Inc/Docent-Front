@@ -55,11 +55,11 @@ export default {
     name: "ModifyBirth",
     data() {
         return {
-            currentYear: new Date().getFullYear(),
+            currentYear: 2000,
             displayedYears: [],
-            currentMonth: new Date().getMonth(),
+            currentMonth: 1,
             displayedMonths: [],
-            currentDay: new Date().getDate(),
+            currentDay: 1,
             displayedDays: [],
             startY: 0,
             lastY: 0,
@@ -73,10 +73,12 @@ export default {
         ...mapState(useUserStore, ["user"]),
     },
     mounted() {
-        const [year, month, day] = this.user.birth.split("-");
-        this.currentYear = parseInt(year);
-        this.currentMonth = parseInt(month);
-        this.currentDay = parseInt(day);
+        if (this.user?.birth) {
+            const [year, month, day] = this.user.birth.split("-");
+            this.currentYear = parseInt(year);
+            this.currentMonth = parseInt(month);
+            this.currentDay = parseInt(day);
+        }
 
         this.setDisplayedYears();
         this.setDisplayedMonths();
@@ -98,7 +100,7 @@ export default {
             const maxDaysInMonth = new Date(
                 this.currentYear,
                 this.currentMonth,
-                0
+                0,
             ).getDate();
             if (this.currentDay < 1) this.currentDay = 1;
             if (this.currentDay > maxDaysInMonth)
@@ -148,8 +150,6 @@ export default {
             this.lastY = currentY;
             this.lastTime = Date.now();
 
-            console.log(currentX);
-
             if (currentX >= 22 && currentX <= 105) {
                 this.handleYearScroll(deltaY);
             } else if (currentX >= 155 && currentX <= 225) {
@@ -176,7 +176,7 @@ export default {
         },
         emitBirthChange() {
             const birth = `${this.currentYear}-${String(
-                this.currentMonth
+                this.currentMonth,
             ).padStart(2, "0")}-${String(this.currentDay).padStart(2, "0")}`;
             this.$emit("birthSelected", birth);
         },
@@ -223,9 +223,11 @@ export default {
     line-height: 160%;
 }
 .modify-birth-content {
+    width: 100%;
     // height: 144px;
     display: flex;
     justify-content: space-around;
+    align-items: center;
 }
 .year-scroller,
 .month-scroller,
@@ -297,6 +299,6 @@ export default {
 }
 .year-text,
 .month-text {
-    margin-right: 40px;
+    margin-right: 2rem;
 }
 </style>

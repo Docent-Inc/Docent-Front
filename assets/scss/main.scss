@@ -2,7 +2,7 @@
  * Default UI
  */
 @charset "UTF-8";
-@import "@/assets/scss/colors.scss";
+@import "@/assets/scss/variables.scss";
 
 html {
     background-color: #eeeeee;
@@ -260,4 +260,80 @@ body {
             color: var(--white, #fff);
         }
     }
+}
+
+// Tag
+.divider {
+    width: 40px;
+    height: 2px;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.tag-wrap {
+    display: flex;
+    margin-top: 16px;
+    gap: 8px;
+}
+
+.tag-wrap.row {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.tag-wrap.col {
+    flex-direction: column;
+}
+
+.tag {
+    flex: 0 0 auto;
+    display: flex;
+    padding: 6px 11px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+
+    font-family: "Pretendard Bold";
+    font-size: 12px;
+    line-height: 160%; /* 19.2px */
+}
+
+.tag.primary {
+    background: rgba(167, 139, 250, 0.2);
+    color: var(--violet-400, #a78bfa);
+}
+
+.tag.blue {
+    background: rgba(106, 165, 255, 0.2);
+    color: #3280ff;
+}
+
+.tag.red {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--red-400, #f87171);
+}
+
+.tag.accent {
+    background: var(--CTA_accent, #9398ff);
+    color: #fff;
+}
+
+.tag.big {
+    /* b1/b1_med_16 */
+    font-size: 16px;
+    width: 100%;
+
+    padding: 11px 12px;
+}
+
+.tag.left {
+    justify-content: flex-start;
+}
+
+.blind {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
 }

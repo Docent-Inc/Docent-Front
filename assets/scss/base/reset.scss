@@ -47,7 +47,8 @@ body {
     color: #19181c;
     overflow-x: hidden;
     overscroll-behavior-y: none; // android scroll bounce control
-    min-width: 32rem;
+    // min-width: 32rem;
+    min-width: 280px;
     position: relative;
 }
 

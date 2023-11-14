@@ -33,12 +33,12 @@
                 <div class="account-info-div">
                     <div class="email-and-logo">
                         <span class="account-info">{{ user?.email }}</span>
-                        <v-icon
-                            class="ic_kakao_logo"
+                        <Icon
+                            class="logo_kakao"
                             v-if="user?.Oauth_from === 'kakao'"
                         />
-                        <v-icon
-                            class="ic_line_logo"
+                        <Icon
+                            class="logo_line"
                             v-else-if="user?.Oauth_from === 'line'"
                         />
                     </div>
@@ -71,11 +71,13 @@
 import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
 import { Popover } from "v-calendar";
+import Icon from "~/components/common/Icon.vue";
 
 export default {
     name: "setting",
     components: {
         Popover,
+        Icon,
     },
     setup() {},
     data() {
@@ -104,7 +106,7 @@ export default {
             });
         },
         showModify() {
-            this.$router.push(`/profile-modify`);
+            this.$router.push(`/profile/modify`);
         },
         openKakaoLink() {
             window.open("https://pf.kakao.com/_vNxnRG", "_blank");
@@ -244,7 +246,7 @@ export default {
     font-size: 16px;
     line-height: 160%;
 }
-.ic_kakao_logo {
+.logo_kakao {
     position: relative;
     width: 32px;
     height: 32px;

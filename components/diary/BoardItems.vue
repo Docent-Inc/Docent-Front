@@ -28,10 +28,8 @@ export default {
 .board-items {
     display: flex;
     flex-wrap: wrap;
-    width: calc(100vw);
-    margin-left: calc(-2.35rem);
-    margin-right: calc(-2.35rem);
-    padding-top: 0;
+    width: 100%;
+
     box-sizing: border-box;
     justify-content: flex-start;
     gap: 6px;
@@ -41,13 +39,13 @@ export default {
         height: auto;
         box-sizing: border-box;
 
-        &:first-child {
-            margin-right: auto;
-        }
+        // &:first-child {
+        //     margin-right: auto;
+        // }
 
-        &:last-child {
-            margin-left: auto;
-        }
+        // &:last-child {
+        //     margin-left: auto;
+        // }
     }
 }
 </style>
