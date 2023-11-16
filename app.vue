@@ -12,8 +12,8 @@
 
 <script setup>
 onMounted(() => {
-    // 초기 뷰포트 높이 설정
-    const userAgent = navigator.userAgent.toLowerCase();
+    //// START - IOS APP인 경우 vh 로직
+    // const userAgent = navigator.userAgent.toLowerCase();
     // if (
     //     userAgent.includes("iphone") ||
     //     userAgent.includes("ipod") ||
@@ -21,6 +21,9 @@ onMounted(() => {
     // ) {
     //     document.documentElement.style.setProperty("--vh", "1vh");
     // } else {
+    //// END
+
+    // 초기 뷰포트 높이 설정
     let vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
 
