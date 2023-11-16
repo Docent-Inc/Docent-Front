@@ -25,13 +25,6 @@ export default defineNuxtConfig({
         },
         layoutTransition: { name: "page", mode: "out-in", duration: 500 },
     },
-    pwa: {
-        manifest: {
-            name: "look",
-            short_name: "look",
-            description: "look ai",
-        },
-    },
     runtimeConfig: {
         public: {
             BASE_URL: process.env.BASE_URL,
