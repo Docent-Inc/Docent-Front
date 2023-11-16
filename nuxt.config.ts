@@ -4,15 +4,33 @@ export default defineNuxtConfig({
     app: {
         head: {
             title: "Docent",
+            link: [
+                { rel: "canonical", href: "https://docent.zip/" },
+                { rel: "manifest", href: "/manifest.json" },
+                {
+                    rel: "icon",
+                    type: "image/ico",
+                    href: "/favicon.ico",
+                },
+                { rel: "apple-touch-icon", href: "/icon.png" },
+            ],
             meta: [
                 {
                     name: "viewport",
                     content:
                         "width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover",
                 },
+                { name: "apple-mobile-web-app-capable", content: "yes" },
             ],
         },
         layoutTransition: { name: "page", mode: "out-in", duration: 500 },
+    },
+    pwa: {
+        manifest: {
+            name: "look",
+            short_name: "look",
+            description: "look ai",
+        },
     },
     runtimeConfig: {
         public: {
