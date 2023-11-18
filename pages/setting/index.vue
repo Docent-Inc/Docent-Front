@@ -72,6 +72,7 @@ import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
 import { Popover } from "v-calendar";
 import Icon from "~/components/common/Icon.vue";
+import { useSettingService } from "../../services/setting";
 
 export default {
     name: "setting",
@@ -95,13 +96,18 @@ export default {
     },
     methods: {
         openCustomModal() {
+            const { deleteAccount } = useSettingService();
             this.$eventBus.$emit("onCustomModal", {
                 title: "정말 탈퇴하시겠어요?",
                 desc: "탈퇴하시면 등록된 정보와 기록이 모두 삭제돼요.",
                 cancel: "취소하기",
                 confirm: "탈퇴하기",
-                callback: () => {
-                    this.setData("");
+                async callback() {
+                  const res = await deleteAccount();
+                  console.log(res);
+                  if (res.success) {
+                    this.$router.push("/");
+                  }
                 },
             });
         },
