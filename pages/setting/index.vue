@@ -103,11 +103,15 @@ export default {
                 cancel: "취소하기",
                 confirm: "탈퇴하기",
                 async callback() {
-                  const res = await deleteAccount();
-                  console.log(res);
-                  if (res.success) {
+                    const res = await deleteAccount();
+                    console.log(res);
+                    if (!res.success) {
+                        alert(res.message);
+                    }
+
+                    useCookie("access_token").value = null;
+                    useCookie("refresh_token").value = null;
                     this.$router.push("/");
-                  }
                 },
             });
         },
