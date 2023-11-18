@@ -21,9 +21,9 @@
 
         <!-- 2. 중간 영역 (이미지, 삭제 버튼) -->
         <Image class="diary-image" :url="diary.image_url" width="80%" />
-        <!-- <div class="diary-delete" @click="deleteDiary">
+        <div class="diary-delete" @click="onDelete">
             <Icon class="ic_delete_white" />삭제하기
-        </div> -->
+        </div>
 
         <!-- 3. 바텀시트 영역 -->
         <BottomSheet :title="bottomSheetTitle">
@@ -132,14 +132,54 @@ export default {
 
         const res =
             type === "1" ? await getMorningdiary(id) : await getNightdiary(id);
-        // console.log(res);
+
+        if (!res.success) {
+            this.$eventBus.$emit("onConfirmModal", {
+                title: "조회 실패하였습니다.",
+                desc: res.message,
+                callback: () => {
+                    this.$router.back();
+                },
+            });
+        }
+
         this.diary = res.data.diary;
         if (type == 1) this.diary.keyword = JSON.parse(this.diary.main_keyword);
         this.isLoading = false;
     },
     methods: {
-        deleteDiary() {
-            console.log("delete!");
+        onDelete() {
+            this.$eventBus.$emit("onCustomModal", {
+                title: "정말 이 기록을 삭제하시겠어요?",
+                desc: "삭제한 기록은 영영 돌아오지 않아요!",
+                confirm: "삭제하기",
+                cancel: "남겨두기",
+                callback: this.deleteDiary,
+            });
+        },
+        async deleteDiary() {
+            const { deleteMorningdiary, deleteNightdiary } = useDiaryService();
+            const res =
+                this.type === "1"
+                    ? await deleteMorningdiary(this.diary.id)
+                    : await deleteNightdiary(this.diary.id);
+            console.log("res >> ", res);
+
+            if (res.success) {
+                // 성공 시, 리스트 페이지로 이동
+                this.$eventBus.$emit("onConfirmModal", {
+                    title: "삭제되었습니다.",
+                    callback: () => {
+                        this.$router.back();
+                    },
+                });
+            } else {
+                // 실패 시, 문구 띄우고 새로고침
+                this.$eventBus.$emit("onConfirmModal", {
+                    title: "삭제에 실패하였습니다.",
+                    desc: res.message,
+                });
+            }
         },
     },
 };
