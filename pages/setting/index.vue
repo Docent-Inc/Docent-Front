@@ -22,7 +22,11 @@
                     </div>
                     <div class="setting-content-1-bottom-contents">
                         <span class="gender-content">{{ user?.gender }}</span>
-                        <span class="birth-content">{{ formattedBirth }}</span>
+                        <span class="birth-content">{{
+                            this.$dayjs(this.user?.birth).format(
+                                "YYYY년 MM월 DD일",
+                            )
+                        }}</span>
                     </div>
                 </div>
             </div>
@@ -46,7 +50,7 @@
                 </div>
             </div>
             <div class="setting-contents-3">
-                <SettingPush />
+                <SettingPush v-if="user" />
             </div>
             <div class="setting-contents-4">
                 <div class="inquiry">
@@ -89,10 +93,6 @@ export default {
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
-        formattedBirth() {
-            const dateParts = this.user.birth.split("-");
-            return `${dateParts[0]}년 ${dateParts[1]}월 ${dateParts[2]}일`;
-        },
     },
     methods: {
         openCustomModal() {
@@ -109,9 +109,11 @@ export default {
                         alert(res.message);
                     }
 
+                    const { reset } = useUserStore();
                     useCookie("access_token").value = null;
                     useCookie("refresh_token").value = null;
-                    this.$router.push("/");
+                    reset();
+                    this.$router.push("/signin");
                 },
             });
         },
