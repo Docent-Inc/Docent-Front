@@ -3,7 +3,7 @@
         <div class="header">
             <Button class="btn_x" @click="this.$router.back()" />
 
-            <div class="btn_url">
+            <div class="btn_url" @click="shareURL">
                 <Icon class="ic_url" />
                 <span>URL 공유하기</span>
             </div>
@@ -196,6 +196,29 @@ export default {
                 });
             }
         },
+        async shareURL() {
+            const url = window.location.href;
+
+            try {
+                if (!navigator?.clipboard?.writeText)
+                    throw new Error(
+                        "복사 기능이 제공되지 않는 브라우저입니다.",
+                    );
+
+                // 클립보드에 복사
+                window.navigator.clipboard.writeText(url).then(() => {
+                    this.$eventBus.$emit("onConfirmModal", {
+                        title: "URL이 복사되었습니다.",
+                    });
+                });
+            } catch (e) {
+                console.error(e);
+                this.$eventBus.$emit("onConfirmModal", {
+                    title: "URL 복사에 실패하였습니다",
+                    desc: e.message,
+                });
+            }
+        },
     },
 };
 </script>
@@ -355,6 +378,8 @@ export default {
     gap: 8px;
     align-items: center;
     text-align: center;
+
+    cursor: pointer;
 }
 
 .diary-top {
