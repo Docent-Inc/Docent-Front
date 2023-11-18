@@ -40,7 +40,7 @@ onMounted(() => {
     }, 2000); // 2초
 });
 
-function checkAutoLogin() {
+async function checkAutoLogin() {
     console.log("Called!"); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
     isChecked.value = true;
 
@@ -48,42 +48,41 @@ function checkAutoLogin() {
     if (!accessToken || !refreshToken) router.push(`/signin`);
 
     const { refresh } = useAuthService();
-    refresh(refreshToken)
-        .then((res) => {
-            // 성공 시, 액세스 토큰 저장 후 /home 이동
-            const { setAccessToken, setRefreshToken, setUser } = useUserStore();
+    const res = await refresh(refreshToken);
+    if (!res.success) {
+        // 실패 시, 다 삭제하고 /signin으로 이동
+        const { reset } = useUserStore();
+        reset();
+        useCookie("access_token").value = null;
+        useCookie("refresh_token").value = null;
+        router.push(`/signin`);
 
-            const now = new Date();
-            const accessTokenExpires = new Date(
-                now.getTime() + res.data.expires_in * 1000,
-            );
-            const refreshTokenExpires = new Date(
-                now.getTime() + res.data.refresh_expires_in * 1000,
-            );
+        return;
+    }
 
-            useCookie("access_token", {
-                expires: accessTokenExpires,
-            }).value = res.data.access_token;
-            useCookie("refresh_token", {
-                expires: refreshTokenExpires,
-            }).value = res.data.refresh_token;
+    // 성공 시, 액세스 토큰 저장 후 /home 이동
+    const { setAccessToken, setRefreshToken, setUser } = useUserStore();
 
-            setAccessToken(res.data.access_token);
-            setRefreshToken(res.data.refresh_token);
-            setUser();
+    const now = new Date();
+    const accessTokenExpires = new Date(
+        now.getTime() + res.data.expires_in * 1000,
+    );
+    const refreshTokenExpires = new Date(
+        now.getTime() + res.data.refresh_expires_in * 1000,
+    );
 
-            router.push(`/home`);
-        })
-        .catch((e) => {
-            console.error(e);
+    useCookie("access_token", {
+        expires: accessTokenExpires,
+    }).value = res.data.access_token;
+    useCookie("refresh_token", {
+        expires: refreshTokenExpires,
+    }).value = res.data.refresh_token;
 
-            // 실패 시, 다 삭제하고 /signin으로 이동
-            const { reset } = useUserStore();
-            reset();
-            useCookie("access_token").value = null;
-            useCookie("refresh_token").value = null;
-            router.push(`/signin`);
-        });
+    setAccessToken(res.data.access_token);
+    setRefreshToken(res.data.refresh_token);
+    setUser();
+
+    router.push(`/home`);
 }
 </script>
 
