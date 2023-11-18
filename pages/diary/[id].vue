@@ -1,28 +1,43 @@
 <template>
     <div class="viewport" :style="dynamicBackgrond">
-        <Button class="btn_x" @click="this.$router.back()" />
+        <div class="header">
+            <Button class="btn_x" @click="this.$router.back()" />
 
-        <!-- 1. 상단 영역 (날짜, 제목) -->
-        <div class="diary-title-box">
-            <div v-if="isLoading">
-                <div class="diary-date__skeleton"></div>
-                <div class="diary-title__skeleton"></div>
-            </div>
-            <div v-else>
-                <div class="diary-date">
-                    {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
-                </div>
-
-                <div class="diary-title">
-                    {{ diary.diary_name }}
-                </div>
+            <div class="btn_url">
+                <Icon class="ic_url" />
+                <span>URL 공유하기</span>
             </div>
         </div>
 
-        <!-- 2. 중간 영역 (이미지, 삭제 버튼) -->
-        <Image class="diary-image" :url="diary.image_url" width="80%" />
-        <div class="diary-delete" @click="onDelete">
-            <Icon class="ic_delete_white" />삭제하기
+        <div class="contents">
+            <!-- 1. 상단 영역 (날짜, 제목) -->
+            <div class="diary-title-box">
+                <div v-if="isLoading">
+                    <div class="diary-date__skeleton"></div>
+                    <div class="diary-title__skeleton"></div>
+                </div>
+                <div v-else>
+                    <div class="diary-date">
+                        {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
+                    </div>
+
+                    <div class="diary-title">
+                        {{ diary.diary_name }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 중간 영역 (이미지, 삭제 버튼) -->
+            <!-- maxWidth="calc((100vh - (60px + 20px)) * 0.6)" -->
+            <Image
+                class="diary-image"
+                :url="diary.image_url"
+                width="calc(100% - 40px)"
+                maxWidth="400px"
+            />
+            <div class="diary-delete" @click="onDelete">
+                <Icon class="ic_delete_white" />삭제하기
+            </div>
         </div>
 
         <!-- 3. 바텀시트 영역 -->
@@ -188,21 +203,32 @@ export default {
 @import "@/assets/scss/mixins.scss";
 .viewport {
     // "(138, 137, 140)"
-    position: relative;
+}
+
+.header {
+    background: none;
+    border: none;
+    justify-content: space-between;
+
+    padding: 0 20px;
+    margin-top: 10%;
+}
+
+.contents {
+    height: calc(100% - (60px + 10%));
+    height: calc(100% - (60px + 10% + constant(safe-area-inset-top)));
+    height: calc(100% - (60px + 10% + env(safe-area-inset-top)));
+
+    margin-top: calc(60px + 10%);
+    margin-top: calc(60px + 10% + constant(safe-area-inset-top));
+    margin-top: calc(60px + 10% + env(safe-area-inset-top));
+
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
     gap: 22px;
-    padding-bottom: 50px;
-}
-
-.btn_x {
-    margin: 10%;
-    position: absolute;
-    left: 0;
-    top: 0;
-
-    z-index: 2; // 바텀 시트 때문에 z-index 추가
 }
 
 .diary-image {
@@ -211,14 +237,12 @@ export default {
 }
 
 .diary-title-box {
-    width: 80%;
+    width: calc(100% - 40px);
     overflow: hidden;
     text-overflow: ellipsis;
     display: flex;
     flex-direction: column;
     gap: 4px;
-
-    // color: var(--white, #fff);
 }
 
 .diary-title {
@@ -272,7 +296,7 @@ export default {
     align-items: center;
 
     align-self: flex-start;
-    margin: 0 10%;
+    margin: 0 20px;
 
     z-index: 2; // 바텀 시트 때문에 z-index 추가
 }
@@ -314,5 +338,38 @@ export default {
             }
         }
     }
+}
+
+.btn_url {
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 6px 12px 6px 8px;
+
+    /* c1/c1_reg_12 */
+    color: var(--white, #fff);
+    font-family: "Pretendard";
+    font-size: 12px;
+    line-height: 160%; /* 19.2px */
+
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    text-align: center;
+}
+
+.diary-top {
+    width: calc(100% - 40px);
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 10%;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0);
+
+    z-index: 2; // 바텀 시트 때문에 z-index 추가
 }
 </style>
