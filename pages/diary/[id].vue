@@ -241,10 +241,11 @@ export default {
 }
 
 .contents {
-    // BottomSheet 높이: 88px =  calc(32px + (12px * 1.5) + 4px) + 20px + 14px;
-    height: calc(100% - (60px + 88px));
-    height: calc(100% - (60px + 88px + constant(safe-area-inset-top)));
-    height: calc(100% - (60px + 88px + env(safe-area-inset-top)));
+    // BottomSheet 높이: 108px =  calc(32px + (12px * 1.5) + 4px) + 40px + 14px;
+    height: calc(100% - (60px + 108px));
+    height: calc(100% - (60px + 108px + constant(safe-area-inset-top)));
+    height: calc(100% - (60px + 108px + env(safe-area-inset-top)));
+    padding: 2rem 0;
 
     margin-top: calc(60px);
     margin-top: calc(60px + constant(safe-area-inset-top));
@@ -253,10 +254,9 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: safe center; // safe를 넣지 않으면 상단이 잘리는 문제 발생
 
-    // gap: 22px;
-    gap: 0.8rem;
+    gap: 2rem;
 }
 
 .diary-image {
@@ -266,11 +266,12 @@ export default {
 
 .diary-title-box {
     width: calc(100% - 40px);
-    // overflow: hidden;
-    // text-overflow: ellipsis;
+    overflow: visible;
     display: flex;
     flex-direction: column;
     gap: 4px;
+
+    justify-self: center;
 }
 
 .diary-title {
@@ -281,6 +282,13 @@ export default {
     // font-size: 20px;
     font-size: 1.8rem;
     line-height: 150%; /* 36px */
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
 
     &__skeleton {
         @include skeleton;
@@ -302,19 +310,8 @@ export default {
         height: calc(14px * 1.5);
     }
 }
-.diary-tags {
-    margin-top: 0.5rem;
-    .tag {
-        font-size: 14px; // 1.2rem;;
-        color: #fff;
-        background-color: rgba(0, 0, 0, 0.1);
-        border: none;
-    }
-}
 
 .diary-delete {
-    color: var(--white, #fff);
-
     /* c1/c1_reg_12 */
     font-family: "Pretendard";
     font-size: 12px;
@@ -386,21 +383,5 @@ export default {
     text-align: center;
 
     cursor: pointer;
-}
-
-.diary-top {
-    width: calc(100% - 40px);
-    height: 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    // margin-top: 10%;
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translate(-50%, 0);
-
-    z-index: 2; // 바텀 시트 때문에 z-index 추가
 }
 </style>

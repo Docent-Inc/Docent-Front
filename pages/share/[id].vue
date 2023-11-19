@@ -146,19 +146,24 @@ export default {
         if (type == 1) this.diary.keyword = JSON.parse(this.diary.main_keyword);
         this.isLoading = false;
     },
-    methods: {},
 };
 </script>
 <style lang="scss" scoped>
 @import "@/assets/scss/mixins.scss";
 
 .contents {
+    // BottomSheet 높이: 108px =  calc(32px + (12px * 1.5) + 4px) + 40px + 14px;
+    height: calc(100% - (108px));
+    height: calc(100% - (108px + constant(safe-area-inset-top)));
+    height: calc(100% - (108px + env(safe-area-inset-top)));
+    padding: 2rem 0;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: safe center; // safe를 넣지 않으면 상단이 잘리는 문제 발생
 
-    gap: 22px;
+    gap: 2rem;
 }
 
 .diary-image {
@@ -168,8 +173,8 @@ export default {
 
 .diary-title-box {
     width: calc(100% - 40px);
-    overflow: hidden;
-    text-overflow: ellipsis;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -182,6 +187,13 @@ export default {
     font-family: "Pretendard Bold";
     font-size: 20px;
     line-height: 150%; /* 36px */
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
 
     &__skeleton {
         @include skeleton;
