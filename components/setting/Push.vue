@@ -76,7 +76,7 @@ export default {
             const { updatePushSetting } = useSettingService();
             const res = await updatePushSetting(
                 "morning",
-                this.user.push_morning
+                this.user.push_morning,
             );
             if (!res.success) {
                 this.openErrorModal(res.message);
@@ -93,7 +93,7 @@ export default {
             const { updatePushSetting } = useSettingService();
             const res = await updatePushSetting(
                 "report",
-                this.user.push_report
+                this.user.push_report,
             );
             if (!res.success) {
                 this.openErrorModal(res.message);
