@@ -1,6 +1,6 @@
 import { GET } from "~/services";
 import API from "../utils/axios";
-import { DiaryModel, DiaryRatio, MemoModel } from "~/models/diary";
+import { DiaryModel, MemoModel, DiaryRatioModel } from "~/models/diary";
 
 export const useDiaryService = () => {
     return {
@@ -39,7 +39,7 @@ export const useDiaryService = () => {
          * 마이페이지 상세 조회 (비율)
          */
         async getRatio() {
-            return await GET<DiaryRatio>(`/diary/ratio`);
+            return await GET<DiaryRatioModel>(`/diary/ratio`);
         },
         /**
          * 캘린더 목록 조회

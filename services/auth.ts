@@ -44,7 +44,7 @@ export const useAuthService = () => {
          * 유저 정보 조회
          */
         async getUserInfo() {
-            return await GET<UserModel>(`/auth/info`);
+            return await API.get(`/auth/info`);
         },
         /**
          * 액세스 토큰 재발급

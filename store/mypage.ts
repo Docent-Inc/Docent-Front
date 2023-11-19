@@ -1,4 +1,4 @@
-import { DiaryRatio } from "models/diary";
+import { DiaryRatio } from "~/models/diary";
 import { useDiaryService } from "../services/diary";
 
 interface DiaryOrMemo {
@@ -36,7 +36,7 @@ export const useMypageStore = defineStore("mypage", {
         async getRatio() {
             const { getRatio } = useDiaryService();
             const res = await getRatio();
-            // console.log("getRatio", res);
+            console.log("getRatio", res);
 
             this.ratio = res.data.ratio;
         },

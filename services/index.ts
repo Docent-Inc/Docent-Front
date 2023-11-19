@@ -20,7 +20,7 @@ API.interceptors.request.use(
     },
     (error) => {
         return Promise.reject(error);
-    }
+    },
 );
 
 //// Interface
@@ -34,7 +34,7 @@ interface BaseResponse<T> {
 //// Method
 export const GET = async <T>(
     url: string,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
 ): Promise<BaseResponse<T>> => {
     const response = await API.get(url, config);
     return response.data;
@@ -43,7 +43,7 @@ export const GET = async <T>(
 export const POST = async <T>(
     url: string,
     data?: any,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
 ): Promise<BaseResponse<T>> => {
     const response = await API.post(url, data, config);
     return response.data;
@@ -52,7 +52,7 @@ export const POST = async <T>(
 export const PUT = async <T>(
     url: string,
     data?: any,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
 ): Promise<BaseResponse<T>> => {
     const response = await API.put(url, data, config);
     return response.data;
@@ -60,8 +60,10 @@ export const PUT = async <T>(
 
 export const DELETE = async <T>(
     url: string,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
 ): Promise<BaseResponse<T>> => {
     const response = await API.delete(url, config);
     return response.data;
 };
+
+export default API;
