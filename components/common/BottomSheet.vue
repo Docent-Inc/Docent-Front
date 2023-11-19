@@ -78,7 +78,8 @@ export default {
     z-index: 99; // z-index 추가
 
     .bottom-sheet-top {
-        // height: calc(12px + (12px * 1.5) + 32px + 14px);
+        // height: calc(32px + (12px * 1.5) + 4px) + 20px + 14px;
+        height: calc(32px + (12px * 1.5) + 4px);
         margin-bottom: 14px;
         display: flex;
         flex-direction: column;

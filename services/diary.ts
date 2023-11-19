@@ -53,6 +53,19 @@ export const useDiaryService = () => {
         },
 
         /**
+         * 아침 다이어리 조회 - 공유용 (꿈)
+         */
+        async getShareMorningdiary(diary_id: number) {
+            return await GET<DiaryModel>(`/diary/morning/share/${diary_id}`);
+        },
+        /**
+         * 저녁 다이어리 조회 - 공유용 (일기)
+         */
+        async getShareNightdiary(diary_id: number) {
+            return await GET<DiaryModel>(`/diary/night/share/${diary_id}`);
+        },
+
+        /**
          * 마이페이지 목록 조회 (아침, 저녁, 메모)
          */
         async getGalleryList(diary_type: number, page: number) {

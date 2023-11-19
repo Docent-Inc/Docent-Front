@@ -1,14 +1,5 @@
 <template>
     <div class="viewport" :style="dynamicBackgrond">
-        <div class="header">
-            <Button class="btn_x" @click="this.$router.back()" />
-
-            <div class="btn_url" @click="shareURL">
-                <Icon class="ic_url" />
-                <span>URL 공유하기</span>
-            </div>
-        </div>
-
         <div class="contents">
             <!-- 1. 상단 영역 (날짜, 제목) -->
             <div class="diary-title-box">
@@ -28,16 +19,12 @@
             </div>
 
             <!-- 2. 중간 영역 (이미지, 삭제 버튼) -->
-            <!-- maxWidth="calc((100vh - (60px + 20px)) * 0.6)" -->
             <Image
                 class="diary-image"
                 :url="diary.image_url"
                 width="calc(100% - 40px)"
                 maxWidth="400px"
             />
-            <div class="diary-delete" @click="onDelete">
-                <Icon class="ic_delete_white" />삭제하기
-            </div>
         </div>
 
         <!-- 3. 바텀시트 영역 -->
@@ -61,8 +48,7 @@
 
                 <div v-if="type == 1" class="bottom-diary-content">
                     <div class="bottom-diary-content-title">
-                        <Icon class="ic_crystal" />꿈을 통해 본
-                        {{ user?.nickname }}님의 마음
+                        <Icon class="ic_crystal" />꿈을 통해 본 마음
                     </div>
 
                     <div class="bottom-diary-content-desc">
@@ -82,9 +68,6 @@
     </div>
 </template>
 <script>
-import { mapState } from "pinia";
-import { useUserStore } from "~/store/user";
-
 import { useDiaryService } from "../../services/diary";
 import Button from "~/components/common/Button.vue";
 import Icon from "~/components/common/Icon.vue";
@@ -107,7 +90,6 @@ export default {
         };
     },
     computed: {
-        ...mapState(useUserStore, ["user"]),
         dynamicBackgrond() {
             let background_color = `rgb(0, 0, 0)`;
             let text_color = "#fff";
@@ -139,14 +121,16 @@ export default {
         },
     },
     async mounted() {
-        const { getMorningdiary, getNightdiary } = useDiaryService();
+        const { getShareMorningdiary, getShareNightdiary } = useDiaryService();
 
         const id = this.$route.params.id;
         const type = this.$route.query.type;
         this.type = type;
 
         const res =
-            type === "1" ? await getMorningdiary(id) : await getNightdiary(id);
+            type === "1"
+                ? await getShareMorningdiary(id)
+                : await getShareNightdiary(id);
 
         if (!res.success) {
             this.$eventBus.$emit("onConfirmModal", {
@@ -162,101 +146,19 @@ export default {
         if (type == 1) this.diary.keyword = JSON.parse(this.diary.main_keyword);
         this.isLoading = false;
     },
-    methods: {
-        onDelete() {
-            this.$eventBus.$emit("onCustomModal", {
-                title: "정말 이 기록을 삭제하시겠어요?",
-                desc: "삭제한 기록은 영영 돌아오지 않아요!",
-                confirm: "삭제하기",
-                cancel: "남겨두기",
-                callback: this.deleteDiary,
-            });
-        },
-        async deleteDiary() {
-            const { deleteMorningdiary, deleteNightdiary } = useDiaryService();
-            const res =
-                this.type === "1"
-                    ? await deleteMorningdiary(this.diary.id)
-                    : await deleteNightdiary(this.diary.id);
-            console.log("res >> ", res);
-
-            if (res.success) {
-                // 성공 시, 리스트 페이지로 이동
-                this.$eventBus.$emit("onConfirmModal", {
-                    title: "삭제되었습니다.",
-                    callback: () => {
-                        this.$router.back();
-                    },
-                });
-            } else {
-                // 실패 시, 문구 띄우고 새로고침
-                this.$eventBus.$emit("onConfirmModal", {
-                    title: "삭제에 실패하였습니다.",
-                    desc: res.message,
-                });
-            }
-        },
-        async shareURL() {
-            const url = window.location.href;
-            // "https://docent.zip/share/${this.diary.id}?type=${this.type}"
-
-            try {
-                if (!navigator?.clipboard?.writeText)
-                    throw new Error(
-                        "복사 기능이 제공되지 않는 브라우저입니다.",
-                    );
-
-                // 클립보드에 복사
-                window.navigator.clipboard
-                    .writeText(url.replace("diary", "share"))
-                    .then(() => {
-                        this.$eventBus.$emit("onConfirmModal", {
-                            title: "URL이 복사되었습니다.",
-                        });
-                    });
-            } catch (e) {
-                console.error(e);
-                this.$eventBus.$emit("onConfirmModal", {
-                    title: "URL 복사에 실패하였습니다",
-                    desc: e.message,
-                });
-            }
-        },
-    },
+    methods: {},
 };
 </script>
 <style lang="scss" scoped>
 @import "@/assets/scss/mixins.scss";
-.viewport {
-    // "(138, 137, 140)"
-}
-
-.header {
-    background: none;
-    border: none;
-    justify-content: space-between;
-
-    padding: 0 20px;
-    // margin-top: 10%;
-}
 
 .contents {
-    // BottomSheet 높이: 88px =  calc(32px + (12px * 1.5) + 4px) + 20px + 14px;
-    height: calc(100% - (60px + 88px));
-    height: calc(100% - (60px + 88px + constant(safe-area-inset-top)));
-    height: calc(100% - (60px + 88px + env(safe-area-inset-top)));
-
-    margin-top: calc(60px);
-    margin-top: calc(60px + constant(safe-area-inset-top));
-    margin-top: calc(60px + env(safe-area-inset-top));
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    // gap: 22px;
-    gap: 0.8rem;
+    gap: 22px;
 }
 
 .diary-image {
@@ -266,8 +168,8 @@ export default {
 
 .diary-title-box {
     width: calc(100% - 40px);
-    // overflow: hidden;
-    // text-overflow: ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -278,8 +180,7 @@ export default {
 
     /* h1/h1_bold_24 */
     font-family: "Pretendard Bold";
-    // font-size: 20px;
-    font-size: 1.8rem;
+    font-size: 20px;
     line-height: 150%; /* 36px */
 
     &__skeleton {
@@ -310,24 +211,6 @@ export default {
         background-color: rgba(0, 0, 0, 0.1);
         border: none;
     }
-}
-
-.diary-delete {
-    color: var(--white, #fff);
-
-    /* c1/c1_reg_12 */
-    font-family: "Pretendard";
-    font-size: 12px;
-    line-height: 160%; /* 19.2px */
-
-    display: flex;
-    gap: 4px;
-    align-items: center;
-
-    align-self: flex-start;
-    margin: 0 20px;
-
-    z-index: 2; // 바텀 시트 때문에 z-index 추가
 }
 
 .bottom-diary {
@@ -367,40 +250,5 @@ export default {
             }
         }
     }
-}
-
-.btn_url {
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.1);
-    padding: 6px 12px 6px 8px;
-
-    /* c1/c1_reg_12 */
-    color: var(--white, #fff);
-    font-family: "Pretendard";
-    font-size: 12px;
-    line-height: 160%; /* 19.2px */
-
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    text-align: center;
-
-    cursor: pointer;
-}
-
-.diary-top {
-    width: calc(100% - 40px);
-    height: 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    // margin-top: 10%;
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translate(-50%, 0);
-
-    z-index: 2; // 바텀 시트 때문에 z-index 추가
 }
 </style>
