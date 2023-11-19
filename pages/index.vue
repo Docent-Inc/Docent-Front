@@ -45,7 +45,10 @@ async function checkAutoLogin() {
     isChecked.value = true;
 
     const { accessToken, refreshToken } = useUserStore();
-    if (!accessToken || !refreshToken) router.push(`/signin`);
+    if (!accessToken || !refreshToken || refreshToken === "") {
+        router.push(`/signin`);
+        return;
+    }
 
     const { refresh } = useAuthService();
     const res = await refresh(refreshToken);
