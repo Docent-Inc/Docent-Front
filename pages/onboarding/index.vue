@@ -21,7 +21,11 @@
             </div>
         </div>
         <div class="bottom">
-            <div class="onabording-button" v-if="showButton" @click="push2List">
+            <div
+                class="onabording-button animate__animated animate__fadeIn"
+                v-if="showButton"
+                @click="push2List"
+            >
                 오늘은 인상깊은 날이다. 나만의 공간에서 나를 도와줄 기록 비서
                 Looki와 만나게 되었다. 기록 열심히 해야지!
             </div>
@@ -31,7 +35,7 @@
             </div>
 
             <div
-                class="button primary"
+                class="button primary animate__animated animate__fadeIn"
                 v-if="showStartButton"
                 @click="router.push('/signin')"
             >
