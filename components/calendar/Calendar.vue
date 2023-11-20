@@ -48,14 +48,24 @@ export default {
     props: {
         viewType: String,
     },
+
     computed: {
         ...mapState(useCalendarStore, ["page", "date", "attributes"]),
-        sortedAttributes() {
-            console.log("정리!");
-            return this.attributes.sort((a, b) =>
-                a.dates.start_date.localeCompare(b.dates.start_date),
-            );
-        },
+    },
+    created() {
+        if (!process.client) return;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const dateParam = urlParams.get("date");
+
+        if (dateParam) {
+            const date = new Date(dateParam);
+
+            if (!isNaN(date.getTime())) {
+                this.handleDateClick(date, "mount");
+            }
+            return;
+        }
     },
     methods: {
         ...mapActions(useCalendarStore, ["setDate", "setPage", "reset"]),
@@ -65,20 +75,33 @@ export default {
             if (
                 event.target?.classList.contains("calendar-in-date-box") ||
                 event.target?.classList.contains("calendar-in-date") ||
-                event.target?.classList.contains("calendar-mark")
+                event.target?.classList.contains("calendar-mark") ||
+                event === "mount"
             ) {
                 this.$emit("update-view-type", "weekly");
             } else {
                 this.$emit("update-view-type", "monthly");
             }
         },
-
         async handleDateClick(day, event) {
+            if (event) {
+                this.toggleViewType(event);
+            } else {
+                this.toggleViewType("mount");
+            }
+
             prevAttrDates = [];
             this.setDate(day);
-            this.toggleViewType(event);
             await this.$nextTick();
             this.$refs.vcalendar.move(new Date(day));
+
+            const params = new URLSearchParams(window.location.search);
+            const date = day.toISOString().split("T")[0];
+            params.set("date", date);
+            const newUrl = `${window.location.origin}${
+                window.location.pathname
+            }?${params.toString()}`;
+            window.history.pushState({}, "", newUrl);
         },
         getCustomClass(attr) {
             let customClass = attr.customData?.class;
@@ -93,7 +116,6 @@ export default {
 
             return customClass;
         },
-
         handlePageMove(pageInfo) {
             prevAttrDates = [];
             this.setPage(pageInfo);

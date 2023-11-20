@@ -22,7 +22,14 @@
                 :key="item.id"
                 class="subject-box"
                 @click="
-                    () => this.$router.push(`calendar/?date=${item.start_time}`)
+                    () =>
+                        this.$router.push(
+                            `calendar/?date=${
+                                new Date(item.start_time)
+                                    .toISOString()
+                                    .split('T')[0]
+                            }`,
+                        )
                 "
             >
                 <ContentBoxWithTime :item="item" />
