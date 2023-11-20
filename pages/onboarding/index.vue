@@ -4,7 +4,9 @@
         <div class="header">
             <div class="onboarding-title">튜토리얼</div>
 
-            <div class="onboarding-skip">건너뛰기</div>
+            <div class="onboarding-skip" @click="router.push('/signin')">
+                건너뛰기
+            </div>
         </div>
 
         <!-- (2) 본문  -->
@@ -18,13 +20,28 @@
                 />
             </div>
         </div>
-        <!-- <ChatInput /> -->
-        <div class="bottom">영역</div>
+        <div class="bottom">
+            <div class="onabording-button" v-if="showButton" @click="push2List">
+                오늘은 인상깊은 날이다. 나만의 공간에서 나를 도와줄 기록 비서
+                Looki와 만나게 되었다. 기록 열심히 해야지!
+            </div>
+
+            <div class="chat-loading" v-if="isLoading">
+                <img src="@/assets/images/pages/chat/loading-dot.gif" />
+            </div>
+
+            <div
+                class="button primary"
+                v-if="showStartButton"
+                @click="router.push('/signin')"
+            >
+                Look 가입하러 가기
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-import ChatBox from "../../components/chat/ChatBox.vue";
 import ExampleChatBox from "../../components/chat/ExampleChatBox.vue";
 import ChatResult from "../../components/chat/ChatBox.vue";
 
@@ -39,37 +56,93 @@ import { watch } from "vue";
 
 import { smoothScroll } from "@/utils/animation";
 import OnboardingJSON from "@/assets/json/onboarding.json";
+// OnboardingJSON = [[인사 ~ 버튼 클릭 전], [버튼 클릭 시], [버튼 클릭 결과], [보고서 예시 ~ 시작]]
 
 /**
  * Data
  */
+const router = useRouter();
+
 const exampleList = ref([]);
-const isVisible = ref(false);
+const showButton = ref(false);
 const isLoading = ref(false);
-// watch(
-//     () => store.chatList,
-//     async (newVal, oldVal) => {
-//         updateSessionChatList(newVal);
-//         updateCSS();
-//     },
-//     { deep: true },
-// );
+const showStartButton = ref(false);
+watch(
+    () => exampleList.value,
+    () => {
+        updateCSS();
+    },
+    { deep: true },
+);
 
 /**
  * LifeCycle
  */
 onMounted(() => {
-    // JSON 불러와서 timeout 걸어서 올라오게
-    // updateCSS();
-
-    exampleList.value = OnboardingJSON;
-    // updateCSS();
-    isVisible.value = false;
+    push1List(OnboardingJSON[0]);
 });
 
 /**
  * Methods
+ * 1. push1List [인사 ~ 버튼 클릭 전]
+ * 2. push2List [버튼 클릭 시]
+ * 3. push3List [버튼 클릭 결과]
+ * 4. push4List [보고서 예시 ~ 시작]
  */
+
+// 1. [인사 ~ 버튼 클릭 전]
+async function push1List() {
+    const list = OnboardingJSON[0];
+    let index = 0;
+    const interval = setInterval(() => {
+        if (index < list.length) {
+            exampleList.value.push(list[index]);
+            index++;
+        } else {
+            showButton.value = true;
+            clearInterval(interval);
+        }
+    }, 2000);
+}
+
+// 2. [버튼 클릭 시] - showButton
+async function push2List() {
+    const list = OnboardingJSON[1];
+    exampleList.value.push(list[0]);
+    showButton.value = false;
+    push3List();
+}
+
+// 3. [버튼 클릭 결과] - isLoading
+async function push3List() {
+    const list = OnboardingJSON[2];
+    exampleList.value.push(list[0]);
+    isLoading.value = true;
+
+    setTimeout(() => {
+        isLoading.value = false;
+        exampleList.value.push(list[1]);
+    }, 2500);
+
+    setTimeout(() => {
+        push4List();
+    }, 2500);
+}
+
+// 4. [보고서 예시 ~ 시작] - showStartButton
+async function push4List() {
+    const list = OnboardingJSON[3];
+    let index = 0;
+    const interval = setInterval(() => {
+        if (index < list.length) {
+            exampleList.value.push(list[index]);
+            index++;
+        } else {
+            showStartButton.value = true;
+            clearInterval(interval);
+        }
+    }, 3500);
+}
 
 /**
  * Methods (CSS)
@@ -177,5 +250,37 @@ const updateChatBoxCss = () => {
     bottom: 0;
     bottom: constant(safe-area-inset-bottom);
     bottom: env(safe-area-inset-bottom);
+
+    .onabording-button {
+        border-radius: 12px;
+        background: var(--CTA_accent, #9398ff);
+        box-shadow: 0px 8px 30px 0px rgba(70, 96, 250, 0.46);
+
+        color: $vc-white;
+
+        /* b2/b2_bold_14 */
+        font-family: $font-bold;
+        font-size: 14px;
+        line-height: 160%; /* 22.4px */
+
+        padding: 11px 12px;
+        width: calc(100% - 40px);
+    }
+
+    .chat-loading {
+        width: 100%;
+        height: 40px;
+        margin: 16px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+
+        padding: 2rem 1.5rem;
+
+        img {
+            height: 160px;
+        }
+    }
 }
 </style>
