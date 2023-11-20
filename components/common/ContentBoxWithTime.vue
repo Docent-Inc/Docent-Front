@@ -19,11 +19,7 @@
                     {{ item.title }}
                 </h3>
             </div>
-            <div
-                class="delete-box"
-                v-if="isCalender"
-                @click="deleteCalendarItem(item.id, new Date(item.start_time))"
-            >
+            <div class="delete-box" v-if="isCalender" @click="onDelete">
                 <v-icon class="ic_delete">아이콘</v-icon><span>삭제하기</span>
             </div>
         </div>
@@ -34,8 +30,9 @@
 </template>
 
 <script>
-import { mapActions } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useCalendarStore } from "~/store/calendar";
+import { useCalendarService } from "~/services/calendar";
 
 export default {
     props: {
@@ -49,7 +46,11 @@ export default {
             required: false,
         },
     },
+    computed: {
+        ...mapState(useCalendarStore, ["date", "page"]),
+    },
     methods: {
+        ...mapActions(useCalendarStore, ["setDate", "setPage", "reset"]),
         isToday(start_time) {
             const today = this.$dayjs();
             const startTime = this.$dayjs(start_time);
@@ -78,6 +79,32 @@ export default {
             const today = this.$dayjs();
             const startTime = this.$dayjs(start_time);
             return today.isAfter(startTime, "day");
+        },
+        onDelete() {
+            this.$eventBus.$emit("onCustomModal", {
+                title: "정말 이 일정을 삭제하시겠어요?",
+                desc: "삭제한 일정은 영영 돌아오지 않아요!",
+                confirm: "삭제하기",
+                cancel: "남겨두기",
+                callback: this.deleteTodo,
+            });
+        },
+        async deleteTodo() {
+            const { deleteCalendar } = useCalendarService();
+            const res = await deleteCalendar(this.item.id);
+            if (res.success) {
+                this.$eventBus.$emit("onConfirmModal", {
+                    title: "삭제되었습니다.",
+                    callback: () => {
+                        this.setDate(this.date.date);
+                    },
+                });
+            } else {
+                this.$eventBus.$emit("onConfirmModal", {
+                    title: "삭제에 실패하였습니다.",
+                    desc: res.message,
+                });
+            }
         },
         ...mapActions(useCalendarStore, ["deleteCalendarItem"]),
     },
