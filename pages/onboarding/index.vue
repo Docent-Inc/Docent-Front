@@ -4,9 +4,7 @@
         <div class="header">
             <div class="onboarding-title">튜토리얼</div>
 
-            <div class="onboarding-skip" @click="router.push('/signin')">
-                건너뛰기
-            </div>
+            <div class="onboarding-skip" @click="goSignIn">건너뛰기</div>
         </div>
 
         <!-- (2) 본문  -->
@@ -37,7 +35,7 @@
             <div
                 class="button primary animate__animated animate__fadeIn"
                 v-if="showStartButton"
-                @click="router.push('/signin')"
+                @click="goSignIn"
             >
                 Look 가입하러 가기
             </div>
@@ -146,6 +144,11 @@ async function push4List() {
             clearInterval(interval);
         }
     }, 3500);
+}
+
+function goSignIn() {
+    if (window) window.localStorage.setItem("isOnboarding", true);
+    router.push("/signin");
 }
 
 /**
