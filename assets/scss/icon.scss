@@ -107,6 +107,14 @@
     display: block;
 }
 
+.ic_url {
+    background: url("../images/commons/ic_url.svg") no-repeat center/cover;
+    background-size: contain;
+    display: block;
+    width: 20px;
+    height: 20px;
+}
+
 // 2) Navigation
 .nav_home {
     background: url("../images/commons/navigations/nav_home.svg") no-repeat

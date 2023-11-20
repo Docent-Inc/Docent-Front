@@ -68,7 +68,7 @@ export default {
     bottom: 0;
 
     width: 100%;
-    max-height: 90%;
+    max-height: calc(100% - (60px)); // header 가리지 않게
     border-radius: 12px 12px 0px 0px;
     background: rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(51px);
@@ -78,7 +78,8 @@ export default {
     z-index: 99; // z-index 추가
 
     .bottom-sheet-top {
-        // height: calc(12px + (12px * 1.5) + 32px + 14px);
+        // 바텀시트 탑 높이: calc(32px + (12px * 1.5) + 4px) + 40px + 14px;
+        height: calc(32px + (12px * 1.5) + 4px);
         margin-bottom: 14px;
         display: flex;
         flex-direction: column;
