@@ -91,24 +91,6 @@ export default {
 
             customClass += " is-continue ";
 
-            // overlappingEvents = this.attributes.filter((a) => {
-            //     // console.log(a.dates?.start, a.dates?.end);
-            //     // console.log(attr.dates.start, attr.dates.end);
-
-            //     return (
-            //         a.dates.start <= attr.dates.end ||
-            //         a.dates.end >= attr.dates.start
-            //     );
-            // });
-            // console.log(overlappingEvents);
-
-            // if (overlappingEvents.length > 1) {
-            //     const index = overlappingEvents.findIndex(
-            //         (a) => a.id === attr.id,
-            //     );
-            //     customClass += ` overlap-${index}`;
-            // }
-
             return customClass;
         },
 
@@ -216,6 +198,10 @@ export default {
             width: 100%;
         }
 
+        &.one-more-days:not(.is-continue) {
+            z-index: 99;
+        }
+
         &.is-continue {
             color: $vc-indigo-100;
 
@@ -233,7 +219,7 @@ export default {
     }
 }
 .overlap-0 {
-    top: 11px;
+    top: 27px;
     position: absolute !important;
 }
 .overlap-1 {
