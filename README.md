@@ -1,25 +1,20 @@
 # Docent-Front
+[https://docent.zip](https://docent.zip) 
 
-## 로컬에서 실행
+<br/>
 
+## ✔️ 실행 가이드 
+- node version(docker): `18.12.1`  
+- nuxt: `^3.6.5`
+
+<br/> 
+
+### 로컬에서 실행
 -   yarn 사용
     ```
     yarn install
     yarn dev
     ```
 
-## 배포 방법
+<br/>
 
-1. main 브랜치로 checkout
-2. 로컬에서 generate
-   `yarn generate`
-3. 커밋 남기기 (빌드한 날짜/시간과 반영된 커밋을 작성)
-
-    ```
-    yarn generate (230904T0028)
-
-    - Fix: 아이콘 수정
-    - ...
-    ```
-
-4. main 브랜치로 push

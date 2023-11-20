@@ -56,11 +56,13 @@
 </template>
 
 <script>
+import { mapActions } from "pinia";
 import SignUpNickname from "~/components/signup/SignUpNickname.vue";
 import SignUpMBTI from "~/components/signup/SignUpMBTI.vue";
 import SignUpGender from "~/components/signup/SignUpGender.vue";
 import ModifyBirth from "~/components/profile-modify/ModifyBirth.vue";
 import { useAuthService } from "~/services/auth";
+import { useUserStore } from "~/store/user";
 
 export default {
     components: { SignUpNickname, SignUpMBTI, SignUpGender, ModifyBirth },
@@ -74,6 +76,7 @@ export default {
         };
     },
     methods: {
+        ...mapActions(useUserStore, ["updateUser"]),
         changeComponent() {
             if (this.step === 1) this.step = 2;
         },
@@ -93,6 +96,7 @@ export default {
             console.log(res);
 
             if (res.success) {
+                await this.updateUser();
                 this.$router.push(`/home`);
             }
         },
