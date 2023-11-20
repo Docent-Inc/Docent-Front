@@ -9,6 +9,12 @@ import { useAuthService } from "~/services/auth";
  */
 export default defineNuxtRouteMiddleware(async (to, from) => {
     const [fullPath] = to.fullPath.split("?") || from.fullPath.split("?");
+    console.log(fullPath);
+
+    // // 미들웨어를 거쳐가지 않는 페이지
+    // if (["/", "/signin"].includes(fullPath)) {
+    //     return;
+    // }
 
     // 로그인 시 접근 불가 페이지, 미로그인 시 접근 불가 페이지
     const restrictedPathsOnLogin = ["/signin", "/profile/starter"];

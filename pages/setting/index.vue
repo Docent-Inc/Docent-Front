@@ -22,7 +22,11 @@
                     </div>
                     <div class="setting-content-1-bottom-contents">
                         <span class="gender-content">{{ user?.gender }}</span>
-                        <span class="birth-content">{{ formattedBirth }}</span>
+                        <span class="birth-content">{{
+                            this.$dayjs(this.user?.birth).format(
+                                "YYYY년 MM월 DD일",
+                            )
+                        }}</span>
                     </div>
                 </div>
             </div>
@@ -46,7 +50,7 @@
                 </div>
             </div>
             <div class="setting-contents-3">
-                <SettingPush />
+                <SettingPush v-if="user" />
             </div>
             <div class="setting-contents-4">
                 <div class="inquiry">
@@ -72,6 +76,7 @@ import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
 import { Popover } from "v-calendar";
 import Icon from "~/components/common/Icon.vue";
+import { useSettingService } from "../../services/setting";
 
 export default {
     name: "setting",
@@ -88,20 +93,27 @@ export default {
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
-        formattedBirth() {
-            const dateParts = this.user.birth.split("-");
-            return `${dateParts[0]}년 ${dateParts[1]}월 ${dateParts[2]}일`;
-        },
     },
     methods: {
         openCustomModal() {
+            const { deleteAccount } = useSettingService();
             this.$eventBus.$emit("onCustomModal", {
                 title: "정말 탈퇴하시겠어요?",
                 desc: "탈퇴하시면 등록된 정보와 기록이 모두 삭제돼요.",
                 cancel: "취소하기",
                 confirm: "탈퇴하기",
-                callback: () => {
-                    this.setData("");
+                async callback() {
+                    const res = await deleteAccount();
+                    console.log(res);
+                    if (!res.success) {
+                        alert(res.message);
+                    }
+
+                    const { reset } = useUserStore();
+                    useCookie("access_token").value = null;
+                    useCookie("refresh_token").value = null;
+                    reset();
+                    this.$router.push("/signin");
                 },
             });
         },

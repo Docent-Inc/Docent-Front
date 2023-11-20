@@ -1,7 +1,7 @@
 <template>
     <img
         :src="imageUrl"
-        :style="{ width: width }"
+        :style="{ width: width, maxWidth: maxWidth }"
         @error="
             () => {
                 isError = true;
@@ -25,6 +25,11 @@ export default {
             type: String,
             required: false,
             default: "50%",
+        },
+        maxWidth: {
+            type: String,
+            required: false,
+            default: "none",
         },
     },
     data() {
