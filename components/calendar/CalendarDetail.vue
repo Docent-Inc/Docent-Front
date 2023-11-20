@@ -38,12 +38,9 @@ export default {
     position: absolute;
     overflow: scroll;
     border-radius: 12px 12px 0 0;
-
     padding: 2rem;
     bottom: 0;
-
     font-size: 12px;
-
     z-index: 10;
 
     &::-webkit-scrollbar {
@@ -52,19 +49,9 @@ export default {
 
     background: $vc-white;
     color: $vc-gray-800;
-    /* border-radius: 12px; */
     display: flex;
     flex-direction: column;
-    /* justify-content: space-around; */
     align-items: center;
-    /* min-width: 250px; */
-    /* min-height: 150px; */
-    /* 
-    @media screen and (max-height: 700px) {
-        border-radius: 0;
-        width: 100%;
-        height: 105vh;
-    } */
 
     .calendar-date {
         color: $vc-gray-700;
@@ -83,9 +70,6 @@ export default {
     }
 
     .calendar-none {
-        /* position: absolute; */
-        /* top: 0; */
-        /* left: 0; */
         width: 100%;
         height: 100%;
         display: flex;

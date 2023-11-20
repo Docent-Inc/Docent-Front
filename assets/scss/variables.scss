@@ -58,7 +58,7 @@ $vc-red-950: #450a0a;
 
 @function get-gradient-bg-accent($angle) {
     @return linear-gradient(
-        $angle,
+        #{$angle}deg,
         #9397ff 0%,
         #aeb1ff 30%,
         #fff 75%,
