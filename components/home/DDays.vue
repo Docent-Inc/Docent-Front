@@ -13,7 +13,7 @@
             </button>
         </div>
         <div class="calendar__empty skeleton" v-if="isCalendarLoading" />
-        <div class="calendar__empty" v-if="calendarIsEmpty">
+        <div class="calendar__empty" v-else-if="calendarIsEmpty">
             다가오는 일정이 없습니다. 좋은 하루 보내세요!
         </div>
         <div class="calendar__data" v-else>
@@ -22,28 +22,28 @@
                 :key="item.id"
                 class="subject-box"
                 @click="
-                    () => this.$router.push(`calendar/?date=${item.start_time}`)
+                    () =>
+                        this.$router.push(
+                            `calendar/?date=${
+                                new Date(item.start_time)
+                                    .toISOString()
+                                    .split('T')[0]
+                            }`,
+                        )
                 "
             >
-                <span
-                    class="time"
-                    :class="{ 'd-day': isToday(item.start_time) }"
-                >
-                    {{
-                        isToday(item.start_time)
-                            ? dDayTime(item.start_time)
-                            : calculateDDay(item.start_time)
-                    }}
-                </span>
-                <span class="subject">{{ item.title }}</span>
+                <ContentBoxWithTime :item="item" />
             </div>
         </div>
     </section>
 </template>
 
 <script>
+import ContentBoxWithTime from "../common/ContentBoxWithTime.vue";
+
 export default {
     name: "DDays",
+    components: { ContentBoxWithTime },
     props: {
         calendar: {
             type: Array,
@@ -59,23 +59,6 @@ export default {
     computed: {
         calendarIsEmpty() {
             return this.calendar.length === 0;
-        },
-    },
-    methods: {
-        isToday(start_time) {
-            const today = this.$dayjs();
-            const startTime = this.$dayjs(start_time);
-            return today.isSame(startTime, "day");
-        },
-        calculateDDay(start_time) {
-            const today = this.$dayjs();
-            const startTime = this.$dayjs(start_time);
-            const diff = startTime.diff(today, "day");
-            return `D-${Math.abs(diff)}`;
-        },
-        dDayTime(start_time) {
-            const startTime = this.$dayjs(start_time);
-            return startTime.format("HH:mm");
         },
     },
 };
@@ -162,16 +145,13 @@ export default {
     }
 
     .subject-box {
-        color: $vc-gray-400;
         display: flex;
         align-items: center;
         height: 40px;
         width: 90%;
-        box-shadow: 0px 9px 34px rgba(204, 205, 227, 0.45);
-        padding: 1.2rem;
         margin-top: 0.8rem;
-        border-radius: $border-radius-default;
         position: relative;
+        font-size: 1.4rem;
 
         @media screen and (max-width: 320px) {
             width: 100%;
@@ -215,6 +195,7 @@ export default {
             color: $vc-red-500;
             background-color: #ffd2d2;
         }
+
         .subject {
             font-size: 14px;
             color: $vc-gray-600;
@@ -223,8 +204,9 @@ export default {
 }
 
 .skeleton {
+    /* position: absolute; */
     z-index: 2;
-    width: 90%;
+    width: 100%;
     @include skeleton;
 }
 </style>
