@@ -53,10 +53,7 @@ export default {
         ...mapState(useCalendarStore, ["page", "date", "attributes"]),
     },
     created() {
-        if (!process.client) return;
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const dateParam = urlParams.get("date");
+        const dateParam = this.$route.query.date;
 
         if (dateParam) {
             const date = new Date(dateParam);
@@ -95,13 +92,18 @@ export default {
             await this.$nextTick();
             this.$refs.vcalendar.move(new Date(day));
 
-            const params = new URLSearchParams(window.location.search);
-            const date = day.toISOString().split("T")[0];
+            const params = new URLSearchParams();
+            const date = `${day.getFullYear()}-${
+                day.getMonth() + 1
+            }-${day.getDate()}`;
             params.set("date", date);
-            const newUrl = `${window.location.origin}${
-                window.location.pathname
-            }?${params.toString()}`;
-            window.history.pushState({}, "", newUrl);
+
+            const currentPath = this.$route.path;
+            const queryString = params.toString();
+            const newUrl = queryString
+                ? `${currentPath}?${queryString}`
+                : currentPath;
+            this.$router.push(newUrl);
         },
         getCustomClass(attr) {
             let customClass = attr.customData?.class;

@@ -13,7 +13,7 @@
             </button>
         </div>
         <div class="calendar__empty skeleton" v-if="isCalendarLoading" />
-        <div class="calendar__empty" v-else v-if="calendarIsEmpty">
+        <div class="calendar__empty" v-else-if="calendarIsEmpty">
             다가오는 일정이 없습니다. 좋은 하루 보내세요!
         </div>
         <div class="calendar__data" v-else>
