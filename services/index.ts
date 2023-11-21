@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 import { useUserStore } from "~/store/user";
 
 const API = axios.create({

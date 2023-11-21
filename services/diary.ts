@@ -1,5 +1,9 @@
 import { GET, POST } from "~/services";
-import { DiaryModel, MemoModel, DiaryRatioModel } from "~/models/diary";
+import {
+    type DiaryModel,
+    type MemoModel,
+    type DiaryRatioModel,
+} from "~/models/diary";
 
 export const useDiaryService = () => {
     return {
