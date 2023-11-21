@@ -32,18 +32,24 @@ import splashVideo from "../assets/video/splash.mp4";
 
 const isChecked = ref(false);
 const router = useRouter();
+// console.log("check", isChecked.value); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
 
 onMounted(() => {
     setTimeout(() => {
-        console.log("check", isChecked.value); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
-        if (!isChecked.value) checkAutoLogin();
+        // isOnboarding = true, 온보딩 화면으로 이동
+        const isOnboarding = window.localStorage.getItem("isOnboarding");
+        if (!isOnboarding) {
+            router.push(`/onboarding`);
+            return;
+        }
+
+        // isOnboarding = false, 자동 로그인 체크
+        checkAutoLogin();
     }, 2000); // 2초
 });
 
+// console.log("Called!"); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
 async function checkAutoLogin() {
-    console.log("Called!"); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
-    isChecked.value = true;
-
     const { accessToken, refreshToken } = useUserStore();
     if (!accessToken || !refreshToken || refreshToken === "") {
         router.push(`/signin`);

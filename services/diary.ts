@@ -1,4 +1,4 @@
-import { GET, POST } from "~/services";
+import { GET, POST, DELETE } from "~/services";
 import {
     type DiaryModel,
     type MemoModel,
@@ -9,7 +9,7 @@ import {
 export const useDiaryService = () => {
     return {
         /**
-         * 아침 다이어리 조회
+         * 아침 다이어리 조회 (꿈)
          */
         async getMorningdiary(diary_id: number) {
             return await GET<DiaryModel>(
@@ -17,7 +17,7 @@ export const useDiaryService = () => {
             );
         },
         /**
-         * 저녁 다이어리 조회
+         * 저녁 다이어리 조회 (일기)
          */
         async getNightdiary(diary_id: number) {
             return await GET<DiaryModel>(
@@ -29,6 +29,44 @@ export const useDiaryService = () => {
          */
         async getMemo(memo_id: number) {
             return await GET<MemoModel>(`/diary/memo/read?memo_id=${memo_id}`);
+        },
+
+        /**
+         * 아침 다이어리 삭제 (꿈)
+         */
+        async deleteMorningdiary(diary_id: number) {
+            return await DELETE<DiaryModel>(
+                `/diary/morning/delete?diary_id=${diary_id}`,
+            );
+        },
+        /**
+         * 저녁 다이어리 삭제 (일기)
+         */
+        async deleteNightdiary(diary_id: number) {
+            return await DELETE<DiaryModel>(
+                `/diary/night/delete?diary_id=${diary_id}`,
+            );
+        },
+        /**
+         * 메모 삭제
+         */
+        async deleteMemo(memo_id: number) {
+            return await DELETE<DiaryModel>(
+                `/diary/memo/delete?memo_id=${memo_id}`,
+            );
+        },
+
+        /**
+         * 아침 다이어리 조회 - 공유용 (꿈)
+         */
+        async getShareMorningdiary(diary_id: number) {
+            return await GET<DiaryModel>(`/diary/morning/share/${diary_id}`);
+        },
+        /**
+         * 저녁 다이어리 조회 - 공유용 (일기)
+         */
+        async getShareNightdiary(diary_id: number) {
+            return await GET<DiaryModel>(`/diary/night/share/${diary_id}`);
         },
 
         /**

@@ -1,0 +1,69 @@
+[
+    [
+        {
+            "is_docent": true,
+            "type": "default",
+            "text": "안녕하세요! 👋 \n저는 당신의 기록 친구 Look-i에요! 저에게 꿈, 일기, 메모, 일정을 말씀해 주시면 제가 알아서 분류하고 저장해 드려요!"
+        },
+        {
+            "is_docent": true,
+            "type": "default",
+            "text": "그럼 기록을 한번 해볼까요? \n제가 예시 문장을 준비해두었으니 아래의 버튼을 터치해 주세요!"
+        }
+    ],
+    [
+        {
+            "is_docent": false,
+            "text": "오늘은 인상깊은 날이다. 기록 친구 Look-i와 만나게 되었다. 앞으로 기록 열심히 해야지~!"
+        }
+    ],
+    [
+        {
+            "is_docent": true,
+            "type": "loading",
+            "text": "잘하셨어요! \n잠시 후 완벽한 결과를 전달해 드릴게요! 📝"
+        },
+        {
+            "is_docent": true,
+            "type": "result",
+            "text": "저도 기록을 도울 수 있어 기뻐요 :) \n*일기*를 그림과 함께 추가했어요.",
+            "result": {
+                "diary_id": 0,
+                "text_type": 2,
+                "content": {
+                    "diary_name": "나만의 기록 친구 Look-i와의 특별한 첫 만남",
+                    "content": "오늘은 인상깊은 날이다. 기록 친구 Look-i와 만나게 되었다. 앞으로 기록 열심히 해야지~!",
+                    "image_url": "/assets/images/img_example_result.png",
+                    "create_date": "2023-11-20"
+                }
+            }
+        }
+    ],
+    [
+        {
+            "is_docent": true,
+            "type": "default",
+            "text": "앞으로 저와 함께 기록을 하면서 당신만의 이야기로 공간을 채워나가보세요!"
+        },
+        {
+            "is_docent": true,
+            "type": "result",
+            "text": "매일매일 기록을 하다 보면 한 주를 돌아보게 도와주는 보고서도 만들어드릴게요! 아래는 *한 주 돌아보기*의 예시에요!",
+            "result": {
+                "diary_id": 0,
+                "text_type": -1,
+                "content": {
+                    "images": [
+                        "/assets/images/img_example_report_1.png",
+                        "/assets/images/img_example_report_2.png"
+                    ]
+                }
+            }
+        },
+        {
+            "is_docent": true,
+            "type": "default",
+            "text": "튜토리얼이 끝났어요! 👏 \n*이제 당신만의 이야기를 들려주실래요?*"
+        }
+    ]
+]

@@ -11,9 +11,9 @@
                     <div class="memo-date" v-else>
                         {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
                     </div>
-                    <!-- <div class="memo-delete">
+                    <div class="memo-delete" @click="onDelete">
                         <Icon class="ic_delete" />삭제하기
-                    </div> -->
+                    </div>
                 </div>
 
                 <div class="memo-title__skeleton" v-if="isLoading"></div>
@@ -50,12 +50,53 @@ export default {
         const memo_id = this.$route.params.id;
         const { getMemo } = useDiaryService();
         const res = await getMemo(memo_id);
+
+        if (!res.success) {
+            this.$eventBus.$emit("onConfirmModal", {
+                title: "조회 실패하였습니다.",
+                desc: res.message,
+                callback: () => {
+                    this.$router.back();
+                },
+            });
+        }
+
         this.memo = res.data.memo;
         this.memo.keyword = JSON.parse(this.memo.tags);
         this.isLoading = false;
     },
     computed: {},
-    methods: {},
+    methods: {
+        onDelete() {
+            this.$eventBus.$emit("onCustomModal", {
+                title: "정말 이 기록을 삭제하시겠어요?",
+                desc: "삭제한 기록은 영영 돌아오지 않아요!",
+                confirm: "삭제하기",
+                cancel: "남겨두기",
+                callback: this.deleteMemo,
+            });
+        },
+        async deleteMemo() {
+            const { deleteMemo } = useDiaryService();
+            const res = await deleteMemo(this.$route.params.id);
+            console.log("res >> ", res);
+
+            if (res.success) {
+                // 성공 시, 리스트 페이지로 이동
+                this.$eventBus.$emit("onConfirmModal", {
+                    title: "삭제되었습니다.",
+                    callback: () => {
+                        this.$router.back();
+                    },
+                });
+            } else {
+                this.$eventBus.$emit("onConfirmModal", {
+                    title: "삭제에 실패하였습니다.",
+                    desc: res.message,
+                });
+            }
+        },
+    },
     components: { Icon },
 };
 </script>
