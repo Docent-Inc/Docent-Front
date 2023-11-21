@@ -77,6 +77,9 @@ async function checkAutoLogin() {
     useCookie("access_token", {
         expires: accessTokenExpires,
     }).value = res.data.access_token;
+    useCookie("expires_in", {
+        expires: accessTokenExpires,
+    }).value = String(accessTokenExpires);
     useCookie("refresh_token", {
         expires: refreshTokenExpires,
     }).value = res.data.refresh_token;

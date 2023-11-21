@@ -1,5 +1,6 @@
 import { useUserStore } from "~/store/user";
 import { useAuthService } from "~/services/auth";
+import { isExpiredIn } from "~/utils/utils";
 
 /**
  * 로그인 미들웨어
@@ -33,45 +34,85 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     const { setAccessToken, setRefreshToken, setUser, accessToken } =
         useUserStore();
+    const { refresh } = useAuthService();
     const token = useCookie("access_token").value;
     const refreshToken = useCookie("refresh_token").value;
+    const expiresIn = useCookie("expires_in").value;
 
     // console.log("access Token - ", accessToken);
     // console.log("token - ", token);
-    // console.log("refrest Token - ", refreshToken);
+    // console.log("refresh Token - ", refreshToken);
+    // console.log("expiresIn - ", expiresIn);
 
     if (!accessToken) {
         if (token && refreshToken) {
-            // (2) 액세스 토큰 있을 시, store에도 저장
-            setAccessToken(token);
-            setRefreshToken(refreshToken);
+            // (2)-1. 액세스 토큰 있을 시, 만료 15분 전이면 갱신
+            // (2)-2. 액세스 토큰 있을 시, 넘으면 자동 로그인
+            if (expiresIn && isExpiredIn(expiresIn, 15)) {
+                console.log("🔒 Expired in 15m...", isExpiredIn(expiresIn, 15));
+                try {
+                    const res = await refresh(refreshToken);
 
-            try {
-                await setUser();
-            } catch (e) {
-                console.error(e);
-                useCookie("access_token").value = null;
-                useCookie("refresh_token").value = null;
+                    const now = new Date();
+                    const newAccessTokenExpires = new Date(
+                        now.getTime() + res.data.expires_in * 1000,
+                    );
+                    const newRefreshTokenExpires = new Date(
+                        now.getTime() + res.data.refresh_expires_in * 1000,
+                    );
+
+                    useCookie("access_token", {
+                        expires: newAccessTokenExpires,
+                    }).value = res.data.access_token;
+                    useCookie("expires_in", {
+                        expires: newAccessTokenExpires,
+                    }).value = String(newAccessTokenExpires);
+                    useCookie("refresh_token", {
+                        expires: newRefreshTokenExpires,
+                    }).value = res.data.refresh_token;
+
+                    setAccessToken(res.data.access_token);
+                    setRefreshToken(res.data.refresh_token);
+                    await setUser();
+                } catch (e) {
+                    console.error(e);
+                    useCookie("access_token").value = null;
+                    useCookie("refresh_token").value = null;
+                }
+            } else {
+                console.log("🔒 AutoLogin!");
+                setAccessToken(accessToken);
+                setRefreshToken(refreshToken);
+                try {
+                    await setUser();
+                } catch (e) {
+                    console.error(e);
+                    useCookie("access_token").value = null;
+                    useCookie("refresh_token").value = null;
+                }
             }
         } else if (refreshToken) {
-            // (3) 리프레시 토큰 있을 시, 재발급 받아 store에도 저장
+            // (4) 리프레시 토큰 있을 시, 재발급 받아 store에도 저장
+            console.log("🔒 Refresh!");
             try {
-                const { refresh } = useAuthService();
                 const res = await refresh(refreshToken);
 
                 const now = new Date();
-                const accessTokenExpires = new Date(
+                const newAccessTokenExpires = new Date(
                     now.getTime() + res.data.expires_in * 1000,
                 );
-                const refreshTokenExpires = new Date(
+                const newRefreshTokenExpires = new Date(
                     now.getTime() + res.data.refresh_expires_in * 1000,
                 );
 
                 useCookie("access_token", {
-                    expires: accessTokenExpires,
+                    expires: newAccessTokenExpires,
                 }).value = res.data.access_token;
+                useCookie("expires_in", {
+                    expires: newAccessTokenExpires,
+                }).value = String(newAccessTokenExpires);
                 useCookie("refresh_token", {
-                    expires: refreshTokenExpires,
+                    expires: newRefreshTokenExpires,
                 }).value = res.data.refresh_token;
 
                 setAccessToken(res.data.access_token);
@@ -105,3 +146,55 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     // console.log("****** MIDDLEWARE END ******");
 });
+
+/////// [TODO] 함수화 실패 - composables은 nuxt context 내부에서만 사용 가능 ///////
+// /* 토큰 갱신 */
+// async function refreshTokens(refreshToken: string) {
+//     const { setAccessToken, setRefreshToken, setUser } = useUserStore();
+//     try {
+//         const { refresh } = useAuthService();
+//         const res = await refresh(refreshToken);
+
+//         const now = new Date();
+//         const newAccessTokenExpires = new Date(
+//             now.getTime() + res.data.expires_in * 1000,
+//         );
+//         const newRefreshTokenExpires = new Date(
+//             now.getTime() + res.data.refresh_expires_in * 1000,
+//         );
+
+//         useCookie("access_token", {
+//             expires: newAccessTokenExpires,
+//         }).value = res.data.access_token;
+//         useCookie("expires_in", {
+//             expires: newAccessTokenExpires,
+//         }).value = String(newAccessTokenExpires);
+//         useCookie("refresh_token", {
+//             expires: newRefreshTokenExpires,
+//         }).value = res.data.refresh_token;
+
+//         setAccessToken(res.data.access_token);
+//         setRefreshToken(res.data.refresh_token);
+//         await setUser();
+//     } catch (e) {
+//         console.error(e);
+//         useCookie("access_token").value = null;
+//         useCookie("refresh_token").value = null;
+//     }
+// }
+//
+// /* 자동 로그인 */
+// async function autoLogin(accessToken: string, refreshToken: string) {
+//     const { setAccessToken, setRefreshToken, setUser } = useUserStore();
+//
+//     setAccessToken(accessToken);
+//     setRefreshToken(refreshToken);
+//     try {
+//         await setUser();
+//     } catch (e) {
+//         console.error(e);
+//         useCookie("access_token").value = null;
+//         useCookie("refresh_token").value = null;
+//     }
+// }
+/////// [TODO] 함수화 실패 - END ///////
