@@ -88,6 +88,7 @@ export default {
     font-size: 20px;
     line-height: 150%; /* 30px */
     padding-bottom: 0.5rem;
+    white-space: pre-wrap;
 
     span {
         color: $vc-indigo-500;
@@ -102,6 +103,8 @@ export default {
     line-height: 160%; /* 25.6px */
     word-break: break-all;
     margin: 10px 0 20px;
+
+    white-space: pre-wrap;
 }
 
 .chat-box-wrapper {
