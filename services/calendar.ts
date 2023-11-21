@@ -1,4 +1,4 @@
-import API from "../utils/axios";
+import { DELETE } from "~/services";
 
 export const useCalendarService = () => {
     return {
@@ -6,7 +6,7 @@ export const useCalendarService = () => {
          * 일정 삭제
          */
         async deleteCalendar(calenderId: number) {
-            return await API.delete(
+            return await DELETE(
                 `/diary/calender/delete?calender_id=${calenderId}`,
             );
         },
