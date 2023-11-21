@@ -1,133 +1,154 @@
 <template>
-    <div class="contents">
-        <client-only>
-            <VCalendar
-                ref="vcalendar"
-                style="width: 90%"
-                trim-weeks
-                :initial-page="page"
-                :attributes="attributes"
-                @dayclick="(day) => setDate(day.date)"
-                @did-move="(pages) => setPage(new Date(pages[0].id))"
-            />
-        </client-only>
-        <div class="bottom-sheet">
-            <div class="calendar-title">
-                {{ $dayjs(date.date).format("D. dd") }}
-            </div>
-            <div class="calendar-contents" v-if="todos && todos.length > 0">
-                <div class="calendar-content" v-for="todo in todos" :key="todo">
-                    <div class="circle"></div>
-                    {{ todo.diary_name }}
-                </div>
-            </div>
-
-            <div class="calendar-none" v-else>일정이 없습니다</div>
+    <Header :title="'캘린더'" />
+    <main class="contents viewport">
+        <div v-if="todos.today_count === undefined" class="skeleton">
+            <div class="skeleton__title" />
+            <div class="skeleton__contents" />
         </div>
-    </div>
+        <div class="calendar-wrapper" v-else>
+            <h2 class="today-todos">
+                오늘은 일정이 <span>{{ todos.today_count }}개</span> 있어요!
+            </h2>
+            <client-only>
+                <Calendar
+                    :viewType="viewType"
+                    @update-view-type="updateViewType"
+                />
+            </client-only>
+        </div>
+        <CalendarDetail
+            :date="date"
+            :todosList="todos.list"
+            :viewType="viewType"
+        />
+    </main>
 </template>
 
 <script>
 import { mapState, mapActions } from "pinia";
 import { useCalendarStore } from "~/store/calendar";
+import Header from "~/components/common/Header.vue";
+import Calendar from "~/components/calendar/Calendar.vue";
+import ContentBoxWithTime from "~/components/common/ContentBoxWithTime.vue";
+import SimpleModal from "~/components/modal/SimpleModal.vue";
+import CalendarDetail from "~/components/calendar/CalendarDetail.vue";
+
 export default {
-    name: "Calendar",
+    name: "CalendarMain",
+    components: {
+        Header,
+        Calendar,
+        ContentBoxWithTime,
+        SimpleModal,
+        CalendarDetail,
+    },
     setup() {
         definePageMeta({
             layout: "main",
         });
     },
+    data() {
+        return {
+            viewType: "monthly",
+            isModalOpen: false,
+        };
+    },
     computed: {
-        ...mapState(useCalendarStore, ["page", "date", "attributes", "todos"]),
+        ...mapState(useCalendarStore, ["todos", "date"]),
     },
     async mounted() {
         this.reset();
-
         let date = new Date(this.$route.query.date);
         if (!date || isNaN(date)) date = new Date();
         this.setDate(date);
     },
     methods: {
-        ...mapActions(useCalendarStore, ["setDate", "setPage", "reset"]),
+        ...mapActions(useCalendarStore, ["setDate", "reset"]),
+        openModal() {
+            this.isModalOpen = true;
+        },
+        closeModal() {
+            this.isModalOpen = false;
+        },
+        updateViewType(newViewType) {
+            this.viewType = newViewType;
+        },
     },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/scss/variables.scss";
+@import "@/assets/scss/mixins.scss";
+
 .contents {
-    width: 100%;
-    height: 100%;
+    height: calc(100% - (60px));
+    height: calc(100% - (60px + constant(safe-area-inset-top)));
+    height: calc(100% - (60px + env(safe-area-inset-top)));
+
+    margin-top: 60px;
+    margin-top: calc(60px + constant(safe-area-inset-top));
+    margin-top: calc(60px + env(safe-area-inset-top));
     padding: 0;
+
+    overflow-x: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-.bottom-sheet {
-    width: 100%;
-    height: 45%;
     position: relative;
-    overflow: scroll;
-    // border-top: 0.0625rem solid #cbd5e1;
-    border-top: 0.96px solid #cbd5e1;
 
-    // padding: 2rem 1.5rem 1rem;
-    // margin-top: 2rem;
-    padding: 32px 24px 16px;
-    margin-top: 32px;
+    transition: transform 0.3s ease-in-out;
 
-    color: #5c5c5c;
-    font-family: Pretendard;
-    // font-size: 0.75rem;
-    // line-height: 1.3125rem; /* 175% */
-    font-size: 12px;
-    line-height: 21px; /* 175% */
-
-    .calendar-title {
-        color: #010101;
-        font-family: "Pretendard Bold";
-        // font-size: 1.25rem;
-        // line-height: 1.3125rem; /* 105% */
-        font-size: 20px;
-        line-height: 21px; /* 105% */
-    }
-
-    .calendar-none {
-        position: absolute;
-        top: 0;
-        left: 0;
+    .calendar-wrapper {
         width: 100%;
         height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    }
+}
+
+.today-todos {
+    color: $vc-gray-700;
+    font-family: $font-bold;
+    font-size: 2.4rem;
+    padding-left: $padding-default;
+    margin: 0.4rem 0 1.6rem 0;
+
+    span {
+        color: $vc-indigo-500;
+    }
+}
+
+.skeleton {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    &__title {
+        content: "";
+        @include skeleton;
+        position: absolute;
+        top: 0;
+        left: 2rem;
+        width: 60%;
+        height: 7%;
+        border-radius: $border-radius-default;
     }
 
-    .calendar-contents {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        // gap: 0.5rem;
-        gap: 8px;
-
-        // margin-top: 1.2rem;
-        margin-top: 19.2px;
-
-        .calendar-content {
-            display: flex;
-            align-items: center;
-        }
-        .circle {
-            // width: 0.5rem;
-            // height: 0.5rem;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #b2bbda;
-            // margin-right: 1rem;
-            margin-right: 16px;
-        }
+    &__contents {
+        content: "";
+        @include skeleton;
+        position: absolute;
+        top: 20%;
+        left: 1rem;
+        right: 1rem;
+        width: 80%;
+        height: 70%;
+        margin: auto;
+        border-radius: $border-radius-default;
     }
 }
 </style>

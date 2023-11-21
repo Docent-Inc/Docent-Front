@@ -71,7 +71,7 @@ export default {
     color: $vc-white;
     width: 100%;
     height: 100%;
-    background: $gradient_bg_accent;
+    background: get-gradient-bg-accent(180);
     display: flex;
     flex-direction: column;
     justify-content: space-around;

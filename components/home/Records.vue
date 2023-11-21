@@ -32,9 +32,11 @@
             >
                 <div class="filter" />
                 <div v-if="isSkeleton" class="skeleton" />
-                <div class="ic_add-box"><v-icon class="ic_add" /></div>
-                <div class="empty-description">
-                    기록을 해주시면 자신만의 그림으로 채워나갈 수 있어요!
+                <div v-else>
+                    <div class="ic_add-box"><v-icon class="ic_add" /></div>
+                    <div class="empty-description">
+                        기록을 해주시면 자신만의 그림으로 채워나갈 수 있어요!
+                    </div>
                 </div>
             </div>
             <div class="main-slide empty" @click="goToChat">
