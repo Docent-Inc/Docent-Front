@@ -3,6 +3,7 @@ import {
     type DiaryModel,
     type MemoModel,
     type DiaryRatioModel,
+    type DiaryListModel,
 } from "~/models/diary";
 
 export const useDiaryService = () => {
@@ -29,11 +30,12 @@ export const useDiaryService = () => {
         async getMemo(memo_id: number) {
             return await GET<MemoModel>(`/diary/memo/read?memo_id=${memo_id}`);
         },
+
         /**
          * 마이페이지 목록 조회 (아침, 저녁, 메모)
          */
         async getGalleryList(diary_type: number, page: number) {
-            return await POST(`/diary/list`, {
+            return await POST<DiaryListModel>(`/diary/list`, {
                 diary_type: diary_type,
                 page: page,
             });
@@ -44,6 +46,7 @@ export const useDiaryService = () => {
         async getRatio() {
             return await GET<DiaryRatioModel>(`/diary/ratio`);
         },
+
         /**
          * 캘린더 목록 조회
          */

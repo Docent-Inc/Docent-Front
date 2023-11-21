@@ -1,3 +1,9 @@
+import type {
+    UserModel,
+    KakaoCallbackModel,
+    KakaoModel,
+    RefreshModel,
+} from "~/models/auth";
 import { GET, POST } from "~/services";
 
 /**
@@ -18,14 +24,14 @@ export const useAuthService = () => {
          * 카카오 로그인 요청
          */
         async getKakaoLogin() {
-            return await GET(KAKAO_SIGNIN_URL);
+            return await GET<KakaoModel>(KAKAO_SIGNIN_URL);
         },
         /**
          * 카카오 콜백 요청
          * @params code
          */
         async getKakaoCallback(code: string) {
-            return await GET(KAKAO_SIGNIN_CALLBACK_URL, {
+            return await GET<KakaoCallbackModel>(KAKAO_SIGNIN_CALLBACK_URL, {
                 params: { code: code },
             });
         },
@@ -42,13 +48,13 @@ export const useAuthService = () => {
          * 유저 정보 조회
          */
         async getUserInfo() {
-            return await GET(`/auth/info`);
+            return await GET<UserModel>(`/auth/info`);
         },
         /**
          * 액세스 토큰 재발급
          */
         async refresh(refreshToken: string) {
-            return await POST(`/auth/refresh`, {
+            return await POST<RefreshModel>(`/auth/refresh`, {
                 refresh_token: refreshToken,
             });
         },
