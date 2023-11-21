@@ -10,7 +10,7 @@
         <div class="landing__weather">
             <div class="date-box">
                 <div class="date">
-                    {{ $dayjs().format("YYYY.MM.DD.") }}
+                    {{ $dayjs().format("YYYY.MM.DD.ddd") }}
                 </div>
                 <!-- <div class="date-icon">
                     <v-icon class="ic_cloud" />

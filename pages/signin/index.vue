@@ -16,7 +16,7 @@
                 <div class="oauth-box__logo kakao">
                     <v-icon alt="Kakao Logo" class="logo_kakao" />
                 </div>
-                <h2>카카오로 시작하기</h2>
+                <h2 class="oauth-login">카카오로 로그인</h2>
             </article>
             <!-- <article class="oauth-box">
                 <div class="oauth-box__logo">
@@ -112,6 +112,8 @@ export default {
         border-radius: 12px;
         background: #06c755;
         margin-bottom: 1.2rem;
+        font-family: $font-medium;
+        padding-right: 1.5rem;
 
         &:nth-child(1) {
             color: $vc-gray-800;

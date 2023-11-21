@@ -21,7 +21,7 @@
                     class="chat__btn"
                     @click="() => this.$router.push('/chat')"
                 >
-                    Looki와 대화하러 가기
+                    <span>Look-i</span>와 대화하러 가기
                 </button>
             </section>
 
@@ -162,6 +162,10 @@ export default {
         font-size: var(--vc-text-base);
         box-shadow: 0px 8px 30px rgba(70, 96, 250, 0.46);
         font-family: "Pretendard Bold";
+
+        span {
+            margin-right: 0.2rem;
+        }
     }
 }
 

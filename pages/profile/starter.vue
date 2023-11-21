@@ -8,9 +8,9 @@
                 <h1>
                     {{ step === 1 ? "가입을 환영해요!" : "거의 다 왔어요!" }}
                     <br />
-                    본인에 대해 알려주실래요?
+                    프로필을 입력해주세요.
                 </h1>
-                <div class="guide">프로필은 나중에 변경하실 수 있어요. :)</div>
+                <div class="guide">프로필은 나중에 변경하실 수 있어요.</div>
             </section>
             <section class="signup-prop">
                 <div v-if="step === 1">
