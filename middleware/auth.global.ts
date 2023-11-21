@@ -81,7 +81,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 }
             } else {
                 console.log("🔒 AutoLogin!");
-                setAccessToken(accessToken);
+                setAccessToken(token);
                 setRefreshToken(refreshToken);
                 try {
                     await setUser();
