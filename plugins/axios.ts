@@ -21,11 +21,13 @@ export default defineNuxtPlugin((nuxtApp) => {
         // );
         switch (response.data.status_code) {
             case 4220: // (4220) JWT 토큰이 필요합니다.
+            case 4998: // (4998) 회원가입이 완료되지 않았습니다.
                 // console.log("nuxtApp.route.path", nuxtApp._route.path);
                 if (nuxtApp._route.path !== "/signin" && !isRedirecting) {
                     isRedirecting = true;
 
-                    console.error("로그인 후 이용 가능합니다.");
+                    const errorMsg = `[${response.data.code}] - ${response.data.message}`;
+                    console.error(errorMsg);
                     navigateTo("/signin");
                 }
                 return response;
