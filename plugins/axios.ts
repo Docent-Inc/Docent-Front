@@ -1,15 +1,17 @@
 // plugins/axios.ts
+
 import API from "~/services/index";
 export default defineNuxtPlugin((nuxtApp) => {
     let isRedirecting = false;
 
-    // /signin 페이지 접근 시, isRedirecting = false
+    /* /signin 페이지 접근 시, isRedirecting = false */
     nuxtApp.vueApp.$nuxt.$router.beforeEach((from, to) => {
         if (to.fullPath === "/signin") {
             isRedirecting = false;
         }
     });
 
+    /* Response Inteceptor */
     API.interceptors.response.use((response) => {
         // console.log(
         //     "[request]",
