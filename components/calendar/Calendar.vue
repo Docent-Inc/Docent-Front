@@ -157,8 +157,6 @@ export default {
         width: 100%;
         height: 100%;
     }
-
-    border: 1px solid red;
 }
 
 .today-todos {
@@ -218,12 +216,12 @@ export default {
         }
 
         &.one-more-days {
-            text-overflow: initial;
             width: 100%;
         }
 
         &.one-more-days:not(.is-continue) {
             z-index: 99;
+            padding-right: 0;
         }
 
         &.is-continue {
