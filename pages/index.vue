@@ -72,7 +72,7 @@ async function checkAutoLogin() {
     }
 
     // 성공 시, 저장 후 /home 이동
-    const { setAccessToken, setRefreshToken, setUser } = useUserStore();
+    const { setAccessToken, setRefreshToken, updateUser } = useUserStore();
 
     const now = new Date();
     const accessTokenExpires = new Date(
@@ -94,7 +94,7 @@ async function checkAutoLogin() {
 
     setAccessToken(res.data.access_token);
     setRefreshToken(res.data.refresh_token);
-    setUser();
+    await updateUser();
 
     router.push(`/home`);
 }
