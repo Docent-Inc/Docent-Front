@@ -1,18 +1,13 @@
 <template>
-    <header class="header">
-        <div class="ic_logo_box" @click="() => this.$router.push('/home')">
-            <v-icon class="ic_home_logo" />
-        </div>
-        <div
-            class="ic_setting_box"
-            @click="() => this.$router.push('/setting')"
-        >
-            <v-icon class="ic_setting" />
-        </div>
-    </header>
+    <Header :isLogoLeftSide="true" :isSettingRightSide="true" />
     <main class="contents">
         <!-- 홈 문구 -->
-        <Greeting :user="user" :luck="luck" />
+        <Greeting
+            :user="user"
+            :luck="luck"
+            :isCheckedToday="isCheckedToday"
+            :weather="weather"
+        />
 
         <div class="contents-wrapper">
             <section class="chat">
@@ -41,13 +36,15 @@
 import { mapState } from "pinia";
 import { useUserStore } from "~/store/user";
 import { useTodayService } from "../../services/today";
+import { getCoordinates } from "~/utils/utils";
+import Header from "~/components/common/Header.vue";
 import Greeting from "../../components/home/Greeting.vue";
 import DDays from "../../components/home/DDays.vue";
 import Records from "../../components/home/Records.vue";
 
 export default {
     name: "Home",
-    components: { Greeting, DDays, Records },
+    components: { Header, Greeting, DDays, Records },
     setup() {
         definePageMeta({
             layout: "main",
@@ -59,17 +56,27 @@ export default {
             isCalendarLoading: true,
             record: {},
             luck: "",
+            isCheckedToday: false,
+            weather: {},
         };
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
     },
-    mounted() {
-        const { getTodayLucky, getTodayCalendar, getTodayRecord } =
-            useTodayService();
+    async mounted() {
+        const {
+            getTodayLucky,
+            getTodayCalendar,
+            getTodayRecord,
+            getTodayWeather,
+        } = useTodayService();
 
         getTodayLucky().then((res) => {
-            if (res.success) this.luck = res.data.luck;
+            if (res.success) {
+                const { luck, isCheckedToday } = res.data;
+                this.luck = luck;
+                this.isCheckedToday = isCheckedToday;
+            }
         });
 
         getTodayCalendar().then((res) => {
@@ -82,6 +89,15 @@ export default {
         getTodayRecord().then((res) => {
             if (res.success) this.record = res.data;
         });
+
+        const coordinate = await getCoordinates();
+
+        if (coordinate) {
+            const { latitude, longitude } = coordinate;
+            getTodayWeather(latitude, longitude).then((res) => {
+                if (res.success) this.weather = res.data;
+            });
+        }
     },
 };
 </script>
@@ -89,35 +105,6 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/scss/variables.scss";
 @import "@/assets/scss/mixins.scss";
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2rem;
-
-    .ic_logo_box {
-        height: 29px;
-        width: 62px;
-        cursor: pointer;
-
-        > i {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    }
-    .ic_setting_box {
-        width: 32px;
-        height: 32px;
-        cursor: pointer;
-
-        > i {
-            width: 100%;
-            height: 100%;
-        }
-    }
-}
 
 .contents {
     height: calc(100% - (60px));

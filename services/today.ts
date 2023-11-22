@@ -20,5 +20,11 @@ export const useTodayService = () => {
         async getTodayLucky() {
             return await API.get(`/today/luck`);
         },
+        /**
+         * 오늘 날씨 조회
+         */
+        async getTodayWeather(lat: string, lon: string) {
+            return await API.get(`/today/weather?x=${lat}&y=${lon}`);
+        },
     };
 };

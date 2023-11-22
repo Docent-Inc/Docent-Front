@@ -55,3 +55,26 @@ export function getTextColorForBackground(backgroundColors) {
 function getBrightness(r, g, b) {
     return 0.299 * r + 0.587 * g + 0.114 * b;
 }
+
+/**
+ * 위도, 경도 가져오기
+ */
+export async function getCoordinates() {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    resolve({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                    });
+                },
+                (error) => {
+                    reject(error);
+                },
+            );
+        } else {
+            reject(new Error("Geolocation is not supported"));
+        }
+    });
+}
