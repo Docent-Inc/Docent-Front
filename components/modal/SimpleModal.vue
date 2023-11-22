@@ -1,8 +1,15 @@
 <template>
-    <div v-if="show" class="modal-background" @click.stop="closeModal">
-        <button type="button" class="close-icon">
-            <v-icon class="ic_close"></v-icon>
-        </button>
+    <div
+        v-if="isModalOpen"
+        class="modal-background"
+        :class="{ 'in-layout': isInLayout }"
+        @click.stop="closeModal"
+    >
+        <div class="close-box">
+            <button type="button" class="close-icon">
+                <v-icon class="ic_close"></v-icon>
+            </button>
+        </div>
         <div @click="preventClose">
             <slot></slot>
         </div>
@@ -12,7 +19,7 @@
 <script>
 export default {
     name: "SimpleModal",
-    props: ["show"],
+    props: ["isModalOpen", "isInLayout"],
     methods: {
         closeModal() {
             this.$emit("close");
@@ -39,6 +46,15 @@ export default {
     justify-content: center;
     align-items: center;
     padding: 2rem;
+
+    @media screen and (max-height: 700px) {
+        padding: 0;
+    }
+
+    &.in-layout {
+        height: 100%;
+        width: 100%;
+    }
 
     .close-icon {
         position: absolute;
