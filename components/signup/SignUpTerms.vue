@@ -16,7 +16,7 @@
             class="term-each-box"
             :class="{ checked: checkbox.isChecked }"
         >
-            <div>
+            <div class="term-props">
                 <input
                     type="checkbox"
                     :id="checkbox.id"
@@ -143,7 +143,11 @@ export default {
     display: flex;
     align-items: center;
     margin-bottom: 2.4rem;
+    padding-right: 1rem;
     transition: background-color 0.3s ease;
+    @media screen and (max-width: 360px) {
+        font-size: 90%;
+    }
 
     &.checked {
         background: $vc-indigo-50;
@@ -160,10 +164,22 @@ export default {
     align-items: center;
     margin-bottom: 1.4rem;
     font-size: 1.5rem;
-
+    @media screen and (max-width: 360px) {
+        font-size: 90%;
+    }
+    @media screen and (max-width: 300px) {
+        font-size: 80%;
+    }
+    .term-props {
+        height: 100%;
+        display: flex;
+    }
     .required {
         font-size: 1.4rem;
         color: $vc-indigo-500;
+        @media screen and (max-width: 360px) {
+            font-size: 90%;
+        }
     }
 
     &:last-child {
