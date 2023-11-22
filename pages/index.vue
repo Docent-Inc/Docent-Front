@@ -50,12 +50,14 @@ onMounted(() => {
 
 // console.log("Called!"); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
 async function checkAutoLogin() {
-    const { accessToken, refreshToken } = useUserStore();
-    if (!accessToken || !refreshToken || refreshToken === "") {
+    // (1) 리프레시 토큰 존재하지 않으면 로그인 필요
+    const refreshToken = useCookie("refresh_token").value;
+    if (!refreshToken) {
         router.push(`/signin`);
         return;
     }
 
+    // (2) 리프레시 토큰 존재 시, 갱신
     const { refresh } = useAuthService();
     const res = await refresh(refreshToken);
     if (!res.success) {
@@ -69,7 +71,7 @@ async function checkAutoLogin() {
         return;
     }
 
-    // 성공 시, 액세스 토큰 저장 후 /home 이동
+    // 성공 시, 저장 후 /home 이동
     const { setAccessToken, setRefreshToken, setUser } = useUserStore();
 
     const now = new Date();
