@@ -43,7 +43,6 @@ onMounted(async () => {
 
         setAccessToken(res.data.access_token);
         setRefreshToken(res.data.refresh_token);
-        setUser();
 
         if (res.data.is_signup) router.push(`/profile/starter`);
         else router.push(`/home`);
