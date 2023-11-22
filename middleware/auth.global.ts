@@ -39,10 +39,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const refreshTokenC = useCookie("refresh_token").value;
     const expiresIn = useCookie("expires_in").value;
 
-    console.log("🍪access - ", accessTokenC);
-    console.log("🍪refresh - ", refreshTokenC);
-    console.log("🍪expiresIn - ", expiresIn);
-    console.log("access - ", accessToken);
+    // console.log("🍪access - ", accessTokenC);
+    // console.log("🍪refresh - ", refreshTokenC);
+    // console.log("🍪expiresIn - ", expiresIn);
+    // console.log("access - ", accessToken);
 
     // (1) 액세스 토큰 없으면 쿠키 확인
     if (!accessToken) {
@@ -133,6 +133,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     // 로그인 여부 확인 - false인 경우, 제한된 페이지에 있다면 /signin으로 리다이렉트
     const { loginStatus } = useUserStore();
     if (!loginStatus) {
+        console.error("로그인되지 않았습니다.");
         const isNotLoginPath = !!restrictedPathsNotLogin.filter((path) =>
             fullPath.toLowerCase().includes(path),
         ).length;
