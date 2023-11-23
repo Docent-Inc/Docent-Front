@@ -127,7 +127,7 @@ export default {
     width: 350px;
     height: 78px;
     border-radius: 8px;
-    background: var(--indigo-50, #eef2ff);
+    background: var(--indigo-50, #F9FAFB);
     margin-top: 12px;
     display: flex;
     justify-content: space-between;
