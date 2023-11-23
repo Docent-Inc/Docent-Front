@@ -90,7 +90,6 @@ export default {
 @import "@/assets/scss/mixins.scss";
 
 .records {
-    height: 35vh;
     margin: 5rem auto;
     padding-bottom: 6rem;
     background: $gradient_bg_light;
