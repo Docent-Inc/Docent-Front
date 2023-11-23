@@ -109,15 +109,7 @@ export default {
             return isAllChecked;
         },
         formatLabel(label) {
-            const parts = label.split("/");
-            return parts
-                .map((part, index) => {
-                    if (index % 2 === 1) {
-                        return `<strong>${part}</strong>`;
-                    }
-                    return part;
-                })
-                .join("");
+            return label.replace(/\/(.*?)\//g, "<strong>$1</strong>");
         },
         handleMoveToBrowser(link) {
             const newTab = window.open(link, "_blank");
