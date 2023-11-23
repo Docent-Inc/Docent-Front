@@ -1,7 +1,7 @@
 import { Calendar } from "v-calendar";
 import { useCalendarService } from "~/services/calendar";
 import { useDiaryService } from "~/services/diary";
-
+import { type CalendarModel } from "~/models/diary";
 interface Attribute {
     key: number;
     dates: Date | { start: Date; end: Date };
@@ -10,13 +10,6 @@ interface Attribute {
         title: string;
     };
     highlight?: boolean | Object;
-}
-
-interface Calendar {
-    id: number;
-    title: string;
-    start_time: string;
-    end_time: string;
 }
 
 const initialState = () => ({
@@ -29,8 +22,8 @@ const initialState = () => ({
         todos: null,
     },
     attributes: [] as Attribute[],
-    list: [] as Calendar[],
-    todos: [] as Calendar[],
+    list: [] as CalendarModel[],
+    todos: [] as CalendarModel[],
     overlapAttrs: [],
 });
 
@@ -118,17 +111,14 @@ export const useCalendarStore = defineStore("calendar", {
                 }
 
                 const findEventsOnDate = (date: number) => {
-                    const eventsOnDate: Calendar[] = [];
+                    const eventsOnDate: CalendarModel[] = [];
                     this.list.forEach((event) => {
                         const eventStartDate = new Date(
                             event.start_time,
                         ).getDate();
                         const eventEndDate = new Date(event.end_time).getDate();
 
-                        if (
-                            eventStartDate <= date &&
-                            date <= eventEndDate
-                        ) {
+                        if (eventStartDate <= date && date <= eventEndDate) {
                             eventsOnDate.push(event);
                         }
                     });
@@ -166,7 +156,7 @@ export const useCalendarStore = defineStore("calendar", {
         async getCalendarList() {
             const { getCalendarList } = useDiaryService();
             const res = await getCalendarList(this.page.year, this.page.month);
-
+            console.log(res.data);
             this.list = res.data.list;
             this.setAttributes();
         },
@@ -177,6 +167,7 @@ export const useCalendarStore = defineStore("calendar", {
                 this.date.date.getMonth() + 1,
                 this.date.date.getDate(),
             );
+
             this.todos = res.data;
         },
         async deleteCalendarItem(calendarId: number, date: Date) {

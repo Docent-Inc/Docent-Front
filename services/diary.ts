@@ -4,6 +4,8 @@ import {
     type MemoModel,
     type DiaryRatioModel,
     type DiaryListModel,
+    type CalendarModel,
+    type CalendarListModel,
 } from "~/models/diary";
 
 export const useDiaryService = () => {
@@ -89,7 +91,7 @@ export const useDiaryService = () => {
          * 캘린더 목록 조회
          */
         async getCalendarList(year: number, month: number) {
-            return await POST(`/diary/list/calender`, {
+            return await POST<CalendarListModel>(`/diary/list/calender`, {
                 year: year,
                 month: month,
             });
@@ -98,7 +100,7 @@ export const useDiaryService = () => {
          * 캘린더 조회
          */
         async getCalendar(year: number, month: number, day: number) {
-            return await POST(`/diary/list/calender`, {
+            return await POST<CalendarModel[]>(`/diary/list/calender`, {
                 year: year,
                 month: month,
                 day: day,
