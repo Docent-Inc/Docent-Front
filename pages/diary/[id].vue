@@ -82,8 +82,9 @@
     </div>
 </template>
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
+import { useRecordStore } from "~/store/record";
 
 import { useDiaryService } from "../../services/diary";
 import Button from "~/components/common/Button.vue";
@@ -163,6 +164,8 @@ export default {
         this.isLoading = false;
     },
     methods: {
+        ...mapActions(useRecordStore, ["deleteOptimisticRecord"]),
+
         onDelete() {
             this.$eventBus.$emit("onCustomModal", {
                 title: "정말 이 기록을 삭제하시겠어요?",
@@ -174,6 +177,7 @@ export default {
         },
         async deleteDiary() {
             const { deleteMorningdiary, deleteNightdiary } = useDiaryService();
+
             const res =
                 this.type === "1"
                     ? await deleteMorningdiary(this.diary.id)
@@ -188,6 +192,7 @@ export default {
                         this.$router.back();
                     },
                 });
+                this.deleteOptimisticRecord(this.diary);
             } else {
                 // 실패 시, 문구 띄우고 새로고침
                 this.$eventBus.$emit("onConfirmModal", {

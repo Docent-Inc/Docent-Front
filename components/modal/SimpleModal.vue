@@ -1,8 +1,15 @@
 <template>
-    <div v-if="show" class="modal-background" @click.stop="closeModal">
-        <button type="button" class="close-icon">
-            <v-icon class="ic_close"></v-icon>
-        </button>
+    <div
+        v-if="isModalOpen"
+        class="modal-background"
+        :class="{ 'in-layout': isInLayout }"
+        @click.stop="closeModal"
+    >
+        <div class="close-box">
+            <button type="button" class="close-icon">
+                <v-icon class="ic_close"></v-icon>
+            </button>
+        </div>
         <div @click="preventClose">
             <slot></slot>
         </div>
@@ -12,7 +19,7 @@
 <script>
 export default {
     name: "SimpleModal",
-    props: ["show"],
+    props: ["isModalOpen", "isInLayout"],
     methods: {
         closeModal() {
             this.$emit("close");
@@ -30,6 +37,10 @@ export default {
 .modal-background {
     width: 100%;
     height: 100vh;
+    /* 모바일 하단바 고려 */
+    height: -webkit-fill-available;
+    height: fill-available;
+
     top: 0;
     right: 0;
     position: absolute;
@@ -39,6 +50,22 @@ export default {
     justify-content: center;
     align-items: center;
     padding: 2rem;
+
+    /* 모달창에서 iPad 및 iPhone SE 보완 */
+    overflow-y: auto;
+
+    /* 웹뷰 url bar로 인한 헤더 잘림현상 방지 */
+    position: fixed;
+    top: 0;
+
+    @media screen and (max-height: 700px) {
+        padding: 0;
+    }
+
+    &.in-layout {
+        height: 100%;
+        width: 100%;
+    }
 
     .close-icon {
         position: absolute;

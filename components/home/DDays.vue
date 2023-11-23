@@ -110,7 +110,7 @@ export default {
             padding: 0.5rem 1rem;
             border-radius: $border-radius-default;
             height: 30px;
-            font-weight: 600;
+            font-family: $font-medium;
 
             @media screen and (max-width: 320px) {
                 margin: 1.5rem 0 0 0;

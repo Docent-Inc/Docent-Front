@@ -1,18 +1,13 @@
 <template>
-    <header class="header">
-        <div class="ic_logo_box" @click="() => this.$router.push('/home')">
-            <v-icon class="ic_home_logo" />
-        </div>
-        <div
-            class="ic_setting_box"
-            @click="() => this.$router.push('/setting')"
-        >
-            <v-icon class="ic_setting" />
-        </div>
-    </header>
+    <Header :isLogoLeftSide="true" :isSettingRightSide="true" />
     <main class="contents">
         <!-- 홈 문구 -->
-        <Greeting :user="user" :luck="luck" />
+        <Greeting
+            :user="user"
+            :luck="luck"
+            :isCheckedToday="isCheckedToday"
+            :weather="weather"
+        />
 
         <div class="contents-wrapper">
             <section class="chat">
@@ -21,7 +16,7 @@
                     class="chat__btn"
                     @click="() => this.$router.push('/chat')"
                 >
-                    Looki와 대화하러 가기
+                    <span>Look-i</span>와 대화하러 가기
                 </button>
             </section>
 
@@ -38,16 +33,19 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
+import { useRecordStore } from "~/store/record";
 import { useTodayService } from "../../services/today";
+import { getCoordinates } from "~/utils/utils";
+import Header from "~/components/common/Header.vue";
 import Greeting from "../../components/home/Greeting.vue";
 import DDays from "../../components/home/DDays.vue";
 import Records from "../../components/home/Records.vue";
 
 export default {
     name: "Home",
-    components: { Greeting, DDays, Records },
+    components: { Header, Greeting, DDays, Records },
     setup() {
         definePageMeta({
             layout: "main",
@@ -57,19 +55,31 @@ export default {
         return {
             calendar: [],
             isCalendarLoading: true,
-            record: {},
             luck: "",
+            isCheckedToday: false,
+            weather: {},
         };
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
+        ...mapState(useRecordStore, ["record"]),
     },
-    mounted() {
-        const { getTodayLucky, getTodayCalendar, getTodayRecord } =
-            useTodayService();
+    methods: {
+        ...mapActions(useRecordStore, ["updateRecord"]),
+    },
+    async mounted() {
+        const {
+            getTodayLucky,
+            getTodayCalendar,
+            getTodayWeather,
+        } = useTodayService();
 
         getTodayLucky().then((res) => {
-            if (res.success) this.luck = res.data.luck;
+            if (res.success) {
+                const { luck, isCheckedToday } = res.data;
+                this.luck = luck;
+                this.isCheckedToday = isCheckedToday;
+            }
         });
 
         getTodayCalendar().then((res) => {
@@ -79,9 +89,29 @@ export default {
             }
         });
 
-        getTodayRecord().then((res) => {
-            if (res.success) this.record = res.data;
-        });
+        this.updateRecord();
+
+        try {
+            const coordinate = await getCoordinates();
+            const { latitude, longitude } = coordinate;
+
+            const weatherRes = await getTodayWeather(latitude, longitude);
+            if (weatherRes.success) {
+                this.weather = weatherRes.data;
+            } else {
+                this.weather = {
+                    icon: "not supported",
+                    tmx: "not supported",
+                };
+            }
+        } catch (error) {
+            console.error(error.message);
+
+            this.weather = {
+                icon: "not supported",
+                tmx: "not supported",
+            };
+        }
     },
 };
 </script>
@@ -89,35 +119,6 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/scss/variables.scss";
 @import "@/assets/scss/mixins.scss";
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2rem;
-
-    .ic_logo_box {
-        height: 29px;
-        width: 62px;
-        cursor: pointer;
-
-        > i {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    }
-    .ic_setting_box {
-        width: 32px;
-        height: 32px;
-        cursor: pointer;
-
-        > i {
-            width: 100%;
-            height: 100%;
-        }
-    }
-}
 
 .contents {
     height: calc(100% - (60px));
@@ -162,6 +163,10 @@ export default {
         font-size: var(--vc-text-base);
         box-shadow: 0px 8px 30px rgba(70, 96, 250, 0.46);
         font-family: "Pretendard Bold";
+
+        span {
+            margin-right: 0.2rem;
+        }
     }
 }
 

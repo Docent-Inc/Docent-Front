@@ -16,32 +16,41 @@
         <div class="records__description">
             그동안 기록을 통해 이 그림들을 그리셨어요. :)
         </div>
-        <div class="main-slides data" v-if="hasDiaryItems">
-            <div
-                class="main-slide"
-                v-for="item in diaryItems"
-                :key="item.id"
-                :style="`background-image: url(${item.image_url})`"
-                @click="() => this.$router.push(`/diary/${item.id}?type=1`)"
-            ></div>
+        <div class="main-slides" v-if="isLoading">
+            <div class="main-slide empty">
+                <div class="skeleton" />
+            </div>
+            <div class="main-slide empty">
+                <div class="skeleton" />
+            </div>
         </div>
-        <div class="main-slides empty" v-else>
+        <div class="main-slides data" v-else>
             <div
                 class="main-slide empty add"
                 @click="() => this.$router.push(`chat`)"
+                v-if="!hasUserOwnDiaries && !isLoading"
             >
                 <div class="filter" />
-                <div v-if="isSkeleton" class="skeleton" />
-                <div v-else>
+                <div v-if="isLoading" class="skeleton" />
+                <div v-if="!isLoading && !hasUserOwnDiaries" class="empty-box">
                     <div class="ic_add-box"><v-icon class="ic_add" /></div>
                     <div class="empty-description">
                         기록을 해주시면 자신만의 그림으로 채워나갈 수 있어요!
                     </div>
                 </div>
             </div>
-            <div class="main-slide empty" @click="goToChat">
-                <div v-if="isSkeleton" class="skeleton" />
-            </div>
+            <div
+                class="main-slide"
+                v-for="item in record"
+                :key="item.id"
+                :style="`background-image: url(${item.image_url})`"
+                @click="
+                    () =>
+                        this.$router.push(
+                            `/diary/${item.id}?type=${item.diary_type}`,
+                        )
+                "
+            ></div>
         </div>
     </section>
 </template>
@@ -51,27 +60,26 @@ export default {
     name: "Records",
     props: {
         record: {
-            type: Object,
             required: true,
-            default: () => {},
+            default: () => undefined,
         },
     },
     computed: {
-        hasDiaryItems() {
-            return this.record.MorningDiary && this.record.NightDiary;
+        hasUserOwnDiaries() {
+            const hasNoDiaryItem = !this.record.length;
+
+            const hasOnlyDefaultDiary =
+                this.record.length === 1 &&
+                this.record.some(
+                    (item) =>
+                        item.diary_name ===
+                        "나만의 기록 친구 Look-i와의 특별한 첫 만남",
+                );
+
+            return !(hasNoDiaryItem || hasOnlyDefaultDiary);
         },
-        diaryItems() {
-            return this.hasDiaryItems
-                ? this.record.MorningDiary.concat(this.record.NightDiary)
-                : [];
-        },
-        isSkeleton() {
-            if (
-                !this.record.MorningDiary?.length &&
-                !this.record.NightDiary?.length
-            ) {
-                return true;
-            } else false;
+        isLoading() {
+            return !this.record;
         },
     },
 };
@@ -82,10 +90,12 @@ export default {
 @import "@/assets/scss/mixins.scss";
 
 .records {
+    height: 35vh;
     margin: 5rem auto;
     padding-bottom: 6rem;
     background: $gradient_bg_light;
     margin: 2rem -2rem 0 -2rem;
+    flex: 1;
 
     &__description {
         color: $vc-gray-500;
@@ -133,7 +143,7 @@ export default {
             padding: 0.5rem 1rem;
             border-radius: $border-radius-default;
             height: 30px;
-            font-weight: 600;
+            font-family: $font-medium;
 
             @media screen and (max-width: 320px) {
                 margin: 1rem;
@@ -152,7 +162,7 @@ export default {
     }
 
     .main-slide {
-        border-radius: 8px;
+        border-radius: $border-radius-default;
         margin-left: 1.5rem;
         width: 184px;
         height: 184px;
@@ -181,13 +191,27 @@ export default {
         align-items: center;
         font-family: $font-default;
         text-align: center;
-
         .filter {
+            border-radius: $border-radius-default;
             position: absolute;
             filter: brightness(50%) blur(5px);
             width: 100%;
             height: 100%;
             backdrop-filter: blur(5px);
+
+            @supports (-webkit-backdrop-filter: blur(5px)) {
+                -webkit-border-radius: 20px;
+
+                background-color: rgba(105, 105, 105, 0.601);
+            }
+        }
+
+        .empty-box {
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .empty-description {
@@ -211,7 +235,7 @@ export default {
     width: 100%;
     height: 100%;
     z-index: 2;
-    position: absolute;
+    position: absolute !important;
     @include skeleton;
 }
 </style>

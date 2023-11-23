@@ -80,3 +80,22 @@ interface Memo {
     is_deleted: boolean;
     tags: string; // TODO: string[]
 }
+
+/**
+ * Calendar
+ */
+
+export interface CalendarModel {
+    User_id: number;
+    content: string;
+    end_time: string;
+    id: number;
+    is_deleted: boolean;
+    start_time: string;
+    title: string;
+}
+
+export interface CalendarListModel {
+    today_count: number;
+    list: CalendarModel[];
+}
