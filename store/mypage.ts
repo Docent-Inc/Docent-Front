@@ -1,15 +1,6 @@
 import type { DiaryList, DiaryRatio } from "~/models/diary";
 import { useDiaryService } from "../services/diary";
 
-interface DiaryOrMemo {
-    id: number;
-    content: string;
-    create_date: string;
-    title: string;
-    image_url?: string;
-    diary_name: string;
-}
-
 export const useMypageStore = defineStore("mypage", {
     state: () => ({
         pageNo: 1,
