@@ -126,7 +126,6 @@ export default {
             const { signup } = useAuthService();
 
             const res = await signup(requestBody);
-            console.log(res);
 
             if (res.success) {
                 await this.updateUser();

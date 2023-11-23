@@ -192,7 +192,6 @@ export default {
                 this.type === "1"
                     ? await deleteMorningdiary(this.diary.id)
                     : await deleteNightdiary(this.diary.id);
-            console.log("res >> ", res);
 
             if (res.success) {
                 // 성공 시, 리스트 페이지로 이동

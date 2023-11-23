@@ -102,7 +102,7 @@ export default {
         async saveChanges() {
             const { updateAccount } = useSettingService();
             this.isDataChanged = false;
-            console.log(this.birth);
+            // console.log(this.birth);
             const data = {
                 nickname: this.nickname,
                 mbti: this.mbti,
@@ -133,7 +133,7 @@ export default {
             });
         },
         openErrorModal(message) {
-            console.log(message);
+            console.error(message);
             this.$eventBus.$emit("onCustomModal", {
                 title: "오류가 발생했어요!",
                 desc: message,

@@ -16,7 +16,6 @@ export default {
     },
     created() {
         this.$eventBus.$on("onLoading", (boolean) => {
-            console.log(boolean);
             this.visible = boolean;
         });
     },

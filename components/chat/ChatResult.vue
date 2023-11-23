@@ -83,19 +83,17 @@ export default {
     },
     methods: {
         more() {
-            console.log(">", this.result);
+            // console.log(">", this.result);
 
             switch (this.result.text_type) {
                 case 1:
                 case 2:
-                    console.log("diary", this.result.diary_id);
                     this.$router.push(
                         `/diary/${this.result.diary_id}?type=${this.result.text_type}`,
                     );
                     break;
 
                 case 3:
-                    console.log("memo", this.result.diary_id);
                     this.$router.push(`/memo/${this.result.diary_id}`);
                     break;
 
