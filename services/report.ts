@@ -1,4 +1,4 @@
-import { ReportDetailModel, ReportListModel } from "~/models/report";
+import { type ReportDetailModel, type ReportListModel } from "~/models/report";
 import { GET } from "~/services";
 
 export const useReportService = () => {

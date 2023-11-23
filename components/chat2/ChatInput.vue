@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import { useGenerateService } from "../../services/generate";
 import { useChatService } from "../../services/chat";
 import { mapState, mapActions } from "pinia";
 import { useChatStore } from "../../store/chat2";

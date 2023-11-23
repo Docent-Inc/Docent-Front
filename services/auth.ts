@@ -1,6 +1,10 @@
-import { GET } from "~/services";
-import API from "../utils/axios";
-import { UserModel } from "~/models/auth";
+import type {
+    UserModel,
+    KakaoCallbackModel,
+    KakaoModel,
+    RefreshModel,
+} from "~/models/auth";
+import { GET, POST } from "~/services";
 
 /**
  * @interface signupData
@@ -20,14 +24,14 @@ export const useAuthService = () => {
          * 카카오 로그인 요청
          */
         async getKakaoLogin() {
-            return await API.get(KAKAO_SIGNIN_URL);
+            return await GET<KakaoModel>(KAKAO_SIGNIN_URL);
         },
         /**
          * 카카오 콜백 요청
          * @params code
          */
         async getKakaoCallback(code: string) {
-            return await API.get(KAKAO_SIGNIN_CALLBACK_URL, {
+            return await GET<KakaoCallbackModel>(KAKAO_SIGNIN_CALLBACK_URL, {
                 params: { code: code },
             });
         },
@@ -36,7 +40,7 @@ export const useAuthService = () => {
          * @body user
          */
         async signup(data: signupData) {
-            return await API.post(`/auth/update`, {
+            return await POST(`/auth/update`, {
                 ...data,
             });
         },
@@ -50,7 +54,7 @@ export const useAuthService = () => {
          * 액세스 토큰 재발급
          */
         async refresh(refreshToken: string) {
-            return await API.post(`/auth/refresh`, {
+            return await POST<RefreshModel>(`/auth/refresh`, {
                 refresh_token: refreshToken,
             });
         },
