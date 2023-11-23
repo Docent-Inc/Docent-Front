@@ -33,8 +33,9 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
+import { useRecordStore } from "~/store/record";
 import { useTodayService } from "../../services/today";
 import { getCoordinates } from "~/utils/utils";
 import Header from "~/components/common/Header.vue";
@@ -54,7 +55,6 @@ export default {
         return {
             calendar: [],
             isCalendarLoading: true,
-            record: {},
             luck: "",
             isCheckedToday: false,
             weather: {},
@@ -62,12 +62,15 @@ export default {
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
+        ...mapState(useRecordStore, ["record"]),
+    },
+    methods: {
+        ...mapActions(useRecordStore, ["updateRecord"]),
     },
     async mounted() {
         const {
             getTodayLucky,
             getTodayCalendar,
-            getTodayRecord,
             getTodayWeather,
         } = useTodayService();
 
@@ -86,9 +89,7 @@ export default {
             }
         });
 
-        getTodayRecord().then((res) => {
-            if (res.success) this.record = res.data;
-        });
+        this.updateRecord();
 
         try {
             const coordinate = await getCoordinates();

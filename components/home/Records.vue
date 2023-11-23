@@ -32,7 +32,7 @@
             >
                 <div class="filter" />
                 <div v-if="isLoading" class="skeleton" />
-                <div v-if="!hasUserOwnDiaries" class="empty-box">
+                <div v-if="!isLoading && !hasUserOwnDiaries" class="empty-box">
                     <div class="ic_add-box"><v-icon class="ic_add" /></div>
                     <div class="empty-description">
                         기록을 해주시면 자신만의 그림으로 채워나갈 수 있어요!
@@ -41,7 +41,7 @@
             </div>
             <div
                 class="main-slide"
-                v-for="item in diaryItems"
+                v-for="item in record"
                 :key="item.id"
                 :style="`background-image: url(${item.image_url})`"
                 @click="
@@ -60,21 +60,17 @@ export default {
     name: "Records",
     props: {
         record: {
-            type: Object,
             required: true,
-            default: () => {},
+            default: () => undefined,
         },
     },
     computed: {
         hasUserOwnDiaries() {
-            const hasNoDiaryItem =
-                !this.record.MorningDiary.length &&
-                !this.record.MorningDiary.length;
+            const hasNoDiaryItem = !this.record.length;
 
             const hasOnlyDefaultDiary =
-                !this.record.MorningDiary.length &&
-                this.record.MorningDiary.length === 1 &&
-                this.record.NightDiary?.some(
+                this.record.length === 1 &&
+                this.record.some(
                     (item) =>
                         item.diary_name ===
                         "나만의 기록 친구 Look-i와의 특별한 첫 만남",
@@ -82,11 +78,8 @@ export default {
 
             return !(hasNoDiaryItem || hasOnlyDefaultDiary);
         },
-        diaryItems() {
-            return this.record.MorningDiary?.concat(this.record.NightDiary);
-        },
         isLoading() {
-            return !this.record.MorningDiary && !this.record.NightDiary;
+            return !this.record;
         },
     },
 };
@@ -97,10 +90,12 @@ export default {
 @import "@/assets/scss/mixins.scss";
 
 .records {
+    height: 35vh;
     margin: 5rem auto;
     padding-bottom: 6rem;
     background: $gradient_bg_light;
     margin: 2rem -2rem 0 -2rem;
+    flex: 1;
 
     &__description {
         color: $vc-gray-500;

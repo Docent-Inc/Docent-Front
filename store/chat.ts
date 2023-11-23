@@ -1,6 +1,8 @@
-import { ChatContentModel } from "~/models/chat";
+import { type ChatContentModel } from "~/models/chat";
 import { useChatService } from "~/services/chat";
 import loadingJSON from "../assets/json/loading.json";
+import { useRecordStore } from "./record";
+import { type Record } from "~/models/chat";
 
 enum ChatType {
     RESULT = "result",
@@ -85,7 +87,7 @@ export const useChatStore = defineStore("chat", {
             this.chatList = this.chatList.filter(
                 (chat) =>
                     !chat.is_docent ||
-                    (chat.is_docent && chat.type !== ChatType.LOADING)
+                    (chat.is_docent && chat.type !== ChatType.LOADING),
             );
         },
         /**
@@ -151,6 +153,10 @@ export const useChatStore = defineStore("chat", {
             };
             this.addChat(resultChat);
 
+            if (result.text_type === 1 || result.text_type === 2) {
+                const { addOptimisticRecord } = useRecordStore();
+                addOptimisticRecord(result.content as Record, result.text_type);
+            }
             return res;
         },
         /**
