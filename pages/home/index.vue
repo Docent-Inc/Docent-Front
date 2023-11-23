@@ -90,13 +90,26 @@ export default {
             if (res.success) this.record = res.data;
         });
 
-        const coordinate = await getCoordinates();
-
-        if (coordinate) {
+        try {
+            const coordinate = await getCoordinates();
             const { latitude, longitude } = coordinate;
-            getTodayWeather(latitude, longitude).then((res) => {
-                if (res.success) this.weather = res.data;
-            });
+
+            const weatherRes = await getTodayWeather(latitude, longitude);
+            if (weatherRes.success) {
+                this.weather = weatherRes.data;
+            } else {
+                this.weather = {
+                    icon: "not supported",
+                    tmx: "not supported",
+                };
+            }
+        } catch (error) {
+            console.error(error.message);
+
+            this.weather = {
+                icon: "not supported",
+                tmx: "not supported",
+            };
         }
     },
 };

@@ -11,7 +11,9 @@
                 <div class="date-icon">
                     <div v-if="!weather.icon" class="skeleton" />
                     <img
-                        v-else
+                        v-else-if="
+                            weather.icon && !(weather.icon === 'not supported')
+                        "
                         :src="`/weathers/ic_${weather.icon}.svg`"
                         :alt="weather.icon"
                     />
@@ -19,7 +21,11 @@
             </div>
             <div class="degree-box">
                 <div v-if="!weather.tmx" class="skeleton" />
-                <div v-else>
+                <div
+                    v-else-if="
+                        weather.tmx && !(weather.icon === 'not supported')
+                    "
+                >
                     <span>최고기온</span>
                     <span class="degree">{{ weather.tmx }}°C</span>
                     <span>최저기온</span>
@@ -34,7 +40,12 @@
             </div>
             <div v-if="!luck" class="skeleton fortune" />
             <div v-else class="fortune-box" @click="openModal">
-                <div class="red-dot" :class="{ checked: isCheckedToday || optimisticIsCheckedToday}" />
+                <div
+                    class="red-dot"
+                    :class="{
+                        checked: isCheckedToday || optimisticIsCheckedToday,
+                    }"
+                />
                 <div class="ic_fortune-box" @click="openModal">
                     <v-icon class="ic_fortune" />
                 </div>
@@ -82,7 +93,7 @@ export default {
     data() {
         return {
             isModalOpen: false,
-            optimisticIsCheckedToday: false
+            optimisticIsCheckedToday: false,
         };
     },
     computed: {
@@ -134,7 +145,7 @@ export default {
         },
         closeModal() {
             this.isModalOpen = false;
-            this.optimisticIsCheckedToday = true
+            this.optimisticIsCheckedToday = true;
         },
     },
 };

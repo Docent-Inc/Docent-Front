@@ -74,7 +74,7 @@ export async function getCoordinates() {
                 },
             );
         } else {
-            reject(new Error("Geolocation is not supported"));
+            reject(new Error("위치 정보 수집이 허가되지 않았습니다"));
         }
     });
 }
