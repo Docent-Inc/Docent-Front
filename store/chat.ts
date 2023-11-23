@@ -50,8 +50,8 @@ export const useChatStore = defineStore("chat", {
                 type: ChatType.SELECT,
                 text: `${res.data.text} \n기록 예시가 필요한가요?`,
                 selectList: [
-                    "꿈을 기록하고 싶어요!",
-                    "일기를 기록하고 싶어요!",
+                    "꿈을 해석하고 싶어요!",
+                    "일기를 쓰고 싶어요!",
                     "메모를 하고 싶어요!",
                     "일정을 입력하고 싶어요!",
                 ],

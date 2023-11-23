@@ -41,7 +41,10 @@
         </div>
 
         <!-- 3. 바텀시트 영역 -->
-        <BottomSheet :title="bottomSheetTitle">
+        <BottomSheet
+            :title="bottomSheetTitle"
+            @open="(isOpen) => (this.isOpen = isOpen)"
+        >
             <div class="bottom-diary">
                 <div class="bottom-diary-title-box">
                     <div class="diary-date">
@@ -52,7 +55,9 @@
 
                 <div class="bottom-diary-content">
                     <div class="bottom-diary-content-title">
-                        <Icon class="ic_memo" /> 일기 내용
+                        <Icon class="ic_memo" />
+                        <span v-if="type === '1'">꿈 내용</span>
+                        <span v-else>일기 내용</span>
                     </div>
                     <div class="bottom-diary-content-desc">
                         {{ diary.content }}
@@ -105,6 +110,7 @@ export default {
             diary: {},
             type: "1",
             isLoading: true,
+            isOpen: false,
         };
     },
     computed: {
@@ -135,8 +141,12 @@ export default {
             };
         },
         bottomSheetTitle() {
-            if (this.type === "1") return "꿈 해석 보기";
-            else return "일기 자세히 보기";
+            let type = this.type === "1" ? "꿈 해석" : "일기";
+            if (this.type === "2" && !this.isOpen) type = "일기 자세히"; // 일기의 경우, '자세히' 보기
+
+            const open = !this.isOpen ? "보기" : "닫기";
+
+            return `${type} ${open}`;
         },
     },
     async mounted() {
