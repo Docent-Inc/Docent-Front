@@ -4,7 +4,7 @@
         <div class="header">
             <div>
                 <Icon :class="'ic_arrow'" @click="goHome" />
-                <span class="header-title"> Looki </span>
+                <span class="header-title"> Look-i </span>
             </div>
 
             <Icon
