@@ -34,16 +34,23 @@ onMounted(async () => {
         useCookie("access_token", {
             expires: accessTokenExpires,
         }).value = res.data.access_token;
+        useCookie("expires_in", {
+            expires: accessTokenExpires,
+        }).value = String(accessTokenExpires);
         useCookie("refresh_token", {
             expires: refreshTokenExpires,
         }).value = res.data.refresh_token;
 
         setAccessToken(res.data.access_token);
         setRefreshToken(res.data.refresh_token);
-        setUser();
 
-        if (res.data.is_signup) router.push(`/profile/starter`);
-        else router.push(`/home`);
+        if (res.data.is_signup) {
+            router.push(`/profile/starter`);
+            return;
+        }
+
+        await setUser();
+        router.push(`/home`);
     } else {
         const { reset } = useUserStore();
         reset();

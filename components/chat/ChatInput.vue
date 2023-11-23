@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import { useGenerateService } from "../../services/generate";
 import { mapState, mapActions } from "pinia";
 import { useChatStore } from "../../store/chat";
 import Button from "~/components/common/Button.vue";

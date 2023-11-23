@@ -50,9 +50,14 @@ onMounted(() => {
 
 // console.log("Called!"); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
 async function checkAutoLogin() {
-    const { accessToken, refreshToken } = useUserStore();
-    if (!accessToken || !refreshToken) router.push(`/signin`);
+    // (1) 리프레시 토큰 존재하지 않으면 로그인 필요
+    const refreshToken = useCookie("refresh_token").value;
+    if (!refreshToken) {
+        router.push(`/signin`);
+        return;
+    }
 
+    // (2) 리프레시 토큰 존재 시, 갱신
     const { refresh } = useAuthService();
     const res = await refresh(refreshToken);
     if (!res.success) {
@@ -66,8 +71,8 @@ async function checkAutoLogin() {
         return;
     }
 
-    // 성공 시, 액세스 토큰 저장 후 /home 이동
-    const { setAccessToken, setRefreshToken, setUser } = useUserStore();
+    // 성공 시, 저장 후 /home 이동
+    const { setAccessToken, setRefreshToken, updateUser } = useUserStore();
 
     const now = new Date();
     const accessTokenExpires = new Date(
@@ -80,13 +85,16 @@ async function checkAutoLogin() {
     useCookie("access_token", {
         expires: accessTokenExpires,
     }).value = res.data.access_token;
+    useCookie("expires_in", {
+        expires: accessTokenExpires,
+    }).value = String(accessTokenExpires);
     useCookie("refresh_token", {
         expires: refreshTokenExpires,
     }).value = res.data.refresh_token;
 
     setAccessToken(res.data.access_token);
     setRefreshToken(res.data.refresh_token);
-    setUser();
+    await updateUser();
 
     router.push(`/home`);
 }

@@ -1,4 +1,4 @@
-import { DiaryRatio } from "models/diary";
+import type { DiaryList, DiaryRatio } from "~/models/diary";
 import { useDiaryService } from "../services/diary";
 
 interface DiaryOrMemo {
@@ -15,19 +15,15 @@ export const useMypageStore = defineStore("mypage", {
         pageNo: 1,
         type: 0, // ALL (0), Dream (1), Diary(2), Memo(3)
         mode: 0, // List (0), Board(1)
-        list: [] as DiaryOrMemo[],
+        list: [] as DiaryList[],
         totalCounts: 0,
         ratio: {} as DiaryRatio,
     }),
     actions: {
         async getGalleryList() {
             const { getGalleryList } = useDiaryService();
-            // console.log(
-            //     `getGalleryList(page: ${this.pageNo}, type: ${this.type})`,
-            // );
 
             const res = await getGalleryList(this.type, this.pageNo);
-            // console.log(res);
 
             if (this.pageNo === 1) this.list = res.data.list;
             else this.list = [...this.list, ...res.data.list];
@@ -36,7 +32,6 @@ export const useMypageStore = defineStore("mypage", {
         async getRatio() {
             const { getRatio } = useDiaryService();
             const res = await getRatio();
-            // console.log("getRatio", res);
 
             this.ratio = res.data.ratio;
         },
