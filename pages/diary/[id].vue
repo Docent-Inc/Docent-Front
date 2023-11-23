@@ -55,7 +55,9 @@
 
                 <div class="bottom-diary-content">
                     <div class="bottom-diary-content-title">
-                        <Icon class="ic_memo" /> 일기 내용
+                        <Icon class="ic_memo" />
+                        <span v-if="type === '1'">꿈 내용</span>
+                        <span v-else>일기 내용</span>
                     </div>
                     <div class="bottom-diary-content-desc">
                         {{ diary.content }}
