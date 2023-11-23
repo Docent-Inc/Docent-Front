@@ -17,6 +17,7 @@
                 @click="changeMode()"
             />
         </div>
+
         <div class="contents-header-2" v-if="highestCountCategory">
             <Icon :class="highestCountCategory.iconClass" />
             <p class="status-text">{{ highestCountCategory.message }}</p>
@@ -24,8 +25,8 @@
 
         <!-- (2) 통계 영역 -->
         <div class="contents-header-3">
-            <div class="count-area">
-                <div v-if="isSkeleton" class="bg_count_area_default"></div>
+            <div v-if="isLoading" class="bg_count_area_default"></div>
+            <div v-else class="count-area">
                 <div :style="barStyles.dream" class="bar dream-bar">
                     <div v-if="ratio.morning_diary_ratio > 0">
                         <span>꿈</span>
@@ -44,9 +45,10 @@
                         <span>{{ ratio.memo_count }}</span>
                     </div>
                 </div>
+
                 <div
                     v-if="
-                        !isSkeleton &&
+                        !isLoading &&
                         ratio.morning_diary_count +
                             ratio.night_diary_count +
                             ratio.memo_count ===
@@ -66,7 +68,7 @@
                 :selected="type"
             />
         </div>
-        <div v-if="isSkeleton"></div>
+        <div v-if="isLoading"></div>
         <div v-else-if="list?.length > 0">
             <ListItems :list="list" v-if="mode === 0" />
             <BoardItems :list="list" v-else />
@@ -134,11 +136,8 @@ export default {
             "totalCounts",
             "pageNo",
             "ratio",
+            "isLoading",
         ]),
-        isSkeleton() {
-            if (this.pageNo === 1 && this.list.length < 1) return true;
-            else false;
-        },
         highestCountCategory() {
             const categoryInfo = [
                 {
@@ -167,7 +166,7 @@ export default {
                 },
             ];
 
-            if (this.isSkeleton) return categoryInfo[5];
+            if (this.isLoading) return categoryInfo[5];
             else return categoryInfo[this.ratio.max_category];
         },
         barStyles() {
