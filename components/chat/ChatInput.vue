@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import { useGenerateService } from "../../services/generate";
 import { mapState, mapActions } from "pinia";
 import { useChatStore } from "../../store/chat";
 import Button from "~/components/common/Button.vue";
@@ -65,8 +64,8 @@ export default {
         },
         placeholder() {
             if (this.mode === "INPUT")
-                return "Looki에게 당신의 이야기를 들려주세요";
-            else return "Looki가 듣고 있어요!";
+                return "Look-i에게 당신의 이야기를 들려주세요";
+            else return "Look-i가 듣고 있어요!";
         },
     },
     methods: {

@@ -75,5 +75,6 @@ export default defineNuxtConfig({
             src: "~/plugins/v-calendar",
             mode: "client",
         },
+        "~/plugins/axios",
     ],
 });

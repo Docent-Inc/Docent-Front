@@ -41,7 +41,10 @@
         </div>
 
         <!-- 3. 바텀시트 영역 -->
-        <BottomSheet :title="bottomSheetTitle">
+        <BottomSheet
+            :title="bottomSheetTitle"
+            @open="(isOpen) => (this.isOpen = isOpen)"
+        >
             <div class="bottom-diary">
                 <div class="bottom-diary-title-box">
                     <div class="diary-date">
@@ -52,7 +55,9 @@
 
                 <div class="bottom-diary-content">
                     <div class="bottom-diary-content-title">
-                        <Icon class="ic_memo" /> 일기 내용
+                        <Icon class="ic_memo" />
+                        <span v-if="type === '1'">꿈 내용</span>
+                        <span v-else>일기 내용</span>
                     </div>
                     <div class="bottom-diary-content-desc">
                         {{ diary.content }}
@@ -82,8 +87,9 @@
     </div>
 </template>
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
+import { useRecordStore } from "~/store/record";
 
 import { useDiaryService } from "../../services/diary";
 import Button from "~/components/common/Button.vue";
@@ -104,6 +110,7 @@ export default {
             diary: {},
             type: "1",
             isLoading: true,
+            isOpen: false,
         };
     },
     computed: {
@@ -134,8 +141,12 @@ export default {
             };
         },
         bottomSheetTitle() {
-            if (this.type === "1") return "꿈 해석 보기";
-            else return "일기 자세히 보기";
+            let type = this.type === "1" ? "꿈 해석" : "일기";
+            if (this.type === "2" && !this.isOpen) type = "일기 자세히"; // 일기의 경우, '자세히' 보기
+
+            const open = !this.isOpen ? "보기" : "닫기";
+
+            return `${type} ${open}`;
         },
     },
     async mounted() {
@@ -163,6 +174,8 @@ export default {
         this.isLoading = false;
     },
     methods: {
+        ...mapActions(useRecordStore, ["deleteOptimisticRecord"]),
+
         onDelete() {
             this.$eventBus.$emit("onCustomModal", {
                 title: "정말 이 기록을 삭제하시겠어요?",
@@ -174,11 +187,11 @@ export default {
         },
         async deleteDiary() {
             const { deleteMorningdiary, deleteNightdiary } = useDiaryService();
+
             const res =
                 this.type === "1"
                     ? await deleteMorningdiary(this.diary.id)
                     : await deleteNightdiary(this.diary.id);
-            console.log("res >> ", res);
 
             if (res.success) {
                 // 성공 시, 리스트 페이지로 이동
@@ -188,6 +201,7 @@ export default {
                         this.$router.back();
                     },
                 });
+                this.deleteOptimisticRecord(this.diary);
             } else {
                 // 실패 시, 문구 띄우고 새로고침
                 this.$eventBus.$emit("onConfirmModal", {

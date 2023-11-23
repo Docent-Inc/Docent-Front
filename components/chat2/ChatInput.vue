@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import { useGenerateService } from "../../services/generate";
 import { useChatService } from "../../services/chat";
 import { mapState, mapActions } from "pinia";
 import { useChatStore } from "../../store/chat2";
@@ -67,7 +66,7 @@ export default {
 
             if (!res.success) {
                 const msg = `${res.status_code}  - ${res.message}`;
-                console.log("Error! > ", msg, res);
+                console.error("Error! > ", msg, res);
                 alert(msg);
             }
 

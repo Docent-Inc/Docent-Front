@@ -78,7 +78,7 @@ export default {
                             : this.chat.NightDiary_id;
 
                     this.$router.push(
-                        `/diary/${id}?type=${this.chat.content_type}`
+                        `/diary/${id}?type=${this.chat.content_type}`,
                     );
                     break;
 
@@ -88,15 +88,13 @@ export default {
 
                 case 4:
                     this.$router.push(
-                        `/calendar/?date=${this.chat.event_time}`
+                        `/calendar/?date=${this.chat.event_time}`,
                     );
                     break;
                 default:
                     alert("🔔 서비스 오픈 예정입니다.");
                     break;
             }
-
-            console.log("cliclk>>", this.chat);
         },
     },
 };

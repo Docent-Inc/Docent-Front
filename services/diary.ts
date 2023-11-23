@@ -1,6 +1,12 @@
-import { DELETE, GET } from "~/services";
-import API from "../utils/axios";
-import { DiaryModel, DiaryRatio, MemoModel } from "~/models/diary";
+import { GET, POST, DELETE } from "~/services";
+import {
+    type DiaryModel,
+    type MemoModel,
+    type DiaryRatioModel,
+    type DiaryListModel,
+    type CalendarModel,
+    type CalendarListModel,
+} from "~/models/diary";
 
 export const useDiaryService = () => {
     return {
@@ -69,7 +75,7 @@ export const useDiaryService = () => {
          * 마이페이지 목록 조회 (아침, 저녁, 메모)
          */
         async getGalleryList(diary_type: number, page: number) {
-            return await API.post(`/diary/list`, {
+            return await POST<DiaryListModel>(`/diary/list`, {
                 diary_type: diary_type,
                 page: page,
             });
@@ -78,14 +84,14 @@ export const useDiaryService = () => {
          * 마이페이지 상세 조회 (비율)
          */
         async getRatio() {
-            return await GET<DiaryRatio>(`/diary/ratio`);
+            return await GET<DiaryRatioModel>(`/diary/ratio`);
         },
 
         /**
          * 캘린더 목록 조회
          */
         async getCalendarList(year: number, month: number) {
-            return await API.post(`/diary/list/calender`, {
+            return await POST<CalendarListModel>(`/diary/list/calender`, {
                 year: year,
                 month: month,
             });
@@ -94,7 +100,7 @@ export const useDiaryService = () => {
          * 캘린더 조회
          */
         async getCalendar(year: number, month: number, day: number) {
-            return await API.post(`/diary/list/calender`, {
+            return await POST<CalendarModel[]>(`/diary/list/calender`, {
                 year: year,
                 month: month,
                 day: day,

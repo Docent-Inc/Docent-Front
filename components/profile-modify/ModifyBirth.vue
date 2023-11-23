@@ -67,6 +67,21 @@ export default {
             lastX: 0,
             lastTime: Date.now(),
             velocity: 0,
+            touchData: {
+                startY: 0,
+                lastY: 0,
+                lastTime: Date.now(),
+                velocity: 0,
+            },
+            scrollingAreas: [
+                { startX: 22, endX: 105, handleScroll: this.handleYearScroll },
+                {
+                    startX: 155,
+                    endX: 225,
+                    handleScroll: this.handleMonthScroll,
+                },
+                { startX: 280, endX: 350, handleScroll: this.handleDayScroll },
+            ],
         };
     },
     computed: {
@@ -143,19 +158,18 @@ export default {
         handleTouchMove(event) {
             const currentX = event.touches[0].clientX;
             const currentY = event.touches[0].clientY;
-            const deltaY = currentY - this.lastY;
-            const deltaTime = Date.now() - this.lastTime;
+            const deltaY = currentY - this.touchData.lastY;
+            const deltaTime = Date.now() - this.touchData.lastTime;
 
-            this.velocity = deltaY / deltaTime;
-            this.lastY = currentY;
-            this.lastTime = Date.now();
+            this.touchData.velocity = deltaY / deltaTime;
+            this.touchData.lastY = currentY;
+            this.touchData.lastTime = Date.now();
 
-            if (currentX >= 22 && currentX <= 105) {
-                this.handleYearScroll(deltaY);
-            } else if (currentX >= 155 && currentX <= 225) {
-                this.handleMonthScroll(deltaY);
-            } else if (currentX >= 280 && currentX <= 350) {
-                this.handleDayScroll(deltaY);
+            for (const area of this.scrollingAreas) {
+                if (currentX >= area.startX && currentX <= area.endX) {
+                    area.handleScroll(deltaY);
+                    break;
+                }
             }
         },
         handleTouchEnd() {
@@ -186,12 +200,32 @@ export default {
             this.emitBirthChange();
         },
         handleMonthScroll(deltaY) {
-            this.currentMonth -= deltaY > 0 ? 1 : -1;
+            const increment = deltaY > 0 ? -1 : 1;
+            this.currentMonth += increment;
+
+            if (this.currentMonth === 0) {
+                this.currentMonth = 12;
+            } else if (this.currentMonth === 13) {
+                this.currentMonth = 1;
+            }
             this.setDisplayedMonths();
             this.emitBirthChange();
         },
         handleDayScroll(deltaY) {
-            this.currentDay -= deltaY > 0 ? 1 : -1;
+            const maxDaysInMonth = new Date(
+                this.currentYear,
+                this.currentMonth,
+                0,
+            ).getDate();
+            const increment = deltaY > 0 ? -1 : 1;
+
+            this.currentDay += increment;
+
+            if (this.currentDay === 0) {
+                this.currentDay = maxDaysInMonth;
+            } else if (this.currentDay > maxDaysInMonth) {
+                this.currentDay = 1;
+            }
             this.setDisplayedDays();
             this.emitBirthChange();
         },

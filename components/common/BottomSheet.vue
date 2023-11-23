@@ -2,7 +2,9 @@
     <!-- <div class="bottom-sheet-wrapper" @click="(e) => onClick(e, 'wrapper')"> -->
     <div class="bottom-sheet" :class="animateClass">
         <div class="bottom-sheet-top">
-            <div v-if="title" class="bottom-sheet-title">{{ title }}</div>
+            <div v-if="title" class="bottom-sheet-title">
+                {{ title }}
+            </div>
             <Icon class="ic_detail" @click="(e) => onClick(e, 'button')" />
         </div>
         <div class="bottom-sheet-contents" v-if="isOpen">
@@ -45,6 +47,7 @@ export default {
             if (!this.isOpen && area === "wrapper") return;
 
             this.isOpen = !this.isOpen;
+            this.$emit("open", this.isOpen);
         },
     },
 };

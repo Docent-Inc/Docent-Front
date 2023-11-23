@@ -3,16 +3,38 @@
         <header>
             <div>회원가입</div>
         </header>
-        <div class="signup-form">
-            <section class="guide-wrapper">
+        <section v-if="step === 0" class="signup-form">
+            <div class="guide-wrapper">
+                <h1>
+                    프로필을 작성하기 전,
+                    <br />
+                    서비스 이용 약관을 확인해주세요.
+                </h1>
+            </div>
+            <div>
+                <article class="signup-prop">
+                    <SignUpTerms @all-checkboxes-checked="handleAllCheck" />
+                </article>
+                <button
+                    type="button"
+                    class="submit-button"
+                    :disabled="!isAllChecked"
+                    @click="changeComponent"
+                >
+                    프로필 입력하러가기
+                </button>
+            </div>
+        </section>
+        <section v-else class="signup-form">
+            <div class="guide-wrapper">
                 <h1>
                     {{ step === 1 ? "가입을 환영해요!" : "거의 다 왔어요!" }}
                     <br />
-                    본인에 대해 알려주실래요?
+                    프로필을 입력해주세요.
                 </h1>
-                <div class="guide">프로필은 나중에 변경하실 수 있어요. :)</div>
-            </section>
-            <section class="signup-prop">
+                <div class="guide">프로필은 나중에 변경하실 수 있어요.</div>
+            </div>
+            <article class="signup-prop">
                 <div v-if="step === 1">
                     <label for="nickname">닉네임</label>
                     <SignUpNickname @update:nickname="nickname = $event" />
@@ -21,9 +43,9 @@
                     <div class="signup-prop__title">성별</div>
                     <SignUpGender @update:gender="gender = $event" />
                 </div>
-            </section>
+            </article>
 
-            <section class="signup-prop">
+            <article class="signup-prop">
                 <div v-if="step === 1">
                     <div class="signup-prop__title">MBTI</div>
                     <SignUpMBTI @update:mbtiType="mbti = $event" />
@@ -31,7 +53,7 @@
                 <div v-else>
                     <ModifyBirth @birthSelected="birthDay = $event" />
                 </div>
-            </section>
+            </article>
 
             <button
                 v-if="step === 1"
@@ -51,12 +73,13 @@
             >
                 가입 완료하기
             </button>
-        </div>
+        </section>
     </main>
 </template>
 
 <script>
 import { mapActions } from "pinia";
+import SignUpTerms from "~/components/signup/SignUpTerms.vue";
 import SignUpNickname from "~/components/signup/SignUpNickname.vue";
 import SignUpMBTI from "~/components/signup/SignUpMBTI.vue";
 import SignUpGender from "~/components/signup/SignUpGender.vue";
@@ -65,20 +88,30 @@ import { useAuthService } from "~/services/auth";
 import { useUserStore } from "~/store/user";
 
 export default {
-    components: { SignUpNickname, SignUpMBTI, SignUpGender, ModifyBirth },
+    components: {
+        SignUpTerms,
+        SignUpNickname,
+        SignUpMBTI,
+        SignUpGender,
+        ModifyBirth,
+    },
     data() {
         return {
+            step: 0,
+            isAllChecked: false,
             nickname: "",
             mbti: "",
             gender: "",
             birthDay: "",
-            step: 1,
         };
     },
     methods: {
         ...mapActions(useUserStore, ["updateUser"]),
+        handleAllCheck(allChecked) {
+            this.isAllChecked = allChecked();
+        },
         changeComponent() {
-            if (this.step === 1) this.step = 2;
+            if (this.step !== 2) this.step++;
         },
         async signUp(event) {
             event.preventDefault();
@@ -93,7 +126,6 @@ export default {
             const { signup } = useAuthService();
 
             const res = await signup(requestBody);
-            console.log(res);
 
             if (res.success) {
                 await this.updateUser();

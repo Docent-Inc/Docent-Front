@@ -35,7 +35,7 @@ export default {
     methods: {
         showDetail() {
             this.$router.push(
-                `/diary/${this.diary.id}?type=${this.diary.diary_type}`
+                `/diary/${this.diary.id}?type=${this.diary.diary_type}`,
             );
         },
     },

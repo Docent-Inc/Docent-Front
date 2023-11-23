@@ -1,4 +1,4 @@
-import { ChatContentModel, ExampleChatModel } from "~/models/chat";
+import { type ChatContentModel, type ExampleChatModel } from "~/models/chat";
 import { GET, POST } from "~/services";
 
 export const useChatService = () => {

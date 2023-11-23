@@ -3,40 +3,56 @@
         class="landing"
         :class="{ daytime: timeType === 2, night: timeType === 4 }"
     >
-        <!-- <div v-if="isSkeleton" class="skeleton">
-            <div class="spinner"></div>
-        </div> -->
-
         <div class="landing__weather">
             <div class="date-box">
                 <div class="date">
-                    {{ $dayjs().format("YYYY.MM.DD.") }}
+                    {{ $dayjs().format("YYYY.MM.DD.ddd") }}
                 </div>
-                <!-- <div class="date-icon">
-                    <v-icon class="ic_cloud" />
-                </div> -->
+                <div class="date-icon">
+                    <div v-if="!weather.icon" class="skeleton" />
+                    <img
+                        v-else-if="
+                            weather.icon && !(weather.icon === 'not supported')
+                        "
+                        :src="`/weathers/ic_${weather.icon}.svg`"
+                        :alt="weather.icon"
+                    />
+                </div>
             </div>
-            <!-- <div class="degree-box">
-                <span>최고기온</span>
-                <span class="degree">21°C</span>
-                <span>최고기온</span>
-                <span class="degree">21°C</span>
-            </div> -->
+            <div class="degree-box">
+                <div v-if="!weather.tmx" class="skeleton" />
+                <div
+                    v-else-if="
+                        weather.tmx && !(weather.icon === 'not supported')
+                    "
+                >
+                    <span>최고기온</span>
+                    <span class="degree">{{ weather.tmx }}°C</span>
+                    <span>최저기온</span>
+                    <span class="degree">{{ weather.tmn }}°C</span>
+                </div>
+            </div>
         </div>
         <div class="landing__greeting">
             <div class="greeting">
                 <h1>{{ greetingPrefix }} {{ user?.nickname }}님,</h1>
                 <h2>{{ dynamicMessage }}</h2>
             </div>
-            <div class="fortune-box" @click="openModal">
-                <div class="red-dot" :class="{ checked: isModalOpenedToday }" />
+            <div v-if="!luck" class="skeleton fortune" />
+            <div v-else class="fortune-box" @click="openModal">
+                <div
+                    class="red-dot"
+                    :class="{
+                        checked: isCheckedToday || optimisticIsCheckedToday,
+                    }"
+                />
                 <div class="ic_fortune-box" @click="openModal">
                     <v-icon class="ic_fortune" />
                 </div>
             </div>
         </div>
     </section>
-    <SimpleModal :show="modalOpen" @close="closeModal">
+    <SimpleModal :isModalOpen="isModalOpen" @close="closeModal">
         <article class="modal">
             <div class="ic_fortune-modal">
                 <div class="ic_fortune-modal-box">
@@ -71,11 +87,13 @@ export default {
     props: {
         user: Object,
         luck: String,
+        isCheckedToday: Boolean,
+        weather: Object,
     },
     data() {
         return {
-            modalOpen: false,
-            isModalOpenedToday: false,
+            isModalOpen: false,
+            optimisticIsCheckedToday: false,
         };
     },
     computed: {
@@ -120,32 +138,14 @@ export default {
                     return "새로운 일정과 메모가 있나요?";
             }
         },
-        // isSkeleton() {
-        // return !this.user || !this.user.nickname;
-        // },
-    },
-    mounted() {
-        this.checkLastModalUpDate();
     },
     methods: {
         openModal() {
-            this.modalOpen = true;
-            this.isModalOpenedToday = true;
-            this.checkLastModalUpDate();
+            this.isModalOpen = true;
         },
         closeModal() {
-            this.modalOpen = false;
-        },
-        checkLastModalUpDate() {
-            const lastModalDate = localStorage.getItem("lastModalDate");
-            const today = new Date().toDateString();
-            localStorage.setItem("lastModalDate", today);
-
-            if (lastModalDate !== today) {
-                this.isModalOpenedToday = false;
-            } else {
-                this.isModalOpenedToday = true;
-            }
+            this.isModalOpen = false;
+            this.optimisticIsCheckedToday = true;
         },
     },
 };
@@ -162,6 +162,10 @@ export default {
     color: $vc-gray-100;
     background: $gradient_dawn_dusk;
 
+    @media screen and (max-width: 360px) {
+        padding-bottom: 2.5rem;
+    }
+
     &.daytime {
         background: $gradient_day;
     }
@@ -175,9 +179,8 @@ export default {
         justify-content: space-between;
         height: 20px;
 
-        @media screen and (max-width: 320px) {
+        @media screen and (max-width: 360px) {
             flex-direction: column;
-            align-items: left;
             margin-bottom: 4rem;
         }
     }
@@ -209,18 +212,18 @@ export default {
     }
 
     .date {
-        margin-right: 2rem;
+        margin-right: 1.5rem;
     }
 
     .date-icon {
         width: 20px;
         height: 20px;
+        display: flex;
+        align-items: center;
 
-        i {
+        img {
             width: 100%;
             height: 100%;
-            font-size: 1rem;
-            display: block;
         }
     }
 }
@@ -230,7 +233,13 @@ export default {
     font-size: var(--vc-text-xs);
     font-weight: 400;
     display: flex;
+    justify-content: right;
     align-items: center;
+    width: 200px;
+
+    @media screen and (max-width: 360px) {
+        justify-content: left;
+    }
 
     .degree {
         margin: 0 1.7rem 0 1rem;
@@ -311,6 +320,12 @@ export default {
     align-items: center;
     margin-top: 2rem;
 
+    @media screen and (max-height: 700px) {
+        border-radius: 0;
+        width: 100%;
+        height: 105vh;
+    }
+
     &__skeleton {
         @include skeleton;
         margin-top: 2rem;
@@ -321,6 +336,7 @@ export default {
 
     &__contents {
         margin: 2rem;
+        width: 100%;
     }
 
     &__title {
@@ -347,34 +363,18 @@ export default {
 .skeleton {
     position: absolute;
     width: 90%;
-    height: 15%;
+    height: 15px;
     background-color: transparent;
-    border-radius: 10px;
+    border-radius: $border-radius-default;
 
     @include skeleton;
-
-    /* &__date {
-    @include skeleton;
-    width: 100%;
-    height: 20px;
-    border-radius: 10px;
-  }
-
-  &__greeting {
-    @include skeleton;
-    width: 50%;
-    height: 20px;
-    border-radius: 10px;
-    top: 20%;
-
-    &::after {
-      @include skeleton;
-      content: "";
-      width: 150%;
-      height: 20px;
-      border-radius: 10px;
-      top: 170%;
+    @media screen and (max-width: 360px) {
+        margin-top: 0.3rem;
     }
-  } */
+
+    &.fortune {
+        width: 50px;
+        height: 50px;
+    }
 }
 </style>

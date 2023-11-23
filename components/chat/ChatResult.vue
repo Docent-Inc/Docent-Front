@@ -12,8 +12,8 @@
         </div>
 
         <!-- 내용 -->
-        <div v-if="type === 1 || type === 2" class="chat-diary">
-            <div class="chat-more" @click="more">자세히 보러가기</div>
+        <div v-if="type === 1 || type === 2" class="chat-diary" @click="more">
+            <div class="chat-more">자세히 보러가기</div>
             <img :src="result.content.image_url" />
             <div class="chat-diary-title">{{ result.content.diary_name }}</div>
         </div>
@@ -83,19 +83,17 @@ export default {
     },
     methods: {
         more() {
-            console.log(">", this.result);
+            // console.log(">", this.result);
 
             switch (this.result.text_type) {
                 case 1:
                 case 2:
-                    console.log("diary", this.result.diary_id);
                     this.$router.push(
                         `/diary/${this.result.diary_id}?type=${this.result.text_type}`,
                     );
                     break;
 
                 case 3:
-                    console.log("memo", this.result.diary_id);
                     this.$router.push(`/memo/${this.result.diary_id}`);
                     break;
 

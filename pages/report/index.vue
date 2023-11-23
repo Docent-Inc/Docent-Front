@@ -11,7 +11,7 @@
                 </div>
                 <div v-else>
                     이번 한 주도 수고했어요 :&#41;<br />
-                    <b>월요일 아침</b>에 돌아보기가 완성돼요!
+                    <b>일요일 밤</b>에 돌아보기가 완성돼요!
                 </div>
             </div>
             <div class="report-progress-wrap">
@@ -108,10 +108,6 @@ export default {
     },
     methods: {
         async loadMore() {
-            console.log(
-                "loadMore: ",
-                `${this.reports.length}/${this.list_count}`,
-            );
             if (this.reports.length < this.list_count) {
                 // page +1 해서 호출
                 this.page += 1;

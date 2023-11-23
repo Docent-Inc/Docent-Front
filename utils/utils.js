@@ -55,3 +55,41 @@ export function getTextColorForBackground(backgroundColors) {
 function getBrightness(r, g, b) {
     return 0.299 * r + 0.587 * g + 0.114 * b;
 }
+
+/**
+ * 위도, 경도 가져오기
+ */
+export async function getCoordinates() {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    resolve({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                    });
+                },
+                (error) => {
+                    reject(error);
+                },
+            );
+        } else {
+            reject(new Error("위치 정보 수집이 허가되지 않았습니다"));
+        }
+    });
+}
+
+/**
+ * 만료 n분 전 확인
+ * @param {string} date - Date 객체 String으로 된 것
+ * @param {number} minute - n분 전인지 확인
+ */
+export function isExpiredIn(date, minute) {
+    const expirationDate = new Date(date);
+    const now = new Date();
+
+    const diff = expirationDate - now;
+    const minutesInMilliseconds = minute * 60 * 1000;
+
+    return diff <= minutesInMilliseconds;
+}
