@@ -18,12 +18,12 @@
             />
         </div>
 
+        <!-- (2) 통계 영역 -->
         <div class="contents-header-2" v-if="highestCountCategory">
             <Icon :class="highestCountCategory.iconClass" />
             <p class="status-text">{{ highestCountCategory.message }}</p>
         </div>
 
-        <!-- (2) 통계 영역 -->
         <div class="contents-header-3">
             <div v-if="isLoading" class="bg_count_area_default"></div>
             <div v-else class="count-area">
@@ -69,12 +69,15 @@
                 :selected="type"
             />
         </div>
+
         <div v-if="isLoading"></div>
-        <div v-else-if="list?.length > 0">
-            <ListItems :list="list" v-if="mode === 0" />
-            <BoardItems :list="list" v-else />
+        <div v-else>
+            <div v-if="list?.length > 0">
+                <ListItems :list="list" v-if="mode === 0" />
+                <BoardItems :list="list" v-else />
+            </div>
+            <Starter v-else />
         </div>
-        <Starter v-else />
 
         <InfiniteLoading
             v-if="list?.length"
@@ -202,7 +205,7 @@ export default {
             "getRatio",
         ]),
         loadMore() {
-            console.log(`loadmore ${this.list.length}/${this.totalCounts}`);
+            // console.log(`loadmore ${this.list.length}/${this.totalCounts}`);
             if (this.list.length < this.totalCounts) {
                 this.setPageNo(this.pageNo + 1);
                 this.getGalleryList();
