@@ -38,8 +38,7 @@ export default {
     width: 100%;
     height: 100vh;
     /* 모바일 하단바 고려 */
-    height: -webkit-fill-available;
-    height: fill-available;
+    height: stretch;
 
     top: 0;
     right: 0;

@@ -84,7 +84,7 @@ onUnmounted(() => {
 
 async function getSessionChatList() {
     const chatList = window.sessionStorage.getItem("chatList");
-    console.log("Chat init! ", chatList);
+    // console.log("Chat init! ", chatList);
 
     if (chatList) {
         store.initChatList(JSON.parse(chatList));

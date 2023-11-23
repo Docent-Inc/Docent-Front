@@ -66,7 +66,7 @@ export default {
 
             if (!res.success) {
                 const msg = `${res.status_code}  - ${res.message}`;
-                console.log("Error! > ", msg, res);
+                console.error("Error! > ", msg, res);
                 alert(msg);
             }
 

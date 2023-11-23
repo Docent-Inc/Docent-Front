@@ -79,7 +79,6 @@ export default {
         async deleteMemo() {
             const { deleteMemo } = useDiaryService();
             const res = await deleteMemo(this.$route.params.id);
-            console.log("res >> ", res);
 
             if (res.success) {
                 // 성공 시, 리스트 페이지로 이동

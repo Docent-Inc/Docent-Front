@@ -156,7 +156,6 @@ export const useCalendarStore = defineStore("calendar", {
         async getCalendarList() {
             const { getCalendarList } = useDiaryService();
             const res = await getCalendarList(this.page.year, this.page.month);
-            console.log(res.data);
             this.list = res.data.list;
             this.setAttributes();
         },

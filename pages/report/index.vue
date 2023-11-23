@@ -108,10 +108,6 @@ export default {
     },
     methods: {
         async loadMore() {
-            console.log(
-                "loadMore: ",
-                `${this.reports.length}/${this.list_count}`,
-            );
             if (this.reports.length < this.list_count) {
                 // page +1 해서 호출
                 this.page += 1;

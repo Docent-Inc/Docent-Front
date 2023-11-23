@@ -10,7 +10,7 @@ import { isExpiredIn } from "~/utils/utils";
  */
 export default defineNuxtRouteMiddleware(async (to, from) => {
     const [fullPath] = to.fullPath.split("?") || from.fullPath.split("?");
-    console.log(fullPath);
+    // console.log(fullPath);
 
     // 미들웨어를 거쳐가지 않는 페이지
     const paths = ["/", "/signin", "/callback", "/onboarding"];
