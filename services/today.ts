@@ -1,15 +1,14 @@
-import type { Record } from '~/models/chat';
+import type { Record } from "~/models/chat";
 import { GET } from "~/services";
 
-interface Diaries {
+interface RecordRes {
     MorningDiary: Record[];
     NightDiary: Record[];
 }
-interface RecordRes {
-    data: Diaries;
-    message: string;
-    status_code: number;
-    success: boolean;
+
+interface WeatherRes {
+    icon: string;
+    tmx: string;
 }
 
 export const useTodayService = () => {
@@ -23,8 +22,8 @@ export const useTodayService = () => {
         /**
          * 오늘 기록 조회
          */
-        async getTodayRecord(): Promise<RecordRes> {
-            return await GET(`/today/history`);
+        async getTodayRecord() {
+            return await GET<RecordRes>(`/today/history`);
         },
         /**
          * 오늘 운세 조회
@@ -36,7 +35,7 @@ export const useTodayService = () => {
          * 오늘 날씨 조회
          */
         async getTodayWeather(lat: string, lon: string) {
-            return await GET(`/today/weather?x=${lat}&y=${lon}`);
+            return await GET<WeatherRes>(`/today/weather?x=${lat}&y=${lon}`);
         },
     };
 };
