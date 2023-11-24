@@ -1,18 +1,15 @@
 <template>
     <!-- 오늘의 기록 -->
     <section class="records">
-        <div class="title-wrapper">
-            <div class="title-box">
-                <v-icon class="ic_airplane" />
-                <h2>과거로 여행을 떠나볼까요?</h2>
-            </div>
-            <button
-                class="title-btn"
-                @click="() => this.$router.push(`mypage`)"
-            >
-                기록 보러가기
-            </button>
+        <!-- <div class="title-wrapper"> -->
+        <div class="title-box">
+            <v-icon class="ic_airplane" />
+            <h2>과거로 여행을 떠나볼까요?</h2>
         </div>
+        <button class="title-btn" @click="() => this.$router.push(`mypage`)">
+            기록 보러가기
+        </button>
+        <!-- </div> -->
         <div class="records__description">
             그동안 기록을 통해 이 그림들을 그리셨어요. :)
         </div>
@@ -95,58 +92,56 @@ export default {
     background: $gradient_bg_light;
     margin: 2rem -2rem 0 -2rem;
     flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 110px;
+    grid-auto-rows: max-content;
+
+    &__description,
+    .main-slides {
+        grid-column: 1 / span 2;
+    }
 
     &__description {
         color: $vc-gray-500;
         font-size: 1.2rem;
         padding-left: 2rem;
+        margin-top: 0.5rem;
+    }
 
-        @media screen and (max-width: 320px) {
-            padding-left: 0;
-            text-align: center;
+    .title-box {
+        display: flex;
+        align-items: center;
+        margin: 2rem 0 0 2rem;
+        @media screen and (max-width: 340px) {
+            grid-column: 1 / span 2;
+        }
+
+        h2 {
+            margin-left: 0.5rem;
+            font-family: $font-bold;
+            font-size: 1.8rem;
+
+            @media screen and (max-width: 380px) {
+                font-size: 100%;
+            }
         }
     }
 
-    .title-wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 2rem 2rem 0 2rem;
+    .title-btn {
+        font-size: 12px;
+        background: $vc-indigo-50;
+        color: $vc-indigo-500;
+        height: 100%;
+        padding: 0.5rem 1rem;
+        border-radius: $border-radius-default;
+        height: 30px;
+        font-family: $font-medium;
+        margin: 2rem 2rem 0 0;
 
-        @media screen and (max-width: 320px) {
-            flex-direction: column;
-            justify-content: center;
-            align-items: stretch;
-        }
-
-        .title-box {
-            display: flex;
-            align-items: center;
-
-            h2 {
-                margin-left: 0.5rem;
-                font-family: $font-bold;
-                font-size: 18px;
-
-                @media screen and (max-width: 320px) {
-                    font-size: 1.6rem;
-                }
-            }
-        }
-
-        .title-btn {
-            font-size: 12px;
-            background: $vc-indigo-50;
-            color: $vc-indigo-500;
-            height: 100%;
-            padding: 0.5rem 1rem;
-            border-radius: $border-radius-default;
-            height: 30px;
-            font-family: $font-medium;
-
-            @media screen and (max-width: 320px) {
-                margin: 1rem;
-            }
+        @media screen and (max-width: 340px) {
+            margin: 1rem;
+            grid-row: 4;
+            grid-column: 1 / span 2;
         }
     }
 }
@@ -159,10 +154,15 @@ export default {
     &::-webkit-scrollbar {
         display: none;
     }
+    @media screen and (min-height: 920px) {
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
 
     .main-slide {
         border-radius: $border-radius-default;
-        margin-left: 1.5rem;
+        margin-left: 2rem;
         width: 184px;
         height: 184px;
         flex-shrink: 0;
@@ -170,10 +170,18 @@ export default {
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
+        @media screen and (min-height: 920px) {
+            margin: 0 0 1rem 0;
+            width: 280px;
+            height: 280px;
+        }
     }
 
     .main-slide:last-child {
-        margin-right: 1.5rem;
+        margin-right: 2rem;
+        @media screen and (min-height: 920px) {
+            margin: 0;
+        }
     }
 
     .main-slide.empty {

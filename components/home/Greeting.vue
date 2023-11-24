@@ -195,8 +195,11 @@ export default {
         font-size: 2.4rem;
         font-family: $font-bold;
 
-        @media screen and (max-width: 320px) {
-            font-size: 2rem;
+        @media screen and (max-width: 380px) {
+            font-size: 120%;
+        }
+        @media screen and (max-width: 360px) {
+            font-size: 110%;
         }
     }
 }
@@ -207,12 +210,15 @@ export default {
     display: flex;
     align-items: center;
 
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 360px) {
         margin-bottom: 0.5rem;
     }
 
     .date {
         margin-right: 1.5rem;
+        @media screen and (max-width: 380px) {
+            font-size: 90%;
+        }
     }
 
     .date-icon {
@@ -261,6 +267,10 @@ export default {
     align-items: center;
     position: relative;
     cursor: pointer;
+    @media screen and (max-width: 380px) {
+        width: 40px;
+        height: 40px;
+    }
 
     .red-dot {
         background-color: $vc-red-400;
@@ -279,7 +289,10 @@ export default {
     .ic_fortune-box {
         width: 28px;
         height: 28px;
-
+        @media screen and (max-width: 380px) {
+            width: 23px;
+            height: 23px;
+        }
         i {
             width: 100%;
             height: 100%;

@@ -1,17 +1,14 @@
 <template>
     <section class="calendar">
-        <div class="title-wrapper">
-            <div class="title-box">
-                <v-icon class="ic_calendar_color" />
-                <h2>다가오는 일정이에요!</h2>
-            </div>
-            <button
-                class="title-btn"
-                @click="() => this.$router.push(`calendar`)"
-            >
-                캘린더 보러가기
-            </button>
+        <!-- <div class="title-wrapper"> -->
+        <div class="title-box">
+            <v-icon class="ic_calendar_color" />
+            <h2>다가오는 일정이에요!</h2>
         </div>
+        <button class="title-btn" @click="() => this.$router.push(`calendar`)">
+            캘린더 보러가기
+        </button>
+        <!-- </div> -->
         <div class="calendar__empty skeleton" v-if="isCalendarLoading" />
         <div class="calendar__empty" v-else-if="calendarIsEmpty">
             다가오는 일정이 없습니다. 좋은 하루 보내세요!
@@ -69,7 +66,15 @@ export default {
 @import "@/assets/scss/mixins.scss";
 
 .calendar {
+    width: 100%;
     margin: 5rem auto;
+    display: grid;
+    grid-template-columns: 1fr 110px;
+
+    &__empty,
+    &__data {
+        grid-column: 1 / span 2;
+    }
 
     &__description {
         color: $vc-gray-500;
@@ -77,44 +82,38 @@ export default {
         padding-left: 2rem;
     }
 
-    .title-wrapper {
+    .title-box {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-
-        @media screen and (max-width: 320px) {
-            flex-direction: column;
-            justify-content: center;
-            align-items: stretch;
-        }
-        .title-box {
-            display: flex;
-            align-items: center;
-
-            h2 {
-                margin-left: 0.5rem;
-                font-family: $font-bold;
-                font-size: 1.8rem;
-
-                @media screen and (max-width: 320px) {
-                    font-size: 1.6rem;
-                }
-            }
+        @media screen and (max-width: 340px) {
+            grid-column: 1 / span 2;
         }
 
-        .title-btn {
-            font-size: 1.2rem;
-            background: $vc-indigo-50;
-            color: $vc-indigo-500;
-            height: 100%;
-            padding: 0.5rem 1rem;
-            border-radius: $border-radius-default;
-            height: 30px;
-            font-family: $font-medium;
+        h2 {
+            margin-left: 0.5rem;
+            font-family: $font-bold;
+            font-size: 1.8rem;
 
-            @media screen and (max-width: 320px) {
-                margin: 1.5rem 0 0 0;
+            @media screen and (max-width: 380px) {
+                font-size: 100%;
             }
+        }
+    }
+
+    .title-btn {
+        font-size: 1.2rem;
+        background: $vc-indigo-50;
+        color: $vc-indigo-500;
+        height: 100%;
+        padding: 0.5rem 1rem;
+        border-radius: $border-radius-default;
+        height: 30px;
+        font-family: $font-medium;
+
+        @media screen and (max-width: 340px) {
+            margin: 1.5rem 0 0 0;
+            grid-row: 3;
+            grid-column: 1 / span 2;
         }
     }
 
@@ -128,6 +127,9 @@ export default {
         padding: 1.2rem;
         margin-top: 1.6rem;
         border-radius: $border-radius-default;
+        @media screen and (max-width: 300px) {
+            font-size: 1.1rem;
+        }
     }
 
     &__data {
@@ -204,7 +206,6 @@ export default {
 }
 
 .skeleton {
-    /* position: absolute; */
     z-index: 2;
     width: 100%;
     @include skeleton;
