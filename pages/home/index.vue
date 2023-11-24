@@ -36,8 +36,8 @@
 import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
 import { useRecordStore } from "~/store/record";
+import { useWeatherStore } from "~/store/weather";
 import { useTodayService } from "../../services/today";
-import { getCoordinates } from "~/utils/utils";
 import Header from "~/components/common/Header.vue";
 import Greeting from "../../components/home/Greeting.vue";
 import DDays from "../../components/home/DDays.vue";
@@ -57,22 +57,19 @@ export default {
             isCalendarLoading: true,
             luck: "",
             isCheckedToday: false,
-            weather: {},
         };
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
         ...mapState(useRecordStore, ["record"]),
+        ...mapState(useWeatherStore, ["weather"]),
     },
     methods: {
         ...mapActions(useRecordStore, ["updateRecord"]),
+        ...mapActions(useWeatherStore, ["updateWeather"]),
     },
     async mounted() {
-        const {
-            getTodayLucky,
-            getTodayCalendar,
-            getTodayWeather,
-        } = useTodayService();
+        const { getTodayLucky, getTodayCalendar } = useTodayService();
 
         getTodayLucky().then((res) => {
             if (res.success) {
@@ -89,29 +86,8 @@ export default {
             }
         });
 
+        this.updateWeather();
         this.updateRecord();
-
-        try {
-            const coordinate = await getCoordinates();
-            const { latitude, longitude } = coordinate;
-
-            const weatherRes = await getTodayWeather(latitude, longitude);
-            if (weatherRes.success) {
-                this.weather = weatherRes.data;
-            } else {
-                this.weather = {
-                    icon: "not supported",
-                    tmx: "not supported",
-                };
-            }
-        } catch (error) {
-            console.error(error.message);
-
-            this.weather = {
-                icon: "not supported",
-                tmx: "not supported",
-            };
-        }
     },
 };
 </script>
@@ -143,6 +119,12 @@ export default {
         margin-top: -2rem;
         border-radius: 20px;
         width: 100%;
+
+        @media screen and (min-height: 920px) {
+            min-height: 84%;
+            display: flex;
+            flex-direction: column;
+        }
     }
 }
 

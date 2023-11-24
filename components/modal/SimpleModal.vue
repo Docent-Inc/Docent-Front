@@ -36,14 +36,13 @@ export default {
 
 .modal-background {
     width: 100%;
-    height: 100vh;
     /* 모바일 하단바 고려 */
     height: stretch;
 
     top: 0;
     right: 0;
     position: absolute;
-    z-index: 99;
+    z-index: 999;
     backdrop-filter: blur(2rem) brightness(80%);
     display: flex;
     justify-content: center;
@@ -52,10 +51,6 @@ export default {
 
     /* 모달창에서 iPad 및 iPhone SE 보완 */
     overflow-y: auto;
-
-    /* 웹뷰 url bar로 인한 헤더 잘림현상 방지 */
-    position: fixed;
-    top: 0;
 
     @media screen and (max-height: 700px) {
         padding: 0;
