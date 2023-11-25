@@ -4,9 +4,9 @@
         <!-- 홈 문구 -->
         <Greeting
             :user="user"
-            :luck="luck"
             :isCheckedToday="isCheckedToday"
             :weather="weather"
+            @open="this.isModalOpen = true"
         />
 
         <div class="contents-wrapper">
@@ -29,6 +29,31 @@
             <!-- 오늘의 기록 -->
             <Records :record="record" />
         </div>
+
+        <SimpleModal :isModalOpen="isModalOpen" @close="isModalOpen = false">
+            <article class="modal" @click.stop>
+                <div class="ic_fortune-modal">
+                    <div class="ic_fortune-modal-box">
+                        <v-icon class="ic_fortune" />
+                    </div>
+                </div>
+
+                <div
+                    v-if="!luckData.keyword && !luckData.description"
+                    class="modal__skeleton"
+                />
+                <div v-else class="modal__contents">
+                    <h1 class="modal__title">
+                        오늘의 운세는 <br />
+                        <span class="point">"{{ luckData.keyword }}"</span>
+                        입니다.
+                    </h1>
+                    <p class="modal__description">
+                        {{ luckData.description }}
+                    </p>
+                </div>
+            </article>
+        </SimpleModal>
     </main>
 </template>
 
@@ -42,10 +67,11 @@ import Header from "~/components/common/Header.vue";
 import Greeting from "../../components/home/Greeting.vue";
 import DDays from "../../components/home/DDays.vue";
 import Records from "../../components/home/Records.vue";
+import SimpleModal from "~/components/modal/SimpleModal.vue";
 
 export default {
     name: "Home",
-    components: { Header, Greeting, DDays, Records },
+    components: { Header, Greeting, DDays, Records, SimpleModal },
     setup() {
         definePageMeta({
             layout: "main",
@@ -57,12 +83,31 @@ export default {
             isCalendarLoading: true,
             luck: "",
             isCheckedToday: false,
+            isModalOpen: false,
         };
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
         ...mapState(useRecordStore, ["record"]),
         ...mapState(useWeatherStore, ["weather"]),
+        luckData() {
+            if (this.luck) {
+                const parts = this.luck.split(".");
+                const keyword = parts[0].split('"')[1];
+
+                const [, ...rest] = parts;
+                const description = rest.join(". ");
+
+                return {
+                    keyword,
+                    description,
+                };
+            }
+            return {
+                keyword: "",
+                description: "",
+            };
+        },
     },
     methods: {
         ...mapActions(useRecordStore, ["updateRecord"]),
@@ -157,5 +202,82 @@ export default {
     width: 100%;
     background: transparent;
     position: absolute;
+}
+
+.modal {
+    width: 100%;
+    max-height: calc(100% - (36px + 4rem + 20px));
+    margin-top: calc(2rem + 36px);
+
+    background: $vc-white;
+    color: $vc-gray-800;
+    padding: $padding-default;
+    border-radius: 12px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    // margin-top: 2rem;
+    // @media screen and (max-height: 700px) {
+    //     border-radius: 0;
+    //     width: 100%;
+    //     height: 100%;
+    // }
+
+    &__skeleton {
+        @include skeleton;
+        margin-top: 2rem;
+        border-radius: $border-radius-default;
+        width: 100%;
+        height: 150px;
+    }
+
+    &__contents {
+        margin: 2rem;
+        width: 100%;
+        overflow-y: scroll;
+    }
+
+    &__title {
+        text-align: center;
+        font-size: 2.4rem;
+        margin-bottom: 1.6rem;
+        font-family: $font-bold;
+
+        .point {
+            color: $vc-indigo-500;
+        }
+    }
+
+    &__description {
+        color: $vc-gray-500;
+        font-size: 14px;
+        line-height: 2rem;
+        text-indent: 10px;
+        text-align: justify;
+        word-break: break-all;
+    }
+}
+
+.ic_fortune-modal {
+    width: 172px;
+    height: 172px;
+    border-radius: $border-circle;
+    background: $gradient_bg_light;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .ic_fortune-modal-box {
+        width: 96px;
+        height: 96px;
+
+        i {
+            width: 100%;
+            height: 100%;
+        }
+    }
 }
 </style>

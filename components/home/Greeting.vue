@@ -38,8 +38,8 @@
                 <h1>{{ greetingPrefix }} {{ user?.nickname }}님,</h1>
                 <h2>{{ dynamicMessage }}</h2>
             </div>
-            <div v-if="!luck" class="skeleton fortune" />
-            <div v-else class="fortune-box" @click="openModal">
+            <!-- <div v-if="!luck" class="skeleton fortune" /> -->
+            <div class="fortune-box" @click="openModal">
                 <div
                     class="red-dot"
                     :class="{
@@ -52,7 +52,7 @@
             </div>
         </div>
     </section>
-    <SimpleModal :isModalOpen="isModalOpen" @close="closeModal">
+    <!-- <SimpleModal :isModalOpen="isModalOpen" @close="closeModal">
         <article class="modal" @click.stop>
             <div class="ic_fortune-modal">
                 <div class="ic_fortune-modal-box">
@@ -75,7 +75,7 @@
                 </p>
             </div>
         </article>
-    </SimpleModal>
+    </SimpleModal> -->
 </template>
 
 <script>
@@ -142,7 +142,8 @@ export default {
     },
     methods: {
         openModal() {
-            this.isModalOpen = true;
+            // this.isModalOpen = true;
+            this.$emit("open");
         },
         closeModal() {
             this.isModalOpen = false;
