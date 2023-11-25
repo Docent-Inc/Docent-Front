@@ -53,12 +53,13 @@
         </div>
     </section>
     <SimpleModal :isModalOpen="isModalOpen" @close="closeModal">
-        <article class="modal">
+        <article class="modal" @click.stop>
             <div class="ic_fortune-modal">
                 <div class="ic_fortune-modal-box">
                     <v-icon class="ic_fortune" />
                 </div>
             </div>
+
             <div
                 v-if="!luckData.keyword && !luckData.description"
                 class="modal__skeleton"
@@ -323,33 +324,39 @@ export default {
 }
 
 .modal {
+    width: 100%;
+    max-height: calc(100% - (36px + 4rem + 20px));
+    margin-top: calc(2rem + 36px);
+
     background: $vc-white;
     color: $vc-gray-800;
     padding: $padding-default;
     border-radius: 12px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 2rem;
 
-    @media screen and (max-height: 700px) {
-        border-radius: 0;
-        width: 100%;
-        height: 105vh;
-    }
+    // margin-top: 2rem;
+    // @media screen and (max-height: 700px) {
+    //     border-radius: 0;
+    //     width: 100%;
+    //     height: 100%;
+    // }
 
     &__skeleton {
         @include skeleton;
         margin-top: 2rem;
         border-radius: $border-radius-default;
-        width: 200px;
+        width: 100%;
         height: 150px;
     }
 
     &__contents {
         margin: 2rem;
         width: 100%;
+        overflow-y: scroll;
     }
 
     &__title {
