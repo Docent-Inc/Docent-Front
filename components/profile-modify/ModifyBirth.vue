@@ -10,6 +10,9 @@
                     v-for="year in displayedYears"
                     :key="'year-' + year"
                     :class="{ 'current-year': year === currentYear }"
+                    @touchstart="handleDragStart"
+                    @touchmove="handleDragMove"
+                    @touchend="handleDragEnd"
                 >
                     {{ year }}
                 </div>
@@ -23,6 +26,9 @@
                     v-for="month in displayedMonths"
                     :key="'month-' + month"
                     :class="{ 'current-month': month === currentMonth }"
+                    @touchstart="handleDragStart"
+                    @touchmove="handleDragMove"
+                    @touchend="handleDragEnd"
                 >
                     {{ month }}
                 </div>
@@ -36,6 +42,9 @@
                     v-for="day in displayedDays"
                     :key="'day-' + day"
                     :class="{ 'current-day': day === currentDay }"
+                    @touchstart="handleDragStart"
+                    @touchmove="handleDragMove"
+                    @touchend="handleDragEnd"
                 >
                     {{ day }}
                 </div>
@@ -98,9 +107,6 @@ export default {
         this.setDisplayedYears();
         this.setDisplayedMonths();
         this.setDisplayedDays();
-        this.$el.addEventListener("touchstart", this.handleTouchStart);
-        this.$el.addEventListener("touchmove", this.handleTouchMove);
-        this.$el.addEventListener("touchend", this.handleTouchEnd);
     },
     methods: {
         checkYear() {
@@ -149,18 +155,21 @@ export default {
                 nextDay === 32 ? 1 : nextDay,
             ];
         },
-        handleTouchStart(event) {
+        handleDragStart(event) {
             this.startY = event.touches[0].clientY;
             this.startX = event.touches[0].clientX;
-            this.lastY = this.startY;
-            this.lastTime = Date.now();
+            this.touchData.lastY = this.startY;
+            this.touchData.lastTime = Date.now();
         },
-        handleTouchMove(event) {
+        handleDragMove(event) {
             const currentX = event.touches[0].clientX;
             const currentY = event.touches[0].clientY;
-            const deltaY = currentY - this.touchData.lastY;
-            const deltaTime = Date.now() - this.touchData.lastTime;
+            let deltaY = currentY - this.touchData.lastY;
+            const sensitivity = 0.05;
+            deltaY *= sensitivity;
+            console.log(deltaY);
 
+            const deltaTime = Date.now() - this.touchData.lastTime;
             this.touchData.velocity = deltaY / deltaTime;
             this.touchData.lastY = currentY;
             this.touchData.lastTime = Date.now();
@@ -172,19 +181,20 @@ export default {
                 }
             }
         },
-        handleTouchEnd() {
-            const inertiaDuration = 50;
-            const distance = this.velocity * inertiaDuration;
-            const change = Math.round(distance / 36);
+        handleDragEnd(event) {
+            this.lastX = event.changedTouches[0].clientX;
+            const inertiaDuration = 100;
+            const distance = this.touchData.velocity * inertiaDuration;
+            const change = distance / 36;
 
             if (this.lastX >= 22 && this.lastX <= 105) {
-                this.currentYear -= change;
+                this.currentYear = Math.round(this.currentYear - change);
                 this.setDisplayedYears();
             } else if (this.lastX >= 155 && this.lastX <= 225) {
-                this.currentMonth -= change;
+                this.currentMonth = Math.round(this.currentMonth - change);
                 this.setDisplayedMonths();
             } else if (this.lastX >= 280 && this.lastX <= 350) {
-                this.currentDay -= change;
+                this.currentDay = Math.round(this.currentDay - change);
                 this.setDisplayedDays();
             }
         },
@@ -195,12 +205,13 @@ export default {
             this.$emit("birthSelected", birth);
         },
         handleYearScroll(deltaY) {
-            this.currentYear -= deltaY > 0 ? 1 : -1;
+            const increment = deltaY >= 0.3 ? -1 : deltaY <= -0.3 ? 1 : 0;
+            this.currentYear += increment;
             this.setDisplayedYears();
             this.emitBirthChange();
         },
         handleMonthScroll(deltaY) {
-            const increment = deltaY > 0 ? -1 : 1;
+            const increment = deltaY >= 0.3 ? -1 : deltaY <= -0.3 ? 1 : 0;
             this.currentMonth += increment;
 
             if (this.currentMonth === 0) {
@@ -217,8 +228,7 @@ export default {
                 this.currentMonth,
                 0,
             ).getDate();
-            const increment = deltaY > 0 ? -1 : 1;
-
+            const increment = deltaY >= 0.3 ? -1 : deltaY <= -0.3 ? 1 : 0;
             this.currentDay += increment;
 
             if (this.currentDay === 0) {
@@ -229,11 +239,6 @@ export default {
             this.setDisplayedDays();
             this.emitBirthChange();
         },
-    },
-    beforeDestroy() {
-        this.$el.removeEventListener("touchstart", this.handleTouchStart);
-        this.$el.removeEventListener("touchmove", this.handleTouchMove);
-        this.$el.removeEventListener("touchend", this.handleTouchEnd);
     },
 };
 </script>

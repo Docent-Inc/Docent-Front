@@ -25,7 +25,7 @@
         </div>
 
         <div class="contents-header-3">
-            <div v-if="isLoading" class="bg_count_area_default"></div>
+            <div v-if="isSkeleton" class="bg_count_area_default"></div>
             <div v-else class="count-area">
                 <div :style="barStyles.dream" class="bar dream-bar">
                     <div v-if="ratio.morning_diary_ratio > 0">
@@ -48,7 +48,7 @@
 
                 <div
                     v-if="
-                        !isLoading &&
+                        !isSkeleton &&
                         ratio.morning_diary_count +
                             ratio.night_diary_count +
                             ratio.memo_count ===
@@ -70,7 +70,7 @@
             />
         </div>
 
-        <div v-if="isLoading"></div>
+        <div v-if="isSkeleton"></div>
         <div v-else>
             <div v-if="list?.length > 0">
                 <ListItems :list="list" v-if="mode === 0" />
@@ -83,7 +83,6 @@
             v-if="list?.length"
             :first-load="false"
             :distance="1000"
-            :top="true"
             @infinite="loadMore"
         />
     </div>
@@ -190,6 +189,10 @@ export default {
                 },
             };
         },
+        isSkeleton() {
+            if (this.pageNo === 1 && this.isLoading) return true;
+            return false;
+        },
     },
     async mounted() {
         this.setPageNo(1);
@@ -206,7 +209,7 @@ export default {
         ]),
         loadMore() {
             // console.log(`loadmore ${this.list.length}/${this.totalCounts}`);
-            if (this.list.length < this.totalCounts) {
+            if (!this.isLoading && this.list.length < this.totalCounts) {
                 this.setPageNo(this.pageNo + 1);
                 this.getGalleryList();
             }

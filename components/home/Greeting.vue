@@ -38,8 +38,8 @@
                 <h1>{{ greetingPrefix }} {{ user?.nickname }}님,</h1>
                 <h2>{{ dynamicMessage }}</h2>
             </div>
-            <div v-if="!luck" class="skeleton fortune" />
-            <div v-else class="fortune-box" @click="openModal">
+            <!-- <div v-if="!luck" class="skeleton fortune" /> -->
+            <div class="fortune-box" @click="openModal">
                 <div
                     class="red-dot"
                     :class="{
@@ -52,13 +52,14 @@
             </div>
         </div>
     </section>
-    <SimpleModal :isModalOpen="isModalOpen" @close="closeModal">
-        <article class="modal">
+    <!-- <SimpleModal :isModalOpen="isModalOpen" @close="closeModal">
+        <article class="modal" @click.stop>
             <div class="ic_fortune-modal">
                 <div class="ic_fortune-modal-box">
                     <v-icon class="ic_fortune" />
                 </div>
             </div>
+
             <div
                 v-if="!luckData.keyword && !luckData.description"
                 class="modal__skeleton"
@@ -74,7 +75,7 @@
                 </p>
             </div>
         </article>
-    </SimpleModal>
+    </SimpleModal> -->
 </template>
 
 <script>
@@ -141,7 +142,8 @@ export default {
     },
     methods: {
         openModal() {
-            this.isModalOpen = true;
+            // this.isModalOpen = true;
+            this.$emit("open");
         },
         closeModal() {
             this.isModalOpen = false;
@@ -268,8 +270,10 @@ export default {
     position: relative;
     cursor: pointer;
     @media screen and (max-width: 380px) {
-        width: 40px;
-        height: 40px;
+        width: 43px;
+        height: 43px;
+        margin-left: 1.2rem;
+        flex-shrink: 0;
     }
 
     .red-dot {
@@ -290,8 +294,8 @@ export default {
         width: 28px;
         height: 28px;
         @media screen and (max-width: 380px) {
-            width: 23px;
-            height: 23px;
+            width: 25px;
+            height: 25px;
         }
         i {
             width: 100%;
@@ -302,54 +306,42 @@ export default {
     }
 }
 
-.ic_fortune-modal {
-    width: 172px;
-    height: 172px;
-    border-radius: $border-circle;
-    background: $gradient_bg_light;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-    .ic_fortune-modal-box {
-        width: 96px;
-        height: 96px;
 
-        i {
-            width: 100%;
-            height: 100%;
-        }
-    }
-}
+/* .modal {
+    width: 100%;
+    max-height: calc(100% - (36px + 4rem + 20px));
+    margin-top: calc(2rem + 36px);
 
-.modal {
     background: $vc-white;
     color: $vc-gray-800;
     padding: $padding-default;
     border-radius: 12px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 2rem;
 
     @media screen and (max-height: 700px) {
         border-radius: 0;
         width: 100%;
-        height: 105vh;
+        min-height: 100vh;
+        margin-top: 0;
     }
 
     &__skeleton {
         @include skeleton;
         margin-top: 2rem;
         border-radius: $border-radius-default;
-        width: 200px;
+        width: 100%;
         height: 150px;
     }
 
     &__contents {
         margin: 2rem;
         width: 100%;
+        overflow-y: scroll;
     }
 
     &__title {
@@ -357,7 +349,9 @@ export default {
         font-size: 2.4rem;
         margin-bottom: 1.6rem;
         font-family: $font-bold;
-
+        @media screen and (max-width: 360px) {
+            font-size: 130%;
+        }
         .point {
             color: $vc-indigo-500;
         }
@@ -370,8 +364,24 @@ export default {
         text-indent: 10px;
         text-align: justify;
         word-break: break-all;
+
+        overflow-y: auto;
+        max-height: 220px;
+        padding-right: 1rem;
+
+        &::-webkit-scrollbar {
+            width: 1vw;
+            padding-left: 1rem;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: $vc-indigo-300;
+            border-radius: 30px;
+        }
+        @media screen and (max-width: 360px) {
+            font-size: 88%;
+        }
     }
-}
+} */
 
 .skeleton {
     position: absolute;

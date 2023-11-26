@@ -93,6 +93,7 @@ export default {
     backdrop-filter: blur(16px);
 
     border: none;
+    z-index: 999;
 
     > div {
         display: flex;

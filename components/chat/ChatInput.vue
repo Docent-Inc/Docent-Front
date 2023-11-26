@@ -119,7 +119,7 @@ export default {
     backdrop-filter: blur(16px);
 
     padding: 1.5rem 0 3rem;
-    z-index: 10;
+    z-index: 998;
     position: fixed;
     bottom: 0;
     bottom: constant(safe-area-inset-bottom);
