@@ -34,8 +34,8 @@
                         기록을 해주시면 자신만의 <br />그림으로 채워나갈 수
                         있어요!
                     </div>
+                    <div class="filter" />
                 </div>
-                <div class="filter" />
             </div>
             <div
                 class="main-slide"
