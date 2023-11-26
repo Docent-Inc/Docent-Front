@@ -143,17 +143,24 @@ export default {
 @import "@/assets/scss/mixins.scss";
 
 .contents {
-    height: calc(100% - (60px));
-    height: calc(100% - (60px + constant(safe-area-inset-top)));
-    height: calc(100% - (60px + env(safe-area-inset-top)));
-
+    height: calc(100vh - (60px + 90px));
+    height: calc(100vh - (60px + 90px + constant(safe-area-inset-top)));
+    height: calc(100vh - (60px + 90px + env(safe-area-inset-top)));
+    /* height: 100%; */
     margin-top: 60px;
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
     padding: 0;
 
+    /* height: calc(100% - 9rem);
+    height: calc(100% - 9rem - constant(safe-area-inset-bottom));
+    height: calc(100% - 9rem - env(safe-area-inset-bottom)); */
+    margin-bottom: 9rem;
+    margin-bottom: calc(9rem + env(safe-area-inset-bottom));
+
     overflow-x: none;
     scrollbar-width: none;
+
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
         display: none;
@@ -167,7 +174,7 @@ export default {
         width: 100%;
 
         @media screen and (min-height: 920px) {
-            min-height: 84%;
+            min-height: 86%;
             display: flex;
             flex-direction: column;
         }
