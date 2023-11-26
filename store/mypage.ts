@@ -5,7 +5,7 @@ export const useMypageStore = defineStore("mypage", {
     state: () => ({
         pageNo: 1,
         type: 0, // ALL (0), Dream (1), Diary(2), Memo(3)
-        mode: 0, // List (0), Board(1)
+        mode: 1, // List (0), Board(1)
         list: [] as DiaryList[],
         totalCounts: 0,
         ratio: {} as DiaryRatio,
