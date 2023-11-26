@@ -109,13 +109,6 @@ export default {
         this.setDisplayedDays();
     },
     methods: {
-        debounce(func, delay = 10) {
-            console.log(delay);
-            clearTimeout(this.timer);
-            this.timer = setTimeout(() => {
-                func();
-            }, delay);
-        },
         checkYear() {
             if (this.currentYear < 1900) this.currentYear = 1900;
             if (this.currentYear > 2023) this.currentYear = 2023;
@@ -171,7 +164,10 @@ export default {
         handleDragMove(event) {
             const currentX = event.touches[0].clientX;
             const currentY = event.touches[0].clientY;
-            const deltaY = currentY - this.touchData.lastY;
+            let deltaY = currentY - this.touchData.lastY;
+            const sensitivity = 0.05;
+            deltaY *= sensitivity;
+            console.log(deltaY);
 
             const deltaTime = Date.now() - this.touchData.lastTime;
             this.touchData.velocity = deltaY / deltaTime;
@@ -209,45 +205,39 @@ export default {
             this.$emit("birthSelected", birth);
         },
         handleYearScroll(deltaY) {
-            this.debounce(() => {
-                this.currentYear -= deltaY > 0 ? 1 : -1;
-                this.setDisplayedYears();
-                this.emitBirthChange();
-            });
+            const increment = deltaY >= 0.3 ? -1 : deltaY <= -0.3 ? 1 : 0;
+            this.currentYear += increment;
+            this.setDisplayedYears();
+            this.emitBirthChange();
         },
         handleMonthScroll(deltaY) {
-            this.debounce(() => {
-                const increment = deltaY > 0 ? -1 : 1;
-                this.currentMonth += increment;
+            const increment = deltaY >= 0.3 ? -1 : deltaY <= -0.3 ? 1 : 0;
+            this.currentMonth += increment;
 
-                if (this.currentMonth === 0) {
-                    this.currentMonth = 12;
-                } else if (this.currentMonth === 13) {
-                    this.currentMonth = 1;
-                }
-                this.setDisplayedMonths();
-                this.emitBirthChange();
-            }, 15);
+            if (this.currentMonth === 0) {
+                this.currentMonth = 12;
+            } else if (this.currentMonth === 13) {
+                this.currentMonth = 1;
+            }
+            this.setDisplayedMonths();
+            this.emitBirthChange();
         },
         handleDayScroll(deltaY) {
-            this.debounce(() => {
-                const maxDaysInMonth = new Date(
-                    this.currentYear,
-                    this.currentMonth,
-                    0,
-                ).getDate();
-                const increment = deltaY > 0 ? -1 : 1;
+            const maxDaysInMonth = new Date(
+                this.currentYear,
+                this.currentMonth,
+                0,
+            ).getDate();
+            const increment = deltaY >= 0.3 ? -1 : deltaY <= -0.3 ? 1 : 0;
+            this.currentDay += increment;
 
-                this.currentDay += increment;
-
-                if (this.currentDay === 0) {
-                    this.currentDay = maxDaysInMonth;
-                } else if (this.currentDay > maxDaysInMonth) {
-                    this.currentDay = 1;
-                }
-                this.setDisplayedDays();
-                this.emitBirthChange();
-            }, 15);
+            if (this.currentDay === 0) {
+                this.currentDay = maxDaysInMonth;
+            } else if (this.currentDay > maxDaysInMonth) {
+                this.currentDay = 1;
+            }
+            this.setDisplayedDays();
+            this.emitBirthChange();
         },
     },
 };
