@@ -47,12 +47,9 @@ export default {
     align-items: center;
     padding: 2rem;
 
-    /* 모달창에서 iPad 및 iPhone SE 보완 */
-    // overflow-y: auto;
-
-    // @media screen and (max-height: 700px) {
-    //     padding: 0;
-    // }
+    @media screen and (max-height: 650px) {
+        padding: 0;
+    }
 
     // &.in-layout {
     //     height: 100%;

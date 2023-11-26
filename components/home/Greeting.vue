@@ -306,33 +306,9 @@ export default {
     }
 }
 
-.ic_fortune-modal {
-    width: 172px;
-    height: 172px;
-    border-radius: $border-circle;
-    background: $gradient_bg_light;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    @media screen and (max-width: 360px) {
-        width: 140px;
-        height: 140px;
-    }
-    .ic_fortune-modal-box {
-        width: 96px;
-        height: 96px;
-        @media screen and (max-width: 360px) {
-            width: 85px;
-            height: 85px;
-        }
-        i {
-            width: 100%;
-            height: 100%;
-        }
-    }
-}
 
-.modal {
+
+/* .modal {
     width: 100%;
     max-height: calc(100% - (36px + 4rem + 20px));
     margin-top: calc(2rem + 36px);
@@ -346,13 +322,12 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* margin-top: 2rem; */
 
     @media screen and (max-height: 700px) {
         border-radius: 0;
         width: 100%;
         min-height: 100vh;
-        /* margin-top: 0; */
+        margin-top: 0;
     }
 
     &__skeleton {
@@ -406,7 +381,7 @@ export default {
             font-size: 88%;
         }
     }
-}
+} */
 
 .skeleton {
     position: absolute;
