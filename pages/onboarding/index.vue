@@ -207,6 +207,7 @@ const updateChatBoxCss = () => {
     background: rgba(255, 255, 255, 0.3);
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
+    z-index: 999;
 
     border: none;
     padding: 0 20px;
@@ -252,7 +253,7 @@ const updateChatBoxCss = () => {
     align-items: center;
 
     padding: 1.5rem 0 3rem;
-    z-index: 10;
+    z-index: 998;
     position: fixed;
     bottom: 0;
     bottom: constant(safe-area-inset-bottom);
