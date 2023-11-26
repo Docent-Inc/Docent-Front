@@ -51,7 +51,6 @@
                 v-if="reports?.length"
                 :first-load="false"
                 :distance="1000"
-                :top="true"
                 @infinite="loadMore"
             />
         </div>

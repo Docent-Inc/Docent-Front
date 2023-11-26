@@ -38,8 +38,8 @@
                 <h1>{{ greetingPrefix }} {{ user?.nickname }}님,</h1>
                 <h2>{{ dynamicMessage }}</h2>
             </div>
-            <div v-if="!luck" class="skeleton fortune" />
-            <div v-else class="fortune-box" @click="openModal">
+            <!-- <div v-if="!luck" class="skeleton fortune" /> -->
+            <div class="fortune-box" @click="openModal">
                 <div
                     class="red-dot"
                     :class="{
@@ -52,13 +52,14 @@
             </div>
         </div>
     </section>
-    <SimpleModal :isModalOpen="isModalOpen" @close="closeModal">
-        <article class="modal">
+    <!-- <SimpleModal :isModalOpen="isModalOpen" @close="closeModal">
+        <article class="modal" @click.stop>
             <div class="ic_fortune-modal">
                 <div class="ic_fortune-modal-box">
                     <v-icon class="ic_fortune" />
                 </div>
             </div>
+
             <div
                 v-if="!luckData.keyword && !luckData.description"
                 class="modal__skeleton"
@@ -74,7 +75,7 @@
                 </p>
             </div>
         </article>
-    </SimpleModal>
+    </SimpleModal> -->
 </template>
 
 <script>
@@ -141,7 +142,8 @@ export default {
     },
     methods: {
         openModal() {
-            this.isModalOpen = true;
+            // this.isModalOpen = true;
+            this.$emit("open");
         },
         closeModal() {
             this.isModalOpen = false;
@@ -331,34 +333,40 @@ export default {
 }
 
 .modal {
+    width: 100%;
+    max-height: calc(100% - (36px + 4rem + 20px));
+    margin-top: calc(2rem + 36px);
+
     background: $vc-white;
     color: $vc-gray-800;
     padding: $padding-default;
     border-radius: 12px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
 
     @media screen and (max-height: 700px) {
         border-radius: 0;
         width: 100%;
         min-height: 100vh;
-        margin-top: 0;
+        /* margin-top: 0; */
     }
 
     &__skeleton {
         @include skeleton;
         margin-top: 2rem;
         border-radius: $border-radius-default;
-        width: 200px;
+        width: 100%;
         height: 150px;
     }
 
     &__contents {
         margin: 2rem;
         width: 100%;
+        overflow-y: scroll;
     }
 
     &__title {
