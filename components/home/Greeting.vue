@@ -270,8 +270,10 @@ export default {
     position: relative;
     cursor: pointer;
     @media screen and (max-width: 380px) {
-        width: 40px;
-        height: 40px;
+        width: 43px;
+        height: 43px;
+        margin-left: 1.2rem;
+        flex-shrink: 0;
     }
 
     .red-dot {
@@ -292,8 +294,8 @@ export default {
         width: 28px;
         height: 28px;
         @media screen and (max-width: 380px) {
-            width: 23px;
-            height: 23px;
+            width: 25px;
+            height: 25px;
         }
         i {
             width: 100%;
@@ -304,27 +306,9 @@ export default {
     }
 }
 
-.ic_fortune-modal {
-    width: 172px;
-    height: 172px;
-    border-radius: $border-circle;
-    background: $gradient_bg_light;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-    .ic_fortune-modal-box {
-        width: 96px;
-        height: 96px;
 
-        i {
-            width: 100%;
-            height: 100%;
-        }
-    }
-}
-
-.modal {
+/* .modal {
     width: 100%;
     max-height: calc(100% - (36px + 4rem + 20px));
     margin-top: calc(2rem + 36px);
@@ -339,12 +323,12 @@ export default {
     justify-content: center;
     align-items: center;
 
-    // margin-top: 2rem;
-    // @media screen and (max-height: 700px) {
-    //     border-radius: 0;
-    //     width: 100%;
-    //     height: 100%;
-    // }
+    @media screen and (max-height: 700px) {
+        border-radius: 0;
+        width: 100%;
+        min-height: 100vh;
+        margin-top: 0;
+    }
 
     &__skeleton {
         @include skeleton;
@@ -365,7 +349,9 @@ export default {
         font-size: 2.4rem;
         margin-bottom: 1.6rem;
         font-family: $font-bold;
-
+        @media screen and (max-width: 360px) {
+            font-size: 130%;
+        }
         .point {
             color: $vc-indigo-500;
         }
@@ -378,8 +364,24 @@ export default {
         text-indent: 10px;
         text-align: justify;
         word-break: break-all;
+
+        overflow-y: auto;
+        max-height: 220px;
+        padding-right: 1rem;
+
+        &::-webkit-scrollbar {
+            width: 1vw;
+            padding-left: 1rem;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: $vc-indigo-300;
+            border-radius: 30px;
+        }
+        @media screen and (max-width: 360px) {
+            font-size: 88%;
+        }
     }
-}
+} */
 
 .skeleton {
     position: absolute;

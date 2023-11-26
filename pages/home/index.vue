@@ -151,6 +151,7 @@ export default {
     margin-top: calc(60px + env(safe-area-inset-top));
     padding: 0;
 
+    z-index: 998;
     overflow-x: none;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -219,12 +220,12 @@ export default {
     justify-content: center;
     align-items: center;
 
-    // margin-top: 2rem;
-    // @media screen and (max-height: 700px) {
-    //     border-radius: 0;
-    //     width: 100%;
-    //     height: 100%;
-    // }
+    margin-top: 3rem;
+    @media screen and (max-height: 650px) {
+        border-radius: 0;
+        min-height: 100vh;
+        margin-top: 0;
+    }
 
     &__skeleton {
         @include skeleton;
@@ -237,7 +238,17 @@ export default {
     &__contents {
         margin: 2rem;
         width: 100%;
-        overflow-y: scroll;
+
+        overflow-y: auto;
+        padding-right: 0.5rem;
+        &::-webkit-scrollbar {
+            width: 1vw;
+            padding-left: 1rem;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: $vc-indigo-300;
+            border-radius: 30px;
+        }
     }
 
     &__title {
@@ -245,7 +256,9 @@ export default {
         font-size: 2.4rem;
         margin-bottom: 1.6rem;
         font-family: $font-bold;
-
+        @media screen and (max-width: 360px) {
+            font-size: 130%;
+        }
         .point {
             color: $vc-indigo-500;
         }
@@ -258,6 +271,22 @@ export default {
         text-indent: 10px;
         text-align: justify;
         word-break: break-all;
+        /* 
+        overflow-y: auto;
+        max-height: 220px;
+        padding-right: 1rem;
+
+        &::-webkit-scrollbar {
+            width: 1vw;
+            padding-left: 1rem;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: $vc-indigo-300;
+            border-radius: 30px;
+        } */
+        @media screen and (max-width: 360px) {
+            font-size: 88%;
+        }
     }
 }
 
@@ -269,11 +298,21 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0;
 
+    @media screen and (max-width: 360px), (max-height: 500px) {
+        width: 140px;
+        height: 140px;
+    }
     .ic_fortune-modal-box {
         width: 96px;
         height: 96px;
+        flex-shrink: 0;
 
+        @media screen and (max-width: 360px), (max-height: 500px) {
+            width: 85px;
+            height: 85px;
+        }
         i {
             width: 100%;
             height: 100%;

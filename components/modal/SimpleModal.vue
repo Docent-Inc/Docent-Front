@@ -31,13 +31,10 @@ export default {
 @import "@/assets/scss/variables.scss";
 
 .modal-background {
-    // width: 100vw;
-    // max-width: 500px;
-    // height: 100vh;
-
-    // width: 100%;
+    width: 100%;
+    height: 100%;
     /* 모바일 하단바 고려 */
-    // height: stretch;
+    /* height: stretch; */
 
     top: 0;
     right: 0;
@@ -50,12 +47,9 @@ export default {
     align-items: center;
     padding: 2rem;
 
-    /* 모달창에서 iPad 및 iPhone SE 보완 */
-    // overflow-y: auto;
-
-    // @media screen and (max-height: 700px) {
-    //     padding: 0;
-    // }
+    @media screen and (max-height: 650px) {
+        padding: 0;
+    }
 
     // &.in-layout {
     //     height: 100%;
