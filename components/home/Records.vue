@@ -27,7 +27,6 @@
                 @click="() => this.$router.push(`chat`)"
                 v-if="!hasUserOwnDiaries && !isLoading"
             >
-                <div class="filter" />
                 <div v-if="isLoading" class="skeleton" />
                 <div v-if="!isLoading && !hasUserOwnDiaries" class="empty-box">
                     <div class="ic_add-box"><v-icon class="ic_add" /></div>
@@ -36,6 +35,7 @@
                         있어요!
                     </div>
                 </div>
+                <div class="filter" />
             </div>
             <div
                 class="main-slide"

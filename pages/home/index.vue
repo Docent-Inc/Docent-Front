@@ -215,7 +215,7 @@ export default {
 .modal {
     width: 100%;
     max-height: calc(100% - (36px + 4rem + 20px));
-    margin-top: calc(2rem + 36px);
+    /* margin-top: calc(2rem + 36px); */
 
     background: $vc-white;
     color: $vc-gray-800;
