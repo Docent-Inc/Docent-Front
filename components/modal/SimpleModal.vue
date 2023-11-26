@@ -32,7 +32,7 @@ export default {
 
 .modal-background {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     /* 모바일 하단바 고려 */
     /* height: stretch; */
 

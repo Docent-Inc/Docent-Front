@@ -227,7 +227,7 @@ export default {
     justify-content: center;
     align-items: center;
 
-    margin-top: 3rem;
+    /* margin-top: 3rem; */
     @media screen and (max-height: 650px) {
         border-radius: 0;
         min-height: 100vh;
