@@ -29,13 +29,13 @@
             >
                 <div v-if="isLoading" class="skeleton" />
                 <div v-if="!isLoading && !hasUserOwnDiaries" class="empty-box">
-                    <div class="filter" />
                     <div class="ic_add-box"><v-icon class="ic_add" /></div>
                     <div class="empty-description">
                         기록을 해주시면 자신만의 <br />그림으로 채워나갈 수
                         있어요!
                     </div>
                 </div>
+                <!-- <div class="filter" /> -->
             </div>
             <div
                 class="main-slide"
@@ -201,18 +201,13 @@ export default {
         text-align: center;
 
         .filter {
-            border-radius: $border-radius-default;
+            /* border-radius: $border-radius-default;
             position: absolute;
-            /* filter: brightness(50%) blur(5px); */
+            /* filter: brightness(50%) blur(5px);  
             width: 100%;
-            height: 100%;
+            height: 100%; */
             /* backdrop-filter: blur(5px); */
 
-            @supports (backdrop-filter: blur()) or
-                (-webkit-backdrop-filter: blur()) {
-                background: rgba(56, 56, 56, 0.6);
-                backdrop-filter: blur(5px);
-            }
             /* @supports (-webkit-backdrop-filter: blur(5px)) {
                 -webkit-border-radius: 20px;
 
@@ -225,17 +220,28 @@ export default {
             flex-direction: column;
             justify-content: center;
             align-items: center;
+
+            border-radius: $border-radius-default;
+            position: absolute;
+            /* filter: brightness(50%) blur(5px); */
+            width: 100%;
+            height: 100%;
+            @supports (backdrop-filter: blur()) or
+                (-webkit-backdrop-filter: blur()) {
+                background: rgba(56, 56, 56, 0.6);
+                backdrop-filter: blur(5px);
+            }
         }
 
         .empty-description {
-            z-index: 5;
+            z-index: 10;
             margin-top: 2rem;
             @media screen and (min-height: 920px) {
                 font-size: 1.7rem;
             }
         }
         .ic_add-box {
-            z-index: 1;
+            z-index: 10;
             width: 35px;
             height: 35px;
 
