@@ -12,10 +12,13 @@ API.interceptors.request.use(
     (config) => {
         const { accessToken } = useUserStore();
 
-        if (accessToken) {
+        // if (accessToken) {
+        if (true) {
             // config.headers["Authorization"] = `Bearer ${accessToken}`;
             // console.log(accessToken);
-            config.headers["Authorization"] = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmcmVlMjI5MEBuYXZlci5jb20iLCJleHAiOjE3MDEwMTQ2MTR9.gwCZJKFlXvYkjmlldnGxRYHqLQiuPc7vNJSovRyKKLc`;
+            config.headers[
+                "Authorization"
+            ] = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmcmVlMjI5MEBuYXZlci5jb20iLCJleHAiOjE3MDEwMTQ2MTR9.gwCZJKFlXvYkjmlldnGxRYHqLQiuPc7vNJSovRyKKLc`;
         }
 
         return config;
