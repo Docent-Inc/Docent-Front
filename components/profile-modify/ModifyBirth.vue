@@ -91,16 +91,6 @@ export default {
                 },
                 { startX: 280, endX: 350, handleScroll: this.handleDayScroll },
             ],
-            // 추가: 드래그 이벤트 관련 상태값
-            dragStartY: 0,
-            dragLastY: 0,
-            dragLastTime: Date.now(),
-            dragTouchData: {
-                startY: 0,
-                lastY: 0,
-                lastTime: Date.now(),
-                velocity: 0,
-            },
         };
     },
     computed: {
@@ -193,9 +183,9 @@ export default {
             }
         },
         handleDragEnd() {
-            const inertiaDuration = 50;
-            const distance = this.velocity * inertiaDuration;
-            const change = Math.round(distance / 36);
+            const inertiaDuration = 3000;
+            const distance = this.touchData.velocity * inertiaDuration;
+            const change = distance / 600;
 
             if (this.lastX >= 22 && this.lastX <= 105) {
                 this.currentYear -= change;
@@ -215,45 +205,45 @@ export default {
             this.$emit("birthSelected", birth);
         },
         handleYearScroll(deltaY) {
-            this.debounce(() => {
-                this.currentYear -= deltaY > 0 ? 1 : -1;
-                this.setDisplayedYears();
-                this.emitBirthChange();
-            });
+            // this.debounce(() => {
+            this.currentYear -= deltaY > 0 ? 1 : -1;
+            this.setDisplayedYears();
+            this.emitBirthChange();
+            // });
         },
         handleMonthScroll(deltaY) {
-            this.debounce(() => {
-                const increment = deltaY > 0 ? -1 : 1;
-                this.currentMonth += increment;
+            // this.debounce(() => {
+            const increment = deltaY > 0 ? -1 : 1;
+            this.currentMonth += increment;
 
-                if (this.currentMonth === 0) {
-                    this.currentMonth = 12;
-                } else if (this.currentMonth === 13) {
-                    this.currentMonth = 1;
-                }
-                this.setDisplayedMonths();
-                this.emitBirthChange();
-            });
+            if (this.currentMonth === 0) {
+                this.currentMonth = 12;
+            } else if (this.currentMonth === 13) {
+                this.currentMonth = 1;
+            }
+            this.setDisplayedMonths();
+            this.emitBirthChange();
+            // });
         },
         handleDayScroll(deltaY) {
-            this.debounce(() => {
-                const maxDaysInMonth = new Date(
-                    this.currentYear,
-                    this.currentMonth,
-                    0,
-                ).getDate();
-                const increment = deltaY > 0 ? -1 : 1;
+            // this.debounce(() => {
+            const maxDaysInMonth = new Date(
+                this.currentYear,
+                this.currentMonth,
+                0,
+            ).getDate();
+            const increment = deltaY > 0 ? -1 : 1;
 
-                this.currentDay += increment;
+            this.currentDay += increment;
 
-                if (this.currentDay === 0) {
-                    this.currentDay = maxDaysInMonth;
-                } else if (this.currentDay > maxDaysInMonth) {
-                    this.currentDay = 1;
-                }
-                this.setDisplayedDays();
-                this.emitBirthChange();
-            });
+            if (this.currentDay === 0) {
+                this.currentDay = maxDaysInMonth;
+            } else if (this.currentDay > maxDaysInMonth) {
+                this.currentDay = 1;
+            }
+            this.setDisplayedDays();
+            this.emitBirthChange();
+            // });
         },
     },
 };
