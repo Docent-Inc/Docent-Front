@@ -29,32 +29,32 @@
             <!-- 오늘의 기록 -->
             <Records :record="record" />
         </div>
-
-        <SimpleModal :isModalOpen="isModalOpen" @close="isModalOpen = false">
-            <article class="modal" @click.stop>
-                <div class="ic_fortune-modal">
-                    <div class="ic_fortune-modal-box">
-                        <v-icon class="ic_fortune" />
-                    </div>
-                </div>
-
-                <div
-                    v-if="!luckData.keyword && !luckData.description"
-                    class="modal__skeleton"
-                />
-                <div v-else class="modal__contents">
-                    <h1 class="modal__title">
-                        오늘의 운세는 <br />
-                        <span class="point">"{{ luckData.keyword }}"</span>
-                        입니다.
-                    </h1>
-                    <p class="modal__description">
-                        {{ luckData.description }}
-                    </p>
-                </div>
-            </article>
-        </SimpleModal>
     </main>
+    <SimpleModal :isModalOpen="isModalOpen" @close="isModalOpen = false">
+        <article class="modal" @click.stop>
+            <div class="ic_fortune-modal">
+                <div class="ic_fortune-modal-box">
+                    <v-icon class="ic_fortune" />
+                </div>
+            </div>
+
+            <div
+                v-if="!luckData.keyword && !luckData.description"
+                class="modal__skeleton"
+            />
+            <div v-else class="modal__contents">
+                <h1 class="modal__title">
+                    오늘의 운세는 <br />
+                    <span class="point">"{{ luckData.keyword }}"</span>
+                    입니다.
+                </h1>
+                <p class="modal__description">
+                    {{ luckData.description }}
+                </p>
+            </div>
+        </article>
+    </SimpleModal>
+    <Navigation />
 </template>
 
 <script>
@@ -68,15 +68,16 @@ import Greeting from "../../components/home/Greeting.vue";
 import DDays from "../../components/home/DDays.vue";
 import Records from "../../components/home/Records.vue";
 import SimpleModal from "~/components/modal/SimpleModal.vue";
+import Navigation from "~/components/Navigation.vue";
 
 export default {
     name: "Home",
-    components: { Header, Greeting, DDays, Records, SimpleModal },
-    setup() {
-        definePageMeta({
-            layout: "main",
-        });
-    },
+    components: { Header, Greeting, DDays, Records, SimpleModal, Navigation },
+    // setup() {
+    //     definePageMeta({
+    //         layout: "main",
+    //     });
+    // },
     data() {
         return {
             calendar: [],
@@ -151,7 +152,6 @@ export default {
     margin-top: calc(60px + env(safe-area-inset-top));
     padding: 0;
 
-    z-index: 998;
     overflow-x: none;
     scrollbar-width: none;
     -ms-overflow-style: none;
