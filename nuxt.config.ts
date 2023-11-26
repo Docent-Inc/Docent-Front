@@ -23,7 +23,7 @@ export default defineNuxtConfig({
                 { name: "apple-mobile-web-app-capable", content: "yes" },
             ],
         },
-        layoutTransition: { name: "page", mode: "out-in", duration: 500 },
+        // layoutTransition: { name: "page", mode: "out-in", duration: 500 },
     },
     runtimeConfig: {
         public: {
@@ -47,9 +47,9 @@ export default defineNuxtConfig({
     build: {
         transpile: ["vuetify"],
     },
-    modules: ["@pinia/nuxt", "dayjs-nuxt", "nuxt-swiper", 'nuxt-gtag'],
+    modules: ["@pinia/nuxt", "dayjs-nuxt", "nuxt-swiper", "nuxt-gtag"],
     gtag: {
-        id: 'G-LJWL49EEVB'
+        id: "G-LJWL49EEVB",
     },
     imports: {
         dirs: ["./stores"],

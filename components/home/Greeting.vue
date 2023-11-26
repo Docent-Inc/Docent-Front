@@ -1,8 +1,5 @@
 <template>
-    <section
-        class="landing"
-        :class="{ daytime: timeType === 2, night: timeType === 4 }"
-    >
+    <section class="landing" :class="dynamicBackground">
         <div class="landing__weather">
             <div class="date-box">
                 <div class="date">
@@ -139,6 +136,16 @@ export default {
                     return "새로운 일정과 메모가 있나요?";
             }
         },
+        dynamicBackground() {
+            switch (this.timeType) {
+                case 1:
+                    return "daytime";
+                case 4:
+                    return "night";
+                default:
+                    return "dawn";
+            }
+        },
     },
     methods: {
         openModal() {
@@ -166,6 +173,10 @@ export default {
 
     @media screen and (max-width: 360px) {
         padding-bottom: 2.5rem;
+    }
+
+    &.dawn {
+        background: $gradient_dawn_dusk;
     }
 
     &.daytime {
@@ -305,8 +316,6 @@ export default {
         }
     }
 }
-
-
 
 /* .modal {
     width: 100%;

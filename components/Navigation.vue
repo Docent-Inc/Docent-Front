@@ -67,6 +67,5 @@ export default {
 .navigation.dark {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(16px);
-    z-index: 998;
 }
 </style>

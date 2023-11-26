@@ -29,32 +29,32 @@
             <!-- 오늘의 기록 -->
             <Records :record="record" />
         </div>
-
-        <SimpleModal :isModalOpen="isModalOpen" @close="isModalOpen = false">
-            <article class="modal" @click.stop>
-                <div class="ic_fortune-modal">
-                    <div class="ic_fortune-modal-box">
-                        <v-icon class="ic_fortune" />
-                    </div>
-                </div>
-
-                <div
-                    v-if="!luckData.keyword && !luckData.description"
-                    class="modal__skeleton"
-                />
-                <div v-else class="modal__contents">
-                    <h1 class="modal__title">
-                        오늘의 운세는 <br />
-                        <span class="point">"{{ luckData.keyword }}"</span>
-                        입니다.
-                    </h1>
-                    <p class="modal__description">
-                        {{ luckData.description }}
-                    </p>
-                </div>
-            </article>
-        </SimpleModal>
     </main>
+    <SimpleModal :isModalOpen="isModalOpen" @close="isModalOpen = false">
+        <article class="modal" @click.stop>
+            <div class="ic_fortune-modal">
+                <div class="ic_fortune-modal-box">
+                    <v-icon class="ic_fortune" />
+                </div>
+            </div>
+
+            <div
+                v-if="!luckData.keyword && !luckData.description"
+                class="modal__skeleton"
+            />
+            <div v-else class="modal__contents">
+                <h1 class="modal__title">
+                    오늘의 운세는 <br />
+                    <span class="point">"{{ luckData.keyword }}"</span>
+                    입니다.
+                </h1>
+                <p class="modal__description">
+                    {{ luckData.description }}
+                </p>
+            </div>
+        </article>
+    </SimpleModal>
+    <Navigation />
 </template>
 
 <script>
@@ -68,15 +68,16 @@ import Greeting from "../../components/home/Greeting.vue";
 import DDays from "../../components/home/DDays.vue";
 import Records from "../../components/home/Records.vue";
 import SimpleModal from "~/components/modal/SimpleModal.vue";
+import Navigation from "~/components/Navigation.vue";
 
 export default {
     name: "Home",
-    components: { Header, Greeting, DDays, Records, SimpleModal },
-    setup() {
-        definePageMeta({
-            layout: "main",
-        });
-    },
+    components: { Header, Greeting, DDays, Records, SimpleModal, Navigation },
+    // setup() {
+    //     definePageMeta({
+    //         layout: "main",
+    //     });
+    // },
     data() {
         return {
             calendar: [],
@@ -142,18 +143,25 @@ export default {
 @import "@/assets/scss/mixins.scss";
 
 .contents {
-    height: calc(100% - (60px));
-    height: calc(100% - (60px + constant(safe-area-inset-top)));
-    height: calc(100% - (60px + env(safe-area-inset-top)));
-
+    height: calc(100vh - (60px + 90px));
+    height: calc(100vh - (60px + 90px + constant(safe-area-inset-top)));
+    height: calc(100vh - (60px + 90px + env(safe-area-inset-top)));
+    /* height: 100%; */
     margin-top: 60px;
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
     padding: 0;
 
-    z-index: 998;
+    /* height: calc(100% - 9rem);
+    height: calc(100% - 9rem - constant(safe-area-inset-bottom));
+    height: calc(100% - 9rem - env(safe-area-inset-bottom)); */
+    margin-bottom: 9rem;
+    margin-bottom: calc(9rem + constant(safe-area-inset-bottom));
+    margin-bottom: calc(9rem + env(safe-area-inset-bottom));
+
     overflow-x: none;
     scrollbar-width: none;
+
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
         display: none;
@@ -167,7 +175,7 @@ export default {
         width: 100%;
 
         @media screen and (min-height: 920px) {
-            min-height: 84%;
+            min-height: 86%;
             display: flex;
             flex-direction: column;
         }
@@ -208,7 +216,7 @@ export default {
 .modal {
     width: 100%;
     max-height: calc(100% - (36px + 4rem + 20px));
-    margin-top: calc(2rem + 36px);
+    /* margin-top: calc(2rem + 36px); */
 
     background: $vc-white;
     color: $vc-gray-800;
@@ -220,7 +228,7 @@ export default {
     justify-content: center;
     align-items: center;
 
-    margin-top: 3rem;
+    /* margin-top: 3rem; */
     @media screen and (max-height: 650px) {
         border-radius: 0;
         min-height: 100vh;
