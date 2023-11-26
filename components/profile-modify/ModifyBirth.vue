@@ -110,6 +110,7 @@ export default {
     },
     methods: {
         debounce(func, delay = 10) {
+            console.log(delay);
             clearTimeout(this.timer);
             this.timer = setTimeout(() => {
                 func();
@@ -164,17 +165,19 @@ export default {
         handleDragStart(event) {
             this.startY = event.touches[0].clientY;
             this.startX = event.touches[0].clientX;
-            this.lastY = this.startY;
-            this.lastTime = Date.now();
+            this.touchData.lastY = this.startY;
+            this.touchData.lastTime = Date.now();
         },
         handleDragMove(event) {
             const currentX = event.touches[0].clientX;
             const currentY = event.touches[0].clientY;
             const deltaY = currentY - this.touchData.lastY;
+
             const deltaTime = Date.now() - this.touchData.lastTime;
             this.touchData.velocity = deltaY / deltaTime;
             this.touchData.lastY = currentY;
             this.touchData.lastTime = Date.now();
+
             for (const area of this.scrollingAreas) {
                 if (currentX >= area.startX && currentX <= area.endX) {
                     area.handleScroll(deltaY);
@@ -182,19 +185,20 @@ export default {
                 }
             }
         },
-        handleDragEnd() {
-            const inertiaDuration = 3000;
+        handleDragEnd(event) {
+            this.lastX = event.changedTouches[0].clientX;
+            const inertiaDuration = 100;
             const distance = this.touchData.velocity * inertiaDuration;
-            const change = distance / 600;
+            const change = distance / 36;
 
             if (this.lastX >= 22 && this.lastX <= 105) {
-                this.currentYear -= change;
+                this.currentYear = Math.round(this.currentYear - change);
                 this.setDisplayedYears();
             } else if (this.lastX >= 155 && this.lastX <= 225) {
-                this.currentMonth -= change;
+                this.currentMonth = Math.round(this.currentMonth - change);
                 this.setDisplayedMonths();
             } else if (this.lastX >= 280 && this.lastX <= 350) {
-                this.currentDay -= change;
+                this.currentDay = Math.round(this.currentDay - change);
                 this.setDisplayedDays();
             }
         },
@@ -205,45 +209,45 @@ export default {
             this.$emit("birthSelected", birth);
         },
         handleYearScroll(deltaY) {
-            // this.debounce(() => {
-            this.currentYear -= deltaY > 0 ? 1 : -1;
-            this.setDisplayedYears();
-            this.emitBirthChange();
-            // });
+            this.debounce(() => {
+                this.currentYear -= deltaY > 0 ? 1 : -1;
+                this.setDisplayedYears();
+                this.emitBirthChange();
+            });
         },
         handleMonthScroll(deltaY) {
-            // this.debounce(() => {
-            const increment = deltaY > 0 ? -1 : 1;
-            this.currentMonth += increment;
+            this.debounce(() => {
+                const increment = deltaY > 0 ? -1 : 1;
+                this.currentMonth += increment;
 
-            if (this.currentMonth === 0) {
-                this.currentMonth = 12;
-            } else if (this.currentMonth === 13) {
-                this.currentMonth = 1;
-            }
-            this.setDisplayedMonths();
-            this.emitBirthChange();
-            // });
+                if (this.currentMonth === 0) {
+                    this.currentMonth = 12;
+                } else if (this.currentMonth === 13) {
+                    this.currentMonth = 1;
+                }
+                this.setDisplayedMonths();
+                this.emitBirthChange();
+            }, 15);
         },
         handleDayScroll(deltaY) {
-            // this.debounce(() => {
-            const maxDaysInMonth = new Date(
-                this.currentYear,
-                this.currentMonth,
-                0,
-            ).getDate();
-            const increment = deltaY > 0 ? -1 : 1;
+            this.debounce(() => {
+                const maxDaysInMonth = new Date(
+                    this.currentYear,
+                    this.currentMonth,
+                    0,
+                ).getDate();
+                const increment = deltaY > 0 ? -1 : 1;
 
-            this.currentDay += increment;
+                this.currentDay += increment;
 
-            if (this.currentDay === 0) {
-                this.currentDay = maxDaysInMonth;
-            } else if (this.currentDay > maxDaysInMonth) {
-                this.currentDay = 1;
-            }
-            this.setDisplayedDays();
-            this.emitBirthChange();
-            // });
+                if (this.currentDay === 0) {
+                    this.currentDay = maxDaysInMonth;
+                } else if (this.currentDay > maxDaysInMonth) {
+                    this.currentDay = 1;
+                }
+                this.setDisplayedDays();
+                this.emitBirthChange();
+            }, 15);
         },
     },
 };
