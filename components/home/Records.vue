@@ -29,12 +29,12 @@
             >
                 <div v-if="isLoading" class="skeleton" />
                 <div v-if="!isLoading && !hasUserOwnDiaries" class="empty-box">
+                    <div class="filter" />
                     <div class="ic_add-box"><v-icon class="ic_add" /></div>
                     <div class="empty-description">
                         기록을 해주시면 자신만의 <br />그림으로 채워나갈 수
                         있어요!
                     </div>
-                    <div class="filter" />
                 </div>
             </div>
             <div
@@ -203,16 +203,20 @@ export default {
         .filter {
             border-radius: $border-radius-default;
             position: absolute;
-            filter: brightness(50%) blur(5px);
+            /* filter: brightness(50%) blur(5px); */
             width: 100%;
             height: 100%;
-            backdrop-filter: blur(5px);
+            /* backdrop-filter: blur(5px); */
 
-            @supports (-webkit-backdrop-filter: blur(5px)) {
+            @supports (backdrop-filter: blur()) or
+                (-webkit-backdrop-filter: blur()) {
+                background: rgba(56, 56, 56, 0.6);
+                backdrop-filter: blur(5px);
+            }
+            /* @supports (-webkit-backdrop-filter: blur(5px)) {
                 -webkit-border-radius: 20px;
 
-                background-color: rgba(105, 105, 105, 0.601);
-            }
+                /* background-color: rgba(105, 105, 105, 0.601); */
         }
 
         .empty-box {
