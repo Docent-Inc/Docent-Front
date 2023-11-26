@@ -105,7 +105,7 @@ export default {
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
     padding: 0;
-
+    z-index: 998;
     overflow-x: none;
     scrollbar-width: none;
     -ms-overflow-style: none;
