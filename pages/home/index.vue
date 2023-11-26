@@ -156,6 +156,7 @@ export default {
     height: calc(100% - 9rem - constant(safe-area-inset-bottom));
     height: calc(100% - 9rem - env(safe-area-inset-bottom)); */
     margin-bottom: 9rem;
+    margin-bottom: calc(9rem + constant(safe-area-inset-bottom));
     margin-bottom: calc(9rem + env(safe-area-inset-bottom));
 
     overflow-x: none;
