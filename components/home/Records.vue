@@ -32,7 +32,8 @@
                 <div v-if="!isLoading && !hasUserOwnDiaries" class="empty-box">
                     <div class="ic_add-box"><v-icon class="ic_add" /></div>
                     <div class="empty-description">
-                        기록을 해주시면 자신만의 그림으로 채워나갈 수 있어요!
+                        기록을 해주시면 자신만의 <br />그림으로 채워나갈 수
+                        있어요!
                     </div>
                 </div>
             </div>
@@ -154,11 +155,11 @@ export default {
     &::-webkit-scrollbar {
         display: none;
     }
-    @media screen and (min-height: 920px) {
+    /* @media screen and (min-height: 920px) {
         flex-direction: column;
         width: 100%;
         align-items: center;
-    }
+    } */
 
     .main-slide {
         border-radius: $border-radius-default;
@@ -171,7 +172,7 @@ export default {
         background-position: center;
         background-size: cover;
         @media screen and (min-height: 920px) {
-            margin: 0 0 1rem 0;
+            /* margin: 0 0 1rem 0; */
             width: 280px;
             height: 280px;
         }
@@ -179,9 +180,9 @@ export default {
 
     .main-slide:last-child {
         margin-right: 2rem;
-        @media screen and (min-height: 920px) {
+        /* @media screen and (min-height: 920px) {
             margin: 0;
-        }
+        } */
     }
 
     .main-slide.empty {
@@ -198,6 +199,7 @@ export default {
         align-items: center;
         font-family: $font-default;
         text-align: center;
+
         .filter {
             border-radius: $border-radius-default;
             position: absolute;
@@ -214,7 +216,7 @@ export default {
         }
 
         .empty-box {
-            z-index: 1;
+            z-index: 5;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -222,8 +224,11 @@ export default {
         }
 
         .empty-description {
-            z-index: 1;
+            z-index: 5;
             margin-top: 2rem;
+            @media screen and (min-height: 920px) {
+                font-size: 1.7rem;
+            }
         }
         .ic_add-box {
             z-index: 1;
