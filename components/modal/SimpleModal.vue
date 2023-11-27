@@ -34,7 +34,7 @@ export default {
     width: 100%;
     height: 100%;
     /* 모바일 하단바 고려 */
-    /* height: stretch; */
+    height: stretch;
 
     top: 0;
     right: 0;
@@ -55,23 +55,25 @@ export default {
     //     height: 100%;
     //     width: 100%;
     // }
-
-    .close-icon {
+    .close-box {
         position: absolute;
         top: $padding-default;
         left: $padding-default;
-        width: 36px;
-        height: 36px;
-        border-radius: $border-radius-default;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(0, 0, 0, 0.131);
 
-        i {
-            width: 50%;
-            height: 50%;
-            font-size: 1rem;
+        .close-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: $border-radius-default;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.131);
+
+            i {
+                width: 50%;
+                height: 50%;
+                font-size: 1rem;
+            }
         }
     }
 
