@@ -160,7 +160,10 @@ export default {
     margin-bottom: calc(9rem + env(safe-area-inset-bottom));
 
     overflow-x: none;
+    overflow-y: auto;
     scrollbar-width: none;
+
+    /* border: 1px solid red; */
 
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
@@ -217,6 +220,12 @@ export default {
     width: 100%;
     max-height: calc(100% - (36px + 4rem + 20px));
     /* margin-top: calc(2rem + 36px); */
+
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 2rem; */
 
     background: $vc-white;
     color: $vc-gray-800;
