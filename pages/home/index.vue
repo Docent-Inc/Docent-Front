@@ -160,7 +160,10 @@ export default {
     margin-bottom: calc(9rem + env(safe-area-inset-bottom));
 
     overflow-x: none;
+    overflow-y: auto;
     scrollbar-width: none;
+
+    /* border: 1px solid red; */
 
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
