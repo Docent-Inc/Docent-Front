@@ -160,7 +160,10 @@ export default {
     margin-bottom: calc(9rem + env(safe-area-inset-bottom));
 
     overflow-x: none;
+    overflow-y: scroll;
     scrollbar-width: none;
+
+    /* border: 1px solid red; */
 
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
@@ -171,11 +174,11 @@ export default {
         padding: 2rem 2rem 0 2rem;
         background-color: var(--vc-white);
         margin-top: -2rem;
-        border-radius: 20px;
+        border-radius: 20px 20px 0 0;
         width: 100%;
 
         @media screen and (min-height: 920px) {
-            min-height: 86%;
+            height: calc(100% - 195px + 2rem);
             display: flex;
             flex-direction: column;
         }
@@ -216,7 +219,6 @@ export default {
 .modal {
     width: 100%;
     max-height: calc(100% - (36px + 4rem + 20px));
-    /* margin-top: calc(2rem + 36px); */
 
     background: $vc-white;
     color: $vc-gray-800;
@@ -279,7 +281,7 @@ export default {
         text-indent: 10px;
         text-align: justify;
         word-break: break-all;
-        /* 
+        /*
         overflow-y: auto;
         max-height: 220px;
         padding-right: 1rem;
