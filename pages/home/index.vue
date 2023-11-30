@@ -1,35 +1,40 @@
 <template>
-    <Header :isLogoLeftSide="true" :isSettingRightSide="true" />
-    <main class="contents">
-        <!-- 홈 문구 -->
-        <Greeting
-            :user="user"
-            :isCheckedToday="isCheckedToday"
-            :weather="weather"
-            @open="this.isModalOpen = true"
-        />
+    <div class="viewport">
+        <div class="layout">
+            <Header :isLogoLeftSide="true" :isSettingRightSide="true" />
+            <main class="contents">
+                <!-- 홈 문구 -->
+                <Greeting
+                    :user="user"
+                    :isCheckedToday="isCheckedToday"
+                    :weather="weather"
+                    @open="this.isModalOpen = true"
+                />
 
-        <div class="contents-wrapper">
-            <section class="chat">
-                <button
-                    type="button"
-                    class="chat__btn"
-                    @click="() => this.$router.push('/chat')"
-                >
-                    <span>Look-i</span>와 대화하러 가기
-                </button>
-            </section>
+                <div class="contents-wrapper">
+                    <section class="chat">
+                        <button
+                            type="button"
+                            class="chat__btn"
+                            @click="() => this.$router.push('/chat')"
+                        >
+                            <span>Look-i</span>와 대화하러 가기
+                        </button>
+                    </section>
 
-            <!-- 디데이 -->
-            <DDays
-                :calendar="calendar"
-                :isCalendarLoading="isCalendarLoading"
-            />
+                    <!-- 디데이 -->
+                    <DDays
+                        :calendar="calendar"
+                        :isCalendarLoading="isCalendarLoading"
+                    />
 
-            <!-- 오늘의 기록 -->
-            <Records :record="record" />
+                    <!-- 오늘의 기록 -->
+                    <Records :record="record" />
+                </div>
+            </main>
         </div>
-    </main>
+        <Navigation />
+    </div>
     <SimpleModal :isModalOpen="isModalOpen" @close="isModalOpen = false">
         <article class="modal" @click.stop>
             <div class="ic_fortune-modal">
@@ -54,7 +59,6 @@
             </div>
         </article>
     </SimpleModal>
-    <Navigation />
 </template>
 
 <script>

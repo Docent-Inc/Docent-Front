@@ -1,6 +1,7 @@
 <template>
     <v-app id="app">
         <NuxtLayout>
+            <!-- <NuxtPwaManifest /> -->
             <NuxtPage />
             <ModalLoginModal />
             <ModalLoding />
@@ -12,6 +13,7 @@
 </template>
 
 <script setup>
+
 onMounted(() => {
     //// START - IOS APP인 경우 vh 로직
     // const userAgent = navigator.userAgent.toLowerCase();

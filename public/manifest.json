@@ -12,8 +12,12 @@
     "icons": [
         {
             "src": "./icon.png",
-            "sizes": "512x512"
+            "sizes": "512x512",
+            "purpose": "any maskable"
         }
     ],
-    "screenshots": []
+    "screenshots": [],
+    "dir": "ltr",
+    "categories": ["AI", "diary", "record"],
+    "lang": "ko"
 }
