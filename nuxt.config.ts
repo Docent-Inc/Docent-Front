@@ -13,7 +13,7 @@ export default defineNuxtConfig({
             title: "Docent",
             link: [
                 { rel: "canonical", href: "https://docent.zip/" },
-                { rel: "manifest", href: "/manifest.json" },
+                { rel: "manifest", href: "/manifest.webmanifes" },
                 {
                     rel: "icon",
                     type: "image/ico",
@@ -86,9 +86,9 @@ export default defineNuxtConfig({
     ],
     pwa: {
         registerType: "autoUpdate",
-        workbox: {
-            navigateFallback: "/",
-            skipWaiting: true,
+        // workbox: {
+            // navigateFallback: "/",
+            // skipWaiting: true,
             // runtimeCaching: [
             //     {
             //         urlPattern: "/*",
@@ -96,7 +96,7 @@ export default defineNuxtConfig({
             //         method: "GET",
             //     },
             // ],
-        },
+        // },
         devOptions: {
             enabled: process.env.SERVER_MODE === "dev",
             type: "module",
