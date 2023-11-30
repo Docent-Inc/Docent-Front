@@ -1,5 +1,5 @@
 <template>
-    <div class="navigation" :class="{ dark: isDark }">
+    <nav class="navigation" :class="{ dark: isDark }">
         <Icon
             @click="navigateTo(`/home`)"
             class="icon nav_home"
@@ -33,7 +33,7 @@
             :class="{ active: isActive('/mypage') }"
         >
         </Icon>
-    </div>
+    </nav>
 </template>
 
 <script>
