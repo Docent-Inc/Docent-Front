@@ -87,15 +87,15 @@ export default defineNuxtConfig({
     pwa: {
         registerType: "autoUpdate",
         // workbox: {
-            // navigateFallback: "/",
-            // skipWaiting: true,
-            // runtimeCaching: [
-            //     {
-            //         urlPattern: "/*",
-            //         handler: "NetworkFirst",
-            //         method: "GET",
-            //     },
-            // ],
+        // navigateFallback: "/",
+        // skipWaiting: true,
+        // runtimeCaching: [
+        //     {
+        //         urlPattern: "/*",
+        //         handler: "NetworkFirst",
+        //         method: "GET",
+        //     },
+        // ],
         // },
         devOptions: {
             enabled: process.env.SERVER_MODE === "dev",
