@@ -147,9 +147,9 @@ export default {
 @import "@/assets/scss/mixins.scss";
 
 .contents {
-    height: calc(100vh - (6rem + 9rem));
-    height: calc(100vh - (6rem + 9rem + constant(safe-area-inset-top)));
-    height: calc(100vh - (6rem + 9rem + env(safe-area-inset-top)));
+    height: calc(100% - (6rem));
+    height: calc(100% - (6rem + constant(safe-area-inset-top)));
+    height: calc(100% - (6rem + env(safe-area-inset-top)));
     /* height: 100%; */
     margin-top: 6rem;
     margin-top: calc(6rem + constant(safe-area-inset-top));
