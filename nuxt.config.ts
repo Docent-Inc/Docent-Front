@@ -89,13 +89,13 @@ export default defineNuxtConfig({
         workbox: {
             navigateFallback: "/",
             skipWaiting: true,
-            runtimeCaching: [
-                {
-                    urlPattern: "/*",
-                    handler: "NetworkFirst",
-                    method: "GET",
-                },
-            ],
+            // runtimeCaching: [
+            //     {
+            //         urlPattern: "/*",
+            //         handler: "NetworkFirst",
+            //         method: "GET",
+            //     },
+            // ],
         },
         devOptions: {
             enabled: process.env.SERVER_MODE === "dev",
