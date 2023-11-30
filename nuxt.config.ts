@@ -1,5 +1,12 @@
 export default defineNuxtConfig({
     devtools: { enabled: false },
+    modules: [
+        "@vite-pwa/nuxt",
+        "@pinia/nuxt",
+        "dayjs-nuxt",
+        "nuxt-swiper",
+        "nuxt-gtag",
+    ],
     // ssr: false,
     app: {
         head: {
@@ -21,6 +28,7 @@ export default defineNuxtConfig({
                         "width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover",
                 },
                 { name: "apple-mobile-web-app-capable", content: "yes" },
+                { name: "theme-color", content: "#ffffff" },
             ],
         },
         // layoutTransition: { name: "page", mode: "out-in", duration: 500 },
@@ -47,7 +55,6 @@ export default defineNuxtConfig({
     build: {
         transpile: ["vuetify"],
     },
-    modules: ["@pinia/nuxt", "dayjs-nuxt", "nuxt-swiper", "nuxt-gtag"],
     gtag: {
         id: "G-LJWL49EEVB",
     },
@@ -77,4 +84,22 @@ export default defineNuxtConfig({
         },
         "~/plugins/axios",
     ],
+    pwa: {
+        registerType: "autoUpdate",
+        workbox: {
+            navigateFallback: "/",
+            skipWaiting: true,
+            runtimeCaching: [
+                {
+                    urlPattern: "/*",
+                    handler: "NetworkFirst",
+                    method: "GET",
+                },
+            ],
+        },
+        devOptions: {
+            enabled: process.env.SERVER_MODE === "dev",
+            type: "module",
+        },
+    },
 });
