@@ -134,42 +134,44 @@ export default {
             if (res.success) {
                 setData(res.data.diary);
                 return useSeoMeta({
-                    title: `${record.value?.diary_name}`,
-                    meta: [
-                        {
-                            property: "og:image:width",
-                            content: "600",
-                        },
-                        {
-                            property: "og:image:height",
-                            content: "400",
-                        },
-                        {
-                            hid: "description",
-                            property: "description",
-                            content: `${record.value?.content}`,
-                        },
-                        {
-                            hid: "og:title",
-                            property: "og:title",
-                            content: `${record.value?.diary_name}`,
-                        },
-                        {
-                            hid: "og:description",
-                            property: "og:description",
-                            content: `${record.value?.content}`,
-                        },
-                        {
-                            hid: "og:image",
-                            property: "og:image",
-                            content: `${record.value?.image_url}`,
-                        },
-                        {
-                            hid: "twitter:description",
-                            property: "twitter:description",
-                            content: `${record.value?.content}`,
-                        },
-                    ],
+                    title: () => record.value?.diary_name,
+                    ogTitle: () => record.value?.diary_name,
+                    ogDescription: () => record.value?.content,
+                    // meta: [
+                    //     {
+                    //         property: "og:image:width",
+                    //         content: "600",
+                    //     },
+                    //     {
+                    //         property: "og:image:height",
+                    //         content: "400",
+                    //     },
+                    //     {
+                    //         hid: "description",
+                    //         property: "description",
+                    //         content: `${record.value?.content}`,
+                    //     },
+                    //     {
+                    //         hid: "og:title",
+                    //         property: "og:title",
+                    //         content: `${record.value?.diary_name}`,
+                    //     },
+                    //     {
+                    //         hid: "og:description",
+                    //         property: "og:description",
+                    //         content: `${record.value?.content}`,
+                    //     },
+                    //     {
+                    //         hid: "og:image",
+                    //         property: "og:image",
+                    //         content: `${record.value?.image_url}`,
+                    //     },
+                    //     {
+                    //         hid: "twitter:description",
+                    //         property: "twitter:description",
+                    //         content: `${record.value?.content}`,
+                    //     },
+                    // ],
                 });
             } else {
                 // 실패 처리
