@@ -62,7 +62,7 @@ export default {
                 {
                     hid: "og:image",
                     property: "og:image",
-                    content: `https://https://docent-front.vercel.app/assets/images/og_img.png`,
+                    content: `https://docent-front.vercel.app/assets/images/og_img.png`,
                 },
                 {
                     hid: "og:title",
