@@ -1,65 +1,68 @@
 {
-    "name": "Look",
-    "short_name": "Look",
-    "description": "Look at yourself",
-    "orientation": "portrait",
-    "background_color": "#9398FF",
-    "theme_color": "#ffffff",
-
-    "display": "standalone",
-    "start_url": "/",
-    "scope": "/",
-    "id": "/?source=pwa",
-    "icons": [
-        {
-            "src": "./manifest-icon-192.maskable.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "./manifest-icon-192.maskable.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "maskable"
-        },
-        {
-            "src": "./manifest-icon-512.maskable.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "./manifest-icon-512.maskable.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "maskable"
-        }
-    ],
-    "screenshots": [
-        {
-            "src": "./assets/images/screenshots/1280x800-screenshot.png",
-            "sizes": "1280x800",
-            "type": "image/png"
-        },
-        {
-            "src": "./assets/images/screenshots/750x1334-screenshot.png",
-            "sizes": "750x1334",
-            "type": "image/png"
-        }
-    ],
-    "categories": ["AI", "lifestyle", "personalization"],
-    "lang": "ko",
-    "shortcuts": [
-        {
-            "name": "Home",
-            "url": "/home",
-            "description": "main page"
-        },
-        {
-            "name": "Calendar",
-            "url": "/calendar",
-            "description": "calendar page"
-        }
-    ]
+  "name": "Look",
+  "short_name": "Look",
+  "description": "Look at yourself",
+  "orientation": "portrait",
+  "background_color": "#9398FF",
+  "theme_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "id": "/?source=pwa",
+  "icons": [
+    {
+      "src": "./manifest-icon-192.maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./manifest-icon-192.maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./manifest-icon-512.maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./manifest-icon-512.maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./assets/images/screenshots/1280x800-screenshot.png",
+      "sizes": "1280x800",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/images/screenshots/750x1334-screenshot.png",
+      "sizes": "750x1334",
+      "type": "image/png"
+    }
+  ],
+  "categories": [
+    "AI",
+    "lifestyle",
+    "personalization"
+  ],
+  "lang": "ko",
+  "shortcuts": [
+    {
+      "name": "Home",
+      "url": "/home",
+      "description": "main page"
+    },
+    {
+      "name": "Calendar",
+      "url": "/calendar",
+      "description": "calendar page"
+    }
+  ]
 }
