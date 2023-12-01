@@ -22,6 +22,53 @@ export default defineNuxtConfig({
                 },
                 { name: "apple-mobile-web-app-capable", content: "yes" },
                 { name: "theme-color", content: "#ffffff" },
+                {
+                    hid: "description",
+                    name: "description",
+                    content: "일상부터 마음까지, 나만의 AI 친구",
+                },
+                { hid: "og:title", property: "og:title", content: "Look" },
+                {
+                    hid: "og:description",
+                    property: "og:description",
+                    content: "일상부터 마음까지, 나만의 AI 친구",
+                },
+                {
+                    hid: "og:image",
+                    property: "og:image",
+                    content: "/og_img.png",
+                },
+                {
+                    hid: "og:url",
+                    property: "og:url",
+                    content: "https://docent.zip",
+                },
+                { hid: "og:type", property: "og:type", content: "website" },
+                {
+                    hid: "og:site_name",
+                    property: "og:site_name",
+                    content: "Look",
+                },
+                {
+                    hid: "twitter:card",
+                    name: "twitter:card",
+                    content: "summary_large_image",
+                },
+                {
+                    hid: "twitter:title",
+                    name: "twitter:title",
+                    content: "Look",
+                },
+                {
+                    hid: "twitter:description",
+                    name: "twitter:description",
+                    content: "일상부터 마음까지, 나만의 AI 친구",
+                },
+                {
+                    hid: "twitter:image",
+                    name: "twitter:image",
+                    content: "/og_img.png",
+                },
             ],
         },
         // layoutTransition: { name: "page", mode: "out-in", duration: 500 },

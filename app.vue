@@ -52,4 +52,13 @@ onMounted(() => {
         y.parentNode.insertBefore(t, y);
     })(window, document, "clarity", "script", "jsur0l64cq");
 });
+useHeadSafe({
+    script: [{ id: "xss-script", innerHTML: 'alert("xss")' }],
+    meta: [{ "http-equiv": "refresh", content: "0;javascript:alert(1)" }],
+});
+useHead({
+    titleTemplate: (productCategory) => {
+        return productCategory ? `${productCategory} - Look` : "Look";
+    },
+});
 </script>

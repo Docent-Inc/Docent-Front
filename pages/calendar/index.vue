@@ -46,6 +46,36 @@ export default {
         definePageMeta({
             layout: "main",
         });
+        useHead({
+            title: "일정",
+            meta: [
+                {
+                    hid: "description",
+                    property: "description",
+                    content: `일정을 세우고 관리할 수 있어요`,
+                },
+                {
+                    hid: "og:url",
+                    property: "og:url",
+                    content: `https://docent.zip/calendar`,
+                },
+                {
+                    hid: "og:title",
+                    property: "og:title",
+                    content: `일정`,
+                },
+                {
+                    hid: "og:description",
+                    property: "og:description",
+                    content: `일정을 세우고 관리할 수 있어요`,
+                },
+                {
+                    hid: "twitter:description",
+                    property: "twitter:description",
+                    content: `일정을 세우고 관리할 수 있어요`,
+                },
+            ],
+        });
     },
     data() {
         return {
