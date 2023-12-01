@@ -3,7 +3,7 @@ export default defineNuxtConfig({
     // ssr: false,
     app: {
         head: {
-            title: "Docent",
+            // title: "Docent",
             link: [
                 { rel: "canonical", href: "https://docent.zip/" },
                 { rel: "manifest", href: "/manifest.json" },

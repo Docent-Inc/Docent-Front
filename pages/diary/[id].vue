@@ -113,6 +113,60 @@ export default {
             isOpen: false,
         };
     },
+    setup() {
+        const record = ref(null);
+
+        // asyncData에서 받은 데이터를 dd에 설정
+        const setData = (data) => {
+            record.value = data;
+        };
+
+        // asyncData 호출
+        onBeforeMount(async () => {
+            const { params, query } = getCurrentInstance().proxy.$route;
+            const { getMorningdiary, getNightdiary } = useDiaryService();
+
+            const res =
+                query.type === "1"
+                    ? await getMorningdiary(params.id)
+                    : await getNightdiary(params.id);
+
+            if (res.success) {
+                setData(res.data.diary);
+                useHead({
+                    title: `${record.value?.diary_name}`,
+                    meta: [
+                        {
+                            hid: "description",
+                            property: "description",
+                            content: `${record.value?.content}`,
+                        },
+                        {
+                            property: "og:title",
+                            content: `${record.value?.diary_name}`,
+                        },
+                        {
+                            hid: "og:description",
+                            property: "og:description",
+                            content: `${record.value?.content}`,
+                        },
+                        {
+                            property: "og:image",
+                            content: `${record.value?.image_url}`,
+                        },
+                        {
+                            hid: "twitter:description",
+                            property: "twitter:description",
+                            content: `${record.value?.content}`,
+                        },
+                    ],
+                });
+            } else {
+                // 실패 처리
+            }
+        });
+        return { record };
+    },
     computed: {
         ...mapState(useUserStore, ["user"]),
         dynamicBackgrond() {
