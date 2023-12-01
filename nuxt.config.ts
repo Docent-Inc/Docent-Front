@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
     devtools: { enabled: false },
     modules: [
-        "@vite-pwa/nuxt",
+        // "@vite-pwa/nuxt",
         "@pinia/nuxt",
         "dayjs-nuxt",
         "nuxt-swiper",
@@ -84,8 +84,8 @@ export default defineNuxtConfig({
         },
         "~/plugins/axios",
     ],
-    pwa: {
-        registerType: "autoUpdate",
+    // pwa: {
+    //     registerType: "autoUpdate",
         // workbox: {
         // navigateFallback: "/",
         // skipWaiting: true,
@@ -97,9 +97,9 @@ export default defineNuxtConfig({
         //     },
         // ],
         // },
-        devOptions: {
-            enabled: process.env.SERVER_MODE === "dev",
-            type: "module",
-        },
-    },
+    //     devOptions: {
+    //         enabled: process.env.SERVER_MODE === "dev",
+    //         type: "module",
+    //     },
+    // },
 });

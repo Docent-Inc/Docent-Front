@@ -18,7 +18,7 @@
             </div>
             <div class="degree-box">
                 <div v-if="!weather.tmx" class="skeleton" />
-                <!-- <div
+                <div
                     v-else-if="
                         weather.tmx && !(weather.icon === 'not supported')
                     "
@@ -27,7 +27,7 @@
                     <span class="degree">{{ weather.tmx }}°C</span>
                     <span>최저기온</span>
                     <span class="degree">{{ weather.tmn }}°C</span>
-                </div> -->
+                </div>
             </div>
         </div>
         <div class="landing__greeting">
