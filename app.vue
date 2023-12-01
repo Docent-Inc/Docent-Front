@@ -62,16 +62,16 @@ useHead({
     },
 });
 useSeoMeta({
-    ogTitle: "Look",
-    description: "일상부터 마음까지, 나만의 AI 친구",
-    ogDescription: "일상부터 마음까지, 나만의 AI 친구",
-    ogImage: "/og_img.png",
-    twitterCard: "summary_large_image",
-    ogUrl: "https://docent.zip",
-    ogType: "website",
-    ogSiteName: "Look",
-    twitterTitle: "Look",
-    twitterDescription: "일상부터 마음까지, 나만의 AI 친구",
-    twitterImage: "/og_img.png",
+    // ogTitle: "Look",
+    // description: "일상부터 마음까지, 나만의 AI 친구",
+    // ogDescription: "일상부터 마음까지, 나만의 AI 친구",
+    // ogImage: "/og_img.png",
+    // twitterCard: "summary_large_image",
+    // ogUrl: "https://docent.zip",
+    // ogType: "website",
+    // ogSiteName: "Look",
+    // twitterTitle: "Look",
+    // twitterDescription: "일상부터 마음까지, 나만의 AI 친구",
+    // twitterImage: "/og_img.png",
 });
 </script>

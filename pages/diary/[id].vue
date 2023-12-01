@@ -137,6 +137,14 @@ export default {
                     title: `${record.value?.diary_name}`,
                     meta: [
                         {
+                            property: "og:image:width",
+                            content: "600",
+                        },
+                        {
+                            property: "og:image:height",
+                            content: "400",
+                        },
+                        {
                             hid: "description",
                             property: "description",
                             content: `${record.value?.content}`,
