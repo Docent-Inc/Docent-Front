@@ -77,11 +77,6 @@ import Navigation from "~/components/Navigation.vue";
 export default {
     name: "Home",
     components: { Header, Greeting, DDays, Records, SimpleModal, Navigation },
-    // setup() {
-    //     definePageMeta({
-    //         layout: "main",
-    //     });
-    // },
     data() {
         return {
             calendar: [],
@@ -156,9 +151,6 @@ export default {
     margin-top: calc(6rem + env(safe-area-inset-top));
     padding: 0;
 
-    /* height: calc(100% - 9rem);
-    height: calc(100% - 9rem - constant(safe-area-inset-bottom));
-    height: calc(100% - 9rem - env(safe-area-inset-bottom)); */
     margin-bottom: 9rem;
     margin-bottom: calc(9rem + constant(safe-area-inset-bottom));
     margin-bottom: calc(9rem + env(safe-area-inset-bottom));
