@@ -12,6 +12,7 @@
 </template>
 
 <script setup>
+import "./registerServiceWorker";
 
 onMounted(() => {
     //// START - IOS APP인 경우 vh 로직
