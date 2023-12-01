@@ -77,6 +77,38 @@ import Navigation from "~/components/Navigation.vue";
 export default {
     name: "Home",
     components: { Header, Greeting, DDays, Records, SimpleModal, Navigation },
+    setup() {
+        useHead({
+            title: "",
+            meta: [
+                {
+                    hid: "description",
+                    property: "description",
+                    content: `홈`,
+                },
+                // {
+                //     hid: "og:url",
+                //     property: "og:url",
+                    // content: `https://docent.zip/home`,
+                // },
+                {
+                    hid: "og:title",
+                    property: "og:title",
+                    content: `홈`,
+                },
+                {
+                    hid: "og:description",
+                    property: "og:description",
+                    content: `홈페이지`,
+                },
+                {
+                    hid: "twitter:description",
+                    property: "twitter:description",
+                    content: `홈페이지`,
+                },
+            ],
+        });
+    },
     data() {
         return {
             calendar: [],

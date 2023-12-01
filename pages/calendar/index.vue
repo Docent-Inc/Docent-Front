@@ -54,11 +54,11 @@ export default {
                     property: "description",
                     content: `일정을 세우고 관리할 수 있어요`,
                 },
-                {
-                    hid: "og:url",
-                    property: "og:url",
-                    content: `https://docent.zip/calendar`,
-                },
+                // {
+                //     hid: "og:url",
+                //     property: "og:url",
+                //     content: `https://docent.zip/calendar`,
+                // },
                 {
                     hid: "og:title",
                     property: "og:title",

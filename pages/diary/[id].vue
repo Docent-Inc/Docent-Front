@@ -116,7 +116,7 @@ export default {
     setup() {
         const record = ref(null);
 
-        // asyncData에서 받은 데이터를 dd에 설정
+        // asyncData에서 받은 데이터를 설정
         const setData = (data) => {
             record.value = data;
         };
@@ -133,7 +133,7 @@ export default {
 
             if (res.success) {
                 setData(res.data.diary);
-                useHead({
+                return useHead({
                     title: `${record.value?.diary_name}`,
                     meta: [
                         {
@@ -150,6 +150,7 @@ export default {
                             content: `${record.value?.content}`,
                         },
                         {
+                            hid: "og:title",
                             property: "og:title",
                             content: `${record.value?.diary_name}`,
                         },
@@ -159,6 +160,7 @@ export default {
                             content: `${record.value?.content}`,
                         },
                         {
+                            hid: "og:image",
                             property: "og:image",
                             content: `${record.value?.image_url}`,
                         },
@@ -173,7 +175,6 @@ export default {
                 // 실패 처리
             }
         });
-        return { record };
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
