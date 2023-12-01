@@ -12,25 +12,25 @@
     "id": "/?source=pwa",
     "icons": [
         {
-            "src": "public/manifest-icon-192.maskable.png",
+            "src": "/manifest-icon-192.maskable.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "public/manifest-icon-192.maskable.png",
+            "src": "/manifest-icon-192.maskable.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
-            "src": "public/manifest-icon-512.maskable.png",
+            "src": "/manifest-icon-512.maskable.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "public/manifest-icon-512.maskable.png",
+            "src": "/manifest-icon-512.maskable.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
@@ -38,12 +38,12 @@
     ],
     "screenshots": [
         {
-            "src": "public/assets/images/screenshots/1280x800-screenshot.png",
+            "src": "/assets/images/screenshots/1280x800-screenshot.png",
             "sizes": "1280x800",
             "type": "image/png"
         },
         {
-            "src": "public/assets/images/screenshots/750x1334-screenshot.png",
+            "src": "/assets/images/screenshots/750x1334-screenshot.png",
             "sizes": "750x1334",
             "type": "image/png"
         }
@@ -54,12 +54,12 @@
         {
             "name": "Home",
             "url": "/home",
-            "description": ""
+            "description": "main page"
         },
         {
             "name": "Calendar",
             "url": "/calendar",
-            "description": ""
+            "description": "calendar page"
         }
     ]
 }
