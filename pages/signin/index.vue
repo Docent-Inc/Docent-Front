@@ -42,6 +42,46 @@ import Toast from "~/components/common/Toast.vue";
 
 export default {
     components: { Toast },
+    setup() {
+        definePageMeta({
+            layout: "main",
+        });
+        useHead({
+            title: "",
+            meta: [
+                {
+                    hid: "description",
+                    property: "description",
+                    content: `기록 일기`,
+                },
+                // {
+                //     hid: "og:url",
+                //     property: "og:url",
+                //     content: `https://docent.zip/calendar`,
+                // },
+                {
+                    hid: "og:image",
+                    property: "og:image",
+                    content: `https://https://docent-front.vercel.app/assets/images/og_img.png`,
+                },
+                {
+                    hid: "og:title",
+                    property: "og:title",
+                    content: `일정`,
+                },
+                {
+                    hid: "og:description",
+                    property: "og:description",
+                    content: `기록 일기`,
+                },
+                {
+                    hid: "twitter:description",
+                    property: "twitter:description",
+                    content: `기록 일기`,
+                },
+            ],
+        });
+    },
     data() {
         return {
             isOAuthFailed: false,
