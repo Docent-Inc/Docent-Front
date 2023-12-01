@@ -12,9 +12,12 @@
 </template>
 
 <script setup>
-import "./registerServiceWorker";
+import { SW } from "./registerServiceWorker";
 
 onMounted(() => {
+    if ("serviceWorker" in navigator) {
+        SW();
+    }
     //// START - IOS APP인 경우 vh 로직
     // const userAgent = navigator.userAgent.toLowerCase();
     // if (
