@@ -6,8 +6,7 @@
         "dev": "nuxt dev  --dotenv .env.dev",
         "generate": "nuxt generate  --dotenv .env.prod",
         "preview": "nuxt preview",
-        "postinstall": "nuxt prepare",
-        "start": "HOST=0.0.0.0 PORT=3030 cross-env NODE_ENV=production node server/index.js"
+        "postinstall": "nuxt prepare"
     },
     "devDependencies": {
         "@nuxt/devtools": "latest",
