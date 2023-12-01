@@ -1,35 +1,40 @@
 <template>
-    <Header :isLogoLeftSide="true" :isSettingRightSide="true" />
-    <main class="contents">
-        <!-- 홈 문구 -->
-        <Greeting
-            :user="user"
-            :isCheckedToday="isCheckedToday"
-            :weather="weather"
-            @open="this.isModalOpen = true"
-        />
+    <div class="viewport">
+        <div class="layout">
+            <Header :isLogoLeftSide="true" :isSettingRightSide="true" />
+            <main class="contents">
+                <!-- 홈 문구 -->
+                <Greeting
+                    :user="user"
+                    :isCheckedToday="isCheckedToday"
+                    :weather="weather"
+                    @open="this.isModalOpen = true"
+                />
 
-        <div class="contents-wrapper">
-            <section class="chat">
-                <button
-                    type="button"
-                    class="chat__btn"
-                    @click="() => this.$router.push('/chat')"
-                >
-                    <span>Look-i</span>와 대화하러 가기
-                </button>
-            </section>
+                <div class="contents-wrapper">
+                    <section class="chat">
+                        <button
+                            type="button"
+                            class="chat__btn"
+                            @click="() => this.$router.push('/chat')"
+                        >
+                            <span>Look-i</span>와 대화하러 가기
+                        </button>
+                    </section>
 
-            <!-- 디데이 -->
-            <DDays
-                :calendar="calendar"
-                :isCalendarLoading="isCalendarLoading"
-            />
+                    <!-- 디데이 -->
+                    <DDays
+                        :calendar="calendar"
+                        :isCalendarLoading="isCalendarLoading"
+                    />
 
-            <!-- 오늘의 기록 -->
-            <Records :record="record" />
+                    <!-- 오늘의 기록 -->
+                    <Records :record="record" />
+                </div>
+            </main>
         </div>
-    </main>
+        <Navigation />
+    </div>
     <SimpleModal :isModalOpen="isModalOpen" @close="isModalOpen = false">
         <article class="modal" @click.stop>
             <div class="ic_fortune-modal">
@@ -54,7 +59,6 @@
             </div>
         </article>
     </SimpleModal>
-    <Navigation />
 </template>
 
 <script>
@@ -73,11 +77,6 @@ import Navigation from "~/components/Navigation.vue";
 export default {
     name: "Home",
     components: { Header, Greeting, DDays, Records, SimpleModal, Navigation },
-    // setup() {
-    //     definePageMeta({
-    //         layout: "main",
-    //     });
-    // },
     data() {
         return {
             calendar: [],
@@ -143,18 +142,15 @@ export default {
 @import "@/assets/scss/mixins.scss";
 
 .contents {
-    height: calc(100vh - (6rem + 9rem));
-    height: calc(100vh - (6rem + 9rem + constant(safe-area-inset-top)));
-    height: calc(100vh - (6rem + 9rem + env(safe-area-inset-top)));
-    /* height: 100%; */
+    height: calc(100% - (6rem + 9rem));
+    height: calc(100% - (6rem + 9rem + constant(safe-area-inset-top)));
+    height: calc(100% - (6rem + 9rem + env(safe-area-inset-top)));
+
     margin-top: 6rem;
     margin-top: calc(6rem + constant(safe-area-inset-top));
     margin-top: calc(6rem + env(safe-area-inset-top));
     padding: 0;
 
-    /* height: calc(100% - 9rem);
-    height: calc(100% - 9rem - constant(safe-area-inset-bottom));
-    height: calc(100% - 9rem - env(safe-area-inset-bottom)); */
     margin-bottom: 9rem;
     margin-bottom: calc(9rem + constant(safe-area-inset-bottom));
     margin-bottom: calc(9rem + env(safe-area-inset-bottom));

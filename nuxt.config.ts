@@ -21,6 +21,7 @@ export default defineNuxtConfig({
                         "width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover",
                 },
                 { name: "apple-mobile-web-app-capable", content: "yes" },
+                { name: "theme-color", content: "#ffffff" },
             ],
         },
         // layoutTransition: { name: "page", mode: "out-in", duration: 500 },

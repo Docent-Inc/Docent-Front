@@ -10,7 +10,7 @@
     },
     "devDependencies": {
         "@nuxt/devtools": "latest",
-        "@types/node": "^18.17.3",
+        "@types/node": "^20.10.1",
         "dayjs-nuxt": "^1.1.2",
         "eslint": "^8.53.0",
         "nuxt": "^3.6.5",
