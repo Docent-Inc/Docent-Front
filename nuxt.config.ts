@@ -1,7 +1,6 @@
 export default defineNuxtConfig({
     devtools: { enabled: false },
     modules: [
-        // "@vite-pwa/nuxt",
         "@pinia/nuxt",
         "dayjs-nuxt",
         "nuxt-swiper",
@@ -13,7 +12,7 @@ export default defineNuxtConfig({
             title: "Docent",
             link: [
                 { rel: "canonical", href: "https://docent.zip/" },
-                { rel: "manifest", href: "/manifest.webmanifes" },
+                { rel: "manifest", href: "/manifest.json" },
                 {
                     rel: "icon",
                     type: "image/ico",
@@ -84,22 +83,4 @@ export default defineNuxtConfig({
         },
         "~/plugins/axios",
     ],
-    // pwa: {
-    //     registerType: "autoUpdate",
-        // workbox: {
-        // navigateFallback: "/",
-        // skipWaiting: true,
-        // runtimeCaching: [
-        //     {
-        //         urlPattern: "/*",
-        //         handler: "NetworkFirst",
-        //         method: "GET",
-        //     },
-        // ],
-        // },
-    //     devOptions: {
-    //         enabled: process.env.SERVER_MODE === "dev",
-    //         type: "module",
-    //     },
-    // },
 });

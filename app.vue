@@ -1,7 +1,6 @@
 <template>
     <v-app id="app">
         <NuxtLayout>
-            <NuxtPwaManifest />
             <NuxtPage />
             <ModalLoginModal />
             <ModalLoding />
