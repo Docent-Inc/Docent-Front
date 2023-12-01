@@ -1,11 +1,5 @@
 export default defineNuxtConfig({
     devtools: { enabled: false },
-    modules: [
-        "@pinia/nuxt",
-        "dayjs-nuxt",
-        "nuxt-swiper",
-        "nuxt-gtag",
-    ],
     // ssr: false,
     app: {
         head: {
@@ -54,6 +48,7 @@ export default defineNuxtConfig({
     build: {
         transpile: ["vuetify"],
     },
+    modules: ["@pinia/nuxt", "dayjs-nuxt", "nuxt-swiper", "nuxt-gtag"],
     gtag: {
         id: "G-LJWL49EEVB",
     },
