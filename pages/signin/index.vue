@@ -67,17 +67,17 @@ export default {
                 {
                     hid: "og:title",
                     property: "og:title",
-                    content: `일정`,
+                    content: `Look`,
                 },
                 {
                     hid: "og:description",
                     property: "og:description",
-                    content: `기록 일기`,
+                    content: `당신의 기록을 더욱 쉽고 가치있게!`,
                 },
                 {
                     hid: "twitter:description",
                     property: "twitter:description",
-                    content: `기록 일기`,
+                    content: `당신의 기록을 더욱 쉽고 가치있게!`,
                 },
             ],
         });

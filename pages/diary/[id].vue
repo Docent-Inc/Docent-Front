@@ -133,7 +133,7 @@ export default {
 
             if (res.success) {
                 setData(res.data.diary);
-                return useHead({
+                return useSeoMeta({
                     title: `${record.value?.diary_name}`,
                     meta: [
                         {
