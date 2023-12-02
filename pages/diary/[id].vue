@@ -86,74 +86,6 @@
         </BottomSheet>
     </div>
 </template>
-<script setup>
-const { getMorningdiary, getNightdiary } = useDiaryService();
-const router = useRouter();
-
-// Accessing route parameters and query
-const params = router.currentRoute.value.params;
-const query = router.currentRoute.value.query;
-console.log(params, query);
-// const { params, query } = getCurrentInstance().proxy.$route;
-const record = await useAsyncData(`content-${params.id}`, async () => {
-    const res =
-        query.type === "1"
-            ? await getMorningdiary(params.id)
-            : await getNightdiary(params.id);
-
-    if (res.success) {
-        // setData(res.data.diary);
-        return res.data?.diary || null;
-    } else {
-        // 실패 처리
-        return null;
-    }
-});
-console.log(record.data.value);
-useServerSeoMeta({
-    title: () => {
-        console.log(record.data.value.diary_name);
-        return record.data.value?.diary_name;
-    },
-    ogTitle: () => record.data.value?.diary_name,
-    ogDescription: () => record.data.value?.content,
-    // meta: [
-    //     {
-    //         property: "og:image:width",
-    //         content: "600",
-    //     },
-    //     {
-    //         property: "og:image:height",
-    //         content: "400",
-    //     },
-    //     {
-    //         hid: "description",
-    //         property: "description",
-    //         content: `${record.value?.content}`,
-    //     },
-    //     {
-    //         hid: "og:title",
-    //         property: "og:title",
-    //         content: `${record.value?.diary_name}`,
-    //     },
-    //     {
-    //         hid: "og:description",
-    //         property: "og:description",
-    //         content: `${record.value?.content}`,
-    //     },
-    //     {
-    //         hid: "og:image",
-    //         property: "og:image",
-    //         content: `${record.value?.image_url}`,
-    //     },
-    //     {
-    //         hid: "twitter:description",
-    //         property: "twitter:description",
-    //         content: `${record.value?.content}`,
-    //     },
-    // ],
-});
-</script>
 <script>
 import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
@@ -164,9 +96,6 @@ import Button from "~/components/common/Button.vue";
 import Icon from "~/components/common/Icon.vue";
 import Image from "~/components/common/Image.vue";
 import BottomSheet from "~/components/common/BottomSheet.vue";
-
-import { useRouter } from "vue-router";
-
 
 export default {
     name: "Diary",
@@ -184,77 +113,28 @@ export default {
             isOpen: false,
         };
     },
-    // async setup() {
-    // const record = ref(null);
+    setup() {
+        const { getMorningdiary, getNightdiary } = useDiaryService();
+        const { params, query } = getCurrentInstance().proxy.$route;
+        const record = useAsyncData(`content-${params.id}`, async () => {
+            const res =
+                query.type === "1"
+                    ? await getMorningdiary(params.id)
+                    : await getNightdiary(params.id);
 
-    // // asyncData에서 받은 데이터를 설정
-    // const setData = (data) => {
-    //     record.value = data;
-    // };
+            if (res.success) {
+                return res.data?.diary || null;
+            } else {
+                return null;
+            }
+        });
 
-    // asyncData 호출
-    // onBeforeMount(async () => {
-    //     const { getMorningdiary, getNightdiary } = useDiaryService();
-    //     const { params, query } = getCurrentInstance().proxy.$route;
-    //     const record = await useAsyncData(`content-${params.id}`, async () => {
-    //         const res =
-    //             query.type === "1"
-    //                 ? await getMorningdiary(params.id)
-    //                 : await getNightdiary(params.id);
-
-    //         if (res.success) {
-    //             // setData(res.data.diary);
-    //             return res.data?.diary || null;
-    //         } else {
-    //             // 실패 처리
-    //             return null;
-    //         }
-    //     });
-    //     console.log(record.data.value);
-    //     useSeoMeta({
-    //         title: () => {
-    //             console.log(record.data.value.diary_name);
-    //             return record.data.value?.diary_name;
-    //         },
-    //         ogTitle: () => record.data.value?.diary_name,
-    //         ogDescription: () => record.data.value?.content,
-    //         // meta: [
-    //         //     {
-    //         //         property: "og:image:width",
-    //         //         content: "600",
-    //         //     },
-    //         //     {
-    //         //         property: "og:image:height",
-    //         //         content: "400",
-    //         //     },
-    //         //     {
-    //         //         hid: "description",
-    //         //         property: "description",
-    //         //         content: `${record.value?.content}`,
-    //         //     },
-    //         //     {
-    //         //         hid: "og:title",
-    //         //         property: "og:title",
-    //         //         content: `${record.value?.diary_name}`,
-    //         //     },
-    //         //     {
-    //         //         hid: "og:description",
-    //         //         property: "og:description",
-    //         //         content: `${record.value?.content}`,
-    //         //     },
-    //         //     {
-    //         //         hid: "og:image",
-    //         //         property: "og:image",
-    //         //         content: `${record.value?.image_url}`,
-    //         //     },
-    //         //     {
-    //         //         hid: "twitter:description",
-    //         //         property: "twitter:description",
-    //         //         content: `${record.value?.content}`,
-    //         //     },
-    //         // ],
-    //     });
-    // },
+        useSeoMeta({
+            title: () => record.data.value?.diary_name,
+            ogTitle: () => record.data.value?.diary_name,
+            ogDescription: () => record.data.value?.content,
+        });
+    },
     computed: {
         ...mapState(useUserStore, ["user"]),
         dynamicBackgrond() {
@@ -293,7 +173,6 @@ export default {
     },
     async mounted() {
         const { getMorningdiary, getNightdiary } = useDiaryService();
-        const router = useRouter();
 
         const id = this.$route.params.id;
         const type = this.$route.query.type;
@@ -307,8 +186,7 @@ export default {
                 title: "조회 실패하였습니다.",
                 desc: res.message,
                 callback: () => {
-                    // this.$router.back();
-                    router.go(-1);
+                    this.$router.back();
                 },
             });
         }
@@ -331,7 +209,6 @@ export default {
         },
         async deleteDiary() {
             const { deleteMorningdiary, deleteNightdiary } = useDiaryService();
-            const router = useRouter();
 
             const res =
                 this.type === "1"
@@ -343,8 +220,7 @@ export default {
                 this.$eventBus.$emit("onConfirmModal", {
                     title: "삭제되었습니다.",
                     callback: () => {
-                        // this.$router.back();
-                        router.go(-1);
+                        this.$router.back();
                     },
                 });
                 this.deleteOptimisticRecord(this.diary);

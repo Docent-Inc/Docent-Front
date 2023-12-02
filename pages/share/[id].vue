@@ -71,11 +71,9 @@
 const { getShareMorningdiary, getShareNightdiary } = useDiaryService();
 const router = useRouter();
 
-// Accessing route parameters and query
 const params = router.currentRoute.value.params;
 const query = router.currentRoute.value.query;
-console.log(params, query);
-// const { params, query } = getCurrentInstance().proxy.$route;
+
 const record = await useAsyncData(`content-${params.id}`, async () => {
     const res =
         query.type === "1"
@@ -83,56 +81,21 @@ const record = await useAsyncData(`content-${params.id}`, async () => {
             : await getShareNightdiary(params.id);
 
     if (res.success) {
-        // setData(res.data.diary);
         return res.data?.diary || null;
     } else {
         // 실패 처리
         return null;
     }
 });
-console.log(record.data.value);
+
 useServerSeoMeta({
-    title: () => {
-        console.log(record.data.value.diary_name);
-        return record.data.value?.diary_name;
-    },
+    title: () => record.data.value?.diary_name,
+    description: () => record.data.value?.content,
+    ogImage: () => record.data.value?.image_url,
     ogTitle: () => record.data.value?.diary_name,
     ogDescription: () => record.data.value?.content,
-    // meta: [
-    //     {
-    //         property: "og:image:width",
-    //         content: "600",
-    //     },
-    //     {
-    //         property: "og:image:height",
-    //         content: "400",
-    //     },
-    //     {
-    //         hid: "description",
-    //         property: "description",
-    //         content: `${record.value?.content}`,
-    //     },
-    //     {
-    //         hid: "og:title",
-    //         property: "og:title",
-    //         content: `${record.value?.diary_name}`,
-    //     },
-    //     {
-    //         hid: "og:description",
-    //         property: "og:description",
-    //         content: `${record.value?.content}`,
-    //     },
-    //     {
-    //         hid: "og:image",
-    //         property: "og:image",
-    //         content: `${record.value?.image_url}`,
-    //     },
-    //     {
-    //         hid: "twitter:description",
-    //         property: "twitter:description",
-    //         content: `${record.value?.content}`,
-    //     },
-    // ],
+    twitterTitle: () => record.data.value?.diary_name,
+    twitterDescription: () => record.data.value?.diary_name,
 });
 </script>
 <script>
