@@ -104,7 +104,7 @@ const record = await useAsyncData(`content-${params.id}`, async () => {
     }
 });
 console.log(record.data.value);
-useSeoMeta({
+useServerSeoMeta({
     title: () => {
         console.log(record.data.value.diary_name);
         return record.data.value?.diary_name;
