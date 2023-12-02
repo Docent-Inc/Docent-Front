@@ -1,9 +1,8 @@
 // This is the "Offline copy of pages" service worker
-
 const CACHE = "pwabuilder-offline";
 
 importScripts(
-    "https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js",
+    "https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-sw.js",
 );
 
 self.addEventListener("message", (event) => {
@@ -12,6 +11,7 @@ self.addEventListener("message", (event) => {
     }
 });
 
+workbox.setConfig({ debug: false });
 workbox.routing.registerRoute(
     new RegExp("/*"),
     new workbox.strategies.NetworkFirst({
