@@ -46,36 +46,6 @@ export default {
         definePageMeta({
             layout: "main",
         });
-        // useHead({
-        //     title: "",
-        //     meta: [
-        //         {
-        //             hid: "description",
-        //             property: "description",
-        //             content: `기록 일기`,
-        //         },
-        //         {
-        //             hid: "og:image",
-        //             property: "og:image",
-        //             content: `https://docent-front.vercel.app/assets/images/og_img.png`,
-        //         },
-        //         {
-        //             hid: "og:title",
-        //             property: "og:title",
-        //             content: `Look`,
-        //         },
-        //         {
-        //             hid: "og:description",
-        //             property: "og:description",
-        //             content: `당신의 기록을 더욱 쉽고 가치있게!`,
-        //         },
-        //         {
-        //             hid: "twitter:description",
-        //             property: "twitter:description",
-        //             content: `당신의 기록을 더욱 쉽고 가치있게!`,
-        //         },
-        //     ],
-        // });
     },
     data() {
         return {
