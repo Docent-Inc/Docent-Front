@@ -67,6 +67,74 @@
         </BottomSheet>
     </div>
 </template>
+<script setup>
+const { getShareMorningdiary, getShareNightdiary } = useDiaryService();
+const router = useRouter();
+
+// Accessing route parameters and query
+const params = router.currentRoute.value.params;
+const query = router.currentRoute.value.query;
+console.log(params, query);
+// const { params, query } = getCurrentInstance().proxy.$route;
+const record = await useAsyncData(`content-${params.id}`, async () => {
+    const res =
+        query.type === "1"
+            ? await getShareMorningdiary(params.id)
+            : await getShareNightdiary(params.id);
+
+    if (res.success) {
+        // setData(res.data.diary);
+        return res.data?.diary || null;
+    } else {
+        // 실패 처리
+        return null;
+    }
+});
+console.log(record.data.value);
+useServerSeoMeta({
+    title: () => {
+        console.log(record.data.value.diary_name);
+        return record.data.value?.diary_name;
+    },
+    ogTitle: () => record.data.value?.diary_name,
+    ogDescription: () => record.data.value?.content,
+    // meta: [
+    //     {
+    //         property: "og:image:width",
+    //         content: "600",
+    //     },
+    //     {
+    //         property: "og:image:height",
+    //         content: "400",
+    //     },
+    //     {
+    //         hid: "description",
+    //         property: "description",
+    //         content: `${record.value?.content}`,
+    //     },
+    //     {
+    //         hid: "og:title",
+    //         property: "og:title",
+    //         content: `${record.value?.diary_name}`,
+    //     },
+    //     {
+    //         hid: "og:description",
+    //         property: "og:description",
+    //         content: `${record.value?.content}`,
+    //     },
+    //     {
+    //         hid: "og:image",
+    //         property: "og:image",
+    //         content: `${record.value?.image_url}`,
+    //     },
+    //     {
+    //         hid: "twitter:description",
+    //         property: "twitter:description",
+    //         content: `${record.value?.content}`,
+    //     },
+    // ],
+});
+</script>
 <script>
 import { useDiaryService } from "../../services/diary";
 import Button from "~/components/common/Button.vue";
@@ -81,38 +149,6 @@ export default {
         Icon,
         Image,
         BottomSheet,
-    },
-    setup() {
-        useHead({
-            title: this.diary.diary_name,
-            meta: [
-                {
-                    hid: "description",
-                    property: "description",
-                    content: this.diary?.content,
-                },
-                {
-                    hid: "og:image",
-                    property: "og:url",
-                    content: this.diary?.image_url,
-                },
-                {
-                    hid: "og:title",
-                    property: "og:title",
-                    content: this.diary?.diary_name,
-                },
-                {
-                    hid: "og:description",
-                    property: "og:description",
-                    content: this.diary?.content,
-                },
-                {
-                    hid: "twitter:description",
-                    property: "twitter:description",
-                    content: this.diary?.content,
-                },
-            ],
-        });
     },
     data() {
         return {
