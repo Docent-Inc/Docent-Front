@@ -62,16 +62,15 @@ useHead({
     },
 });
 useSeoMeta({
-    // ogTitle: "Look",
-    // description: "일상부터 마음까지, 나만의 AI 친구",
-    // ogDescription: "일상부터 마음까지, 나만의 AI 친구",
-    // ogImage: "/og_img.png",
+    ogTitle: "Look",
+    description: `당신의 기록을 더욱 쉽고 가치있게!`,
+    ogDescription: `당신의 기록을 더욱 쉽고 가치있게!`,
+    ogImage: "/og_img.png",
     twitterCard: "summary_large_image",
-    // ogUrl: "https://docent.zip",
     ogType: "website",
     ogSiteName: "Look",
-    // twitterTitle: "Look",
-    // twitterDescription: "일상부터 마음까지, 나만의 AI 친구",
-    // twitterImage: "/og_img.png",
+    twitterTitle: "Look",
+    twitterDescription: `당신의 기록을 더욱 쉽고 가치있게!`,
+    twitterImage: "/og_img.png",
 });
 </script>
