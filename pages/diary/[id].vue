@@ -86,6 +86,68 @@
         </BottomSheet>
     </div>
 </template>
+<script setup>
+const { getMorningdiary, getNightdiary } = useDiaryService();
+const { params, query } = getCurrentInstance().proxy.$route;
+const record = await useAsyncData(`content-${params.id}`, async () => {
+    const res =
+        query.type === "1"
+            ? await getMorningdiary(params.id)
+            : await getNightdiary(params.id);
+
+    if (res.success) {
+        // setData(res.data.diary);
+        return res.data?.diary || null;
+    } else {
+        // 실패 처리
+        return null;
+    }
+});
+console.log(record.data.value);
+useSeoMeta({
+    title: () => {
+        console.log(record.data.value.diary_name);
+        return record.data.value?.diary_name;
+    },
+    ogTitle: () => record.data.value?.diary_name,
+    ogDescription: () => record.data.value?.content,
+    // meta: [
+    //     {
+    //         property: "og:image:width",
+    //         content: "600",
+    //     },
+    //     {
+    //         property: "og:image:height",
+    //         content: "400",
+    //     },
+    //     {
+    //         hid: "description",
+    //         property: "description",
+    //         content: `${record.value?.content}`,
+    //     },
+    //     {
+    //         hid: "og:title",
+    //         property: "og:title",
+    //         content: `${record.value?.diary_name}`,
+    //     },
+    //     {
+    //         hid: "og:description",
+    //         property: "og:description",
+    //         content: `${record.value?.content}`,
+    //     },
+    //     {
+    //         hid: "og:image",
+    //         property: "og:image",
+    //         content: `${record.value?.image_url}`,
+    //     },
+    //     {
+    //         hid: "twitter:description",
+    //         property: "twitter:description",
+    //         content: `${record.value?.content}`,
+    //     },
+    // ],
+});
+</script>
 <script>
 import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
@@ -113,77 +175,77 @@ export default {
             isOpen: false,
         };
     },
-    setup() {
-        // const record = ref(null);
+    // async setup() {
+    // const record = ref(null);
 
-        // // asyncData에서 받은 데이터를 설정
-        // const setData = (data) => {
-        //     record.value = data;
-        // };
+    // // asyncData에서 받은 데이터를 설정
+    // const setData = (data) => {
+    //     record.value = data;
+    // };
 
-        // asyncData 호출
-        // onBeforeMount(async () => {
-        const { getMorningdiary, getNightdiary } = useDiaryService();
-        const { params, query } = getCurrentInstance().proxy.$route;
-        const record = useAsyncData(async () => {
-            const res =
-                query.type === "1"
-                    ? await getMorningdiary(params.id)
-                    : await getNightdiary(params.id);
+    // asyncData 호출
+    // onBeforeMount(async () => {
+    //     const { getMorningdiary, getNightdiary } = useDiaryService();
+    //     const { params, query } = getCurrentInstance().proxy.$route;
+    //     const record = await useAsyncData(`content-${params.id}`, async () => {
+    //         const res =
+    //             query.type === "1"
+    //                 ? await getMorningdiary(params.id)
+    //                 : await getNightdiary(params.id);
 
-            if (res.success) {
-                // setData(res.data.diary);
-                return res.data?.diary || null;
-            } else {
-                // 실패 처리
-                return null;
-            }
-        });
-        console.log(record.data.value);
-        useSeoMeta({
-            title: () => {
-                console.log(record.data.value.diary_name);
-                return record.data.value?.diary_name;
-            },
-            ogTitle: () => record.data.value?.diary_name,
-            ogDescription: () => record.data.value?.content,
-            // meta: [
-            //     {
-            //         property: "og:image:width",
-            //         content: "600",
-            //     },
-            //     {
-            //         property: "og:image:height",
-            //         content: "400",
-            //     },
-            //     {
-            //         hid: "description",
-            //         property: "description",
-            //         content: `${record.value?.content}`,
-            //     },
-            //     {
-            //         hid: "og:title",
-            //         property: "og:title",
-            //         content: `${record.value?.diary_name}`,
-            //     },
-            //     {
-            //         hid: "og:description",
-            //         property: "og:description",
-            //         content: `${record.value?.content}`,
-            //     },
-            //     {
-            //         hid: "og:image",
-            //         property: "og:image",
-            //         content: `${record.value?.image_url}`,
-            //     },
-            //     {
-            //         hid: "twitter:description",
-            //         property: "twitter:description",
-            //         content: `${record.value?.content}`,
-            //     },
-            // ],
-        });
-    },
+    //         if (res.success) {
+    //             // setData(res.data.diary);
+    //             return res.data?.diary || null;
+    //         } else {
+    //             // 실패 처리
+    //             return null;
+    //         }
+    //     });
+    //     console.log(record.data.value);
+    //     useSeoMeta({
+    //         title: () => {
+    //             console.log(record.data.value.diary_name);
+    //             return record.data.value?.diary_name;
+    //         },
+    //         ogTitle: () => record.data.value?.diary_name,
+    //         ogDescription: () => record.data.value?.content,
+    //         // meta: [
+    //         //     {
+    //         //         property: "og:image:width",
+    //         //         content: "600",
+    //         //     },
+    //         //     {
+    //         //         property: "og:image:height",
+    //         //         content: "400",
+    //         //     },
+    //         //     {
+    //         //         hid: "description",
+    //         //         property: "description",
+    //         //         content: `${record.value?.content}`,
+    //         //     },
+    //         //     {
+    //         //         hid: "og:title",
+    //         //         property: "og:title",
+    //         //         content: `${record.value?.diary_name}`,
+    //         //     },
+    //         //     {
+    //         //         hid: "og:description",
+    //         //         property: "og:description",
+    //         //         content: `${record.value?.content}`,
+    //         //     },
+    //         //     {
+    //         //         hid: "og:image",
+    //         //         property: "og:image",
+    //         //         content: `${record.value?.image_url}`,
+    //         //     },
+    //         //     {
+    //         //         hid: "twitter:description",
+    //         //         property: "twitter:description",
+    //         //         content: `${record.value?.content}`,
+    //         //     },
+    //         // ],
+    //     });
+    // },
     computed: {
         ...mapState(useUserStore, ["user"]),
         dynamicBackgrond() {
