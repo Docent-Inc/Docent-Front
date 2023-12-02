@@ -88,7 +88,13 @@
 </template>
 <script setup>
 const { getMorningdiary, getNightdiary } = useDiaryService();
-const { params, query } = getCurrentInstance().proxy.$route;
+const router = useRouter();
+
+// Accessing route parameters and query
+const params = router.currentRoute.value.params;
+const query = router.currentRoute.value.query;
+console.log(params, query);
+// const { params, query } = getCurrentInstance().proxy.$route;
 const record = await useAsyncData(`content-${params.id}`, async () => {
     const res =
         query.type === "1"
