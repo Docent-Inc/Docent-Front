@@ -84,32 +84,32 @@ export default {
     },
     setup() {
         useHead({
-            title: diary.diary_name,
+            title: this.diary.diary_name,
             meta: [
                 {
                     hid: "description",
                     property: "description",
-                    content: diary.content,
+                    content: this.diary?.content,
                 },
                 {
                     hid: "og:image",
                     property: "og:url",
-                    content: diary.image_url,
+                    content: this.diary?.image_url,
                 },
                 {
                     hid: "og:title",
                     property: "og:title",
-                    content: diary.diary_name,
+                    content: this.diary?.diary_name,
                 },
                 {
                     hid: "og:description",
                     property: "og:description",
-                    content: diary.content,
+                    content: this.diary?.content,
                 },
                 {
                     hid: "twitter:description",
                     property: "twitter:description",
-                    content: diary.content,
+                    content: this.diary?.content,
                 },
             ],
         });
