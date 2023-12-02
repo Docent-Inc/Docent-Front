@@ -42,11 +42,6 @@ import Toast from "~/components/common/Toast.vue";
 
 export default {
     components: { Toast },
-    setup() {
-        definePageMeta({
-            layout: "main",
-        });
-    },
     data() {
         return {
             isOAuthFailed: false,

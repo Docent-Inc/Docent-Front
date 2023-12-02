@@ -65,12 +65,12 @@ useSeoMeta({
     ogTitle: "Look",
     description: `당신의 기록을 더욱 쉽고 가치있게!`,
     ogDescription: `당신의 기록을 더욱 쉽고 가치있게!`,
-    ogImage: "https://docent-front.vercel.app/og_img.png",
+    ogImage: "https://docent-front.vercel.app/assets/images/og_img.png",
     twitterCard: "summary_large_image",
     ogType: "website",
     ogSiteName: "Look",
     twitterTitle: "Look",
     twitterDescription: `당신의 기록을 더욱 쉽고 가치있게!`,
-    twitterImage: "https://docent-front.vercel.app/og_img.png",
+    twitterImage: "https://docent-front.vercel.app/assets/images/og_img.png",
 });
 </script>
