@@ -165,6 +165,9 @@ import Icon from "~/components/common/Icon.vue";
 import Image from "~/components/common/Image.vue";
 import BottomSheet from "~/components/common/BottomSheet.vue";
 
+import { useRouter } from "vue-router";
+
+
 export default {
     name: "Diary",
     components: {
@@ -290,6 +293,7 @@ export default {
     },
     async mounted() {
         const { getMorningdiary, getNightdiary } = useDiaryService();
+        const router = useRouter();
 
         const id = this.$route.params.id;
         const type = this.$route.query.type;
@@ -303,7 +307,8 @@ export default {
                 title: "조회 실패하였습니다.",
                 desc: res.message,
                 callback: () => {
-                    this.$router.back();
+                    // this.$router.back();
+                    router.go(-1);
                 },
             });
         }
@@ -326,6 +331,7 @@ export default {
         },
         async deleteDiary() {
             const { deleteMorningdiary, deleteNightdiary } = useDiaryService();
+            const router = useRouter();
 
             const res =
                 this.type === "1"
@@ -337,7 +343,8 @@ export default {
                 this.$eventBus.$emit("onConfirmModal", {
                     title: "삭제되었습니다.",
                     callback: () => {
-                        this.$router.back();
+                        // this.$router.back();
+                        router.go(-1);
                     },
                 });
                 this.deleteOptimisticRecord(this.diary);
