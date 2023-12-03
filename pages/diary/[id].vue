@@ -113,6 +113,28 @@ export default {
             isOpen: false,
         };
     },
+    setup() {
+        const { getMorningdiary, getNightdiary } = useDiaryService();
+        const { params, query } = getCurrentInstance().proxy.$route;
+        const record = useAsyncData(`content-${params.id}`, async () => {
+            const res =
+                query.type === "1"
+                    ? await getMorningdiary(params.id)
+                    : await getNightdiary(params.id);
+
+            if (res.success) {
+                return res.data?.diary || null;
+            } else {
+                return null;
+            }
+        });
+
+        useSeoMeta({
+            title: () => record.data.value?.diary_name,
+            ogTitle: () => record.data.value?.diary_name,
+            ogDescription: () => record.data.value?.content,
+        });
+    },
     computed: {
         ...mapState(useUserStore, ["user"]),
         dynamicBackgrond() {
@@ -252,6 +274,25 @@ export default {
 
     padding: 0 20px;
     // margin-top: 10%;
+
+    .btn_url {
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.1);
+        padding: 6px 12px 6px 8px;
+
+        /* c1/c1_reg_12 */
+        color: var(--white, #fff);
+        font-family: "Pretendard";
+        font-size: 12px;
+        line-height: 160%; /* 19.2px */
+
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        text-align: center;
+
+        cursor: pointer;
+    }
 }
 
 .contents {
@@ -378,24 +419,5 @@ export default {
             }
         }
     }
-}
-
-.btn_url {
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.1);
-    padding: 6px 12px 6px 8px;
-
-    /* c1/c1_reg_12 */
-    color: var(--white, #fff);
-    font-family: "Pretendard";
-    font-size: 12px;
-    line-height: 160%; /* 19.2px */
-
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    text-align: center;
-
-    cursor: pointer;
 }
 </style>

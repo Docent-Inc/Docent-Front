@@ -1,5 +1,12 @@
 <template>
     <div class="viewport" :style="dynamicBackgrond">
+        <div class="header">
+            <div class="button" @click="this.$router.replace('/')">
+                <Icon class="logo_look_small" />
+                <span>Look 체험해보기</span>
+            </div>
+        </div>
+
         <div class="contents">
             <!-- 1. 상단 영역 (날짜, 제목) -->
             <div class="diary-title-box">
@@ -28,7 +35,10 @@
         </div>
 
         <!-- 3. 바텀시트 영역 -->
-        <BottomSheet :title="bottomSheetTitle">
+        <BottomSheet
+            :title="bottomSheetTitle"
+            @open="(isOpen) => (this.isOpen = isOpen)"
+        >
             <div class="bottom-diary">
                 <div class="bottom-diary-title-box">
                     <div class="diary-date">
@@ -67,6 +77,38 @@
         </BottomSheet>
     </div>
 </template>
+<script setup>
+const { getShareMorningdiary, getShareNightdiary } = useDiaryService();
+const router = useRouter();
+const route = useRoute();
+
+const params = route.params;
+const query = route.query;
+
+const record = await useAsyncData(`content-${params.id}`, async () => {
+    const res =
+        query.type === "1"
+            ? await getShareMorningdiary(params.id)
+            : await getShareNightdiary(params.id);
+
+    if (res.success) {
+        return res.data?.diary || null;
+    } else {
+        // 실패 처리
+        return null;
+    }
+});
+
+useServerSeoMeta({
+    title: () => record.data.value?.diary_name,
+    description: () => record.data.value?.content,
+    ogImage: () => record.data.value?.image_url,
+    ogTitle: () => record.data.value?.diary_name,
+    ogDescription: () => record.data.value?.content,
+    twitterTitle: () => record.data.value?.diary_name,
+    twitterDescription: () => record.data.value?.diary_name,
+});
+</script>
 <script>
 import { useDiaryService } from "../../services/diary";
 import Button from "~/components/common/Button.vue";
@@ -87,6 +129,7 @@ export default {
             diary: {},
             type: "1",
             isLoading: true,
+            isOpen: false,
         };
     },
     computed: {
@@ -116,8 +159,12 @@ export default {
             };
         },
         bottomSheetTitle() {
-            if (this.type === "1") return "꿈 해석 보기";
-            else return "일기 자세히 보기";
+            let type = this.type === "1" ? "꿈 해석" : "일기";
+            if (this.type === "2" && !this.isOpen) type = "일기 자세히"; // 일기의 경우, '자세히' 보기
+
+            const open = !this.isOpen ? "보기" : "닫기";
+
+            return `${type} ${open}`;
         },
     },
     async mounted() {
@@ -150,13 +197,37 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "@/assets/scss/mixins.scss";
+.header {
+    background: none;
+    border: none;
+    justify-content: flex-end;
+
+    .button {
+        width: 100%;
+        height: fit-content;
+        padding: 0.8rem;
+
+        /* b1/b1_med_16 */
+        color: $vc-white;
+        font-family: $font-medium;
+        font-size: 16px;
+        line-height: 160%; /* 25.6px */
+
+        display: flex;
+        gap: 20px;
+    }
+}
 
 .contents {
     // BottomSheet 높이: 108px =  calc(32px + (12px * 1.5) + 4px) + 40px + 14px;
-    height: calc(100% - (108px));
-    height: calc(100% - (108px + constant(safe-area-inset-top)));
-    height: calc(100% - (108px + env(safe-area-inset-top)));
+    height: calc(100% - (60px + 108px));
+    height: calc(100% - (60px + 108px + constant(safe-area-inset-top)));
+    height: calc(100% - (60px + 108px + env(safe-area-inset-top)));
     padding: 2rem 0;
+
+    margin-top: calc(60px);
+    margin-top: calc(60px + constant(safe-area-inset-top));
+    margin-top: calc(60px + env(safe-area-inset-top));
 
     display: flex;
     flex-direction: column;

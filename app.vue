@@ -12,8 +12,12 @@
 </template>
 
 <script setup>
+import { SW } from "./registerServiceWorker";
 
 onMounted(() => {
+    if ("serviceWorker" in navigator) {
+        SW();
+    }
     //// START - IOS APP인 경우 vh 로직
     // const userAgent = navigator.userAgent.toLowerCase();
     // if (
@@ -47,5 +51,26 @@ onMounted(() => {
         y = l.getElementsByTagName(r)[0];
         y.parentNode.insertBefore(t, y);
     })(window, document, "clarity", "script", "jsur0l64cq");
+});
+useHeadSafe({
+    script: [{ id: "xss-script", innerHTML: 'alert("xss")' }],
+    meta: [{ "http-equiv": "refresh", content: "0;javascript:alert(1)" }],
+});
+useHead({
+    titleTemplate: (productCategory) => {
+        return productCategory ? `${productCategory} - Look` : "Look";
+    },
+});
+useSeoMeta({
+    ogTitle: "Look",
+    description: `당신의 기록을 더욱 쉽고 가치있게!`,
+    ogDescription: `당신의 기록을 더욱 쉽고 가치있게!`,
+    ogImage: "https://docent-front.vercel.app/assets/images/og_img.png",
+    twitterCard: "summary_large_image",
+    ogType: "website",
+    ogSiteName: "Look",
+    twitterTitle: "Look",
+    twitterDescription: `당신의 기록을 더욱 쉽고 가치있게!`,
+    twitterImage: "https://docent-front.vercel.app/assets/images/og_img.png",
 });
 </script>

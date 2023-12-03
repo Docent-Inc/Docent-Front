@@ -205,6 +205,14 @@
     display: block;
 }
 
+.logo_look_small {
+    background: url("../images/commons/logos/logo_look_small.svg") no-repeat
+        center/cover;
+    display: block;
+    width: 22px;
+    height: 26px;
+}
+
 // 4) 페이지
 
 // Home - TODO) 사용 안 하면 지우기
