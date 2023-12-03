@@ -1,7 +1,7 @@
 <template>
     <div class="viewport" :style="dynamicBackgrond">
         <div class="header">
-            <div class="button" @click="this.$router.replace('/')">
+            <div class="button" @click="router.replace('/')">
                 <Icon class="logo_look_small" />
                 <span>Look 체험해보기</span>
             </div>
