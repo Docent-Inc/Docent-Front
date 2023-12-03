@@ -3,7 +3,7 @@
         class="chat-box-wrapper animate__animated animate__slideInUp"
         :class="{ right: !chat.is_docent }"
     >
-        <!-- 도슨트 -->
+        <!-- 도슨트  -->
         <div v-if="chat.is_docent" style="width: 100%" class="chat-docent">
             <div class="chat-docent-profile">
                 <div class="chat-profile">
