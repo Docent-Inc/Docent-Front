@@ -1,0 +1,12 @@
+[
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "zip.docent.twa",
+            "sha256_cert_fingerprints": [
+                "43:EF:62:42:B4:AD:FF:C7:F0:B5:01:AF:FA:9B:DD:0C:4C:41:E7:AC:E6:43:B8:25:D7:5F:60:E4:64:DC:D3:EB"
+            ]
+        }
+    }
+]

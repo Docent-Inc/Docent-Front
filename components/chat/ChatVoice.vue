@@ -29,7 +29,7 @@ defineExpose({
 });
 const data = ref("");
 
-// Web Speech API
+// Web Speech API 
 const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
