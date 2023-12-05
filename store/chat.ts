@@ -23,6 +23,7 @@ interface Chat {
 const initialState = () => ({
     chatList: [] as Chat[],
     isGenerating: false,
+    type: 0,
     resetFlag: false, // unmounted 시, 초기화 여부 플래그
 });
 
@@ -128,17 +129,22 @@ export const useChatStore = defineStore("chat", {
             this.isGenerating = true;
 
             // (3) 채팅 생성
+            const data = {
+                content: input,
+                type: this.type,
+            };
             const { sendChat } = useChatService();
-            const res = await sendChat(input);
-            console.log("✨generateChat >>> ", res);
+            const res = await sendChat(data);
+            // console.log("✨generateChat >>> ", res);
 
             // (4) 로딩 컴포넌트 삭제
             this.removeLoadingChat();
             this.isGenerating = false;
+            this.type = 0;
 
             if (!res.success) {
                 const msg = `${res.status_code}  - ${res.message}`;
-                console.log("채팅 생성 실패 >>> ", msg, res);
+                console.error("채팅 생성에 실패하였습니다. ", msg, res);
                 Object.assign(this.chatList[chatIdx], { type: ChatType.FAIL });
 
                 return res;
@@ -165,6 +171,9 @@ export const useChatStore = defineStore("chat", {
          */
         setResetFlag(resetFlag: boolean) {
             this.resetFlag = resetFlag;
+        },
+        setType(type: number) {
+            this.type = type;
         },
         reset() {
             Object.assign(this.$state, initialState());

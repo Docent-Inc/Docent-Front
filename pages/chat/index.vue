@@ -101,6 +101,8 @@ function updateSessionChatList(chatList) {
 }
 
 function onSelect(idx) {
+    store.setType(idx + 1);
+
     // 채팅 생성 중에는 예시 문구 추가 불가
     if (isGenerating.value) {
         isVisible.value = true;
