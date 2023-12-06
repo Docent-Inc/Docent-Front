@@ -10,6 +10,7 @@
             >
                 {{ select }}
             </div>
+            <div class="chat-select" @click="onSelect(-1)">↩︎</div>
         </div>
         <div class="chat-input-box">
             <div v-if="isGenerating" class="chat-loading">
