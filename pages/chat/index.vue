@@ -155,7 +155,7 @@ const updateChatBoxCss = () => {
     height: 100%;
 
     overflow-y: scroll;
-    padding: 2rem 2rem 7rem; // 채팅 선택 영역 calc(3rem + 1.5rem)
+    padding: 2rem 2rem calc(4.5rem + 52px); // 채팅 선택 영역 calc(3rem + 1.5rem)
 
     display: flex;
     flex-direction: column;
