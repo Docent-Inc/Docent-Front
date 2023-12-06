@@ -7,7 +7,7 @@ import { type Record } from "~/models/chat";
 enum ChatType {
     RESULT = "result",
     LOADING = "loading",
-    SELECT = "select",
+    SELECT = "select", // 231206 - 미사용
     DEFAULT = "default",
     SUCCESS = "success",
     FAIL = "fail",
@@ -48,21 +48,17 @@ export const useChatStore = defineStore("chat", {
 
             const welcomeChat = {
                 is_docent: true,
-                type: ChatType.SELECT,
+                type: ChatType.DEFAULT,
                 text: `${res.data.text} \n기록 예시가 필요한가요?`,
-                selectList: [
-                    "꿈을 해석하고 싶어요!",
-                    "일기를 쓰고 싶어요!",
-                    "메모를 하고 싶어요!",
-                    "일정을 입력하고 싶어요!",
-                ],
             };
             this.addChat(welcomeChat);
         },
         /**
-         * 도움말 문구 추가
+         * 도움말 문구 추가 (default = 0)
          */
         async addHelperChat(type: number) {
+            if (type === 0) return;
+
             const { getHelperChat } = useChatService();
             const res = await getHelperChat(type);
 
