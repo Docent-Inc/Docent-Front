@@ -1,9 +1,8 @@
 import axios, { type AxiosRequestConfig } from "axios";
 import { useUserStore } from "~/store/user";
-const { BASE_URL } = useRuntimeConfig().public;
 
 const API = axios.create({
-    baseURL: BASE_URL,
+    baseURL: process.env.BASE_URL,
     validateStatus: function (status) {
         return true;
     },
