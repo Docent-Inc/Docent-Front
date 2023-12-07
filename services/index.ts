@@ -1,8 +1,9 @@
 import axios, { type AxiosRequestConfig } from "axios";
 import { useUserStore } from "~/store/user";
+const { BASE_URL } = useRuntimeConfig().public;
 
 const API = axios.create({
-    baseURL: "https://docent.zip/api",
+    baseURL: BASE_URL,
     validateStatus: function (status) {
         return true;
     },
