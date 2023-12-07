@@ -1,5 +1,5 @@
+import { useAxios } from "~/composables/useAxios";
 import type { Record } from "~/models/chat";
-import { GET } from "~/services";
 
 interface RecordRes {
     MorningDiary: Record[];
@@ -12,6 +12,8 @@ interface WeatherRes {
 }
 
 export const useTodayService = () => {
+    const { GET, POST, PUT, DELETE } = useAxios();
+
     return {
         /**
          * 오늘 일정 조회

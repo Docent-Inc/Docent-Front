@@ -1,10 +1,10 @@
+import { useAxios } from "~/composables/useAxios";
 import type {
     UserModel,
     KakaoCallbackModel,
     KakaoModel,
     RefreshModel,
 } from "~/models/auth";
-import { GET, POST } from "~/services";
 
 /**
  * @interface signupData
@@ -19,6 +19,8 @@ interface signupData {
 export const useAuthService = () => {
     const { KAKAO_SIGNIN_URL, KAKAO_SIGNIN_CALLBACK_URL } =
         useRuntimeConfig().public;
+    const { GET, POST, PUT, DELETE } = useAxios();
+
     return {
         /**
          * 카카오 로그인 요청

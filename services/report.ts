@@ -1,7 +1,9 @@
+import { useAxios } from "~/composables/useAxios";
 import { type ReportDetailModel, type ReportListModel } from "~/models/report";
-import { GET } from "~/services";
 
 export const useReportService = () => {
+    const { GET, POST, PUT, DELETE } = useAxios();
+
     return {
         /**
          * 보고서 리스트 조회
