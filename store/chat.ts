@@ -44,7 +44,7 @@ export const useChatStore = defineStore("chat", {
         async addWelcomeChat(type: number) {
             const { getWelcomeChat } = useChatService();
             const res = await getWelcomeChat(type);
-            console.log(res);
+            // console.log(res);
 
             const welcomeChat = {
                 is_docent: true,
@@ -92,7 +92,7 @@ export const useChatStore = defineStore("chat", {
          */
         async removeChatAt(idx: number) {
             this.chatList.splice(idx, 1);
-            console.log("removed!");
+            // console.log("removed!");
         },
         /**
          * 채팅 리스트 초기화
