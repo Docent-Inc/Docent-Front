@@ -5,7 +5,7 @@ export default defineNuxtConfig({
         head: {
             // title: "Docent",
             link: [
-                { rel: "canonical", href: process.env.BASE_URL },
+                { rel: "canonical", href: "https://docent.zip/" },
                 { rel: "manifest", href: "/manifest.json" },
                 {
                     rel: "icon",
@@ -59,7 +59,7 @@ export default defineNuxtConfig({
         server: {
             proxy: {
                 "/api": {
-                    target: process.env.BASE_URL,
+                    target: "https://docent.zip",
                     changeOrigin: true,
                 },
             },
