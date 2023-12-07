@@ -1,4 +1,4 @@
-import { GET, POST, DELETE } from "~/services";
+import { useAxios } from "~/composables/useAxios";
 import {
     type DiaryModel,
     type MemoModel,
@@ -9,6 +9,8 @@ import {
 } from "~/models/diary";
 
 export const useDiaryService = () => {
+    const { GET, POST, PUT, DELETE } = useAxios();
+
     return {
         /**
          * 아침 다이어리 조회 (꿈)

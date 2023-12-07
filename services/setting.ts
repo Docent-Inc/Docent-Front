@@ -1,5 +1,4 @@
-import { DELETE, POST } from "~/services";
-
+import { useAxios } from "~/composables/useAxios";
 /**
  * 회원 정보 수정
  */
@@ -11,6 +10,8 @@ interface updateAccountData {
 }
 
 export const useSettingService = () => {
+    const { GET, POST, PUT, DELETE } = useAxios();
+
     return {
         /**
          * 푸시 알림 상태 업데이트

@@ -1,7 +1,9 @@
+import { useAxios } from "~/composables/useAxios";
 import { type ChatContentModel, type ExampleChatModel } from "~/models/chat";
-import { GET, POST } from "~/services";
 
 export const useChatService = () => {
+    const { GET, POST, PUT, DELETE } = useAxios();
+
     return {
         /**
          * 채팅 리스트 조회
