@@ -2,7 +2,7 @@ import axios, { type AxiosRequestConfig } from "axios";
 import { useUserStore } from "~/store/user";
 
 const API = axios.create({
-    baseURL: process.env.BASE_URL,
+    baseURL: "https://bmongsmong.com/api",
     validateStatus: function (status) {
         return true;
     },
