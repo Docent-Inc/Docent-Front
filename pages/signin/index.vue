@@ -26,7 +26,7 @@
 
                 <h2>라인으로 시작하기</h2>
             </article> -->
-            <article class="oauth-box apple">
+            <article class="oauth-box apple" v-if="isIOS">
                 <div class="oauth-box__logo">
                     <v-icon alt="Apple Logo" class="logo_apple" />
                 </div>
@@ -47,12 +47,14 @@
 <script>
 import { useAuthService } from "../../services/auth";
 import Toast from "~/components/common/Toast.vue";
+import { isIOS } from "~/utils/utils";
 
 export default {
     components: { Toast },
     data() {
         return {
             isOAuthFailed: false,
+            isIOS: isIOS(),
         };
     },
     methods: {

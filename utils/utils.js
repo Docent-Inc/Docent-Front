@@ -93,3 +93,23 @@ export function isExpiredIn(date, minute) {
 
     return diff <= minutesInMilliseconds;
 }
+
+/**
+ * 안드로이드 확인 함수
+ */
+export function isAndroid() {
+    if (window) {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        return /Android/i.test(userAgent);
+    }
+}
+
+/**
+ * IOS 확인 함수
+ */
+export function isIOS() {
+    if (window) {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        return /iPhone|iPad|iPod/i.test(userAgent);
+    }
+}
