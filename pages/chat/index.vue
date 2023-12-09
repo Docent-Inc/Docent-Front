@@ -8,7 +8,6 @@
             :key="idx"
             :chat="chat"
             class="chat-box"
-            @select="onSelect"
         />
 
         <!-- 토스트 -->
@@ -61,6 +60,22 @@ watch(
     { deep: true },
 );
 
+watch(
+    () => store.type,
+    async (newVal, oldVal) => {
+        // 채팅 생성 중에는 예시 문구 추가 불가
+        if (isGenerating.value) {
+            isVisible.value = true;
+
+            setTimeout(() => {
+                isVisible.value = false;
+            }, 3000);
+            return;
+        }
+        store.addHelperChat(newVal);
+    },
+);
+
 /**
  * LifeCycle
  */
@@ -98,19 +113,6 @@ async function getSessionChatList() {
 function updateSessionChatList(chatList) {
     const jsonChatList = JSON.stringify(chatList);
     window.sessionStorage.setItem("chatList", jsonChatList);
-}
-
-function onSelect(idx) {
-    // 채팅 생성 중에는 예시 문구 추가 불가
-    if (isGenerating.value) {
-        isVisible.value = true;
-
-        setTimeout(() => {
-            isVisible.value = false;
-        }, 3000);
-        return;
-    }
-    store.addHelperChat(idx + 1);
 }
 
 /**
@@ -153,10 +155,7 @@ const updateChatBoxCss = () => {
     height: 100%;
 
     overflow-y: scroll;
-    padding: 2rem;
-
-    // overscroll-behavior: contain;
-    // -webkit-overflow-scrolling: touch;
+    padding: 2rem 2rem calc(4.5rem + 52px); // 채팅 선택 영역 calc(3rem + 1.5rem)
 
     display: flex;
     flex-direction: column;

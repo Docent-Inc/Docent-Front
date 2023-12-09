@@ -1,40 +1,54 @@
 <template>
     <div class="chat-input">
-        <div v-if="isGenerating" class="chat-loading">
-            <img src="@/assets/images/pages/chat/loading-dot.gif" />
+        <div class="chat-select-box">
+            <div
+                v-for="(select, idx) in selectList"
+                :key="idx"
+                class="chat-select"
+                :class="{ selected: type === idx + 1 }"
+                @click="onSelect(idx)"
+            >
+                {{ select }}
+            </div>
+            <div class="chat-select" @click="onSelect(-1)">↩︎</div>
         </div>
-        <div v-else>
-            <div class="chat-input-top">
-                <Button
-                    v-if="mode === 'INPUT'"
-                    class="btn_mic"
-                    @click="setMode('VOICE')"
-                />
-                <Button v-else class="btn_mic_x" @click="cancelVoice" />
-
-                <div class="input">
-                    <textarea
-                        v-model="data"
-                        :placeholder="placeholder"
-                        :disabled="isGenerating || mode === 'VOICE'"
-                        :rows="rows"
-                        :class="{ voice: mode === 'VOICE' }"
-                    />
-
+        <div class="chat-input-box">
+            <div v-if="isGenerating" class="chat-loading">
+                <img src="@/assets/images/pages/chat/loading-dot.gif" />
+            </div>
+            <div v-else>
+                <div class="chat-input-top">
                     <Button
                         v-if="mode === 'INPUT'"
-                        class="btn_send"
-                        @click="send"
+                        class="btn_mic"
+                        @click="setMode('VOICE')"
                     />
-                </div>
-            </div>
+                    <Button v-else class="btn_mic_x" @click="cancelVoice" />
 
-            <chat-voice
-                v-if="mode === 'VOICE'"
-                ref="chatVoiceRef"
-                @change="(x) => (data = x)"
-                @finish="setData"
-            />
+                    <div class="input">
+                        <textarea
+                            v-model="data"
+                            :placeholder="placeholder"
+                            :disabled="isGenerating || mode === 'VOICE'"
+                            :rows="rows"
+                            :class="{ voice: mode === 'VOICE' }"
+                        />
+
+                        <Button
+                            v-if="mode === 'INPUT'"
+                            class="btn_send"
+                            @click="send"
+                        />
+                    </div>
+                </div>
+
+                <chat-voice
+                    v-if="mode === 'VOICE'"
+                    ref="chatVoiceRef"
+                    @change="(x) => (data = x)"
+                    @finish="setData"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -51,11 +65,12 @@ export default {
         return {
             mode: "INPUT",
             data: "",
+            selectList: [`🌙  꿈 기록`, "✏️  일기", "🗒️  메모", "🗓️  일정"],
         };
     },
     setup() {},
     computed: {
-        ...mapState(useChatStore, ["chatList", "isGenerating"]),
+        ...mapState(useChatStore, ["chatList", "isGenerating", "type"]),
         rows() {
             const minRows = 1;
             const maxRows = 3;
@@ -69,7 +84,11 @@ export default {
         },
     },
     methods: {
-        ...mapActions(useChatStore, ["sendChat", "removeLastChat"]),
+        ...mapActions(useChatStore, ["sendChat", "removeLastChat", "setType"]),
+        onSelect(idx) {
+            this.selected = idx;
+            this.setType(idx + 1);
+        },
         async send() {
             // Validation
             if (!this.data || this.data === "") {
@@ -113,20 +132,51 @@ export default {
 .chat-input {
     width: 100%;
     max-width: 500px;
+
+    z-index: 998;
+    position: fixed;
+    bottom: 0;
+
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: constant(safe-area-inset-bottom);
+}
+
+.chat-select-box {
+    height: 3rem;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; /* 각 아이템 사이의 간격 */
+
+    .chat-select {
+        border-radius: 8px;
+        background: #f5f7fff4;
+        color: $vc-gray-500;
+        font-family: "Pretendard";
+        font-size: 12px;
+        line-height: 160%; /* 19.2px */
+        padding: 8px 12px;
+        cursor: pointer;
+
+        white-space: pre;
+    }
+
+    .chat-select.selected {
+        background: $vc-violet-200;
+        color: $vc-violet-500;
+        font-family: "Pretendard Medium";
+    }
+}
+.chat-input-box {
     min-height: 10rem;
+
     background: rgba(255, 255, 255, 0.5);
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
 
-    padding: 1.5rem 0 3rem;
-    z-index: 998;
-    position: fixed;
-    bottom: 0;
-    bottom: constant(safe-area-inset-bottom);
-    bottom: env(safe-area-inset-bottom);
-    // display: flex;
-    // justify-content: space-evenly;
-    // align-items: center;
+    padding: 1.5rem 0;
 }
 
 .chat-input-top {
