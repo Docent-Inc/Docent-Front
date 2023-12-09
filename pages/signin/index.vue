@@ -11,20 +11,28 @@
             </h2>
             <h3>나를 위한 기록을 시작해보세요.</h3>
         </section>
+
         <section class="oauth-wrapper">
-            <article class="oauth-box" @click="callKakaoLogin">
+            <article class="oauth-box kakao" @click="callKakaoLogin">
                 <div class="oauth-box__logo kakao">
                     <v-icon alt="Kakao Logo" class="logo_kakao" />
                 </div>
                 <h2 class="oauth-login">카카오로 로그인</h2>
             </article>
-            <!-- <article class="oauth-box">
+            <!-- <article class="oauth-box line">
                 <div class="oauth-box__logo">
                     <v-icon alt="Line Logo" class="logo_line" />
                 </div>
 
                 <h2>라인으로 시작하기</h2>
             </article> -->
+            <article class="oauth-box apple">
+                <div class="oauth-box__logo">
+                    <v-icon alt="Apple Logo" class="logo_apple" />
+                </div>
+
+                <h2>Apple으로 계속하기</h2>
+            </article>
         </section>
     </main>
     <!-- 토스트 -->
@@ -102,22 +110,33 @@ export default {
 
 .oauth-wrapper {
     width: 100%;
-    height: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
     .oauth-box {
         width: 100%;
-        height: 100%;
+        height: 48px;
         display: flex;
         justify-content: center;
         align-items: center;
         border-radius: 12px;
-        background: #06c755;
-        margin-bottom: 1.2rem;
+        background: #000;
+
         font-family: $font-medium;
         padding-right: 1.5rem;
 
-        &:nth-child(1) {
+        &.kakao {
             color: $vc-gray-800;
             background: #fee500;
+        }
+        &.line {
+            background: #06c755;
+        }
+
+        &.apple {
+            background: $vc-black;
+            color: $vc-white;
         }
 
         &__logo {
