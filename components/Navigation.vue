@@ -7,25 +7,25 @@
         >
         </Icon>
 
-        <Icon
+        <!-- <Icon
             @click="navigateTo(`/report`)"
             class="icon nav_report"
             :class="{ active: isActive('/report') }"
         >
-        </Icon>
+        </Icon> -->
 
         <img
             src="@/assets/images/commons/navigations/nav_docent.svg"
             @click="navigateTo(`/chat`)"
             class="icon"
         />
-
+<!-- 
         <Icon
             @click="navigateTo(`/calendar`)"
             class="icon nav_calendar"
             :class="{ active: isActive('/calendar') }"
         >
-        </Icon>
+        </Icon> -->
 
         <Icon
             @click="navigateTo(`/mypage`)"
