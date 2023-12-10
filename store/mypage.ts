@@ -10,6 +10,7 @@ export const useMypageStore = defineStore("mypage", {
         totalCounts: 0,
         ratio: {} as DiaryRatio,
         isLoading: true,
+        currentURL: "calendar",
     }),
     actions: {
         async getGalleryList() {
@@ -17,7 +18,6 @@ export const useMypageStore = defineStore("mypage", {
             const { getGalleryList } = useDiaryService();
 
             const res = await getGalleryList(this.type, this.pageNo);
-
             if (this.pageNo === 1) this.list = res.data.list;
             else this.list = [...this.list, ...res.data.list];
             this.totalCounts = res.data.total_count;
@@ -36,6 +36,40 @@ export const useMypageStore = defineStore("mypage", {
          */
         setType(type: number) {
             this.type = type;
+
+            const router = useRouter();
+            switch (type) {
+                case 0:
+                    router.push({
+                        path: "/mypage",
+                        query: { tab: "calendar" },
+                    });
+                    break;
+                case 1:
+                    router.push({
+                        path: "/mypage",
+                        query: { tab: "dream" },
+                    });
+                    break;
+                case 2:
+                    router.push({
+                        path: "/mypage",
+                        query: { tab: "diary" },
+                    });
+                    break;
+                case 3:
+                    router.push({
+                        path: "/mypage",
+                        query: { tab: "memo" },
+                    });
+                    break;
+                default:
+                    router.push({
+                        path: "/mypage",
+                        query: { type: "calendar" },
+                    });
+                    break;
+            }
         },
         setPageNo(pageNo: number) {
             this.pageNo = pageNo;

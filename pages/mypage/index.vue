@@ -7,76 +7,53 @@
     </div>
     <div class="contents">
         <!-- (1) 프로필 영역 -->
-        <div class="contents-header-1">
+        <div class="contents-header-1" @click="handleCloseCalendarDetail">
             <p>
                 <span class="nickname-color">{{ user?.nickname }}</span
                 >님의 기록공간
             </p>
             <v-icon
-                :class="mode === 0 ? 'ic_list' : 'ic_board'"
+                :class="[mode === 0 ? 'ic_list' : 'ic_board', !type && 'blind']"
                 @click="changeMode()"
             />
         </div>
 
         <!-- (2) 통계 영역 -->
-        <div class="contents-header-2" v-if="highestCountCategory">
+        <div
+            class="contents-header-2"
+            v-if="highestCountCategory"
+            @click="handleCloseCalendarDetail"
+        >
             <Icon :class="highestCountCategory.iconClass" />
             <p class="status-text">{{ highestCountCategory.message }}</p>
-        </div>
-
-        <div class="contents-header-3">
-            <div v-if="isSkeleton" class="bg_count_area_default"></div>
-            <div v-else class="count-area">
-                <div :style="barStyles.dream" class="bar dream-bar">
-                    <div v-if="ratio.morning_diary_ratio > 0">
-                        <span>꿈</span>
-                        <span>{{ ratio.morning_diary_count }}</span>
-                    </div>
-                </div>
-                <div :style="barStyles.diary" class="bar diary-bar">
-                    <div v-if="ratio.night_diary_ratio > 0">
-                        <span>일기</span>
-                        <span>{{ ratio.night_diary_count }}</span>
-                    </div>
-                </div>
-                <div :style="barStyles.memo" class="bar memo-bar">
-                    <div v-if="ratio.memo_ratio > 0">
-                        <span>메모</span>
-                        <span>{{ ratio.memo_count }}</span>
-                    </div>
-                </div>
-
-                <div
-                    v-if="
-                        !isSkeleton &&
-                        ratio.morning_diary_count +
-                            ratio.night_diary_count +
-                            ratio.memo_count ===
-                            0
-                    "
-                    class="no-records-message"
-                >
-                    <span>기록의 종류에 따라 그래프가 채워져요.</span>
-                </div>
-            </div>
         </div>
 
         <!-- (3) 콘텐츠 영역 -->
         <div class="contents-header-4">
             <Tags
-                :tags="['전체', '꿈', '일기', '메모']"
+                :tags="[
+                    { name: '캘린더', count: null },
+                    { name: '꿈', count: ratio.morning_diary_count },
+                    { name: '일기', count: ratio.night_diary_count },
+                    { name: '메모', count: ratio.memo_count },
+                ]"
                 @select="(idx) => setType(idx)"
                 :selected="type"
             />
         </div>
 
         <div v-if="isSkeleton"></div>
-        <div v-else>
-            <div v-if="list?.length > 0">
+        <div class="board-contents" :class="type === 0 && 'calendar'" v-else>
+            <CalendarMain
+                v-if="type === 0"
+                :viewType="viewType"
+                :updateViewType="updateViewType"
+            />
+            <div v-else class="board-content" v-if="list?.length > 0">
                 <ListItems :list="list" v-if="mode === 0" />
                 <BoardItems :list="list" v-else />
             </div>
-            <Starter v-else />
+            <Starter v-if="!list.length" />
         </div>
 
         <InfiniteLoading
@@ -101,9 +78,31 @@ import BoardItems from "../../components/diary/BoardItems.vue";
 import Tags from "../../components/diary/Tags.vue";
 import Starter from "../../components/diary/Starter.vue";
 import Icon from "~/components/common/Icon.vue";
+import CalendarMain from "~/components/calendar/CalendarMain.vue";
 
 export default {
     name: "Gallery",
+    created() {
+        const currentTab = this.$route.query.tab;
+
+        switch (currentTab) {
+            case "calendar":
+                this.setType(0);
+                break;
+            case "dream":
+                this.setType(1);
+                break;
+            case "diary":
+                this.setType(2);
+                break;
+            case "memo":
+                this.setType(3);
+                break;
+            default:
+                null;
+                break;
+        }
+    },
     setup() {
         definePageMeta({
             layout: "main",
@@ -118,10 +117,13 @@ export default {
         BoardItems,
         ListItems,
         Icon,
+        CalendarMain,
     },
     data() {
         return {
             maxWidth: 214,
+            isChecked: false,
+            viewType: "monthly",
         };
     },
     watch: {
@@ -169,8 +171,10 @@ export default {
                 },
             ];
 
-            if (this.isLoading) return categoryInfo[5];
-            else return categoryInfo[this.ratio.max_category];
+            if (this.isLoading && !this.isChecked) {
+                this.isChecked = true;
+                return categoryInfo[5];
+            } else return categoryInfo[this.ratio.max_category];
         },
         barStyles() {
             return {
@@ -217,11 +221,20 @@ export default {
         goSetting() {
             this.$router.push(`/setting`);
         },
+        updateViewType(newViewType) {
+            this.viewType = newViewType;
+        },
+        handleCloseCalendarDetail(event) {
+            this.$eventBus.$emit("toggle-view-type", event);
+        },
     },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/scss/variables.scss";
+@import "@/assets/scss/mixins.scss";
+
 .header {
     padding: 2rem 2rem;
 
@@ -263,6 +276,7 @@ export default {
         width: 100%;
         margin-top: 16px;
         padding: 0 2rem;
+        height: 32px;
 
         display: flex;
         justify-content: space-between;
@@ -276,7 +290,7 @@ export default {
     }
 
     .contents-header-2 {
-        margin-top: 36px;
+        margin: 2rem 0 3rem 0;
         padding: 0 2rem;
 
         width: 100%;
@@ -378,5 +392,20 @@ export default {
 .ic_setting {
     width: 3.2rem;
     height: 3.2rem;
+}
+.board-contents {
+    width: 100%;
+
+    &.calendar {
+        height: calc(100% + 2rem);
+        margin-bottom: -2rem;
+    }
+
+    .board-content {
+        background: $vc-gray-100;
+    }
+}
+.blind {
+    visibility: hidden;
 }
 </style>

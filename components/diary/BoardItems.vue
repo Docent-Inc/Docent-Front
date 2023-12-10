@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import BoardMemo from "../../components/diary/BoardMemo.vue";
-import BoardDiary from "../../components/diary/BoardDiary.vue";
+import BoardMemo from "~/components/diary/BoardMemo.vue";
+import BoardDiary from "~/components/diary/BoardDiary.vue";
 
 export default {
     name: "BoardItems",
@@ -29,6 +29,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
+    padding-top: 1rem;
 
     box-sizing: border-box;
     justify-content: flex-start;
