@@ -115,6 +115,36 @@
     height: 20px;
 }
 
+.ic_submit {
+    background: url("../images/commons/ic_submit.svg") no-repeat;
+    background-size: contain;
+    display: block;
+    width: 20px;
+    height: 17px;
+}
+
+.ic_submit_ready {
+    background: url("../images/commons/ic_submit_ready.svg") no-repeat;
+    // background-size: contain;
+    display: block;
+    width: 20px;
+    height: 17px;
+}
+
+.ic_clock {
+    background: url("../images/commons/ic_clock.svg") no-repeat;
+    display: block;
+    width: 16px;
+    height: 16px;
+}
+
+.ic_clock_gray {
+    background: url("../images/commons/ic_clock_gray.svg") no-repeat;
+    display: block;
+    width: 16px;
+    height: 16px;
+}
+
 // 2) Navigation
 .nav_home {
     background: url("../images/commons/navigations/nav_home.svg") no-repeat
