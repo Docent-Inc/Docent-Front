@@ -6,7 +6,7 @@
                 <span>{{ $dayjs(date.date).format("dddd") }}</span>
             </h2>
             <div class="calendar-add">
-                <button @click="this.$router.push('/calendar/edit')">+</button>
+                <button @click="handleAddBtn">+</button>
             </div>
         </div>
         <div class="calendar-contents" v-if="todosList?.length > 0">
@@ -29,6 +29,11 @@ export default {
         date: Object,
         todosList: Array,
         viewType: String,
+    },
+    methods: {
+        handleAddBtn() {
+            this.$router.push("calendar/edit");
+        },
     },
 };
 </script>
