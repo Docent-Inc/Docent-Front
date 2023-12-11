@@ -83,10 +83,13 @@ import CalendarMain from "~/components/calendar/CalendarMain.vue";
 export default {
     name: "Gallery",
     created() {
-        const currentTab = this.$route.query.tab;
+        const { tab, date } = this.$route.query;
 
-        switch (currentTab) {
+        switch (tab) {
             case "calendar":
+                if (date) {
+                    break;
+                }
                 this.setType(0);
                 break;
             case "dream":
