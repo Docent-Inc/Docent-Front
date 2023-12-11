@@ -1,16 +1,18 @@
 <template>
     <div class="tags">
-        <!-- 현재 선택된 태그에 따라 달라지는 배경 이미지 -->
-        <v-icon :class="dynamicIconClass" class="tag-icon" />
-
-        <!-- 투명한 버튼들 -->
         <div class="tag-buttons">
             <div
                 v-for="(tag, idx) in tags"
                 :key="idx"
                 class="tag-area"
+                :class="{ selected: idx === selected }"
                 @click="onClick(idx)"
-            ></div>
+            >
+                {{ tag.name }}
+                <span v-if="tag.count !== null" class="count">{{
+                    tag.count
+                }}</span>
+            </div>
         </div>
     </div>
 </template>
@@ -28,17 +30,6 @@ export default {
             default: 0,
         },
     },
-    computed: {
-        dynamicIconClass() {
-            const icons = [
-                "ic_tag_total",
-                "ic_tag_dream",
-                "ic_tag_diary",
-                "ic_tag_memo",
-            ];
-            return icons[this.selected];
-        },
-    },
     methods: {
         onClick(idx) {
             this.$emit("select", idx);
@@ -47,7 +38,10 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "@/assets/scss/variables.scss";
+@import "@/assets/scss/mixins.scss";
+
 .tags {
     position: relative;
     width: 100%;
@@ -77,5 +71,39 @@ export default {
     flex: 1;
     height: 100%;
     cursor: pointer;
+    color: $vc-gray-400;
+    font-family: $font-default;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.selected {
+        color: $vc-indigo-600;
+        font-family: $font-medium;
+        position: relative;
+
+        &:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            background: $vc-indigo-500;
+            height: 4px;
+            border-radius: 2px;
+            width: 40%;
+        }
+    }
+
+    .count {
+        width: 24px;
+        height: 24px;
+        background: $vc-indigo-100;
+        color: $vc-indigo-500;
+        border-radius: $border-radius-default;
+        font-size: 1.2rem;
+        font-family: $font-bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 0.8rem;
+    }
 }
 </style>
