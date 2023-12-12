@@ -18,7 +18,7 @@
         <div class="calendar-none" v-else>
             <div>아직 일정이 없어요!</div>
             <div>이 날 등록할 일정이 있으신가요?</div>
-            <div class="add_btn-box">
+            <div class="add_btn-box" @click="handleAddBtn">
                 <AddBtn :title="'기록 추가하기'" />
             </div>
         </div>

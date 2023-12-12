@@ -1,7 +1,7 @@
 <template>
     <button class="add_btn">
         <div class="add_icon-box">
-            <div class="add_icon">&plus;</div>
+            <v-icon class="ic_add" />
         </div>
         <div class="add_title">{{ title }}</div>
     </button>
@@ -41,7 +41,9 @@ export default {
         flex-shrink: 0;
         position: relative;
 
-        .add_icon {
+        > i {
+            width: 100%;
+            height: 100%;
             position: absolute;
             top: 50%;
             left: 50%;
