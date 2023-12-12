@@ -39,7 +39,7 @@ export default {
     },
     methods: {
         handleAddBtn() {
-            this.$router.push("calendar/edit");
+            this.$router.push("edit/calendar");
         },
     },
 };
