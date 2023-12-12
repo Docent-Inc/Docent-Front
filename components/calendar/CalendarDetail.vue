@@ -5,8 +5,8 @@
                 {{ $dayjs(date.date).format("YYYY년 MM월 DD일") }}
                 <span>{{ $dayjs(date.date).format("dddd") }}</span>
             </h2>
-            <div class="calendar-add">
-                <button @click="this.$router.push('/calendar/edit')">+</button>
+            <div class="calendar-add" v-if="todosList?.length > 0">
+                <button @click="handleAddBtn">+</button>
             </div>
         </div>
         <div class="calendar-contents" v-if="todosList?.length > 0">
@@ -15,20 +15,32 @@
             </div>
         </div>
 
-        <div class="calendar-none" v-else>일정이 없습니다</div>
+        <div class="calendar-none" v-else>
+            <div>아직 일정이 없어요!</div>
+            <div>이 날 등록할 일정이 있으신가요?</div>
+            <div class="add_btn-box" @click="handleAddBtn">
+                <AddBtn :title="'기록 추가하기'" />
+            </div>
+        </div>
     </article>
 </template>
 
 <script>
 import ContentBoxWithTime from "../common/ContentBoxWithTime.vue";
+import AddBtn from "../common/buttons/AddBtn.vue";
 
 export default {
     name: "CalendarDetail",
-    components: { ContentBoxWithTime },
+    components: { ContentBoxWithTime, AddBtn },
     props: {
         date: Object,
         todosList: Array,
         viewType: String,
+    },
+    methods: {
+        handleAddBtn() {
+            this.$router.push("edit/calendar");
+        },
     },
 };
 </script>
@@ -39,12 +51,12 @@ export default {
 
 .calendar-detail {
     width: 100%;
-    height: 60%;
+    height: 47%;
     position: absolute;
     overflow: scroll;
     border-radius: 12px 12px 0 0;
     padding: 2rem;
-    bottom: 0;
+    bottom: 90px;
     font-size: 12px;
     z-index: 10;
 
@@ -104,9 +116,17 @@ export default {
         width: 100%;
         height: 100%;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         font-size: 1.6rem;
+        font-family: $font-medium;
+
+        .add_btn-box {
+            width: 236px;
+            height: 54px;
+            margin-top: 2.4rem;
+        }
     }
 
     .calendar-contents {

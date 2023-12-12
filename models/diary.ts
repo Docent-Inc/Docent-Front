@@ -99,3 +99,9 @@ export interface CalendarListModel {
     today_count: number;
     list: CalendarModel[];
 }
+
+export interface CalendarMutateModel {
+    year: string;
+    month: string;
+    day: string;
+}
