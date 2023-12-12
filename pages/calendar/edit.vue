@@ -68,6 +68,7 @@
                     @validateDay="validateDay"
                     @validateHours="validateHours"
                     @validateMinutes="validateMinutes"
+                    @toggleMeridiem="toggleMeridiem"
                 />
             </article>
             <!--끝나는 날짜-->
@@ -84,6 +85,7 @@
                     @validateDay="validateDay"
                     @validateHours="validateHours"
                     @validateMinutes="validateMinutes"
+                    @toggleMeridiem="toggleMeridiem"
                 />
             </article>
         </section>

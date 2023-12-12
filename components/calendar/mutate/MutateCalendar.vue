@@ -44,14 +44,26 @@
         <div class="date-input-box" v-if="hasTimeData">
             <div>
                 <button
+                    type="button"
                     :class="time.isAM && 'select'"
-                    @click="toggleMeridiem(true)"
+                    @click="
+                        toggleMeridiem(
+                            isStartTimeSection ? 'startTime' : 'endTime',
+                            true,
+                        )
+                    "
                 >
                     오전
                 </button>
                 <button
+                    type="button"
                     :class="!time.isAM && 'select'"
-                    @click="toggleMeridiem(false)"
+                    @click="
+                        toggleMeridiem(
+                            isStartTimeSection ? 'startTime' : 'endTime',
+                            false,
+                        )
+                    "
                 >
                     오후
                 </button>
@@ -92,6 +104,7 @@ export default {
         "validateDay",
         "validateHours",
         "validateMinutes",
+        "toggleMeridiem",
     ],
     data() {
         return {
@@ -122,6 +135,9 @@ export default {
         },
         toggleTime() {
             this.hasTimeData = !this.hasTimeData;
+        },
+        toggleMeridiem(fieldName, isAM) {
+            this.$emit(`toggleMeridiem`, fieldName, isAM);
         },
     },
 };
