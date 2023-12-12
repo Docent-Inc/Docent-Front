@@ -4,7 +4,6 @@
         :isBackBtnLeftSide="true"
         :isAddBtnRightSide="true"
         :isSubmit="
-            !!title &&
             !!content &&
             !dateErrorMsg.startTime &&
             !dateErrorMsg.endTime &&
@@ -15,10 +14,10 @@
     />
     <form class="contents viewport">
         <div class="add_input-box">
-            <h2>일정 제목 <span class="point">*</span></h2>
+            <h2>일정 제목</h2>
             <textarea
                 class="textarea-title"
-                placeholder="일정에 대한 제목을 입력해주세요"
+                placeholder="입력하지 않으면 자동으로 제목을 지어드려요!"
                 v-model="title"
             ></textarea>
         </div>
@@ -318,6 +317,11 @@ export default {
 
             &::placeholder {
                 color: $vc-gray-400;
+            }
+
+            @media screen and (max-width: 350px) {
+                font-size: 84%;
+                padding: 1rem 1.2rem;
             }
 
             &.error {
