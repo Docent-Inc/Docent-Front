@@ -322,8 +322,16 @@
 
 .ic_send {
     background: url("../images/pages/chat/ic_send.svg") no-repeat center/cover;
-    width: 24px;
-    height: 20px;
+    width: 20px;
+    height: 17px;
+    display: block;
+}
+
+.ic_send_gray {
+    background: url("../images/pages/chat/ic_send_gray.svg") no-repeat
+        center/cover;
+    width: 20px;
+    height: 17px;
     display: block;
 }
 

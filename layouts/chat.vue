@@ -17,6 +17,8 @@
         <div class="layout">
             <slot />
         </div>
+
+        <div class="chat-text">ss</div>
         <chat-input />
 
         <!-- 토스트 -->
@@ -70,6 +72,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "@/assets/scss/variables.scss";
+
+// .chat-text {
+//     position: fixed;
+//     top: 0;
+//     width: 100%;
+//     border: 1px solid red;
+//     z-index: 999;
+// }
+
 .layout {
     height: calc(100%);
     height: calc(
@@ -93,7 +104,7 @@ export default {
     backdrop-filter: blur(16px);
 
     border: none;
-    z-index: 999;
+    // z-index: 999;
 
     > div {
         display: flex;

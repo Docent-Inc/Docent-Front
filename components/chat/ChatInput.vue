@@ -1,4 +1,26 @@
 <template>
+    <div class="chat-text" v-if="isOpen">
+        <div class="chat-text-top">
+            <Icon class="ic_arrow" @click="openTextarea(false)" />
+            <span class="header-title"> Looi </span>
+
+            <div
+                class="chat-text-sumbit"
+                v-if="isValidate.status"
+                @click="send"
+            >
+                <Icon class="ic_send" />입력 완료하기
+            </div>
+            <div class="chat-text-sumbit disabled" v-else @click="send">
+                <Icon class="ic_send_gray" />입력 완료하기
+            </div>
+        </div>
+
+        <div class="input">
+            <textarea v-model="data" />
+        </div>
+    </div>
+
     <div class="chat-input">
         <div class="chat-select-box">
             <div
@@ -12,6 +34,7 @@
             </div>
             <div class="chat-select" @click="onSelect(-1)">↩︎</div>
         </div>
+
         <div class="chat-input-box">
             <div v-if="isGenerating" class="chat-loading">
                 <img src="@/assets/images/pages/chat/loading-dot.gif" />
@@ -25,19 +48,14 @@
                     />
                     <Button v-else class="btn_mic_x" @click="cancelVoice" />
 
-                    <div class="input">
+                    <div class="input" @click="openTextarea(true)">
                         <textarea
                             v-model="data"
                             :placeholder="placeholder"
-                            :disabled="isGenerating || mode === 'VOICE'"
-                            :rows="rows"
+                            rows="1"
                             :class="{ voice: mode === 'VOICE' }"
-                        />
-
-                        <Button
-                            v-if="mode === 'INPUT'"
-                            class="btn_send"
-                            @click="send"
+                            style="pointer-events: none"
+                            readonly
                         />
                     </div>
                 </div>
@@ -57,30 +75,50 @@
 import { mapState, mapActions } from "pinia";
 import { useChatStore } from "../../store/chat";
 import Button from "~/components/common/Button.vue";
+import Icon from "~/components/common/Icon.vue";
 
 export default {
     name: "ChatInput",
-    components: { Button },
+    components: { Button, Icon },
     data() {
         return {
             mode: "INPUT",
             data: "",
             selectList: [`🌙  꿈 기록`, "✏️  일기", "🗒️  메모", "🗓️  일정"],
+            isOpen: false,
         };
     },
     setup() {},
     computed: {
         ...mapState(useChatStore, ["chatList", "isGenerating", "type"]),
-        rows() {
-            const minRows = 1;
-            const maxRows = 3;
-            const rows = this.data.split("\n").length;
-            return Math.min(Math.max(rows, minRows), maxRows);
-        },
+        // rows() { 231213 - 채팅 인풋 컴포넌트 추가로 미사용
+        //     const minRows = 1;
+        //     const maxRows = 3;
+        //     const rows = this.data.split("\n").length;
+        //     return Math.min(Math.max(rows, minRows), maxRows);
+        // },
         placeholder() {
             if (this.mode === "INPUT")
                 return "Look-i에게 당신의 이야기를 들려주세요";
-            else return "Look-i가 듣고 있어요!";
+            return "Look-i가 듣고 있어요!";
+        },
+        isValidate() {
+            if (!this.data || this.data === "")
+                return {
+                    status: false,
+                    msg: "내용을 입력해 주세요.",
+                };
+
+            if (this.data.length > 500)
+                return {
+                    status: false,
+                    msg: "500자까지 입력 가능합니다.",
+                };
+
+            return {
+                status: true,
+                msg: "",
+            };
         },
     },
     methods: {
@@ -91,12 +129,15 @@ export default {
         },
         async send() {
             // Validation
-            if (!this.data || this.data === "") {
-                alert("내용을 입력해 주세요.");
+            if (!this.isValidate.status) {
+                this.$eventBus.$emit("onConfirmModal", {
+                    title: this.isValidate.msg,
+                });
                 return;
             }
             if (this.isGenerating) return;
 
+            this.openTextarea(false);
             const res = await this.sendChat(this.data);
             if (res.success) this.data = "";
             else {
@@ -122,20 +163,96 @@ export default {
                 },
             });
         },
+        openTextarea(to) {
+            if (this.mode === "VOICE") return;
+            this.isOpen = to;
+        },
     },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/assets/scss/variables.scss";
+.chat-text {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(16px);
+    z-index: 998;
 
-.chat-input {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .chat-text-top {
+        display: flex;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        padding: 0 1.5rem;
+
+        .chat-text-sumbit {
+            position: absolute;
+            top: 50;
+            right: 1.5rem;
+
+            border-radius: 8px;
+            background: $vc-indigo-500;
+            color: $vc-white;
+            padding: 6px 12px;
+
+            /* c1/c1_bold_12 */
+            font-family: $font-bold;
+            font-size: 12px;
+            line-height: 160%; /* 19.2px */
+
+            display: flex;
+            gap: 8px;
+
+            &.disabled {
+                background: $vc-gray-200;
+                color: $vc-gray-400;
+                font-family: $font-default;
+            }
+        }
+    }
+
+    .input {
+        width: 90%;
+        height: calc(100% - (60px + 3rem));
+        margin: 0 auto;
+        justify-content: center;
+        align-items: center;
+
+        textarea {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+.chat-text-box {
     width: 100%;
     max-width: 500px;
 
     z-index: 998;
     position: fixed;
+    top: 0;
+
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: constant(safe-area-inset-bottom);
+}
+
+.chat-input {
+    width: 100%;
+    max-width: 500px;
+
+    z-index: 997;
+    position: fixed;
     bottom: 0;
+    // bottom: 90px;
 
     padding-bottom: env(safe-area-inset-bottom);
     padding-bottom: constant(safe-area-inset-bottom);
@@ -192,6 +309,7 @@ export default {
     font-size: 15rem;
     z-index: 20;
 }
+
 .input {
     width: 80%;
     max-width: 500px;
@@ -206,7 +324,7 @@ export default {
     textarea {
         width: 100%;
         min-height: 48px;
-        padding: 0.8em 48px 0.8em 1em;
+        padding: 0.8em 1em 0.8em 1em;
         margin: 0 auto;
         border-radius: 10px;
         overflow: hidden;
@@ -232,10 +350,9 @@ export default {
         border: 1px solid $vc-indigo-400;
         outline: none;
     }
-
-    .btn_send {
-        position: absolute;
-        right: 0;
+    textarea.error {
+        border: 1px solid $vc-red-400;
+        outline: none;
     }
 }
 
