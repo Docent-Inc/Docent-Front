@@ -105,3 +105,13 @@ export interface CalendarMutateModel {
     month: string;
     day: string;
 }
+
+/**
+ * 메모, 일기, 꿈 생성 reqBody
+ */
+
+export interface RecordsReqBodyModel {
+    date?: Date; // "2023-12-12 00:00:00",
+    title?: string;
+    content: string;
+}
