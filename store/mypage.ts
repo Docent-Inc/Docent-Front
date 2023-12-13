@@ -5,6 +5,8 @@ export const useMypageStore = defineStore("mypage", {
     state: () => ({
         pageNo: 1,
         type: 0, // ALL (0), Dream (1), Diary(2), Memo(3)
+        typeName: "", // ["일정", "꿈", "일기", "메모"],
+        typeNameEN: "",
         mode: 1, // List (0), Board(1)
         list: [] as DiaryList[],
         totalCounts: 0,
@@ -34,8 +36,15 @@ export const useMypageStore = defineStore("mypage", {
         /**
          * Setter
          */
-        setType(type: number) {
+        setType(type: number, placeToCall?: string) {
+            const typeNameArray = ["일정", "꿈", "일기", "메모"];
+            const typeNameArrayEN = ["calendar", "dream", "diary", "memo"];
+
             this.type = type;
+            this.typeName = typeNameArray[type];
+            this.typeNameEN = typeNameArrayEN[type];
+
+            if (placeToCall === "edit") return;
 
             const router = useRouter();
             switch (type) {
