@@ -1,5 +1,8 @@
 <template>
     <div class="board-items">
+        <div class="add_btn-box">
+            <AddBtn :isCard="true" />
+        </div>
         <div v-for="(data, idx) in list" :key="idx" class="item">
             <BoardMemo :memo="data" v-if="data.diary_type === 3" />
             <BoardDiary :diary="data" v-else />
@@ -10,10 +13,11 @@
 <script>
 import BoardMemo from "~/components/diary/BoardMemo.vue";
 import BoardDiary from "~/components/diary/BoardDiary.vue";
+import AddBtn from "../common/buttons/AddBtn.vue";
 
 export default {
     name: "BoardItems",
-    components: { BoardMemo, BoardDiary },
+    components: { BoardMemo, BoardDiary, AddBtn },
     props: {
         list: {
             type: Array,
@@ -35,6 +39,10 @@ export default {
     justify-content: flex-start;
     gap: 6px;
 
+    &:last-child {
+        padding-bottom: 2rem;
+    }
+
     .item {
         flex: 0 0 calc(50% - 3px);
         height: auto;
@@ -48,5 +56,9 @@ export default {
         //     margin-left: auto;
         // }
     }
+}
+
+.add_btn-box {
+    flex: 0 0 calc(50% - 3px);
 }
 </style>
