@@ -22,7 +22,7 @@
     </div>
 
     <div class="chat-input">
-        <div class="chat-select-box">
+        <div class="chat-select-box" v-if="!(mode === 'VOICE' || isGenerating)">
             <div
                 v-for="(select, idx) in selectList"
                 :key="idx"
@@ -192,6 +192,7 @@ export default {
         display: flex;
         align-items: center;
         padding: 0 1.5rem;
+        gap: 10px;
 
         .chat-text-sumbit {
             position: absolute;
