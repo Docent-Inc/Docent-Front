@@ -116,7 +116,7 @@ export default {
             content: "",
             dateErrorMsg: { startTime: "" },
             dateErrMsgObj: { startTime: {} },
-            limitedContentLength: 500,
+            limitedContentLength: 1000,
             characterCount: 0,
         };
     },
@@ -158,6 +158,7 @@ export default {
                 this.dateErrMsgObj[placeToCall].year = "";
             }
             this.getDateErrMsg(placeToCall);
+            this.updateDayOfWeek(placeToCall);
         },
         validateMonth(placeToCall) {
             const month = parseInt(this[placeToCall].month) || 0;
@@ -170,6 +171,7 @@ export default {
                 this.dateErrMsgObj[placeToCall].month = "";
             }
             this.getDateErrMsg(placeToCall);
+            this.updateDayOfWeek(placeToCall);
         },
         validateDay(placeToCall) {
             const day = parseInt(this[placeToCall].day) || 0;
@@ -183,6 +185,7 @@ export default {
                 this.dateErrMsgObj[placeToCall].day = "";
             }
             this.getDateErrMsg(placeToCall);
+            this.updateDayOfWeek(placeToCall);
         },
         getDateErrMsg(placeToCall) {
             if (this.dateErrMsgObj[placeToCall].year) {
@@ -194,6 +197,17 @@ export default {
             } else {
                 this.dateErrorMsg[placeToCall] =
                     this.dateErrMsgObj[placeToCall].day;
+            }
+        },
+        updateDayOfWeek(placeToCall) {
+            const year = parseInt(this[placeToCall].year);
+            const month = parseInt(this[placeToCall].month) - 1;
+            const day = parseInt(this[placeToCall].day);
+
+            if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+                const days = ["일", "월", "화", "수", "목", "금", "토"];
+                const dayIndex = new Date(year, month, day).getDay();
+                this[placeToCall].week = days[dayIndex];
             }
         },
         updateCharacterCount() {
@@ -225,19 +239,25 @@ export default {
                 content: this.content,
             };
 
-            this.createRecords(this.type, reqBody);
+            this.createRecords(
+                this.type,
+                reqBody,
+                this.typeName,
+                this.typeNameEN,
+            );
+            this.$router.push({
+                path: "/mypage",
+                query: {
+                    tab: this.typeNameEN,
+                },
+            });
+            if (this.type === 3) return;
 
             this.$eventBus.$emit("onCustomModal", {
                 title: `${this.typeName}이(가) 생성되기까지는 시간이 걸려요. 조금만 기다려주세요!`,
                 cancel: " ",
                 confirm: `확인`,
-                callback: () =>
-                    this.$router.push({
-                        path: "/mypage",
-                        query: {
-                            tab: this.typeNameEN,
-                        },
-                    }),
+                callback: () => {},
             });
         },
     },

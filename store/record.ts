@@ -40,18 +40,27 @@ export const useRecordStore = defineStore("record", {
             );
             this.isDiaryDeleted = true;
         },
-        async createRecords(type: number, data: any) {
+        async createRecords(
+            type: number,
+            data: any,
+            typeName: string,
+            typeNameEn: string,
+        ) {
             try {
                 const { postMorningDiary, postNightDiary, postMemo } =
                     useDiaryService();
 
                 if (type === 1) this.recordRes = await postMorningDiary(data);
-                if (type === 2) this.recordRes = await postNightDiary(data);
-                this.recordRes = await postMemo(data);
+                else if (type === 2)
+                    this.recordRes = await postNightDiary(data);
+                else if (type === 3) this.recordRes = await postMemo(data);
 
                 this.resSuccessCount++;
                 console.log(this.recordRes);
                 console.log(this.resSuccessCount);
+
+                window.location.href = "/mypage?tab=" + typeNameEn;
+                window.alert(`새로운 ${typeName}이(가) 생성되었습니다!`);
             } catch (error) {
                 console.error(error);
             }
