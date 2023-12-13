@@ -175,7 +175,6 @@ export default {
         },
         validateDay(placeToCall) {
             const day = parseInt(this[placeToCall].day) || 0;
-            console.log(day);
             this[placeToCall].day = day;
 
             if (isNaN(day) || day < 1 || day > 31) {
@@ -252,9 +251,11 @@ export default {
                 },
             });
             if (this.type === 3) return;
-
+            // 꿈, 일기, 메모
             this.$eventBus.$emit("onCustomModal", {
-                title: `${this.typeName}이(가) 생성되기까지는 시간이 걸려요. 조금만 기다려주세요!`,
+                title: `${this.typeName}${
+                    this.type === 1 ? "이" : "가"
+                } 생성되기까지는 시간이 걸려요. 조금만 기다려주세요!`,
                 cancel: " ",
                 confirm: `확인`,
                 callback: () => {},

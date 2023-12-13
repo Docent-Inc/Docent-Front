@@ -44,8 +44,8 @@ export const useRecordStore = defineStore("record", {
         async createRecords(
             type: number,
             data: any,
-            typeName: string,
-            typeNameEn: string,
+            // typeName: string,
+            // typeNameEn: string,
         ) {
             try {
                 this.loadingTab = type;
@@ -62,9 +62,9 @@ export const useRecordStore = defineStore("record", {
                 // console.log(this.resSuccessCount);
 
                 if (this.recordRes.success) {
-                    window.location.href = "/mypage?tab=" + typeNameEn;
-                    window.alert(`새로운 ${typeName}이(가) 생성되었습니다!`);
-                    this.loadingTab = type;
+                    // window.location.href = "/mypage?tab=" + typeNameEn;
+                    // window.alert(`새로운 ${typeName}이(가) 생성되었습니다!`);
+                    this.loadingTab = -1;
                 } else {
                     window.alert(this.recordRes.message);
                 }
