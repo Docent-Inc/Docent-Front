@@ -398,10 +398,10 @@ export default {
 }
 .board-contents {
     width: 100%;
-
+    height: calc(100% - 48px - 56px - 40px - 20px);
+    margin-bottom: -2rem;
     &.calendar {
         height: calc(100% + 2rem);
-        margin-bottom: -2rem;
     }
 
     .board-content {
