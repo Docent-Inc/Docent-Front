@@ -107,6 +107,13 @@
     display: block;
 }
 
+.ic_add_accent {
+    background: url("../images/commons/ic_add_accent.svg") no-repeat
+        center/cover;
+    background-size: contain;
+    display: block;
+}
+
 .ic_url {
     background: url("../images/commons/ic_url.svg") no-repeat center/cover;
     background-size: contain;
@@ -711,6 +718,25 @@
 .ic_new_chat {
     background: url("../images/pages/setting/ic_new_chat.svg") no-repeat
         center/cover;
+    background-size: contain;
+    display: block;
+}
+
+//edit
+.ic_moon {
+    background: url("../images/pages/edit/ic_moon.svg") no-repeat center/cover;
+    background-size: contain;
+    display: block;
+}
+
+.ic_note {
+    background: url("../images/pages/edit/ic_note.svg") no-repeat center/cover;
+    background-size: contain;
+    display: block;
+}
+
+.ic_pencil {
+    background: url("../images/pages/edit/ic_pencil.svg") no-repeat center/cover;
     background-size: contain;
     display: block;
 }
