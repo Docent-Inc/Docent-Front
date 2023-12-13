@@ -17,7 +17,7 @@
         </div>
 
         <div class="input">
-            <textarea v-model="data" />
+            <textarea v-model="data" maxlength="500" />
         </div>
     </div>
 
