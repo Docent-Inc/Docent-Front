@@ -50,8 +50,12 @@
                 :updateViewType="updateViewType"
             />
             <div v-else class="board-content" v-if="list?.length > 0">
-                <ListItems :list="list" v-if="mode === 0" />
-                <BoardItems :list="list" v-else />
+                <ListItems
+                    :list="list"
+                    :loadingTab="loadingTab"
+                    v-if="mode === 0"
+                />
+                <BoardItems :list="list" :loadingTab="loadingTab" v-else />
             </div>
             <Starter v-if="!list.length" />
         </div>
@@ -69,6 +73,7 @@
 import { mapState, mapActions } from "pinia";
 import { useMypageStore } from "~/store/mypage";
 import { useUserStore } from "~/store/user";
+import { useRecordStore } from "~/store/record";
 
 import InfiniteLoading from "v3-infinite-loading";
 import ListDiary from "../../components/diary/ListDiary.vue";
@@ -137,6 +142,7 @@ export default {
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
+        ...mapState(useRecordStore, ["loadingTab"]),
         ...mapState(useMypageStore, [
             "type",
             "mode",

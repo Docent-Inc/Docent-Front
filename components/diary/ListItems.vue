@@ -3,6 +3,7 @@
         <div class="add_btn-box">
             <AddBtn :isList="true" />
         </div>
+        <div v-if="loadingTab === list[0].diary_type" class="item empty" />
         <div v-for="(data, idx) in list" :key="idx">
             <ListMemo :memo="data" v-if="data.diary_type === 3" />
             <ListDiary :diary="data" v-else />
@@ -24,10 +25,14 @@ export default {
             required: true,
             default: [],
         },
+        loadingTab: Number,
     },
 };
 </script>
 <style lang="scss" scoped>
+@import "@/assets/scss/variables.scss";
+@import "@/assets/scss/mixins.scss";
+
 .list-items {
     padding: 1.25rem;
 
@@ -36,6 +41,13 @@ export default {
     }
 }
 .add_btn-box {
+    margin-bottom: 0.8rem;
+}
+
+.empty {
+    @include skeleton;
+    border-radius: $border-radius-default;
+    height: 5rem;
     margin-bottom: 0.8rem;
 }
 </style>

@@ -7,6 +7,7 @@ import {
     type CalendarModel,
     type CalendarListModel,
     type RecordsReqBodyModel,
+    type RecordResModel,
 } from "~/models/diary";
 
 export const useDiaryService = () => {
@@ -40,19 +41,19 @@ export const useDiaryService = () => {
          * 아침 다이어리 생성 (꿈)
          */
         async postMorningDiary(reqBody: RecordsReqBodyModel) {
-            return await POST(`/diary/morning/create`, reqBody);
+            return await POST<RecordResModel>(`/diary/morning/create`, reqBody);
         },
         /**
          * 저녁 다이어리 생성 (일기)
          */
         async postNightDiary(reqBody: RecordsReqBodyModel) {
-            return await POST(`/diary/night/create`, reqBody);
+            return await POST<RecordResModel>(`/diary/night/create`, reqBody);
         },
         /**
          * 메모 생성
          */
         async postMemo(reqBody: RecordsReqBodyModel) {
-            return await POST(`/diary/memo/create`, reqBody);
+            return await POST<RecordResModel>(`/diary/memo/create`, reqBody);
         },
 
         /**

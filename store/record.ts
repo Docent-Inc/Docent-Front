@@ -1,14 +1,15 @@
 import { useTodayService } from "~/services/today";
 import { useDiaryService } from "~/services/diary";
 import { type Record } from "~/models/chat";
+import { type RecordResModel } from "~/models/diary";
 
 const initialState = () => ({
     record: undefined as Record[] | undefined,
     isDiaryAdded: false,
     isDiaryDeleted: false,
-    // type: -1,
-    recordRes: {},
+    recordRes: {} as RecordResModel,
     resSuccessCount: -1,
+    loadingTab: -1, // 0 dream, 1 diary, 2 memo
 });
 
 export const useRecordStore = defineStore("record", {
@@ -47,6 +48,7 @@ export const useRecordStore = defineStore("record", {
             typeNameEn: string,
         ) {
             try {
+                this.loadingTab = type;
                 const { postMorningDiary, postNightDiary, postMemo } =
                     useDiaryService();
 
@@ -55,12 +57,17 @@ export const useRecordStore = defineStore("record", {
                     this.recordRes = await postNightDiary(data);
                 else if (type === 3) this.recordRes = await postMemo(data);
 
-                this.resSuccessCount++;
-                console.log(this.recordRes);
-                console.log(this.resSuccessCount);
+                // this.resSuccessCount++;
+                // console.log(this.recordRes);
+                // console.log(this.resSuccessCount);
 
-                window.location.href = "/mypage?tab=" + typeNameEn;
-                window.alert(`새로운 ${typeName}이(가) 생성되었습니다!`);
+                if (this.recordRes.success) {
+                    window.location.href = "/mypage?tab=" + typeNameEn;
+                    window.alert(`새로운 ${typeName}이(가) 생성되었습니다!`);
+                    this.loadingTab = type;
+                } else {
+                    window.alert(this.recordRes.message);
+                }
             } catch (error) {
                 console.error(error);
             }

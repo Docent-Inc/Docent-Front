@@ -115,3 +115,8 @@ export interface RecordsReqBodyModel {
     title?: string;
     content: string;
 }
+
+export interface RecordResModel {
+    success: boolean;
+    message: string;
+}
