@@ -68,6 +68,7 @@ export default {
                 this.isOAuthFailed = true;
             }
         },
+        async callAppleLogin() {},
     },
 };
 </script>
