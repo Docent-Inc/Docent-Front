@@ -193,6 +193,7 @@ export default {
         align-items: center;
         padding: 0 1.5rem;
         gap: 10px;
+        z-index: 999;
 
         .chat-text-sumbit {
             position: absolute;

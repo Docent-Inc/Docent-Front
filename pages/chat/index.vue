@@ -1,32 +1,36 @@
 <template>
-    <div class="header">
-        <span class="header-title"> Looi </span>
-        <Icon class="ic_help" @click="isVisible = !isVisible" />
-    </div>
-
-    <div class="contents">
-        <div class="chat-contents" ref="scrollableRef">
-            <div class="chat-date">
-                {{ $dayjs().format("YYYY년 M월 D일") }}
-            </div>
-            <ChatBox
-                v-for="(chat, idx) in chatList"
-                :key="idx"
-                :chat="chat"
-                class="chat-box"
-            />
+    <div class="viewport">
+        <div class="header">
+            <span class="header-title"> Looi </span>
+            <Icon class="ic_help" @click="isVisible = !isVisible" />
         </div>
 
+        <div class="contents">
+            <div class="chat-contents" ref="scrollableRef">
+                <div class="chat-date">
+                    {{ $dayjs().format("YYYY년 M월 D일") }}
+                </div>
+                <ChatBox
+                    v-for="(chat, idx) in chatList"
+                    :key="idx"
+                    :chat="chat"
+                    class="chat-box"
+                />
+            </div>
+        </div>
+
+        <Navigation />
         <ChatInput />
-    </div>
-    <!-- 토스트 -->
-    <Toast
-        v-if="isVisible"
-        @click="isVisible = false"
-        text="꿈, 일기, 메모, 일정 등을 자유롭게 기록해 주시면 
+
+        <!-- 토스트 -->
+        <Toast
+            v-if="isVisible"
+            @click="isVisible = false"
+            text="꿈, 일기, 메모, 일정 등을 자유롭게 기록해 주시면 
             Looi가 분류하고 저장해요!"
-        :top="60"
-    />
+            :top="60"
+        />
+    </div>
 </template>
 
 <script>
@@ -41,9 +45,9 @@ export default {
     name: "Chat",
     components: { ChatBox, ChatResult, ChatInput, Toast, Navigation, Icon },
     setup() {
-        definePageMeta({
-            layout: "main",
-        });
+        // definePageMeta({
+        //     layout: "main",
+        // });
     },
 };
 </script>
