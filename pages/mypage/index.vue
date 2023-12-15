@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="contents">
-        <!-- (1) 프로필 영역 -->
+        <!-- (1) 프로필 영역 --> 
         <div class="contents-header-1" @click="handleCloseCalendarDetail">
             <p>
                 <span class="nickname-color">{{ user?.nickname }}</span
@@ -142,7 +142,7 @@ export default {
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
-        ...mapState(useRecordStore, ["loadingTab"]),
+        // ...mapState(useRecordStore, []), 
         ...mapState(useMypageStore, [
             "type",
             "mode",
@@ -151,6 +151,7 @@ export default {
             "pageNo",
             "ratio",
             "isLoading",
+            "loadingTab",
         ]),
         highestCountCategory() {
             const categoryInfo = [

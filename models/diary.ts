@@ -32,7 +32,7 @@ export interface DiaryList {
     diary_name: string;
     diary_type: number;
     resolution?: string;
-    image_url: string;
+    image_url?: string;
     background_color?: string;
     create_date: string;
     modify_date: string;
@@ -116,7 +116,41 @@ export interface RecordsReqBodyModel {
     content: string;
 }
 
-export interface RecordResModel {
+export interface MemoRecord {
+    id: number;
+    User_id: number;
+    diary_name: string;
+    diary_type: number;
+    create_date: string;
+    modify_date: string;
+    is_deleted: boolean;
+    content: string;
+}
+
+export interface DiaryRecord {
+    id: number;
+    User_id: number;
+    diary_name: string;
+    diary_type: number;
+    resolution?: string | undefined;
+    image_url: string;
+    background_color?: string | undefined;
+    create_date: string;
+    modify_date: string;
+    is_deleted: boolean;
+}
+
+export type RecordType = "memo" | "diary";
+
+export type RecordResModel = {
+    memo: MemoRecord;
+    diary: DiaryRecord;
+};
+
+export type RecordGeneralResModel = {
     success: boolean;
     message: string;
-}
+    data: {
+        [key in RecordType]: MemoRecord | DiaryRecord;
+    };
+};

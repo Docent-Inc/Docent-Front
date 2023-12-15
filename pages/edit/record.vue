@@ -76,18 +76,19 @@
             <textarea
                 class="textarea-title"
                 placeholder="입력하지 않으면 자동으로 제목을 지어드려요!"
-                v-model="title"
+                @input="updateInputContents"
+                :value="title"
+                data-field="title"
             ></textarea>
         </div>
         <div class="add_input-box content">
             <h2>내용 <span class="point">*</span></h2>
             <textarea
                 class="textarea-content"
-                contenteditable
                 placeholder="무슨 일이 있었는지, 무슨 생각을 했는지 적어주세요."
-                v-model="content"
-                @input="updateCharacterCount"
-                @keydown.enter.prevent="handleEnter"
+                @input="updateInputContents"
+                :value="content"
+                data-field="content"
             ></textarea>
             <div
                 class="character-count"
@@ -112,8 +113,8 @@ export default {
     },
     data() {
         return {
-            title: "",
-            content: "",
+            // title: "",
+            // content: "",
             dateErrorMsg: { startTime: "" },
             dateErrMsgObj: { startTime: {} },
             limitedContentLength: 1000,
@@ -127,8 +128,15 @@ export default {
     },
     computed: {
         ...mapState(useCalendarStore, ["date", "startTime"]),
-        ...mapState(useMypageStore, ["type", "typeName", "typeNameEN"]),
-        ...mapState(useRecordStore, ["recordRes", "resSuccessCount"]),
+        ...mapState(useMypageStore, [
+            "type",
+            "typeName",
+            "typeNameEN",
+            "recordRes",
+            "resSuccessCount",
+            "title",
+            "content",
+        ]),
     },
 
     created() {
@@ -145,8 +153,11 @@ export default {
     },
     methods: {
         ...mapActions(useCalendarStore, ["updateStartTime"]),
-        ...mapActions(useRecordStore, ["createRecords"]),
-        ...mapActions(useMypageStore, ["setType"]),
+        ...mapActions(useMypageStore, [
+            "setType",
+            "updateContents",
+            "createRecords",
+        ]),
         validateYear(placeToCall) {
             const year = parseInt(this[placeToCall].year) || 0;
             this[placeToCall].year = year;
@@ -209,6 +220,16 @@ export default {
                 this[placeToCall].week = days[dayIndex];
             }
         },
+        updateInputContents(event) {
+            const field = event.target.dataset.field;
+            const value = event.target.value || event.target.innerText; // contenteditable일 경우 값이 다름
+
+            // 만약 엔터 키가 눌렸다면 \n을 추가
+            if (event.key === "Enter") {
+                value += "\n";
+            }
+            this.updateContents(field, value, this.updateCharacterCount);
+        },
         updateCharacterCount() {
             if (this.content.length > this.limitedContentLength) {
                 this.content = this.content.substring(
@@ -218,11 +239,9 @@ export default {
             }
             this.characterCount = this.content.length;
         },
-        handleEnter(event) {
-            // 줄바꿈이 입력되었을 때 content에 추가 기능 수행
-            this.content += "\n";
-        },
-        async handleSubmit() {
+        async handleSubmit(event) {
+            event.preventDefault;
+
             const date = `${this.startTime.year}-${this.startTime.month}-${
                 this.startTime.day
             } ${
@@ -237,13 +256,8 @@ export default {
                 title: this.title,
                 content: this.content,
             };
-
-            this.createRecords(
-                this.type,
-                reqBody,
-                this.typeName,
-                this.typeNameEN,
-            );
+            console.log(reqBody);
+            this.createRecords(this.type, reqBody, this.typeName);
             this.$router.push({
                 path: "/mypage",
                 query: {

@@ -1,5 +1,6 @@
 import type { DiaryList, DiaryRatio } from "~/models/diary";
 import { useDiaryService } from "../services/diary";
+import { type RecordGeneralResModel } from "~/models/diary";
 
 export const useMypageStore = defineStore("mypage", {
     state: () => ({
@@ -13,6 +14,11 @@ export const useMypageStore = defineStore("mypage", {
         ratio: {} as DiaryRatio,
         isLoading: true,
         currentURL: "calendar",
+        recordRes: {} as RecordGeneralResModel,
+        resSuccessCount: -1,
+        loadingTab: -1, // 0 dream, 1 diary, 2 memo
+        title: "",
+        content: "",
     }),
     actions: {
         async getGalleryList() {
@@ -85,6 +91,42 @@ export const useMypageStore = defineStore("mypage", {
         },
         changeMode() {
             this.mode = (this.mode + 1) % 2;
+        },
+        async createRecords(type: number, data: any) {
+            try {
+                this.loadingTab = type;
+                const { postMorningDiary, postNightDiary, postMemo } =
+                    useDiaryService();
+
+                if (type === 1) this.recordRes = await postMorningDiary(data);
+                else if (type === 2)
+                    this.recordRes = await postNightDiary(data);
+                else if (type === 3) this.recordRes = await postMemo(data);
+
+                if (this.recordRes.success && type === 3) {
+                    this.list.unshift(this.recordRes.data.memo);
+                } else if (this.recordRes.success) {
+                    this.list.unshift(this.recordRes.data.diary);
+                } else {
+                    window.alert(
+                        this.recordRes.message + "돌아가서 다시 시도해보세요.",
+                    );
+                }
+                this.loadingTab = -1;
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        updateContents(
+            updateProp: string,
+            value: string,
+            callback: (limitedContent: number) => void,
+        ) {
+            if (updateProp === "title") this.title = value;
+            else if (updateProp === "content") {
+                this.content = value;
+                callback(1000);
+            }
         },
     },
 });
