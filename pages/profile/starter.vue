@@ -127,9 +127,10 @@ export default {
 
             const res = await signup(requestBody);
 
+            // 231216 - v2 /home -> /chat으로 진입점 변경
             if (res.success) {
                 await this.updateUser();
-                this.$router.push(`/home`);
+                this.$router.push(`/chat`);
             }
         },
     },
