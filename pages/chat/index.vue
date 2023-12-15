@@ -5,18 +5,16 @@
             <Icon class="ic_help" @click="isVisible = !isVisible" />
         </div>
 
-        <div class="contents">
-            <div class="chat-contents" ref="scrollableRef">
-                <div class="chat-date">
-                    {{ $dayjs().format("YYYY년 M월 D일") }}
-                </div>
-                <ChatBox
-                    v-for="(chat, idx) in chatList"
-                    :key="idx"
-                    :chat="chat"
-                    class="chat-box"
-                />
+        <div class="contents" ref="scrollableRef">
+            <div class="chat-date">
+                {{ $dayjs().format("YYYY년 M월 D일") }}
             </div>
+            <ChatBox
+                v-for="(chat, idx) in chatList"
+                :key="idx"
+                :chat="chat"
+                class="chat-box"
+            />
         </div>
 
         <Navigation />
@@ -169,15 +167,11 @@ const updateChatBoxCss = () => {
 .contents {
     width: 100%;
     height: 100%;
-    background: $gradient_bg_light;
-}
-
-.chat-contents {
-    width: 100%;
-    height: 100%;
     padding: 0 2rem;
+    background: $gradient_bg_light;
     padding-top: 60px; // header
-    padding-bottom: calc(12.5rem + 52px); // input + CSS 52px 간격 요청
+    // input + CSS 52px 간격 요청 + nav
+    padding-bottom: calc(12.5rem + 52px + 9rem);
 
     display: flex;
     flex-direction: column;
