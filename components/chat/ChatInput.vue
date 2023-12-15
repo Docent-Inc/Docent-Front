@@ -249,12 +249,14 @@ export default {
 .chat-input {
     width: 100%;
     max-width: 500px;
+    // height: calc(8rem + 3rem + 1.5rem); // 12.5rem
 
     z-index: 997;
     position: fixed;
-    bottom: 0;
-    // bottom: 90px;
-    bottom: 90px;
+    bottom: 9rem;
+
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: constant(safe-area-inset-bottom);
 }
 
 .chat-select-box {
@@ -286,11 +288,12 @@ export default {
     }
 }
 .chat-input-box {
-    min-height: 2rem;
+    width: 100%;
+    // height: 8rem;
 
     background: rgba(255, 255, 255, 0.8);
     -webkit-backdrop-filter: blur(16px);
-    /* backdrop-filter: blur(16px); */
+    backdrop-filter: blur(16px);
 
     padding: 1.5rem 0;
 }
@@ -358,7 +361,7 @@ export default {
 .chat-loading {
     width: 100%;
     height: 40px;
-    margin: 16px 0;
+    // margin: 16px 0;
     display: flex;
     justify-content: center;
     align-items: center;

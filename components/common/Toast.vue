@@ -2,7 +2,7 @@
     <!-- 토스트 -->
     <div
         class="toast animate__animated animate__bounceIn"
-        :style="{ top: top }"
+        :style="{ top: top, 'align-items': align }"
     >
         <span :class="{ bold: subText }">{{ text }}</span>
         <span v-if="subText">{{ subText }}</span>
@@ -31,6 +31,12 @@ export default {
             // 내용
             type: String,
             required: false,
+        },
+        align: {
+            // 정렬 (default: flex-start)
+            type: String,
+            required: false,
+            default: "flex-start",
         },
     },
 };

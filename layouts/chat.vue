@@ -18,7 +18,6 @@
             <slot />
         </div>
 
-        <div class="chat-text">ss</div>
         <chat-input />
 
         <!-- 토스트 -->

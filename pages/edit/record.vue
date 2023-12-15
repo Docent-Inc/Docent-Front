@@ -97,14 +97,15 @@
                 {{ characterCount }} / {{ limitedContentLength }} 자
             </div>
         </div>
-        <Toast
-            v-if="isMakingProcess"
-            @click="isMakingProcess = false"
-            text="기록을 토대로 그림을 생성하고 있어요!"
-            subText="약 15초 정도 기다려주시면 그림과 기록이 저장돼요."
-            :top="60"
-        />
     </form>
+    <Toast
+        v-if="isMakingProcess"
+        @click="isMakingProcess = false"
+        text="기록을 토대로 그림을 생성하고 있어요!"
+        subText="약 15초 정도 기다려주시면 그림과 기록이 저장돼요."
+        :top="60"
+        :align="'center'"
+    />
 </template>
 <script>
 import { mapState, mapActions } from "pinia";
