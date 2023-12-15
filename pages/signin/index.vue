@@ -27,13 +27,6 @@
             </article> -->
         </section>
     </main>
-    <!-- 토스트 -->
-    <Toast
-        v-if="isOAuthFailed"
-        @click="isOAuthFailed = false"
-        text="로그인에 실패했습니다. 다시 시도해주세요."
-        :top="60"
-    />
 </template>
 
 <script>
