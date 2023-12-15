@@ -412,7 +412,7 @@ export default {
     }
 
     .board-content {
-        background: $vc-gray-100;
+        background: $gradient_bg_light;
     }
 }
 .blind {

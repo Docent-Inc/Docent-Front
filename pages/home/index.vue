@@ -6,11 +6,12 @@
                 <!-- 홈 문구 -->
                 <Greeting
                     :user="user"
+                    :luck="luck"
                     :isCheckedToday="isCheckedToday"
+                    :optimisticIsCheckedToday="optimisticIsCheckedToday"
                     :weather="weather"
                     @open="this.isModalOpen = true"
                 />
-
                 <div class="contents-wrapper">
                     <section class="chat">
                         <button
@@ -84,6 +85,7 @@ export default {
             luck: "",
             isCheckedToday: false,
             isModalOpen: false,
+            optimisticIsCheckedToday: false,
         };
     },
     computed: {
@@ -112,6 +114,13 @@ export default {
     methods: {
         ...mapActions(useRecordStore, ["updateRecord"]),
         ...mapActions(useWeatherStore, ["updateWeather"]),
+        closeModal() {
+            this.isModalOpen = false;
+            this.optimisticIsCheckedToday = true;
+        },
+    },
+    created() {
+        this.updateWeather();
     },
     async mounted() {
         const { getTodayLucky, getTodayCalendar } = useTodayService();
@@ -131,7 +140,6 @@ export default {
             }
         });
 
-        this.updateWeather();
         this.updateRecord();
     },
 };

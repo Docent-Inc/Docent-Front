@@ -61,6 +61,14 @@ function getBrightness(r, g, b) {
  */
 export async function getCoordinates() {
     return new Promise((resolve, reject) => {
+        const isPermissionDenied = localStorage.getItem(
+            "locationPermissionDenied",
+        );
+
+        if (isPermissionDenied) {
+            return;
+        }
+
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -71,12 +79,18 @@ export async function getCoordinates() {
                 },
                 (error) => {
                     reject(error);
+                    handlePermissionDenied();
                 },
             );
         } else {
             reject(new Error("위치 정보 수집이 허가되지 않았습니다"));
+            handlePermissionDenied();
         }
     });
+}
+
+function handlePermissionDenied() {
+    localStorage.setItem("locationPermissionDenied", "true");
 }
 
 /**
