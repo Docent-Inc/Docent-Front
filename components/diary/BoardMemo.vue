@@ -9,7 +9,7 @@
         <div class="memo_date">
             {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
         </div>
-        <div class="memo_icon"><v-icon class="ic_tag2_memo" /></div>
+        <!-- <div class="memo_icon"><v-icon class="ic_tag2_memo" /></div> -->
     </div>
 </template>
 <script>

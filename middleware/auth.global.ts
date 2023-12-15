@@ -28,6 +28,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         "/setting",
         "/mypage",
         "/profile/modify",
+        "/edit",
     ];
 
     // console.log("****** MIDDLEWARE ******");

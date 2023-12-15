@@ -71,13 +71,16 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/scss/variables.scss";
 .layout {
-    height: calc(100%);
+    height: calc(100% - 9rem);
     height: calc(
         100% -
-            (constant(safe-area-inset-bottom) + constant(safe-area-inset-top))
+            (
+                constant(safe-area-inset-bottom) + constant(safe-area-inset-top) -
+                    9rem
+            )
     );
     height: calc(
-        100% - (env(safe-area-inset-bottom) + env(safe-area-inset-top))
+        100% - (env(safe-area-inset-bottom) + env(safe-area-inset-top) - 9rem)
     );
 
     padding-top: 60px;

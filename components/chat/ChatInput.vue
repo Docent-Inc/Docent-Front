@@ -135,7 +135,7 @@ export default {
 
     z-index: 998;
     position: fixed;
-    bottom: 0;
+    bottom: 90px;
 
     padding-bottom: env(safe-area-inset-bottom);
     padding-bottom: constant(safe-area-inset-bottom);
@@ -170,11 +170,11 @@ export default {
     }
 }
 .chat-input-box {
-    min-height: 10rem;
+    min-height: 2rem;
 
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.8);
     -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
+    /* backdrop-filter: blur(16px); */
 
     padding: 1.5rem 0;
 }

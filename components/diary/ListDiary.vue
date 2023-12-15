@@ -6,9 +6,9 @@
                 {{ this.$dayjs(this.diary.create_date).format("YYYY.MM.DD") }}
             </div>
         </div>
-        <div class="diary_icon">
+        <!-- <div class="diary_icon">
             <v-icon :class="iconClass" />
-        </div>
+        </div> -->
     </div>
 </template>
 
