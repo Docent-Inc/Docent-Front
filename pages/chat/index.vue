@@ -17,6 +17,7 @@
             text="텍스트 생성 중입니다..."
             :top="60"
         />
+        <Navigation />
     </div>
 </template>
 
@@ -24,10 +25,11 @@
 import ChatBox from "../../components/chat/ChatBox.vue";
 import ChatResult from "../../components/chat/ChatBox.vue";
 import Toast from "../../components/common/Toast.vue";
+import Navigation from "~/components/Navigation.vue";
 
 export default {
     name: "Chat",
-    components: { ChatBox, ChatResult, Toast },
+    components: { ChatBox, ChatResult, Toast, Navigation },
 };
 </script>
 

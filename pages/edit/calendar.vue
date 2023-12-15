@@ -147,7 +147,7 @@ export default {
             "updateEndTime",
         ]),
         validateYear(placeToCall) {
-            const year = parseInt(this[placeToCall].year);
+            const year = parseInt(this[placeToCall].year) || 0;
             this[placeToCall].year = year;
 
             if (isNaN(year) || year < 1000 || year > 9999) {
@@ -159,7 +159,7 @@ export default {
             this.getDateErrMsg(placeToCall);
         },
         validateMonth(placeToCall) {
-            const month = parseInt(this[placeToCall].month);
+            const month = parseInt(this[placeToCall].month) || 0;
             this[placeToCall].month = month;
 
             if (isNaN(month) || month < 1 || month > 12) {
@@ -171,7 +171,7 @@ export default {
             this.getDateErrMsg(placeToCall);
         },
         validateDay(placeToCall) {
-            const day = parseInt(this[placeToCall].day);
+            const day = parseInt(this[placeToCall].day) || 0;
             this[placeToCall].day = day;
 
             if (isNaN(day) || day < 1 || day > 31) {
@@ -195,7 +195,7 @@ export default {
             }
         },
         validateHours(placeToCall) {
-            const hours = parseInt(this[placeToCall].hours);
+            const hours = parseInt(this[placeToCall].hours) || 0;
             this[placeToCall].hours = hours;
 
             if (isNaN(hours) || hours < 0 || hours > 12) {
@@ -207,7 +207,7 @@ export default {
             this.getTimeErrMsg(placeToCall);
         },
         validateMinutes(placeToCall) {
-            const minutes = parseInt(this[placeToCall].minutes);
+            const minutes = parseInt(this[placeToCall].minutes) || 0;
             this[placeToCall].minutes = minutes;
 
             if (isNaN(minutes) || minutes < 0 || minutes > 59) {

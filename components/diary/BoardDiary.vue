@@ -4,7 +4,7 @@
         <div class="diary_date">
             {{ this.$dayjs(this.diary.create_date).format("YYYY.MM.DD") }}
         </div>
-        <div class="diary_icon"><v-icon :class="iconClass" /></div>
+        <!-- <div class="diary_icon"><v-icon :class="iconClass" /></div> -->
     </div>
 </template>
 <script>

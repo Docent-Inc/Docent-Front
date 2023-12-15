@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="contents">
-        <!-- (1) 프로필 영역 -->
+        <!-- (1) 프로필 영역 --> 
         <div class="contents-header-1" @click="handleCloseCalendarDetail">
             <p>
                 <span class="nickname-color">{{ user?.nickname }}</span
@@ -50,8 +50,12 @@
                 :updateViewType="updateViewType"
             />
             <div v-else class="board-content" v-if="list?.length > 0">
-                <ListItems :list="list" v-if="mode === 0" />
-                <BoardItems :list="list" v-else />
+                <ListItems
+                    :list="list"
+                    :loadingTab="loadingTab"
+                    v-if="mode === 0"
+                />
+                <BoardItems :list="list" :loadingTab="loadingTab" v-else />
             </div>
             <Starter v-if="!list.length" />
         </div>
@@ -69,6 +73,7 @@
 import { mapState, mapActions } from "pinia";
 import { useMypageStore } from "~/store/mypage";
 import { useUserStore } from "~/store/user";
+import { useRecordStore } from "~/store/record";
 
 import InfiniteLoading from "v3-infinite-loading";
 import ListDiary from "../../components/diary/ListDiary.vue";
@@ -137,6 +142,7 @@ export default {
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
+        // ...mapState(useRecordStore, []), 
         ...mapState(useMypageStore, [
             "type",
             "mode",
@@ -145,6 +151,7 @@ export default {
             "pageNo",
             "ratio",
             "isLoading",
+            "loadingTab",
         ]),
         highestCountCategory() {
             const categoryInfo = [
@@ -398,10 +405,10 @@ export default {
 }
 .board-contents {
     width: 100%;
-
+    height: calc(100% - 48px - 56px - 40px - 20px);
+    margin-bottom: -2rem;
     &.calendar {
         height: calc(100% + 2rem);
-        margin-bottom: -2rem;
     }
 
     .board-content {

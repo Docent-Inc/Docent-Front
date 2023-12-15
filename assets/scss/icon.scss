@@ -107,6 +107,13 @@
     display: block;
 }
 
+.ic_add_accent {
+    background: url("../images/commons/ic_add_accent.svg") no-repeat
+        center/cover;
+    background-size: contain;
+    display: block;
+}
+
 .ic_url {
     background: url("../images/commons/ic_url.svg") no-repeat center/cover;
     background-size: contain;
@@ -161,35 +168,51 @@
     background-size: contain;
 }
 
-.nav_calendar {
-    background: url("../images/commons/navigations/nav_calendar.svg") no-repeat
+.nav_default {
+    background: url("../images/commons/navigations/nav_docent.svg") no-repeat
         center/cover;
-    width: 50px;
-    height: 50px;
+    // width: 60px;
+    // height: 60px;
     background-size: contain;
     display: block;
 }
 
-.nav_calendar.active {
-    background: url("../images/commons/navigations/nav_calendar_active.svg")
+.nav_default.active {
+    background: url("../images/commons/navigations/nav_docent_active.svg")
         no-repeat center/cover;
-    background-size: contain;
-}
-
-.nav_report {
-    background: url("../images/commons/navigations/nav_report.svg") no-repeat
-        center/cover;
-    width: 50px;
-    height: 50px;
     background-size: contain;
     display: block;
 }
 
-.nav_report.active {
-    background: url("../images/commons/navigations/nav_report_active.svg")
-        no-repeat center/cover;
-    background-size: contain;
-}
+// .nav_calendar {
+//     background: url("../images/commons/navigations/nav_calendar.svg") no-repeat
+//         center/cover;
+//     width: 50px;
+//     height: 50px;
+//     background-size: contain;
+//     display: block;
+// }
+
+// .nav_calendar.active {
+//     background: url("../images/commons/navigations/nav_calendar_active.svg")
+//         no-repeat center/cover;
+//     background-size: contain;
+// }
+
+// .nav_report {
+//     background: url("../images/commons/navigations/nav_report.svg") no-repeat
+//         center/cover;
+//     width: 50px;
+//     height: 50px;
+//     background-size: contain;
+//     display: block;
+// }
+
+// .nav_report.active {
+//     background: url("../images/commons/navigations/nav_report_active.svg")
+//         no-repeat center/cover;
+//     background-size: contain;
+// }
 
 .nav_mypage {
     background: url("../images/commons/navigations/nav_mypage.svg") no-repeat
@@ -719,6 +742,25 @@
 .ic_new_chat {
     background: url("../images/pages/setting/ic_new_chat.svg") no-repeat
         center/cover;
+    background-size: contain;
+    display: block;
+}
+
+//edit
+.ic_moon {
+    background: url("../images/pages/edit/ic_moon.svg") no-repeat center/cover;
+    background-size: contain;
+    display: block;
+}
+
+.ic_note {
+    background: url("../images/pages/edit/ic_note.svg") no-repeat center/cover;
+    background-size: contain;
+    display: block;
+}
+
+.ic_pencil {
+    background: url("../images/pages/edit/ic_pencil.svg") no-repeat center/cover;
     background-size: contain;
     display: block;
 }
