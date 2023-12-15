@@ -104,12 +104,17 @@ export const useMypageStore = defineStore("mypage", {
                 else if (type === 3) this.recordRes = await postMemo(data);
 
                 if (this.recordRes.success && type === 3) {
-                    this.list.unshift(this.recordRes.data.memo);
+                    // this.list.unshift(this.recordRes.data.memo);
+                    this.title = "";
+                    this.content = "";
+                    // console.log(this.recordRes.data.memo);
                 } else if (this.recordRes.success) {
                     this.list.unshift(this.recordRes.data.diary);
+                    this.title = "";
+                    this.content = "";
                 } else {
                     window.alert(
-                        this.recordRes.message + "돌아가서 다시 시도해보세요.",
+                        "기록을 생성하지 못했어요. 다시 시도해보시겠어요?",
                     );
                 }
                 this.loadingTab = -1;

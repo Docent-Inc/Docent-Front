@@ -97,6 +97,13 @@
                 {{ characterCount }} / {{ limitedContentLength }} 자
             </div>
         </div>
+        <Toast
+            v-if="isMakingProcess"
+            @click="isMakingProcess = false"
+            text="기록을 토대로 그림을 생성하고 있어요!"
+            subText="약 15초 정도 기다려주시면 그림과 기록이 저장돼요."
+            :top="60"
+        />
     </form>
 </template>
 <script>
@@ -105,20 +112,22 @@ import { useCalendarStore } from "~/store/calendar";
 import { useMypageStore } from "~/store/mypage";
 import { useRecordStore } from "~/store/record";
 import Header from "~/components/common/Header.vue";
+import Toast from "~/components/common/Toast.vue";
+
 import { ref } from "vue";
 
 export default {
     components: {
         Header,
+        Toast,
     },
     data() {
         return {
-            // title: "",
-            // content: "",
             dateErrorMsg: { startTime: "" },
             dateErrMsgObj: { startTime: {} },
             limitedContentLength: 1000,
             characterCount: 0,
+            isMakingProcess: false,
         };
     },
     setup() {
@@ -256,24 +265,27 @@ export default {
                 title: this.title,
                 content: this.content,
             };
-            console.log(reqBody);
+            // console.log(reqBody);
             this.createRecords(this.type, reqBody, this.typeName);
-            this.$router.push({
-                path: "/mypage",
-                query: {
-                    tab: this.typeNameEN,
-                },
-            });
+            setTimeout(() => {
+                this.$router.push({
+                    path: "/mypage",
+                    query: {
+                        tab: this.typeNameEN,
+                    },
+                });
+            }, 2000);
             if (this.type === 3) return;
             // 꿈, 일기, 메모
-            this.$eventBus.$emit("onCustomModal", {
-                title: `${this.typeName}${
-                    this.type === 1 ? "이" : "가"
-                } 생성되기까지는 시간이 걸려요. 조금만 기다려주세요!`,
-                cancel: " ",
-                confirm: `확인`,
-                callback: () => {},
-            });
+            this.isMakingProcess = true;
+            // this.$eventBus.$emit("onCustomModal", {
+            //     title: `${this.typeName}${
+            //         this.type === 1 ? "이" : "가"
+            //     } 생성되기까지는 시간이 걸려요. 조금만 기다려주세요!`,
+            //     cancel: " ",
+            //     confirm: `확인`,
+            //     callback: () => {},
+            // });
         },
     },
 };
