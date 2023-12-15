@@ -17,7 +17,17 @@
         </div>
 
         <div class="input">
-            <textarea v-model="data" maxlength="500" />
+            <textarea
+                v-model="data"
+                maxlength="1000"
+                :class="{ warn: data.length === LIMITED_CONTENT_LENGTH }"
+            />
+            <div
+                class="character-count"
+                :class="{ warn: data.length === LIMITED_CONTENT_LENGTH }"
+            >
+                {{ data.length }} / {{ LIMITED_CONTENT_LENGTH }} 자
+            </div>
         </div>
     </div>
 
@@ -76,6 +86,7 @@ import { mapState, mapActions } from "pinia";
 import { useChatStore } from "../../store/chat";
 import Button from "~/components/common/Button.vue";
 import Icon from "~/components/common/Icon.vue";
+const LIMITED_CONTENT_LENGTH = 1000;
 
 export default {
     name: "ChatInput",
@@ -86,17 +97,12 @@ export default {
             data: "",
             selectList: [`🌙  꿈 기록`, "✏️  일기", "🗒️  메모", "🗓️  일정"],
             isOpen: false,
+            LIMITED_CONTENT_LENGTH: LIMITED_CONTENT_LENGTH,
         };
     },
     setup() {},
     computed: {
         ...mapState(useChatStore, ["chatList", "isGenerating", "type"]),
-        // rows() { 231213 - 채팅 인풋 컴포넌트 추가로 미사용
-        //     const minRows = 1;
-        //     const maxRows = 3;
-        //     const rows = this.data.split("\n").length;
-        //     return Math.min(Math.max(rows, minRows), maxRows);
-        // },
         placeholder() {
             if (this.mode === "INPUT")
                 return "Looi에게 당신의 이야기를 들려주세요";
@@ -109,10 +115,10 @@ export default {
                     msg: "내용을 입력해 주세요.",
                 };
 
-            if (this.data.length > 500)
+            if (this.data.length > LIMITED_CONTENT_LENGTH)
                 return {
                     status: false,
-                    msg: "500자까지 입력 가능합니다.",
+                    msg: `${LIMITED_CONTENT_LENGTH}자까지 입력 가능합니다.`,
                 };
 
             return {
@@ -225,12 +231,25 @@ export default {
         width: 90%;
         height: calc(100% - (60px + 3rem));
         margin: 0 auto;
+
+        flex-direction: column;
         justify-content: center;
         align-items: center;
 
         textarea {
             width: 100%;
             height: 100%;
+        }
+
+        .character-count {
+            width: 100%;
+            text-align: right;
+            color: $vc-gray-500;
+            font-size: 0.8em;
+
+            &.warn {
+                color: $vc-red-500;
+            }
         }
     }
 }
@@ -353,7 +372,7 @@ export default {
         border: 1px solid $vc-indigo-400;
         outline: none;
     }
-    textarea.error {
+    textarea.warn {
         border: 1px solid $vc-red-400;
         outline: none;
     }
