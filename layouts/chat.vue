@@ -4,7 +4,7 @@
         <div class="header">
             <div>
                 <Icon :class="'ic_arrow'" @click="goHome" />
-                <span class="header-title"> Look-i </span>
+                <span class="header-title"> Looi </span>
             </div>
 
             <Icon
@@ -17,6 +17,7 @@
         <div class="layout">
             <slot />
         </div>
+
         <chat-input />
 
         <!-- 토스트 -->
@@ -24,7 +25,7 @@
             v-if="isVisible"
             @click="isVisible = false"
             text="꿈, 일기, 메모, 일정 등을 자유롭게 기록해 주시면 
-            Looki가 분류하고 저장해요!"
+            Looi가 분류하고 저장해요!"
             :top="60"
         />
     </div>
@@ -70,6 +71,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "@/assets/scss/variables.scss";
+
+// .chat-text {
+//     position: fixed;
+//     top: 0;
+//     width: 100%;
+//     border: 1px solid red;
+//     z-index: 999;
+// }
+
 .layout {
     height: calc(100% - 9rem);
     height: calc(
@@ -96,7 +106,7 @@ export default {
     backdrop-filter: blur(16px);
 
     border: none;
-    z-index: 999;
+    // z-index: 999;
 
     > div {
         display: flex;
