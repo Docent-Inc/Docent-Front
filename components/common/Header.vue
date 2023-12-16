@@ -11,11 +11,11 @@
             </div>
 
             <div
-                v-if="isLogoLeftSide"
                 class="ic_logo-box"
+                v-if="isLogoLeftSide"
                 @click="() => this.$router.push('/home')"
             >
-                <v-icon class="ic_home_logo" />
+                <Icon class="logo_v2" />
             </div>
 
             <h1 v-else class="title-box">
@@ -34,19 +34,21 @@
             <span>입력 완료하기</span>
         </button>
 
-        <div
+        <!-- <div
             v-else
             class="ic_setting-box"
             @click="() => this.$router.push('/setting')"
         >
             <v-icon class="ic_setting" />
-        </div>
+        </div> -->
     </header>
 </template>
 
 <script>
+import Icon from "~/components/common/Icon";
 export default {
     name: "Header",
+    components: { Icon },
     props: {
         title: {
             type: String,
@@ -108,15 +110,7 @@ export default {
     }
 
     .ic_logo-box {
-        height: 29px;
-        width: 62px;
         cursor: pointer;
-
-        > i {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
     }
 
     .title-box {

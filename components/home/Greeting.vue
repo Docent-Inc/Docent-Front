@@ -1,9 +1,10 @@
 <template>
-    <section class="landing" :class="dynamicBackground">
+    <!-- <section class="landing" :class="dynamicBackground"> -->
+    <section class="landing">
         <div class="landing__weather">
             <div class="date-box">
                 <div class="date">
-                    {{ $dayjs().format("YYYY.MM.DD.ddd") }}
+                    {{ $dayjs().format("YYYY.MM.DD") }}
                 </div>
                 <div class="date-icon" v-if="!isLocationDenied">
                     <!-- <div v-if="!weather.icon" class="skeleton" /> -->
@@ -23,17 +24,22 @@
                     v-if="weather.tmx && !(weather.icon === 'not supported')"
                 >
                     <div>
-                        <span>최고</span>
-                        <span class="degree">{{ weather.tmx }}°C</span>
+                        <span>최고기온</span>
+                        <span class="degree"
+                            >{{ parseInt(parseFloat(weather.tmx)) }}°C</span
+                        >
                     </div>
                     <div>
-                        <span>최저</span>
-                        <span class="degree minimum">{{ weather.tmn }}°C</span>
+                        <span>최저기온</span>
+                        <span class="degree minimum"
+                            >{{ parseInt(parseFloat(weather.tmn)) }}°C</span
+                        >
                     </div>
                 </div>
             </div>
         </div>
-        <div class="landing__greeting">
+        <!-- 231216 - v2 홈 디자인 변경으로 미사용 START -->
+        <!-- <div class="landing__greeting">
             <div class="greeting">
                 <h1>{{ greetingPrefix }} {{ user?.nickname }}님,</h1>
                 <h2>{{ dynamicMessage }}</h2>
@@ -50,7 +56,8 @@
                     <v-icon class="ic_fortune" />
                 </div>
             </div>
-        </div>
+        </div> -->
+        <!-- 231216 - v2 홈 디자인 변경으로 미사용 END -->
     </section>
 </template>
 
@@ -90,39 +97,41 @@ export default {
                 description: "",
             };
         },
-        timeType() {
-            return getHourType(new Date().getHours());
-        },
-        greetingPrefix() {
-            switch (this.timeType) {
-                case 1:
-                    return "좋은 아침!";
-                case 4:
-                    return "고생했어요";
-                default:
-                    return "안녕하세요";
-            }
-        },
-        dynamicMessage() {
-            switch (this.timeType) {
-                case 1:
-                    return "오늘의 생각을 말해보세요!";
-                case 4:
-                    return "오늘 하루는 어땠어요?";
-                default:
-                    return "새로운 일정과 메모가 있나요?";
-            }
-        },
-        dynamicBackground() {
-            switch (this.timeType) {
-                case 1:
-                    return "daytime";
-                case 4:
-                    return "night";
-                default:
-                    return "dawn";
-            }
-        },
+        //// 231216 - v2 홈 디자인 변경으로 미사용 START
+        // timeType() {
+        //     return getHourType(new Date().getHours());
+        // },
+        // greetingPrefix() {
+        //     switch (this.timeType) {
+        //         case 1:
+        //             return "좋은 아침!";
+        //         case 4:
+        //             return "고생했어요";
+        //         default:
+        //             return "안녕하세요";
+        //     }
+        // },
+        // dynamicMessage() {
+        //     switch (this.timeType) {
+        //         case 1:
+        //             return "오늘의 생각을 말해보세요!";
+        //         case 4:
+        //             return "오늘 하루는 어땠어요?";
+        //         default:
+        //             return "새로운 일정과 메모가 있나요?";
+        //     }
+        // },
+        // dynamicBackground() {
+        //     switch (this.timeType) {
+        //         case 1:
+        //             return "daytime";
+        //         case 4:
+        //             return "night";
+        //         default:
+        //             return "dawn";
+        //     }
+        // },
+        //// 231216 - v2 홈 디자인 변경으로 미사용 END
     },
     mounted() {
         const isPermissionDenied = localStorage.getItem(
@@ -138,15 +147,15 @@ export default {
 @import "@/assets/scss/mixins.scss";
 
 .landing {
-    padding: 2rem 2rem 4rem 2rem;
+    padding: 2rem;
     width: 100%;
     margin-top: 0;
-    color: $vc-gray-100;
-    background: $gradient_dawn_dusk;
+    color: $vc-gray-500;
 
-    @media screen and (max-width: 360px) {
-        padding-bottom: 2.5rem;
-    }
+    // background: $gradient_dawn_dusk;
+    // @media screen and (max-width: 360px) {
+    //     // padding-bottom: 2.5rem;
+    // }
 
     &.dawn {
         background: $gradient_dawn_dusk;
@@ -165,13 +174,13 @@ export default {
         justify-content: space-between;
         height: 20px;
 
-        @media screen and (max-width: 340px) {
-            margin-bottom: 2rem;
-        }
+        // @media screen and (max-width: 340px) {
+        //     margin-bottom: 2rem;
+        // }
     }
 
     &__greeting {
-        color: $vc-white;
+        // color: $vc-white;
         margin: 2.3rem 0 2rem 0;
         display: flex;
         align-items: center;
@@ -190,7 +199,7 @@ export default {
 }
 
 .date-box {
-    color: $vc-gray-100;
+    // color: $vc-gray-100;
     font-size: var(--vc-text-base);
     display: flex;
     align-items: center;
@@ -220,7 +229,7 @@ export default {
 }
 
 .degree-box {
-    color: $vc-gray-100;
+    // color: $vc-gray-100;
     font-size: var(--vc-text-xs);
     font-weight: 400;
     display: flex;
@@ -245,7 +254,7 @@ export default {
     }
 
     .degree {
-        margin: 0 1.7rem 0 1rem;
+        margin: 0 0.75rem 0 0.25rem;
         font-family: $font-bold;
 
         &.minimum {

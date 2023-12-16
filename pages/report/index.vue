@@ -176,6 +176,7 @@ export default {
         bottom: 0;
         right: 0;
     }
+
     .report-progress-wrap {
         display: flex;
         flex-wrap: wrap;
