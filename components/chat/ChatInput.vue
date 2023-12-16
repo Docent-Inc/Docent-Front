@@ -274,9 +274,8 @@ export default {
     z-index: 997;
     position: fixed;
     bottom: 9rem;
-
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-bottom: constant(safe-area-inset-bottom);
+    bottom: calc(9rem + env(safe-area-inset-bottom));
+    bottom: calc(9rem + constant(safe-area-inset-bottom));
 }
 
 .chat-select-box {
