@@ -184,6 +184,11 @@ export default {
     top: 0;
     width: 100%;
     height: 100%;
+
+    // IOS safe-area 고려
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: constant(safe-area-inset-bottom);
+
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(16px);
     z-index: 998;
