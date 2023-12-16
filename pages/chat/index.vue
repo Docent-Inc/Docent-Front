@@ -173,6 +173,9 @@ const updateChatBoxCss = () => {
     padding-top: 60px; // header
     // input + CSS 52px 간격 요청 + nav
     padding-bottom: calc(12.5rem + 52px + 9rem);
+    // IOS 네비 하단에 배경 X
+    margin-bottom: env(safe-area-inset-bottom);
+    margin-bottom: constant(safe-area-inset-bottom);
 
     display: flex;
     flex-direction: column;
