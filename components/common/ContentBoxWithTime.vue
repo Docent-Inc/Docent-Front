@@ -19,8 +19,26 @@
                     {{ item.title }}
                 </h3>
             </div>
-            <div class="delete-box" v-if="isCalender" @click="onDelete">
-                <v-icon class="ic_delete">아이콘</v-icon><span>삭제하기</span>
+
+            <div class="mutate-box" v-if="isCalender">
+                <button
+                    type="button"
+                    class="edit-box"
+                    @click="onEdit"
+                    aria-label="일정 수정하기"
+                >
+                    <v-icon class="ic_modify" />
+                </button>
+
+                <button
+                    type="button"
+                    class="delete-box"
+                    @click="onDelete"
+                    aria-label="일정 삭제하기"
+                >
+                    <v-icon class="ic_delete" />
+                    <!-- <span class="responsive">삭제</span> -->
+                </button>
             </div>
         </div>
         <p class="item-box__content" v-if="isCalender && item.content">
@@ -80,6 +98,9 @@ export default {
             const startTime = this.$dayjs(start_time);
             return today.isAfter(startTime, "day");
         },
+        onEdit() {
+            this.$router.push("/edit/calendar");
+        },
         onDelete() {
             this.$eventBus.$emit("onCustomModal", {
                 title: "정말 이 일정을 삭제하시겠어요?",
@@ -134,16 +155,24 @@ export default {
         .title-box {
             display: flex;
             align-items: center;
+
+            @media screen and (max-width: 380px) {
+                font-size: 90%;
+            }
         }
 
-        .delete-box {
+        .mutate-box {
+            display: flex;
+        }
+        .delete-box,
+        .edit-box {
             color: $vc-gray-400;
             font-size: 1.2rem;
             display: flex;
             align-items: center;
 
             i {
-                margin: 0 0.5rem 0 2rem;
+                margin: 0 0.5rem;
             }
         }
     }
@@ -178,6 +207,12 @@ export default {
     }
     .subject {
         color: $vc-gray-700;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .responsive {
+        display: none;
     }
 }
 </style>
