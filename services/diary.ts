@@ -129,5 +129,31 @@ export const useDiaryService = () => {
                 day: day,
             });
         },
+
+        /**
+         * 아침 다이어리 수정 (꿈)
+         */
+        async putMorningDiary(reqBody: RecordsReqBodyModel, id: string) {
+            console.log(await POST(`/diary/morning/update`, reqBody));
+            return await POST<RecordResModel>(
+                `/diary/morning/update?diary_id=${id}`,
+                reqBody,
+            );
+        },
+        /**
+         * 저녁 다이어리 수정 (일기)
+         */
+        async putNightDiary(reqBody: RecordsReqBodyModel, id: string) {
+            return await POST<RecordResModel>(
+                `/diary/night/update?diary_id=${id}`,
+                reqBody,
+            );
+        },
+        /**
+         * 메모 수정
+         */
+        async putMemo(reqBody: RecordsReqBodyModel) {
+            return await POST<RecordResModel>(`/diary/memo/update`, reqBody);
+        },
     };
 };
