@@ -1,5 +1,5 @@
 <template>
-    <div class="viewport" :style="dynamicBackgrond">
+    <section class="viewport" :style="dynamicBackgrond">
         <div class="header">
             <div class="button" @click="router.replace('/')">
                 <Icon class="logo_look_small" />
@@ -7,7 +7,7 @@
             </div>
         </div>
 
-        <div class="contents">
+        <article class="container">
             <!-- 1. 상단 영역 (날짜, 제목) -->
             <div class="diary-title-box">
                 <div v-if="isLoading">
@@ -22,6 +22,12 @@
                     <div class="diary-title">
                         {{ diary.diary_name }}
                     </div>
+
+                    <div class="tag-wrap">
+                        <div class="tag accent" v-for="tag in diary.keyword">
+                            {{ tag }}
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -32,50 +38,32 @@
                 width="calc(100% - 40px)"
                 maxWidth="400px"
             />
-        </div>
 
-        <!-- 3. 바텀시트 영역 -->
-        <BottomSheet
-            :title="bottomSheetTitle"
-            @open="(isOpen) => (this.isOpen = isOpen)"
-        >
-            <div class="bottom-diary">
-                <div class="bottom-diary-title-box">
-                    <div class="diary-date">
-                        {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
-                    </div>
-                    <div class="diary-title">{{ diary.diary_name }}</div>
-                </div>
-
-                <div class="bottom-diary-content">
-                    <div class="bottom-diary-content-title">
-                        <Icon class="ic_memo" /> 일기 내용
-                    </div>
-                    <div class="bottom-diary-content-desc">
-                        {{ diary.content }}
-                    </div>
-                </div>
-
-                <div v-if="type == 1" class="bottom-diary-content">
-                    <div class="bottom-diary-content-title">
-                        <Icon class="ic_crystal" />꿈을 통해 본 마음
-                    </div>
-
-                    <div class="bottom-diary-content-desc">
-                        <div class="tag-wrap">
-                            <div
-                                class="tag accent"
-                                v-for="tag in diary.keyword"
-                            >
-                                {{ tag }}
-                            </div>
+            <!-- 3. 바텀시트 영역 -->
+            <div class="bottom-container">
+                <div class="bottom-diary">
+                    <div class="bottom-diary-content">
+                        <div class="bottom-diary-content-title">
+                            <Icon class="ic_memo" /> 일기 내용
                         </div>
-                        {{ diary.resolution }}
+                        <div class="bottom-diary-content-desc">
+                            {{ diary.content }}
+                        </div>
+                    </div>
+
+                    <div v-if="type == 1" class="bottom-diary-content">
+                        <div class="bottom-diary-content-title">
+                            <Icon class="ic_crystal" />꿈을 통해 본 마음
+                        </div>
+
+                        <div class="bottom-diary-content-desc">
+                            {{ diary.resolution }}
+                        </div>
                     </div>
                 </div>
             </div>
-        </BottomSheet>
-    </div>
+        </article>
+    </section>
 </template>
 <script setup>
 const { getShareMorningdiary, getShareNightdiary } = useDiaryService();
@@ -139,7 +127,7 @@ export default {
 
             if (this.diary.background_color) {
                 const colorList = JSON.parse(this.diary.background_color);
-
+                console.log(colorList);
                 if (colorList.length > 1) {
                     background_color = `linear-gradient(rgb${colorList[0]}, rgb${colorList[1]})`;
                     text_color = getTextColorForBackground(
@@ -218,12 +206,13 @@ export default {
     }
 }
 
-.contents {
+.container {
     // BottomSheet 높이: 108px =  calc(32px + (12px * 1.5) + 4px) + 40px + 14px;
-    height: calc(100% - (60px + 108px));
-    height: calc(100% - (60px + 108px + constant(safe-area-inset-top)));
-    height: calc(100% - (60px + 108px + env(safe-area-inset-top)));
+    height: calc(100% - (60px));
+    height: calc(100% - (60px + constant(safe-area-inset-top)));
+    height: calc(100% - (60px + env(safe-area-inset-top)));
     padding: 2rem 0;
+    overflow: scroll;
 
     margin-top: calc(60px);
     margin-top: calc(60px + constant(safe-area-inset-top));
@@ -249,6 +238,12 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 4px;
+
+    .tag-wrap {
+        margin-bottom: 1rem;
+        /* border: 1px solid red; */
+        flex-wrap: wrap;
+    }
 }
 
 .diary-title {
@@ -297,7 +292,8 @@ export default {
 }
 
 .bottom-diary {
-    margin-bottom: 60px;
+    padding: 0 2rem;
+
     .bottom-diary-title-box {
         display: flex;
         flex-direction: column;
@@ -327,11 +323,15 @@ export default {
             line-height: 160%; /* 22.4px */
 
             margin-top: 8px;
+            margin-bottom: 3rem;
 
             .tag-wrap {
                 margin: 0 0 12px;
             }
         }
     }
+}
+.bottom-container {
+    width: 100%;
 }
 </style>
