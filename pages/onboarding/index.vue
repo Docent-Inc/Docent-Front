@@ -25,7 +25,7 @@
                 @click="push2List"
             >
                 오늘은 인상깊은 날이다. 나만의 공간에서 나를 도와줄 기록 비서
-                Looki와 만나게 되었다. 기록 열심히 해야지!
+                Looi와 만나게 되었다. 기록 열심히 해야지!
             </div>
 
             <div class="chat-loading" v-if="isLoading">
@@ -37,7 +37,7 @@
                 v-if="showStartButton"
                 @click="goSignIn"
             >
-                Look 가입하러 가기
+                Looi 가입하러 가기
             </div>
         </div>
     </div>
