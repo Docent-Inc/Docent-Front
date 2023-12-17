@@ -50,6 +50,7 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { useCalendarStore } from "~/store/calendar";
+import { useMypageStore } from "~/store/mypage";
 import { useCalendarService } from "~/services/calendar";
 
 export default {
@@ -65,10 +66,20 @@ export default {
         },
     },
     computed: {
-        ...mapState(useCalendarStore, ["date", "page"]),
+        ...mapState(useCalendarStore, ["date", "page", "startTime", "endTime"]),
+        ...mapState(useMypageStore, ["title", "content"]),
     },
     methods: {
-        ...mapActions(useCalendarStore, ["setDate", "setPage", "reset"]),
+        ...mapActions(useCalendarStore, [
+            "setDate",
+            "setPage",
+            "reset",
+            "updateStartTime",
+            "updateEndTime",
+            "updateCalendarId",
+        ]),
+        ...mapActions(useMypageStore, ["updateContents"]),
+
         isToday(start_time) {
             const today = this.$dayjs();
             const startTime = this.$dayjs(start_time);
@@ -99,6 +110,24 @@ export default {
             return today.isAfter(startTime, "day");
         },
         onEdit() {
+            this.updateContents("title", this.item.title, null);
+            this.updateContents("content", this.item.content, null);
+            const startTime = {
+                year: new Date(this.item.start_time).getFullYear(),
+                month: new Date(this.item.start_time).getMonth() + 1,
+                day: new Date(this.item.start_time).getDate(),
+                week: new Date(this.item.start_time).getDay(),
+            };
+            this.updateStartTime(startTime);
+            const endTime = {
+                year: new Date(this.item.end_time).getFullYear(),
+                month: new Date(this.item.end_time).getMonth() + 1,
+                day: new Date(this.item.end_time).getDate(),
+                week: new Date(this.item.end_time).getDay(),
+            };
+            this.updateEndTime(endTime);
+            this.updateCalendarId(this.item.id);
+
             this.$router.push("/edit/calendar");
         },
         onDelete() {
