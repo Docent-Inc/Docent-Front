@@ -24,7 +24,7 @@
                 <button
                     type="button"
                     class="edit-box"
-                    @click="onEdit"
+                    @click="handleEdit"
                     aria-label="일정 수정하기"
                 >
                     <v-icon class="ic_modify" />
@@ -77,6 +77,7 @@ export default {
             "updateStartTime",
             "updateEndTime",
             "updateCalendarId",
+            "updateIsEditMode",
         ]),
         ...mapActions(useMypageStore, ["updateContents"]),
 
@@ -109,7 +110,7 @@ export default {
             const startTime = this.$dayjs(start_time);
             return today.isAfter(startTime, "day");
         },
-        onEdit() {
+        handleEdit() {
             this.updateContents("title", this.item.title, null);
             this.updateContents("content", this.item.content, null);
             const startTime = {
@@ -127,6 +128,7 @@ export default {
             };
             this.updateEndTime(endTime);
             this.updateCalendarId(this.item.id);
+            this.updateIsEditMode(true);
 
             this.$router.push("/edit/calendar");
         },

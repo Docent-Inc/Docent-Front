@@ -18,18 +18,12 @@ export const useCalendarService = () => {
         /**
          * 일정 수정
          */
-        // async updateCalendar(calendarId: number, data: CalendarCreateModel) {
-        //     console.log(
-        //         await PUT(
-        //             `/diary/calender/update?calendar_id=${calendarId}`,
-        //             data,
-        //         ),
-        //     );
-        //     return await PUT(
-        //         `/diary/calender/update?calendar_id=${calendarId}`,
-        //         data,
-        //     );
-        // },
+        async updateCalendar(calendarId: number, data: CalendarCreateModel) {
+            return await POST(
+                `/diary/calender/update?calender_id=${calendarId}`,
+                data,
+            );
+        },
         /**
          * 일정 삭제
          */
