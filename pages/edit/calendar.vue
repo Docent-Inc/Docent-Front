@@ -11,6 +11,7 @@
             !timeErrorMsg.endTime
         "
         :func="handleSubmit"
+        :isEditMode="isEditMode"
     />
     <form class="contents viewport">
         <div class="add_input-box">
@@ -18,7 +19,9 @@
             <textarea
                 class="textarea-title"
                 placeholder="입력하지 않으면 자동으로 제목을 지어드려요!"
-                v-model="title"
+                @input="updateInputContents"
+                :value="title"
+                data-field="title"
             ></textarea>
         </div>
         <div class="add_input-box">
@@ -26,7 +29,9 @@
             <textarea
                 class="textarea-content"
                 placeholder="일정에 대한 내용을 입력해주세요"
-                v-model="content"
+                @input="updateInputContents"
+                :value="content"
+                data-field="content"
             ></textarea>
         </div>
         <section class="add_date_input-box">
@@ -94,6 +99,8 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { useCalendarStore } from "~/store/calendar";
+import { useMypageStore } from "~/store/mypage";
+
 import Header from "~/components/common/Header.vue";
 import MutateDateHeader from "~/components/calendar/mutate/MutateDateHeader.vue";
 import MutateCalendar from "~/components/calendar/mutate/MutateCalendar.vue";
@@ -106,8 +113,6 @@ export default {
     },
     data() {
         return {
-            title: "",
-            content: "",
             dateErrorMsg: { startTime: "", endTime: "" },
             timeErrorMsg: { startTime: "", endTime: "" },
             dateErrMsgObj: { startTime: {}, endTime: {} },
@@ -126,26 +131,33 @@ export default {
             "date",
             "startTime",
             "endTime",
+            "calendarId",
+            "isEditMode",
         ]),
+        ...mapState(useMypageStore, ["title", "content"]),
     },
     created() {
-        this.updateStartTime({
-            year: this.date.date.getFullYear(),
-            month: this.date.date.getMonth() + 1,
-            day: this.date.date.getDate(),
-        });
-        this.updateEndTime({
-            year: this.date.date.getFullYear(),
-            month: this.date.date.getMonth() + 1,
-            day: this.date.date.getDate(),
-        });
+        if (!this.isEditMode) {
+            this.updateStartTime({
+                year: this.date.date.getFullYear(),
+                month: this.date.date.getMonth() + 1,
+                day: this.date.date.getDate(),
+            });
+            this.updateEndTime({
+                year: this.date.date.getFullYear(),
+                month: this.date.date.getMonth() + 1,
+                day: this.date.date.getDate(),
+            });
+        }
     },
     methods: {
         ...mapActions(useCalendarStore, [
             "createCalendarItem",
+            "updateCalendarItem",
             "updateStartTime",
             "updateEndTime",
         ]),
+        ...mapActions(useMypageStore, ["updateContents"]),
         validateYear(placeToCall) {
             const year = parseInt(this[placeToCall].year) || 0;
             this[placeToCall].year = year;
@@ -231,13 +243,23 @@ export default {
             if (placeToCall === "startTime") this.startTime.isAM = isAM;
             else this.endTime.isAM = isAM;
         },
+        updateInputContents(event) {
+            const field = event.target.dataset.field;
+            const value = event.target.value || event.target.innerText; // contenteditable일 경우 값이 다름
+
+            // 만약 엔터 키가 눌렸다면 \n을 추가
+            if (event.key === "Enter") {
+                value += "\n";
+            }
+            this.updateContents(field, value, null);
+        },
         async handleSubmit() {
             const start_time = `${this.startTime.year}-${
                 this.startTime.month
             }-${this.startTime.day} ${
                 (this.startTime.isAM ? 0 : +12) +
                 (this.startTime.isAM && Number(this.startTime.hours) === 12)
-                    ? 0
+                    ? "00"
                     : Number(this.startTime.hours)
             }:${this.startTime.minutes}`;
 
@@ -257,10 +279,18 @@ export default {
                 content: this.content,
             };
 
-            const res = await this.createCalendarItem(this.date.date, reqBody);
-            const currentDate = `${this.date.date.getFullYear()}-${
-                this.date.date.getMonth() + 1
-            }-${this.date.date.getDate()}`;
+            let res;
+            if (this.isEditMode) {
+                res = await this.updateCalendarItem(
+                    this.date.date,
+                    this.calendarId,
+                    reqBody,
+                );
+            } else {
+                res = await this.createCalendarItem(this.date.date, reqBody);
+            }
+
+            const currentDate = `${this.startTime.year}-${this.startTime.month}-${this.startTime.day}`;
 
             if (res.success) {
                 this.$router.push({
