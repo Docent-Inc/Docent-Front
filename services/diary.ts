@@ -134,7 +134,6 @@ export const useDiaryService = () => {
          * 아침 다이어리 수정 (꿈)
          */
         async putMorningDiary(reqBody: RecordsReqBodyModel, id: string) {
-            console.log(await POST(`/diary/morning/update`, reqBody));
             return await POST<RecordResModel>(
                 `/diary/morning/update?diary_id=${id}`,
                 reqBody,

@@ -85,9 +85,20 @@
                                 v-if="isEditMode && editType === 'content'"
                                 @update:content="diaryContent = $event"
                             />
-                            <div v-else>
-                                {{ diaryContent || diary.content }}
-                            </div>
+                            <div
+                                v-else-if="diaryContent || diary.content"
+                                v-html="
+                                    diaryContent
+                                        ? escapeHtml(diaryContent).replace(
+                                              /\n/g,
+                                              '<br>',
+                                          )
+                                        : escapeHtml(diary.content).replace(
+                                              /\n/g,
+                                              '<br>',
+                                          )
+                                "
+                            ></div>
                         </div>
                     </div>
 
@@ -118,6 +129,7 @@
 import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
 import { useRecordStore } from "~/store/record";
+import { escapeHtml } from "~/utils/utils";
 
 import { useDiaryService } from "../../services/diary";
 import Button from "~/components/common/Button.vue";
@@ -375,13 +387,13 @@ export default {
         },
         async handleBlur(type) {
             this.isEditMode = false;
-            console.log(this.diary.diary_name, this.diaryTitle);
+
             if (type === "title" && this.diary.diary_name !== this.diaryTitle) {
                 // 변경된 title 값을 저장하는 로직 추가
-                this.diary.title = this.diaryTitle;
+                this.diary.diary_name = this.diaryTitle;
                 this.handleUpdate(
                     this.type,
-                    { title: this.diaryTitle },
+                    { diary_name: this.diaryTitle },
                     "제목",
                 );
             } else if (
@@ -399,21 +411,21 @@ export default {
         },
         async handleUpdate(type, props, updatedPropName) {
             const { putMorningDiary, putNightDiary } = useDiaryService();
-
+            console.log(type, props, updatedPropName);
             let res;
             if (type === "1") {
                 res = await putMorningDiary(props, this.diary.id);
-                this.successMessage = `꿈 ${updatedPropName} 수정이 완료되었어요!`;
-                this.isVisible = true;
-            }
-            if (type === "2") {
+            } else if (type === "2") {
                 res = await putNightDiary(props, this.diary.id);
+            }
+
+            if (res.success) {
                 this.successMessage = `일기 ${updatedPropName} 수정이 완료되었어요! `;
                 this.isVisible = true;
             }
             console.log(res);
 
-            // 실행취소 기능 필요
+            // 추후 실행취소 기능 필요
             setTimeout(() => {
                 this.isVisible = false;
             }, 2500);

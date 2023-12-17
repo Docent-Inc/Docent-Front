@@ -110,11 +110,9 @@
 import { mapState, mapActions } from "pinia";
 import { useCalendarStore } from "~/store/calendar";
 import { useMypageStore } from "~/store/mypage";
-import { useRecordStore } from "~/store/record";
 import Header from "~/components/common/Header.vue";
 import Toast from "~/components/common/Toast.vue";
 
-import { ref } from "vue";
 
 export default {
     components: {
@@ -147,7 +145,6 @@ export default {
             "content",
         ]),
     },
-
     created() {
         this.updateStartTime({
             year: new Date().getFullYear(),
