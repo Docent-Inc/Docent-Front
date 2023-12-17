@@ -124,6 +124,12 @@ export default {
             }
         },
     },
+    methods: {
+        openModal() {
+            // this.isModalOpen = true;
+            this.$emit("open");
+        },
+    },
     mounted() {
         const isPermissionDenied = localStorage.getItem(
             "locationPermissionDenied",
