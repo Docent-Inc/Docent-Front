@@ -1,15 +1,15 @@
 <template>
-    <div class="viewport" :style="dynamicBackgrond">
-        <div class="header">
+    <section class="viewport" :style="dynamicBackground">
+        <header class="header">
             <Button class="btn_x" @click="this.$router.back()" />
 
             <div class="btn_url" @click="shareURL">
                 <Icon class="ic_url" />
                 <span>URL 공유하기</span>
             </div>
-        </div>
+        </header>
 
-        <div class="contents">
+        <article class="contents">
             <!-- 1. 상단 영역 (날짜, 제목) -->
             <div class="diary-title-box">
                 <div v-if="isLoading">
@@ -21,8 +21,22 @@
                         {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
                     </div>
 
-                    <div class="diary-title">
-                        {{ diary.diary_name }}
+                    <div class="diary-title" @click="handleEditMode('title')">
+                        <input
+                            class="edit-input"
+                            ref="inputRef"
+                            v-if="isEditMode && editType === 'title'"
+                            v-model="diaryTitle"
+                            @blur="handleBlur('title')"
+                            :style="dynamicInputTop"
+                        />
+                        <div v-else>{{ diaryTitle || diary.diary_name }}</div>
+                    </div>
+
+                    <div class="tag-wrap">
+                        <div class="tag accent" v-for="tag in diary.keyword">
+                            {{ tag }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -35,56 +49,70 @@
                 width="calc(100% - 40px)"
                 maxWidth="400px"
             />
-            <div class="diary-delete" @click="onDelete">
+            <div
+                class="diary-delete"
+                @click="onDelete"
+                :style="bottomTextColor"
+            >
                 <Icon class="ic_delete_white" />삭제하기
             </div>
-        </div>
 
-        <!-- 3. 바텀시트 영역 -->
-        <BottomSheet
-            :title="bottomSheetTitle"
-            @open="(isOpen) => (this.isOpen = isOpen)"
-        >
-            <div class="bottom-diary">
-                <div class="bottom-diary-title-box">
-                    <div class="diary-date">
-                        {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
-                    </div>
-                    <div class="diary-title">{{ diary.diary_name }}</div>
-                </div>
-
-                <div class="bottom-diary-content">
-                    <div class="bottom-diary-content-title">
-                        <Icon class="ic_memo" />
-                        <span v-if="type === '1'">꿈 내용</span>
-                        <span v-else>일기 내용</span>
-                    </div>
-                    <div class="bottom-diary-content-desc">
-                        {{ diary.content }}
-                    </div>
-                </div>
-
-                <div v-if="type == 1" class="bottom-diary-content">
-                    <div class="bottom-diary-content-title">
-                        <Icon class="ic_crystal" />꿈을 통해 본
-                        {{ user?.nickname }}님의 마음
-                    </div>
-
-                    <div class="bottom-diary-content-desc">
-                        <div class="tag-wrap">
-                            <div
-                                class="tag accent"
-                                v-for="tag in diary.keyword"
-                            >
-                                {{ tag }}
+            <!-- 3. 바텀시트 영역 -->
+            <div class="bottom-container" :style="bottomTextColor">
+                <div class="bottom-diary">
+                    <div class="bottom-diary-content">
+                        <div class="bottom-diary-content-title">
+                            <Icon class="ic_memo" />
+                            <span v-if="type === '1'">꿈 내용</span>
+                            <span v-else>일기 내용</span>
+                        </div>
+                        <div
+                            class="bottom-diary-content-desc"
+                            @click="handleEditMode('content')"
+                        >
+                            <textarea
+                                class="edit-input content"
+                                ref="inputRef"
+                                v-if="isEditMode && editType === 'content'"
+                                v-model="diaryContent"
+                                @blur="handleBlur('content')"
+                                :style="dynamicInputBottom"
+                            />
+                            <LimitedLength
+                                :content="diaryContent"
+                                :limitedContentLength="1000"
+                                :diary="diary"
+                                v-if="isEditMode && editType === 'content'"
+                                @update:content="diaryContent = $event"
+                            />
+                            <div v-else>
+                                {{ diaryContent || diary.content }}
                             </div>
                         </div>
-                        {{ diary.resolution }}
+                    </div>
+
+                    <div v-if="type == 1" class="bottom-diary-content">
+                        <div class="bottom-diary-content-title">
+                            <Icon class="ic_crystal" />꿈을 통해 본
+                            {{ user?.nickname }}님의 마음
+                        </div>
+
+                        <div class="bottom-diary-content-desc">
+                            {{ diary.resolution }}
+                        </div>
                     </div>
                 </div>
             </div>
-        </BottomSheet>
-    </div>
+        </article>
+
+        <!-- 토스트 -->
+        <Toast
+            v-if="isVisible"
+            @click="isVisible = false"
+            :text="successMessage"
+            :top="60"
+        />
+    </section>
 </template>
 <script>
 import { mapState, mapActions } from "pinia";
@@ -95,7 +123,8 @@ import { useDiaryService } from "../../services/diary";
 import Button from "~/components/common/Button.vue";
 import Icon from "~/components/common/Icon.vue";
 import Image from "~/components/common/Image.vue";
-import BottomSheet from "~/components/common/BottomSheet.vue";
+import Toast from "~/components/common/Toast.vue";
+import LimitedLength from "~/components/common/LimitedLength.vue";
 
 export default {
     name: "Diary",
@@ -103,7 +132,8 @@ export default {
         Button,
         Icon,
         Image,
-        BottomSheet,
+        Toast,
+        LimitedLength,
     },
     data() {
         return {
@@ -111,6 +141,14 @@ export default {
             type: "1",
             isLoading: true,
             isOpen: false,
+            // 수정
+            isEditMode: false,
+            editType: "",
+            diaryTitle: "",
+            diaryContent: "",
+            // 토스트
+            isVisible: false,
+            successMessage: "",
         };
     },
     setup() {
@@ -137,7 +175,7 @@ export default {
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
-        dynamicBackgrond() {
+        dynamicBackground() {
             let background_color = `rgb(0, 0, 0)`;
             let text_color = "#fff";
 
@@ -146,9 +184,9 @@ export default {
 
                 if (colorList.length > 1) {
                     background_color = `linear-gradient(rgb${colorList[0]}, rgb${colorList[1]})`;
-                    text_color = getTextColorForBackground(
-                        colorList.map((color) => `rgb${color}`),
-                    );
+                    text_color = getTextColorForBackground([
+                        `rgb${colorList[0]}`,
+                    ]);
                 } else {
                     background_color = `rgb${colorList[0]}`;
                     text_color = getTextColorForBackground([
@@ -159,6 +197,69 @@ export default {
 
             return {
                 background: background_color,
+                color: text_color,
+            };
+        },
+        bottomTextColor() {
+            let text_color = "#fff";
+
+            if (this.diary.background_color) {
+                const colorList = JSON.parse(this.diary.background_color);
+
+                if (colorList.length > 1) {
+                    text_color = getTextColorForBackground([
+                        `rgb${colorList[1]}`,
+                    ]);
+                } else {
+                    text_color = getTextColorForBackground([
+                        `rgb${colorList[0]}`,
+                    ]);
+                }
+            }
+
+            return {
+                color: text_color,
+            };
+        },
+        dynamicInputTop() {
+            let text_color = "#fff";
+
+            if (this.diary.background_color) {
+                const colorList = JSON.parse(this.diary.background_color);
+
+                if (colorList.length > 1) {
+                    text_color = getTextColorForBackground([
+                        `rgb${colorList[0]}`,
+                    ]);
+                } else {
+                    text_color = getTextColorForBackground([
+                        `rgb${colorList[0]}`,
+                    ]);
+                }
+            }
+
+            return {
+                color: text_color,
+            };
+        },
+        dynamicInputBottom() {
+            let text_color = "#fff";
+
+            if (this.diary.background_color) {
+                const colorList = JSON.parse(this.diary.background_color);
+
+                if (colorList.length > 1) {
+                    text_color = getTextColorForBackground([
+                        `rgb${colorList[1]}`,
+                    ]);
+                } else {
+                    text_color = getTextColorForBackground([
+                        `rgb${colorList[0]}`,
+                    ]);
+                }
+            }
+
+            return {
                 color: text_color,
             };
         },
@@ -192,6 +293,7 @@ export default {
         }
 
         this.diary = res.data.diary;
+
         if (type == 1) this.diary.keyword = JSON.parse(this.diary.main_keyword);
         this.isLoading = false;
     },
@@ -258,6 +360,64 @@ export default {
                 });
             }
         },
+        handleEditMode(type) {
+            this.isEditMode = true;
+            this.editType = type;
+            this.$nextTick(() => {
+                this.$refs.inputRef.focus(); // input 요소에 직접 포커스를 줍니다.
+            });
+
+            if (type === "title") {
+                this.diaryTitle = this.diary.diary_name || ""; // diary_name이 존재하면 기존 값으로 초기화
+            } else if (type === "content") {
+                this.diaryContent = this.diary.content || ""; // content가 존재하면 기존 값으로 초기화
+            }
+        },
+        async handleBlur(type) {
+            this.isEditMode = false;
+            console.log(this.diary.diary_name, this.diaryTitle);
+            if (type === "title" && this.diary.diary_name !== this.diaryTitle) {
+                // 변경된 title 값을 저장하는 로직 추가
+                this.diary.title = this.diaryTitle;
+                this.handleUpdate(
+                    this.type,
+                    { title: this.diaryTitle },
+                    "제목",
+                );
+            } else if (
+                type === "content" &&
+                this.diary.content !== this.diaryContent
+            ) {
+                // 변경된 content 값을 저장하는 로직 추가
+                this.diary.content = this.diaryContent;
+                this.handleUpdate(
+                    this.type,
+                    { content: this.diaryContent },
+                    "내용",
+                );
+            }
+        },
+        async handleUpdate(type, props, updatedPropName) {
+            const { putMorningDiary, putNightDiary } = useDiaryService();
+
+            let res;
+            if (type === "1") {
+                res = await putMorningDiary(props, this.diary.id);
+                this.successMessage = `꿈 ${updatedPropName} 수정이 완료되었어요!`;
+                this.isVisible = true;
+            }
+            if (type === "2") {
+                res = await putNightDiary(props, this.diary.id);
+                this.successMessage = `일기 ${updatedPropName} 수정이 완료되었어요! `;
+                this.isVisible = true;
+            }
+            console.log(res);
+
+            // 실행취소 기능 필요
+            setTimeout(() => {
+                this.isVisible = false;
+            }, 2500);
+        },
     },
 };
 </script>
@@ -297,9 +457,9 @@ export default {
 
 .contents {
     // BottomSheet 높이: 108px =  calc(32px + (12px * 1.5) + 4px) + 40px + 14px;
-    height: calc(100% - (60px + 108px));
-    height: calc(100% - (60px + 108px + constant(safe-area-inset-top)));
-    height: calc(100% - (60px + 108px + env(safe-area-inset-top)));
+    height: calc(100% - (60px));
+    height: calc(100% - (60px + constant(safe-area-inset-top)));
+    height: calc(100% - (60px + env(safe-area-inset-top)));
     padding: 2rem 0;
 
     margin-top: calc(60px);
@@ -327,6 +487,12 @@ export default {
     gap: 4px;
 
     justify-self: center;
+
+    .tag-wrap {
+        margin-bottom: 1rem;
+        /* border: 1px solid red; */
+        flex-wrap: wrap;
+    }
 }
 
 .diary-title {
@@ -379,21 +545,22 @@ export default {
     align-self: flex-start;
     margin: 0 20px;
 
-    z-index: 2; // 바텀 시트 때문에 z-index 추가
+    /* z-index: 2; // 바텀 시트 때문에 z-index 추가 */
 }
 
 .bottom-diary {
     margin-bottom: 60px;
+    padding: 0 2rem;
     .bottom-diary-title-box {
         display: flex;
         flex-direction: column;
         gap: 4px;
     }
     .bottom-diary-content {
-        margin-top: 36px;
+        margin: 2rem 0 3rem 0;
 
         .bottom-diary-content-title {
-            color: var(--white, #fff);
+            /* color: var(--white, #fff); */
 
             /* b1/b1_bold_16 */
             font-family: "Pretendard Bold";
@@ -402,10 +569,12 @@ export default {
 
             display: flex;
             gap: 12px;
+
+            height: auto;
         }
 
         .bottom-diary-content-desc {
-            color: var(--white, #fff);
+            /* color: var(--white, #fff); */
 
             /* b2/b2_reg_14 */
             font-family: "Pretendard";
@@ -413,11 +582,30 @@ export default {
             line-height: 160%; /* 22.4px */
 
             margin-top: 8px;
-
-            .tag-wrap {
-                margin: 0 0 12px;
-            }
         }
     }
+}
+
+.edit-input {
+    margin-top: 0.4rem;
+    border: 2.5px solid #ffffff35;
+    background-color: #ffffff15;
+    color: #1f2937;
+    width: 100%;
+    height: auto;
+    border-radius: $border-radius-default;
+    padding: 0.4rem 0.6rem;
+
+    &.content {
+        height: 20rem;
+    }
+}
+
+textarea:focus {
+    border: none;
+    outline: 2.5px solid #ffffff35;
+}
+.bottom-container {
+    width: 100%;
 }
 </style>
