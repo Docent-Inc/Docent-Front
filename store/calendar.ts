@@ -205,7 +205,7 @@ export const useCalendarStore = defineStore("calendar", {
         ) {
             try {
                 const { updateCalendar } = useCalendarService();
-                await updateCalendar(calendarId, data);
+                return await updateCalendar(calendarId, data);
             } catch (error) {
                 console.error(error);
             }

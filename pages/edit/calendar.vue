@@ -289,7 +289,6 @@ export default {
             } else {
                 res = await this.createCalendarItem(this.date.date, reqBody);
             }
-
             const currentDate = `${this.startTime.year}-${this.startTime.month}-${this.startTime.day}`;
 
             if (res.success) {
