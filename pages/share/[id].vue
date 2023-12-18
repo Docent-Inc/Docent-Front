@@ -40,7 +40,7 @@
             />
 
             <!-- 3. 바텀시트 영역 -->
-            <div class="bottom-container">
+            <div class="bottom-container" :style="bottomTextColor">
                 <div class="bottom-diary">
                     <div class="bottom-diary-content">
                         <div class="bottom-diary-content-title">
@@ -127,7 +127,7 @@ export default {
 
             if (this.diary.background_color) {
                 const colorList = JSON.parse(this.diary.background_color);
-                console.log(colorList);
+
                 if (colorList.length > 1) {
                     background_color = `linear-gradient(rgb${colorList[0]}, rgb${colorList[1]})`;
                     text_color = getTextColorForBackground(
@@ -143,6 +143,27 @@ export default {
 
             return {
                 background: background_color,
+                color: text_color,
+            };
+        },
+        bottomTextColor() {
+            let text_color = "#fff";
+
+            if (this.diary.background_color) {
+                const colorList = JSON.parse(this.diary.background_color);
+
+                if (colorList.length > 1) {
+                    text_color = getTextColorForBackground([
+                        `rgb${colorList[1]}`,
+                    ]);
+                } else {
+                    text_color = getTextColorForBackground([
+                        `rgb${colorList[0]}`,
+                    ]);
+                }
+            }
+
+            return {
                 color: text_color,
             };
         },

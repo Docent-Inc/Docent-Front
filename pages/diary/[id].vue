@@ -411,7 +411,6 @@ export default {
         },
         async handleUpdate(type, props, updatedPropName) {
             const { putMorningDiary, putNightDiary } = useDiaryService();
-            console.log(type, props, updatedPropName);
             let res;
             if (type === "1") {
                 res = await putMorningDiary(props, this.diary.id);
@@ -420,10 +419,11 @@ export default {
             }
 
             if (res.success) {
-                this.successMessage = `일기 ${updatedPropName} 수정이 완료되었어요! `;
+                this.successMessage = `${
+                    type === "1" ? "꿈" : "일기"
+                } ${updatedPropName} 수정이 완료되었어요! `;
                 this.isVisible = true;
             }
-            console.log(res);
 
             // 추후 실행취소 기능 필요
             setTimeout(() => {
