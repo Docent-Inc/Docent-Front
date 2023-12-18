@@ -1,5 +1,5 @@
 <template>
-    <div class="chat-text" v-if="isOpen">
+    <div class="chat-text" v-if="isOpen" ref="chatTextRef">
         <div class="chat-text-top">
             <Icon class="ic_arrow" @click="openTextarea(false)" />
             <span class="header-title"> Looi </span>
@@ -127,6 +127,15 @@ export default {
             };
         },
     },
+    mounted() {
+        window.visualViewport.addEventListener("resize", this.resizeViewport);
+    },
+    beforeMount() {
+        window.visualViewport.removeEventListener(
+            "resize",
+            this.resizeViewport,
+        );
+    },
     methods: {
         ...mapActions(useChatStore, ["sendChat", "removeLastChat", "setType"]),
         onSelect(idx) {
@@ -172,6 +181,13 @@ export default {
         openTextarea(to) {
             if (this.mode === "VOICE") return;
             this.isOpen = to;
+        },
+        resizeViewport() {
+            console.log("RESIZE - ", window.visualViewport?.height);
+            if (window.visualViewport && this.$refs.chatTextRef) {
+                const currentVisualViewport = window.visualViewport.height;
+                this.$refs.chatTextRef.style.height = `${currentVisualViewport}px`;
+            }
         },
     },
 };
