@@ -125,3 +125,23 @@ export function parseKoreanDate(date) {
     }
     return new Date();
 }
+
+/**
+ * html escape
+ */
+export function escapeHtml(unsafe) {
+    return unsafe.replace(/[&<"']/g, function (match) {
+        switch (match) {
+            case "&":
+                return "&amp;";
+            case "<":
+                return "&lt;";
+            case '"':
+                return "&quot;";
+            case "'":
+                return "&#039;";
+            default:
+                return match;
+        }
+    });
+}

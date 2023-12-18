@@ -133,6 +133,12 @@ export default {
         // },
         //// 231216 - v2 홈 디자인 변경으로 미사용 END
     },
+    methods: {
+        openModal() {
+            // this.isModalOpen = true;
+            this.$emit("open");
+        },
+    },
     mounted() {
         const isPermissionDenied = localStorage.getItem(
             "locationPermissionDenied",
