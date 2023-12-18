@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="contents">
-        <!-- (1) 프로필 영역 --> 
+        <!-- (1) 프로필 영역 -->
         <div class="contents-header-1" @click="handleCloseCalendarDetail">
             <p>
                 <span class="nickname-color">{{ user?.nickname }}</span
@@ -56,16 +56,17 @@
                     v-if="mode === 0"
                 />
                 <BoardItems :list="list" :loadingTab="loadingTab" v-else />
+                <InfiniteLoading
+                    v-if="isDOMready"
+                    :key="infiniteLoadingKey"
+                    :first-load="false"
+                    :distance="1000"
+                    @infinite="loadMore"
+                />
             </div>
+
             <Starter v-if="!list.length" />
         </div>
-
-        <InfiniteLoading
-            v-if="list?.length"
-            :first-load="false"
-            :distance="1000"
-            @infinite="loadMore"
-        />
     </div>
 </template>
 
@@ -132,6 +133,8 @@ export default {
             maxWidth: 214,
             isChecked: false,
             viewType: "monthly",
+            infiniteLoadingKey: 0,
+            isDOMready: false,
         };
     },
     watch: {
@@ -142,7 +145,7 @@ export default {
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
-        // ...mapState(useRecordStore, []), 
+        // ...mapState(useRecordStore, []),
         ...mapState(useMypageStore, [
             "type",
             "mode",
@@ -212,6 +215,12 @@ export default {
         this.setPageNo(1);
         this.getRatio();
         this.getGalleryList();
+
+        await nextTick();
+        this.isDOMready = true;
+    },
+    beforeUnmount() {
+        this.isDOMready = false;
     },
     methods: {
         ...mapActions(useMypageStore, [
@@ -236,6 +245,9 @@ export default {
         },
         handleCloseCalendarDetail(event) {
             this.$eventBus.$emit("toggle-view-type", event);
+        },
+        reloadInfiniteLoading() {
+            this.infiniteLoadingKey += 1;
         },
     },
 };

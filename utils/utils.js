@@ -109,6 +109,24 @@ export function isExpiredIn(date, minute) {
 }
 
 /**
+ * 한국어로 된 날짜를 date 객체로 파싱하는 함수
+ * @param {string} date - YYYY년 MM월 DD일 형식의 날짜
+ * @returns 파싱된 Date 객체 (실패 시, 현재 날짜)
+ */
+
+export function parseKoreanDate(date) {
+    const match = date.match(/(\d{4})년 (\d{1,2})월 (\d{1,2})일/);
+
+    if (match) {
+        const [, year, month, day] = match;
+
+        const parsedDate = new Date(`${year}-${month}-${day}`);
+        return parsedDate;
+    }
+    return new Date();
+}
+
+/**
  * html escape
  */
 export function escapeHtml(unsafe) {

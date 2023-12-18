@@ -2,8 +2,8 @@
     <main class="viewport container">
         <section class="logo-wrapper">
             <div class="logo-box">
-                <v-icon alt="Look Logo" class="logo_look_white" />
-                <h1 class="blind">look</h1>
+                <v-icon alt="Looi Logo" class="logo_look_white" />
+                <h1 class="blind">looi</h1>
             </div>
             <h2>
                 스스로를 돌아볼 수 있는 <br />

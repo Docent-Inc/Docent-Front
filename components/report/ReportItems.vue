@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <span class="report-dot" v-if="!report.is_read"></span>
+                <span class="red-dot" v-if="!report.is_read"></span>
             </div>
         </div>
     </div>
@@ -147,16 +147,5 @@ export default {
             flex-wrap: nowrap;
         }
     }
-}
-
-.report-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--red-400, #f87171);
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 8px;
 }
 </style>

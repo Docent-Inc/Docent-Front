@@ -14,13 +14,13 @@
                 </video>
             </client-only> -->
 
+            <!-- <div id="logo_box"> -->
             <img
-                src="@/assets/images/commons/logos/logo_splash.svg"
+                src="@/assets/images/commons/logos/logo_v2_white.svg"
                 id="logo"
                 class="small"
             />
-
-            <div id="logo_box"></div>
+            <!-- </div> -->
         </div>
     </div>
 </template>
@@ -128,6 +128,7 @@ video {
     left: 50%;
     transform: translate(-50%, -50%);
 
-    width: 80%;
+    width: 167px;
+    height: 216px;
 }
 </style>

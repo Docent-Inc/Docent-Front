@@ -3,7 +3,7 @@
         <div class="header">
             <div class="button" @click="router.replace('/')">
                 <Icon class="logo_look_small" />
-                <span>Look 체험해보기</span>
+                <span>Looi 체험해보기</span>
             </div>
         </div>
 
