@@ -1,61 +1,63 @@
 <template>
-    <div class="header">
-        <Icon class="ic_back_white" @click="this.$router.back()" />한 주
-        돌아보기
-    </div>
-
-    <div class="contents">
-        <div class="report-content report-content-1">
-            <div class="report-content-1-title">
-                <div v-if="generated_total_count < 5">
-                    이번주에 <b>{{ 5 - generated_total_count }}개</b> 더
-                    기록해주시면 <br />
-                    월요일 아침에 돌아보기가 완성돼요!
-                </div>
-                <div v-else>
-                    이번 한 주도 수고했어요 :&#41;<br />
-                    <b>일요일 밤</b>에 돌아보기가 완성돼요!
-                </div>
-            </div>
-            <div class="report-progress-wrap">
-                <div
-                    v-for="generated in generated_list"
-                    class="report-progress"
-                    :class="{ inactive: !generated }"
-                >
-                    <Icon class="ic_checked" v-if="generated" />
-                    <Icon class="ic_edit" v-else />
-                </div>
-                <div
-                    class="report-progress-result"
-                    :class="{ inactive: generated_total_count < 5 }"
-                >
-                    <Icon class="ic_frame" />
-                </div>
-            </div>
-            <Icon class="img_illust_night" />
+    <div class="viewport">
+        <div class="header">
+            <Icon class="ic_back_white" @click="this.$router.back()" />한 주
+            돌아보기
         </div>
-        <div class="report-content report-content-2">
-            <div class="report-content-2-title">
-                <Icon class="ic_box" />{{ user?.nickname }}님의 돌아보기
-            </div>
-            <div class="report-content-2-desc">
-                하루하루 열심히 기록하신 꿈, 일기, 일정을 바탕으로 <br />
-                일요일 밤에 한 주 돌아보기를 보내드려요.
-            </div>
 
-            <ReportItems
-                :reports="reports"
-                :list_count="list_count"
-                @loadMore="loadMore"
-            />
+        <div class="contents">
+            <div class="report-content report-content-1">
+                <div class="report-content-1-title">
+                    <div v-if="generated_total_count < 5">
+                        이번주에 <b>{{ 5 - generated_total_count }}개</b> 더
+                        기록해주시면 <br />
+                        월요일 아침에 돌아보기가 완성돼요!
+                    </div>
+                    <div v-else>
+                        이번 한 주도 수고했어요 :&#41;<br />
+                        <b>일요일 밤</b>에 돌아보기가 완성돼요!
+                    </div>
+                </div>
+                <div class="report-progress-wrap">
+                    <div
+                        v-for="generated in generated_list"
+                        class="report-progress"
+                        :class="{ inactive: !generated }"
+                    >
+                        <Icon class="ic_checked" v-if="generated" />
+                        <Icon class="ic_edit" v-else />
+                    </div>
+                    <div
+                        class="report-progress-result"
+                        :class="{ inactive: generated_total_count < 5 }"
+                    >
+                        <Icon class="ic_frame" />
+                    </div>
+                </div>
+                <Icon class="img_illust_night" />
+            </div>
+            <div class="report-content report-content-2">
+                <div class="report-content-2-title">
+                    <Icon class="ic_box" />{{ user?.nickname }}님의 돌아보기
+                </div>
+                <div class="report-content-2-desc">
+                    하루하루 열심히 기록하신 꿈, 일기, 일정을 바탕으로 <br />
+                    일요일 밤에 한 주 돌아보기를 보내드려요.
+                </div>
 
-            <InfiniteLoading
-                v-if="reports?.length"
-                :first-load="false"
-                :distance="1000"
-                @infinite="loadMore"
-            />
+                <ReportItems
+                    :reports="reports"
+                    :list_count="list_count"
+                    @loadMore="loadMore"
+                />
+
+                <InfiniteLoading
+                    v-if="reports?.length"
+                    :first-load="false"
+                    :distance="1000"
+                    @infinite="loadMore"
+                />
+            </div>
         </div>
     </div>
 </template>
