@@ -18,7 +18,7 @@
             </div>
             <div
                 class="report-progress-result"
-                :class="{ inactive: generated_total_count <= 5 }"
+                :class="{ inactive: generated_total_count < 5 }"
             >
                 <Icon class="ic_frame" />
             </div>
@@ -65,7 +65,6 @@ export default {
         },
         dynamicMessage() {
             const now = this.$dayjs();
-
             // 조건 충족
             if (this.generated_total_count >= 5) {
                 // 1) 일요일 19시-20시
@@ -165,6 +164,18 @@ export default {
         @media screen and (max-width: 360px) {
             visibility: hidden;
         }
+    }
+
+    &.dawn {
+        background: $gradient_dawn_dusk;
+    }
+
+    &.daytime {
+        background: $gradient_day;
+    }
+
+    &.night {
+        background: $gradient_night;
     }
 }
 
