@@ -33,9 +33,11 @@
 
 <script>
 import { getHourType } from "@/utils/utils";
+import Icon from "~/components/common/Icon.vue";
 
 export default {
     name: "Report",
+    components: { Icon },
     data() {
         return {
             generated_total_count: 5,
