@@ -92,8 +92,12 @@ onMounted(() => {
 onUnmounted(() => {
     // 231216 - v2 디자인 변경으로 백버튼 없어짐에 따라 화면 나갈 때마다 초기화
     // if (resetFlag.value) {
-    window.sessionStorage.removeItem("chatList");
-    store.reset();
+
+    if (!isGenerating.value) {
+        window.sessionStorage.removeItem("chatList");
+        store.reset();
+    }
+
     // }
 });
 
