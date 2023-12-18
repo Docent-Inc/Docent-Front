@@ -24,7 +24,7 @@
             </div>
         </div>
         <Icon class="img_illust_night" />
-        <span class="report-dot" v-if="isLastestReportUnread"></span>
+        <span class="red-dot" v-if="isLastestReportUnread"></span>
     </section>
 </template>
 
@@ -234,16 +234,5 @@ export default {
     @media screen and (max-width: 360px) {
         font-size: 90%;
     }
-}
-
-.report-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--red-400, #f87171);
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 8px;
 }
 </style>

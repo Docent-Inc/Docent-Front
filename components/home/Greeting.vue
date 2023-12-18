@@ -78,67 +78,66 @@ export default {
             isLocationDenied: false,
         };
     },
-    computed: {
-        luckData() {
-            if (this.luck) {
-                const parts = this.luck.split(".");
-                const keyword = parts[0].split('"')[1];
+    //// 231216 - v2 홈 디자인 변경으로 미사용 START
+    // computed: {
+    // luckData() {
+    //     if (this.luck) {
+    //         const parts = this.luck.split(".");
+    //         const keyword = parts[0].split('"')[1];
+    //         const [, ...rest] = parts;
+    //         const description = rest.join(". ");
+    //         return {
+    //             keyword,
+    //             description,
+    //         };
+    //     }
+    //     return {
+    //         keyword: "",
+    //         description: "",
+    //     };
+    // },
+    // timeType() {
+    //     return getHourType(new Date().getHours());
+    // },
+    // greetingPrefix() {
+    //     switch (this.timeType) {
+    //         case 1:
+    //             return "좋은 아침!";
+    //         case 4:
+    //             return "고생했어요";
+    //         default:
+    //             return "안녕하세요";
+    //     }
+    // },
+    // dynamicMessage() {
+    //     switch (this.timeType) {
+    //         case 1:
+    //             return "오늘의 생각을 말해보세요!";
+    //         case 4:
+    //             return "오늘 하루는 어땠어요?";
+    //         default:
+    //             return "새로운 일정과 메모가 있나요?";
+    //     }
+    // },
+    // dynamicBackground() {
+    //     switch (this.timeType) {
+    //         case 1:
+    //             return "daytime";
+    //         case 4:
+    //             return "night";
+    //         default:
+    //             return "dawn";
+    //     }
+    // },
+    // },
+    // methods: {
+    //     openModal() {
+    //         // this.isModalOpen = true;
+    //         this.$emit("open");
+    //     },
+    // },
+    //// 231216 - v2 홈 디자인 변경으로 미사용 END
 
-                const [, ...rest] = parts;
-                const description = rest.join(". ");
-
-                return {
-                    keyword,
-                    description,
-                };
-            }
-            return {
-                keyword: "",
-                description: "",
-            };
-        },
-        //// 231216 - v2 홈 디자인 변경으로 미사용 START
-        // timeType() {
-        //     return getHourType(new Date().getHours());
-        // },
-        // greetingPrefix() {
-        //     switch (this.timeType) {
-        //         case 1:
-        //             return "좋은 아침!";
-        //         case 4:
-        //             return "고생했어요";
-        //         default:
-        //             return "안녕하세요";
-        //     }
-        // },
-        // dynamicMessage() {
-        //     switch (this.timeType) {
-        //         case 1:
-        //             return "오늘의 생각을 말해보세요!";
-        //         case 4:
-        //             return "오늘 하루는 어땠어요?";
-        //         default:
-        //             return "새로운 일정과 메모가 있나요?";
-        //     }
-        // },
-        // dynamicBackground() {
-        //     switch (this.timeType) {
-        //         case 1:
-        //             return "daytime";
-        //         case 4:
-        //             return "night";
-        //         default:
-        //             return "dawn";
-        //     }
-        // },
-        //// 231216 - v2 홈 디자인 변경으로 미사용 END
-    },
-    methods: {
-        openModal() {
-            // this.isModalOpen = true;
-            this.$emit("open");
-        },
-    },
     mounted() {
         const isPermissionDenied = localStorage.getItem(
             "locationPermissionDenied",

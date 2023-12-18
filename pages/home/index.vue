@@ -2,37 +2,29 @@
     <div class="viewport">
         <div class="layout">
             <Header :isLogoLeftSide="true" :isSettingRightSide="true" />
-            <main class="contents">
-                <!-- 홈 문구 -->
-                <Greeting
-                    :user="user"
-                    :luck="luck"
-                    :isCheckedToday="isCheckedToday"
-                    :optimisticIsCheckedToday="optimisticIsCheckedToday"
-                    :weather="weather"
-                    @open="this.isModalOpen = true"
-                />
-                <Report />
-                <div class="contents-wrapper">
-                    <!-- <section class="chat">
-                        <button
-                            type="button"
-                            class="chat__btn"
-                            @click="() => this.$router.push('/chat')"
-                        >
-                            <span>Look-i</span>와 대화하러 가기
-                        </button>
-                    </section> -->
 
+            <main class="contents">
+                <!-- 상단 날짜 & 날씨 영역 -->
+                <Greeting :weather="weather" />
+                <Report />
+
+                <div class="contents-wrapper">
                     <!-- 운세 -->
                     <section class="luck">
                         <button
                             type="button"
                             class="luck__btn"
-                            @click="() => this.$router.push('/chat')"
+                            @click="this.isModalOpen = true"
                         >
                             <v-icon class="ic_fortune" />
                             운세 보러가기
+
+                            <div
+                                v-if="
+                                    !isCheckedToday && !optimisticIsCheckedToday
+                                "
+                                class="red-dot"
+                            ></div>
                         </button>
                     </section>
 
@@ -49,6 +41,7 @@
         </div>
         <Navigation />
     </div>
+
     <SimpleModal :isModalOpen="isModalOpen" @close="closeModal">
         <article class="modal" @click.stop>
             <div class="ic_fortune-modal">
@@ -105,7 +98,7 @@ export default {
             calendar: [],
             isCalendarLoading: true,
             luck: "",
-            isCheckedToday: false,
+            isCheckedToday: true,
             isModalOpen: false,
             optimisticIsCheckedToday: false,
         };
@@ -246,6 +239,7 @@ export default {
     align-items: center;
 
     &__btn {
+        position: relative;
         text-align: left;
         width: 100%;
         padding: 1.3rem;

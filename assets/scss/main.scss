@@ -338,3 +338,15 @@ body {
     margin: -1px;
     overflow: hidden;
 }
+
+// Dot
+.red-dot {
+    width: 8px;
+    height: 8px;
+    background: $vc-red-400;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 8px;
+}
