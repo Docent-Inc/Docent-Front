@@ -1,5 +1,8 @@
 <template>
-    <div class="header">한 주 돌아보기</div>
+    <div class="header">
+        <Icon class="ic_back_white" @click="this.$router.back()" />한 주
+        돌아보기
+    </div>
 
     <div class="contents">
         <div class="report-content report-content-1">
@@ -69,11 +72,6 @@ import { useReportService } from "../../services/report";
 
 export default {
     name: "Report",
-    setup() {
-        definePageMeta({
-            layout: "main-dark",
-        });
-    },
     components: { ReportItems, Icon, InfiniteLoading },
     computed: {
         ...mapState(useUserStore, ["user"]),
@@ -148,6 +146,10 @@ export default {
     font-family: "Pretendard SemiBold";
     font-size: 16px;
     line-height: 150%; /* 24px */
+
+    .ic_back_white {
+        margin-right: 10px;
+    }
 }
 .report-content {
     width: 100%;

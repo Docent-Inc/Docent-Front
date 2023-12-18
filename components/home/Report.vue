@@ -1,15 +1,11 @@
 <template>
-    <section class="report" :class="dynamicBackground">
+    <section
+        class="report"
+        :class="dynamicBackground"
+        @click="this.$router.push('/report')"
+    >
         <div class="report-content-1-title">
-            <div v-if="generated_total_count < 5">
-                이번주에 <b>{{ 5 - generated_total_count }}개</b> 더
-                기록해주시면 <br />
-                월요일 아침에 돌아보기가 완성돼요!
-            </div>
-            <div v-else>
-                이번 한 주도 수고했어요 :&#41;<br />
-                <b>일요일 밤</b>에 돌아보기가 완성돼요!
-            </div>
+            <div v-html="processedText(dynamicMessage)"></div>
         </div>
         <div class="report-progress-wrap">
             <div
@@ -22,28 +18,28 @@
             </div>
             <div
                 class="report-progress-result"
-                :class="{ inactive: generated_total_count < 5 }"
+                :class="{ inactive: generated_total_count <= 5 }"
             >
                 <Icon class="ic_frame" />
             </div>
         </div>
         <Icon class="img_illust_night" />
+        <span class="report-dot" v-if="isLastestReportUnread"></span>
     </section>
 </template>
 
 <script>
-import { getHourType } from "@/utils/utils";
+import { getHourType, parseKoreanDate } from "@/utils/utils";
 import Icon from "~/components/common/Icon.vue";
+import { useReportService } from "~/services/report";
 
 export default {
     name: "Report",
     components: { Icon },
     data() {
         return {
-            generated_total_count: 5,
-            list_count: 0,
+            generated_total_count: 0,
             reports: [],
-            page: 1,
         };
     },
     computed: {
@@ -67,8 +63,69 @@ export default {
                     return "dawn";
             }
         },
+        dynamicMessage() {
+            const now = this.$dayjs();
+
+            // 조건 충족
+            if (this.generated_total_count >= 5) {
+                // 1) 일요일 19시-20시
+                const isSunday19to20 =
+                    now.day() === 0 && now.hour() >= 19 && now.hour() <= 20;
+                if (isSunday19to20) {
+                    return `*한 주 돌아보기를 생성하고 있어요* \n일요일 20시에 돌아보기가 완성돼요!`;
+                }
+
+                // 2) 지난주 확인 안 한 돌아보기 있을 때
+                if (this.isLastestReportUnread) {
+                    return `*이번주 돌아보기가 완성되었어요!* \n확인해보러 가볼까요?`;
+                }
+
+                return `*이번주도 수고했어요!* \n일요일 20시에 돌아보기가 완성돼요!`;
+            }
+
+            // 조건 미충족
+            return `이번 주에 *${
+                5 - this.generated_total_count
+            }개* 더 기록해주시면 \n일요일 밤에 돌아보기가 완성돼요!`;
+        },
+        /** 지난주 돌아보기 확인 여부 */
+        isLastestReportUnread() {
+            const now = this.$dayjs();
+
+            if (this.reports.length > 0) {
+                const report = this.reports[0];
+                const lastestDate = this.$dayjs(
+                    parseKoreanDate(report.create_date),
+                );
+
+                // 가장 최신 보고서가 지난주 보고서인지 확인
+                const isExistLastRepost =
+                    now
+                        .subtract(1, "week")
+                        .startOf("week")
+                        .isBefore(lastestDate) &&
+                    now.endOf("week").isAfter(lastestDate);
+
+                return isExistLastRepost && !report.is_read;
+            }
+
+            return false;
+        },
     },
-    mounted() {},
+    async mounted() {
+        const { getReportList } = useReportService();
+        const res = await getReportList(1);
+
+        if (res.success) {
+            this.generated_total_count = res.data.generated_total_count;
+            this.reports = res.data.reports;
+        }
+    },
+    methods: {
+        processedText(text) {
+            return text.replace(/\*(.*?)\*/g, "<b>$1</b>");
+        },
+    },
 };
 </script>
 
@@ -88,6 +145,8 @@ export default {
     border-radius: $border-radius-default;
     box-shadow: 0px 12px 34px 0px rgba(146, 151, 255, 0.3);
 
+    cursor: pointer;
+
     @media screen and (max-width: 360px) {
         padding-bottom: 1.5rem;
         min-height: 0;
@@ -95,7 +154,7 @@ export default {
 
     // 이미지 고려 min-width, height
     min-width: calc(257px - 97px);
-    min-height: calc(137px + 4.75rem);
+    min-height: calc(137px + 5rem);
 
     .img_illust_night {
         position: absolute;
@@ -166,6 +225,7 @@ export default {
     font-family: "Pretendard";
     font-size: 18px;
     line-height: 160%; /* 28.8px */
+    white-space: pre-wrap;
 
     b {
         font-family: "Pretendard Bold";
@@ -174,5 +234,16 @@ export default {
     @media screen and (max-width: 360px) {
         font-size: 90%;
     }
+}
+
+.report-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--red-400, #f87171);
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 8px;
 }
 </style>
