@@ -36,7 +36,7 @@
         </div>
         <Navigation />
     </div>
-    <SimpleModal :isModalOpen="isModalOpen" @close="isModalOpen = false">
+    <SimpleModal :isModalOpen="isModalOpen" @close="closeModal">
         <article class="modal" @click.stop>
             <div class="ic_fortune-modal">
                 <div class="ic_fortune-modal-box">
@@ -139,7 +139,6 @@ export default {
                 this.isCalendarLoading = false;
             }
         });
-
         this.updateRecord();
     },
 };

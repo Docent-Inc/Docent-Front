@@ -26,6 +26,10 @@
 </template>
 
 <script>
+import { mapActions } from "pinia";
+import { useCalendarStore } from "~/store/calendar";
+import { useMypageStore } from "~/store/mypage";
+
 import ContentBoxWithTime from "../common/ContentBoxWithTime.vue";
 import AddBtn from "../common/buttons/AddBtn.vue";
 
@@ -38,7 +42,19 @@ export default {
         viewType: String,
     },
     methods: {
+        ...mapActions(useCalendarStore, [
+            "updateStartTime",
+            "updateEndTime",
+            "updateCalendarId",
+        ]),
+        ...mapActions(useMypageStore, ["updateContents"]),
         handleAddBtn() {
+            this.updateContents("title", "", null);
+            this.updateContents("content", "", null);
+            this.updateStartTime(null);
+            this.updateEndTime(null);
+            this.updateCalendarId(-1);
+
             this.$router.push("edit/calendar");
         },
     },

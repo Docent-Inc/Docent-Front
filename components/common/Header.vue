@@ -31,7 +31,7 @@
             :disabled="!isSubmit"
         >
             <v-icon :class="[isSubmit ? 'ic_submit_ready' : 'ic_submit']" />
-            <span>입력 완료하기</span>
+            <span>{{ `${isEditMode ? "수정" : "입력"} 완료하기` }}</span>
         </button>
 
         <div
@@ -74,6 +74,9 @@ export default {
         },
         func: {
             default: false,
+            required: false,
+        },
+        isEditMode: {
             required: false,
         },
     },

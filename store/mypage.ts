@@ -125,11 +125,13 @@ export const useMypageStore = defineStore("mypage", {
         updateContents(
             updateProp: string,
             value: string,
-            callback: (limitedContent: number) => void,
+            callback?: (limitedContent: number) => void,
         ) {
             if (updateProp === "title") this.title = value;
             else if (updateProp === "content") {
                 this.content = value;
+
+                if (!callback) return;
                 callback(1000);
             }
         },

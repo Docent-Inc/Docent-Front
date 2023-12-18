@@ -43,6 +43,8 @@ const initialState = () => ({
         hours: "11",
         minutes: "59",
     },
+    calendarId: -1,
+    isEditMode: false,
 });
 
 export const useCalendarStore = defineStore("calendar", {
@@ -196,18 +198,18 @@ export const useCalendarStore = defineStore("calendar", {
                 console.error(error);
             }
         },
-        // async updateCalendarItem(
-        //     date: Date,
-        //     calendarId: number,
-        //     data: CalendarCreateModel,
-        // ) {
-        //     try {
-        //         const { updateCalendar } = useCalendarService();
-        //         await updateCalendar(calendarId, data);
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // },
+        async updateCalendarItem(
+            date: Date,
+            calendarId: number,
+            data: CalendarCreateModel,
+        ) {
+            try {
+                const { updateCalendar } = useCalendarService();
+                return await updateCalendar(calendarId, data);
+            } catch (error) {
+                console.error(error);
+            }
+        },
         async deleteCalendarItem(calendarId: number, date: Date) {
             try {
                 const { deleteCalendar } = useCalendarService();
@@ -227,6 +229,12 @@ export const useCalendarStore = defineStore("calendar", {
         },
         updateEndTime(newEndTime: CalendarMutateModel) {
             this.endTime = { ...this.endTime, ...newEndTime };
+        },
+        updateCalendarId(newCalendarId: number) {
+            this.calendarId = newCalendarId;
+        },
+        updateIsEditMode(newIsEditMode: boolean) {
+            this.isEditMode = newIsEditMode;
         },
     },
 });

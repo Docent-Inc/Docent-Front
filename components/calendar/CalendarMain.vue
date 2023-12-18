@@ -1,8 +1,8 @@
 <template>
-    <div v-if="todos.today_count === undefined" class="skeleton">
+    <!-- <div v-if="todos.today_count === undefined" class="skeleton">
         <div class="skeleton__contents" />
-    </div>
-    <div class="calendar-wrapper" v-else>
+    </div> -->
+    <div class="calendar-wrapper">
         <client-only>
             <Calendar :viewType="viewType" :updateViewType="updateViewType" />
         </client-only>
