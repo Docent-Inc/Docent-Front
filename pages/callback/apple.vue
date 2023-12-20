@@ -20,21 +20,8 @@ console.log(route.query.code);
 console.log(router);
 
 onMounted(async () => {
-    // const res = await getSocialCallback("apple", route.query.code);
-    // console.log(">> apple res", res);
-
-    //애플로 로그인 성공 시.
-    document.addEventListener("AppleIDSignInOnSuccess", (data) => {
-        //handle successful response
-        console.log("AppleIDSignInOnSuccess", data);
-        //todo success logic
-    });
-    //애플로 로그인 실패 시.
-    document.addEventListener("AppleIDSignInOnFailure", (error) => {
-        //handle error.
-        console.log("AppleIDSignInOnFailure", error);
-        //todo fail logic
-    });
+    const res = await getSocialCallback("apple", route.query.code);
+    console.log(">> apple res", res);
 });
 </script>
 

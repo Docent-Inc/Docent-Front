@@ -56,6 +56,12 @@ export default {
     },
     methods: {
         async callSocialLogin(service) {
+            if (service === "apple") {
+                window.location.href =
+                    "https://appleid.apple.com/auth/authorize?client_id=looi.docent.zip&redirect_uri=https://bmongsmong.com/callback/apple&response_type=code&response_mode=query";
+                return;
+            }
+
             const { getSocialLogin } = useAuthService();
             const res = await getSocialLogin(service);
             if (res.success) {
