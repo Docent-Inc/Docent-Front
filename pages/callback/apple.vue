@@ -17,7 +17,6 @@ const router = useRouter();
 
 console.log(route);
 console.log(route.query.code);
-console.log(window.location);
 console.log(router);
 
 onMounted(async () => {
