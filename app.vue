@@ -51,6 +51,19 @@ onMounted(() => {
         y = l.getElementsByTagName(r)[0];
         y.parentNode.insertBefore(t, y);
     })(window, document, "clarity", "script", "jsur0l64cq");
+
+    //애플로 로그인 성공 시.
+    document.addEventListener("AppleIDSignInOnSuccess", (data) => {
+        //handle successful response
+        console.log("app.vue- AppleIDSignInOnSuccess", data);
+        //todo success logic
+    });
+    //애플로 로그인 실패 시.
+    document.addEventListener("AppleIDSignInOnFailure", (error) => {
+        //handle error.
+        console.log("app.vue- AppleIDSignInOnFailure", error);
+        //todo fail logic
+    });
 });
 useHeadSafe({
     script: [{ id: "xss-script", innerHTML: 'alert("xss")' }],
