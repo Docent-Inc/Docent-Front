@@ -61,6 +61,14 @@ function getBrightness(r, g, b) {
  */
 export async function getCoordinates() {
     return new Promise((resolve, reject) => {
+        const isPermissionDenied = localStorage.getItem(
+            "locationPermissionDenied",
+        );
+
+        if (isPermissionDenied) {
+            return;
+        }
+
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -71,12 +79,18 @@ export async function getCoordinates() {
                 },
                 (error) => {
                     reject(error);
+                    handlePermissionDenied();
                 },
             );
         } else {
             reject(new Error("위치 정보 수집이 허가되지 않았습니다"));
+            handlePermissionDenied();
         }
     });
+}
+
+function handlePermissionDenied() {
+    localStorage.setItem("locationPermissionDenied", "true");
 }
 
 /**
@@ -92,6 +106,44 @@ export function isExpiredIn(date, minute) {
     const minutesInMilliseconds = minute * 60 * 1000;
 
     return diff <= minutesInMilliseconds;
+}
+
+/**
+ * 한국어로 된 날짜를 date 객체로 파싱하는 함수
+ * @param {string} date - YYYY년 MM월 DD일 형식의 날짜
+ * @returns 파싱된 Date 객체 (실패 시, 현재 날짜)
+ */
+
+export function parseKoreanDate(date) {
+    const match = date.match(/(\d{4})년 (\d{1,2})월 (\d{1,2})일/);
+
+    if (match) {
+        const [, year, month, day] = match;
+
+        const parsedDate = new Date(`${year}-${month}-${day}`);
+        return parsedDate;
+    }
+    return new Date();
+}
+
+/**
+ * html escape
+ */
+export function escapeHtml(unsafe) {
+    return unsafe.replace(/[&<"']/g, function (match) {
+        switch (match) {
+            case "&":
+                return "&amp;";
+            case "<":
+                return "&lt;";
+            case '"':
+                return "&quot;";
+            case "'":
+                return "&#039;";
+            default:
+                return match;
+        }
+    });
 }
 
 /**

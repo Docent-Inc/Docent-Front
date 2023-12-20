@@ -1,7 +1,9 @@
-import { Calendar } from "v-calendar";
-import { useCalendarService } from "~/services/calendar";
+import {
+    type CalendarCreateModel,
+    useCalendarService,
+} from "~/services/calendar";
 import { useDiaryService } from "~/services/diary";
-import { type CalendarModel } from "~/models/diary";
+import { type CalendarModel, type CalendarMutateModel } from "~/models/diary";
 interface Attribute {
     key: number;
     dates: Date | { start: Date; end: Date };
@@ -25,6 +27,24 @@ const initialState = () => ({
     list: [] as CalendarModel[],
     todos: [] as CalendarModel[],
     overlapAttrs: [],
+    startTime: {
+        year: "",
+        month: "",
+        day: "",
+        isAM: true,
+        hours: "12",
+        minutes: "00",
+    },
+    endTime: {
+        year: "",
+        month: "",
+        day: "",
+        isAM: false,
+        hours: "11",
+        minutes: "59",
+    },
+    calendarId: -1,
+    isEditMode: false,
 });
 
 export const useCalendarStore = defineStore("calendar", {
@@ -156,6 +176,8 @@ export const useCalendarStore = defineStore("calendar", {
         async getCalendarList() {
             const { getCalendarList } = useDiaryService();
             const res = await getCalendarList(this.page.year, this.page.month);
+            // console.log(res.data.list);
+
             this.list = res.data.list;
             this.setAttributes();
         },
@@ -166,8 +188,27 @@ export const useCalendarStore = defineStore("calendar", {
                 this.date.date.getMonth() + 1,
                 this.date.date.getDate(),
             );
-
             this.todos = res.data;
+        },
+        async createCalendarItem(date: Date, data: CalendarCreateModel) {
+            try {
+                const { createCalendar } = useCalendarService();
+                return await createCalendar(data);
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        async updateCalendarItem(
+            date: Date,
+            calendarId: number,
+            data: CalendarCreateModel,
+        ) {
+            try {
+                const { updateCalendar } = useCalendarService();
+                return await updateCalendar(calendarId, data);
+            } catch (error) {
+                console.error(error);
+            }
         },
         async deleteCalendarItem(calendarId: number, date: Date) {
             try {
@@ -182,6 +223,18 @@ export const useCalendarStore = defineStore("calendar", {
         },
         reset() {
             Object.assign(this.$state, initialState());
+        },
+        updateStartTime(newStartTime: CalendarMutateModel) {
+            this.startTime = { ...this.startTime, ...newStartTime };
+        },
+        updateEndTime(newEndTime: CalendarMutateModel) {
+            this.endTime = { ...this.endTime, ...newEndTime };
+        },
+        updateCalendarId(newCalendarId: number) {
+            this.calendarId = newCalendarId;
+        },
+        updateIsEditMode(newIsEditMode: boolean) {
+            this.isEditMode = newIsEditMode;
         },
     },
 });

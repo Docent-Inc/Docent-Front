@@ -8,10 +8,10 @@
                 {{ this.$dayjs(this.memo.create_date).format("YYYY.MM.DD") }}
             </div>
         </div>
-        <div class="memo_icon">
-            <!-- 메모 타입에 따라 다른 아이콘을 보여줄 수 있습니다. -->
+        <!-- <div class="memo_icon">
+             메모 타입에 따라 다른 아이콘을 보여줄 수 있습니다.  
             <v-icon class="ic_tag2_memo" />
-        </div>
+        </div> -->
     </div>
 </template>
 

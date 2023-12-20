@@ -5,7 +5,10 @@
             <v-icon class="ic_calendar_color" />
             <h2>다가오는 일정이에요!</h2>
         </div>
-        <button class="title-btn" @click="() => this.$router.push(`calendar`)">
+        <button
+            class="title-btn"
+            @click="() => this.$router.push(`mypage?tab=calendar`)"
+        >
             캘린더 보러가기
         </button>
         <!-- </div> -->
@@ -21,7 +24,7 @@
                 @click="
                     () =>
                         this.$router.push(
-                            `calendar/?date=${
+                            `mypage?tab=calendar&date=${
                                 new Date(item.start_time)
                                     .toISOString()
                                     .split('T')[0]

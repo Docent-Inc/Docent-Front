@@ -36,7 +36,6 @@
 import { mapState, mapActions } from "pinia";
 import { useCalendarStore } from "~/store/calendar";
 let prevAttrDates = [];
-// let overlappingEvents = [];
 
 export default {
     name: "Calendar",
@@ -45,10 +44,7 @@ export default {
             isModalOpen: false,
         };
     },
-    props: {
-        viewType: String,
-    },
-
+    props: ["viewType", "updateViewType"],
     computed: {
         ...mapState(useCalendarStore, ["page", "date", "attributes"]),
     },
@@ -64,20 +60,29 @@ export default {
             return;
         }
     },
+    mounted() {
+        this.$eventBus.$on("toggle-view-type", this.toggleViewType);
+    },
     methods: {
         ...mapActions(useCalendarStore, ["setDate", "setPage", "reset"]),
 
         toggleViewType(event) {
             prevAttrDates = [];
+
             if (
+                event.target?.classList.contains("contents") ||
                 event.target?.classList.contains("calendar-in-date-box") ||
                 event.target?.classList.contains("calendar-in-date") ||
                 event.target?.classList.contains("calendar-mark") ||
                 event === "mount"
             ) {
-                this.$emit("update-view-type", "weekly");
+                this.updateViewType("weekly");
             } else {
-                this.$emit("update-view-type", "monthly");
+                this.updateViewType("monthly");
+                this.$router.push({
+                    path: "/mypage",
+                    query: { tab: "calendar" },
+                });
             }
         },
         async handleDateClick(day, event) {
@@ -93,6 +98,8 @@ export default {
             this.$refs.vcalendar.move(new Date(day));
 
             const params = new URLSearchParams();
+            params.set("tab", "calendar");
+
             const date = `${day.getFullYear()}-${
                 day.getMonth() + 1
             }-${day.getDate()}`;
@@ -104,6 +111,11 @@ export default {
                 ? `${currentPath}?${queryString}`
                 : currentPath;
             this.$router.push(newUrl);
+
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: "smooth",
+            });
         },
         getCustomClass(attr) {
             let customClass = attr.customData?.class;
@@ -173,10 +185,11 @@ export default {
 
 .calendar-box {
     width: 100%;
-    height: calc(100% - (56px));
+    height: 100%;
     display: flex;
     justify-content: center;
     background: $gradient_bg_light;
+    padding: 2rem 0;
 }
 .calendar-in-date-box {
     width: 100%;

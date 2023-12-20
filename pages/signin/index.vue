@@ -2,8 +2,8 @@
     <main class="viewport container">
         <section class="logo-wrapper">
             <div class="logo-box">
-                <v-icon alt="Look Logo" class="logo_look_white" />
-                <h1 class="blind">look</h1>
+                <v-icon alt="Looi Logo" class="logo_look_white" />
+                <h1 class="blind">looi</h1>
             </div>
             <h2>
                 스스로를 돌아볼 수 있는 <br />
@@ -35,13 +35,6 @@
             </article>
         </section>
     </main>
-    <!-- 토스트 -->
-    <Toast
-        v-if="isOAuthFailed"
-        @click="isOAuthFailed = false"
-        text="로그인에 실패했습니다. 다시 시도해주세요."
-        :top="60"
-    />
 </template>
 
 <script>

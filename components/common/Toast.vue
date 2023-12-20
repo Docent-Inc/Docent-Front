@@ -2,9 +2,10 @@
     <!-- 토스트 -->
     <div
         class="toast animate__animated animate__bounceIn"
-        :style="{ top: top }"
+        :style="{ top: top, 'align-items': align }"
     >
-        <span>{{ text }}</span>
+        <span :class="{ bold: subText }">{{ text }}</span>
+        <span v-if="subText">{{ subText }}</span>
         <Icon :class="'ic_x'" />
     </div>
 </template>
@@ -26,6 +27,17 @@ export default {
             type: String,
             required: true,
         },
+        subText: {
+            // 내용
+            type: String,
+            required: false,
+        },
+        align: {
+            // 정렬 (default: flex-start)
+            type: String,
+            required: false,
+            default: "flex-start",
+        },
     },
 };
 </script>
@@ -43,6 +55,8 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    flex-direction: column;
+
     color: #fff;
     font-size: 12px;
 
@@ -62,5 +76,10 @@ export default {
 
 .animate__animated.animate__bounceIn {
     --animate-duration: 1s;
+}
+
+.bold {
+    font-family: font-bold;
+    font-size: 1.3rem;
 }
 </style>

@@ -50,7 +50,8 @@ onMounted(async () => {
         }
 
         await setUser();
-        router.push(`/home`);
+
+        router.push(`/chat`); // 231216 - v2 /home -> /chat으로 진입점 변경
     } else {
         const { reset } = useUserStore();
         reset();

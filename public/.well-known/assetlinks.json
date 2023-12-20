@@ -5,6 +5,16 @@
             "namespace": "android_app",
             "package_name": "zip.docent.twa",
             "sha256_cert_fingerprints": [
+                "DD:BE:0F:9B:F1:5D:AE:AE:40:1B:EC:B8:B1:56:7C:B1:17:D4:A6:C4:78:EC:BD:08:70:05:2D:B3:6B:2D:2B:7D"
+            ]
+        }
+    },
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "zip.docent.twa",
+            "sha256_cert_fingerprints": [
                 "43:EF:62:42:B4:AD:FF:C7:F0:B5:01:AF:FA:9B:DD:0C:4C:41:E7:AC:E6:43:B8:25:D7:5F:60:E4:64:DC:D3:EB"
             ]
         }

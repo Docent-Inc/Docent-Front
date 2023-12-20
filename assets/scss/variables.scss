@@ -65,6 +65,17 @@ $vc-red-950: #450a0a;
         #fff 100%
     );
 }
+
+@function get-gradient-bg-light($angle) {
+    @return linear-gradient(
+        #{$angle}deg,
+        #ded2ff -46.93%,
+        #d2daff -31.6%,
+        #dee4ff -4.86%,
+        #fff 117.99%
+    );
+}
+
 $gradient_bg_light: linear-gradient(
     0deg,
     #ded2ff -46.93%,

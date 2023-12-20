@@ -2,23 +2,29 @@
     <div class="viewport">
         <div class="layout">
             <Header :isLogoLeftSide="true" :isSettingRightSide="true" />
+
             <main class="contents">
-                <!-- 홈 문구 -->
-                <Greeting
-                    :user="user"
-                    :isCheckedToday="isCheckedToday"
-                    :weather="weather"
-                    @open="this.isModalOpen = true"
-                />
+                <!-- 상단 날짜 & 날씨 영역 -->
+                <Greeting :weather="weather" />
+                <Report />
 
                 <div class="contents-wrapper">
-                    <section class="chat">
+                    <!-- 운세 -->
+                    <section class="luck">
                         <button
                             type="button"
-                            class="chat__btn"
-                            @click="() => this.$router.push('/chat')"
+                            class="luck__btn"
+                            @click="this.isModalOpen = true"
                         >
-                            <span>Look-i</span>와 대화하러 가기
+                            <v-icon class="ic_fortune" />
+                            운세 보러가기
+
+                            <div
+                                v-if="
+                                    !isCheckedToday && !optimisticIsCheckedToday
+                                "
+                                class="red-dot"
+                            ></div>
                         </button>
                     </section>
 
@@ -35,7 +41,8 @@
         </div>
         <Navigation />
     </div>
-    <SimpleModal :isModalOpen="isModalOpen" @close="isModalOpen = false">
+
+    <SimpleModal :isModalOpen="isModalOpen" @close="closeModal">
         <article class="modal" @click.stop>
             <div class="ic_fortune-modal">
                 <div class="ic_fortune-modal-box">
@@ -71,19 +78,29 @@ import Header from "~/components/common/Header.vue";
 import Greeting from "../../components/home/Greeting.vue";
 import DDays from "../../components/home/DDays.vue";
 import Records from "../../components/home/Records.vue";
+import Report from "../../components/home/Report.vue";
 import SimpleModal from "~/components/modal/SimpleModal.vue";
 import Navigation from "~/components/Navigation.vue";
 
 export default {
     name: "Home",
-    components: { Header, Greeting, DDays, Records, SimpleModal, Navigation },
+    components: {
+        Header,
+        Greeting,
+        DDays,
+        Records,
+        Report,
+        SimpleModal,
+        Navigation,
+    },
     data() {
         return {
             calendar: [],
             isCalendarLoading: true,
             luck: "",
-            isCheckedToday: false,
+            isCheckedToday: true,
             isModalOpen: false,
+            optimisticIsCheckedToday: false,
         };
     },
     computed: {
@@ -112,6 +129,13 @@ export default {
     methods: {
         ...mapActions(useRecordStore, ["updateRecord"]),
         ...mapActions(useWeatherStore, ["updateWeather"]),
+        closeModal() {
+            this.isModalOpen = false;
+            this.optimisticIsCheckedToday = true;
+        },
+    },
+    created() {
+        this.updateWeather();
     },
     async mounted() {
         const { getTodayLucky, getTodayCalendar } = useTodayService();
@@ -130,8 +154,6 @@ export default {
                 this.isCalendarLoading = false;
             }
         });
-
-        this.updateWeather();
         this.updateRecord();
     },
 };
@@ -159,6 +181,8 @@ export default {
     overflow-y: scroll;
     scrollbar-width: none;
 
+    background: $vc-gray-50;
+
     /* border: 1px solid red; */
 
     -ms-overflow-style: none;
@@ -169,8 +193,8 @@ export default {
     .contents-wrapper {
         padding: 2rem 2rem 0 2rem;
         background-color: var(--vc-white);
-        margin-top: -2rem;
-        border-radius: 20px 20px 0 0;
+        // margin-top: -2rem;
+        // border-radius: 20px 20px 0 0;
         width: 100%;
 
         @media screen and (min-height: 920px) {
@@ -181,7 +205,33 @@ export default {
     }
 }
 
-.chat {
+//// 231216 - v2 홈디자인 변경으로 미사용 START
+// .chat {
+//     width: 100%;
+//     margin-top: 1rem;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+
+//     &__btn {
+//         width: 100%;
+//         height: 48px;
+//         background: $vc-accent;
+//         color: white;
+//         border-radius: 12px;
+//         font-weight: 600;
+//         font-size: var(--vc-text-base);
+//         box-shadow: 0px 8px 30px rgba(70, 96, 250, 0.46);
+//         font-family: "Pretendard Bold";
+
+//         span {
+//             margin-right: 0.2rem;
+//         }
+//     }
+// }
+//// 231216 - v2 홈디자인 변경으로 미사용 END
+
+.luck {
     width: 100%;
     margin-top: 1rem;
     display: flex;
@@ -189,19 +239,18 @@ export default {
     align-items: center;
 
     &__btn {
+        position: relative;
+        text-align: left;
         width: 100%;
-        height: 48px;
-        background: $vc-accent;
-        color: white;
-        border-radius: 12px;
-        font-weight: 600;
-        font-size: var(--vc-text-base);
-        box-shadow: 0px 8px 30px rgba(70, 96, 250, 0.46);
-        font-family: "Pretendard Bold";
+        padding: 1.3rem;
+        background: $vc-indigo-100;
+        color: $vc-indigo-400;
+        border-radius: 0.8rem;
+        font-size: 16px;
+        font-family: $font-medium;
 
-        span {
-            margin-right: 0.2rem;
-        }
+        display: flex;
+        gap: 12px;
     }
 }
 

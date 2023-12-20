@@ -14,13 +14,13 @@
                 </video>
             </client-only> -->
 
+            <!-- <div id="logo_box"> -->
             <img
-                src="@/assets/images/commons/logos/logo_splash.svg"
+                src="@/assets/images/commons/logos/logo_v2_white.svg"
                 id="logo"
                 class="small"
             />
-
-            <div id="logo_box"></div>
+            <!-- </div> -->
         </div>
     </div>
 </template>
@@ -71,7 +71,8 @@ async function checkAutoLogin() {
         return;
     }
 
-    // 성공 시, 저장 후 /home 이동
+    // 성공 시, 저장 후 /chat 이동
+    // 231216 - v2 /home -> /chat으로 진입점 변경
     const { setAccessToken, setRefreshToken, updateUser } = useUserStore();
 
     const now = new Date();
@@ -96,7 +97,7 @@ async function checkAutoLogin() {
     setRefreshToken(res.data.refresh_token);
     await updateUser();
 
-    router.push(`/home`);
+    router.push(`/chat`);
 }
 </script>
 
@@ -127,6 +128,7 @@ video {
     left: 50%;
     transform: translate(-50%, -50%);
 
-    width: 80%;
+    width: 167px;
+    height: 216px;
 }
 </style>
