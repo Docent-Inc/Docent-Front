@@ -2,7 +2,7 @@
     <main class="viewport container">
         <section class="logo-wrapper">
             <div class="logo-box">
-                <v-icon alt="Looi Logo" class="logo_look_white" />
+                <Icon alt="Looi Logo" class="logo_look_white" />
                 <h1 class="blind">looi</h1>
             </div>
             <h2>
@@ -15,7 +15,7 @@
         <section class="oauth-wrapper">
             <article class="oauth-box kakao" @click="callSocialLogin('kakao')">
                 <div class="oauth-box__logo kakao">
-                    <v-icon alt="Kakao Logo" class="logo_kakao" />
+                    <Icon alt="Kakao Logo" class="logo_kakao" />
                 </div>
                 <h2 class="oauth-login">카카오로 로그인</h2>
             </article>
@@ -45,9 +45,10 @@
 import { useAuthService } from "../../services/auth";
 import Toast from "~/components/common/Toast.vue";
 import { isIOS } from "~/utils/utils";
+import Icon from "~/components/common/Icon.vue";
 
 export default {
-    components: { Toast },
+    components: { Toast, Icon },
     data() {
         return {
             isOAuthFailed: false,
@@ -139,19 +140,7 @@ export default {
         }
 
         &__logo {
-            width: 35px;
-            height: 35px;
             margin-right: 1.2rem;
-
-            i {
-                width: 100%;
-                height: 100%;
-            }
-
-            &.kakao {
-                width: 45px;
-                height: 45px;
-            }
         }
     }
 }
