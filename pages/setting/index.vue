@@ -46,7 +46,7 @@
                             v-else-if="user?.Oauth_from === 'line'"
                         />
                     </div>
-                    <span class="logout">로그아웃</span>
+                    <span class="logout" @click="logout">로그아웃</span>
                 </div>
             </div>
             <div class="setting-contents-3">
@@ -123,6 +123,13 @@ export default {
         },
         openKakaoLink() {
             window.open("https://pf.kakao.com/_vNxnRG", "_blank");
+        },
+        logout() {
+            const { reset } = useUserStore();
+            useCookie("access_token").value = null;
+            useCookie("refresh_token").value = null;
+            reset();
+            this.$router.push("/signin");
         },
     },
 };
@@ -283,6 +290,7 @@ export default {
     font-family: Pretendard;
     font-size: 14px;
     line-height: 160%;
+    cursor: pointer;
 }
 
 .setting-contents-3 {

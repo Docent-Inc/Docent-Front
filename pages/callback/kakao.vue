@@ -19,10 +19,7 @@ console.log(route.query);
 console.log(route.params);
 
 onMounted(async () => {
-    const service = route.query.service;
-    const code = getCode(service);
-    console.log(`>>> service: ${service} \ncode: ${code}`);
-    const res = await getSocialCallback(service, code);
+    const res = await getSocialCallback("kakao", route.query.code);
 
     if (res.success) {
         // 로그인 성공 시, 쿠키/store 세팅

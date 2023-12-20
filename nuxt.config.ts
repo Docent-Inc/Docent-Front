@@ -30,8 +30,6 @@ export default defineNuxtConfig({
         public: {
             BASE_URL: process.env.BASE_URL,
             SERVER_MODE: process.env.SERVER_MODE,
-            KAKAO_SIGNIN_URL: process.env.KAKAO_SIGNIN_URL,
-            KAKAO_SIGNIN_CALLBACK_URL: process.env.KAKAO_SIGNIN_CALLBACK_URL,
         },
     },
     css: [

@@ -34,16 +34,16 @@ export interface RefreshModel {
 }
 
 /**
- * KakaoModel
+ * SocialLoginModel
  */
-export interface KakaoModel {
+export interface SocialLoginModel {
     url: string;
 }
 
 /**
- * KakaoCallbackModel
+ * SocialCallbackModel
  */
-export interface KakaoCallbackModel {
+export interface SocialCallbackModel {
     access_token: string;
     expires_in: number;
     refresh_token: string;
