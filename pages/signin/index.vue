@@ -13,7 +13,7 @@
         </section>
 
         <section class="oauth-wrapper">
-            <article class="oauth-box kakao" @click="callKakaoLogin">
+            <article class="oauth-box kakao" @click="callSocialLogin('kakao')">
                 <div class="oauth-box__logo kakao">
                     <v-icon alt="Kakao Logo" class="logo_kakao" />
                 </div>
@@ -26,7 +26,11 @@
 
                 <h2>라인으로 시작하기</h2>
             </article> -->
-            <article class="oauth-box apple" v-if="isIOS">
+            <article
+                v-if="isIOS"
+                class="oauth-box apple"
+                @click="callSocialLogin('apple')"
+            >
                 <div class="oauth-box__logo">
                     <v-icon alt="Apple Logo" class="logo_apple" />
                 </div>
@@ -51,17 +55,16 @@ export default {
         };
     },
     methods: {
-        async callKakaoLogin() {
-            const { getKakaoLogin } = useAuthService();
-            const res = await getKakaoLogin();
-
+        async callSocialLogin(service) {
+            const { getSocialLogin } = useAuthService();
+            const res = await getSocialLogin(service);
             if (res.success) {
                 window.location.href = res.data.url;
             } else {
                 this.isOAuthFailed = true;
+                alert("로그인에 실패하였습니다.\n", res.message);
             }
         },
-        async callAppleLogin() {},
     },
 };
 </script>
