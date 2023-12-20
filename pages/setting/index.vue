@@ -45,6 +45,10 @@
                             class="logo_line"
                             v-else-if="user?.Oauth_from === 'line'"
                         />
+                        <Icon
+                            class="logo_apple"
+                            v-else-if="user?.Oauth_from === 'apple'"
+                        />
                     </div>
                     <span class="logout" @click="logout">로그아웃</span>
                 </div>
@@ -272,6 +276,8 @@ export default {
     height: 32px;
 }
 .account-info-div {
+    width: 100%;
+    flex-wrap: wrap;
     display: flex;
     justify-content: space-between;
     align-items: center;
