@@ -324,7 +324,7 @@ export default {
         margin-top: 36px;
 
         .bottom-diary-content-title {
-            color: var(--white, #fff);
+            //color: var(--white, #fff);
 
             /* b1/b1_bold_16 */
             font-family: "Pretendard Bold";
@@ -336,7 +336,7 @@ export default {
         }
 
         .bottom-diary-content-desc {
-            color: var(--white, #fff);
+            //color: var(--white, #fff);
 
             /* b2/b2_reg_14 */
             font-family: "Pretendard";
