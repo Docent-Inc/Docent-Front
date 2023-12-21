@@ -53,9 +53,9 @@
                     <span class="logout" @click="logout">로그아웃</span>
                 </div>
             </div>
-            <div class="setting-contents-3">
-                <SettingPush v-if="user" />
-            </div>
+<!--            <div class="setting-contents-3">-->
+<!--                <SettingPush v-if="user" />-->
+<!--            </div>-->
             <div class="setting-contents-4">
                 <div class="inquiry">
                     <span class="inquiry-title">문의하기</span>
