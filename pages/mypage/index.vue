@@ -292,7 +292,7 @@ export default {
     margin-top: calc(60px + env(safe-area-inset-top));
 
     padding: 1.31rem 0;
-    background: #f8f8f8;
+    background: #ffffff;
 
     .contents-header-1 {
         width: 100%;
