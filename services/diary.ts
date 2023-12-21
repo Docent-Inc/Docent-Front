@@ -151,8 +151,8 @@ export const useDiaryService = () => {
         /**
          * 메모 수정
          */
-        async putMemo(reqBody: RecordsReqBodyModel) {
-            return await POST<RecordResModel>(`/diary/memo/update`, reqBody);
+        async putMemo(reqBody: RecordsReqBodyModel, id: string) {
+            return await POST<RecordResModel>(`/diary/memo/update?memo_id=${id}`, reqBody);
         },
     };
 };
