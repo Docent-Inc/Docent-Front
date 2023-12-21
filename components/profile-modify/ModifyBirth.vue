@@ -156,19 +156,20 @@ export default {
             ];
         },
         handleDragStart(event) {
+            event.stopPropagation();
             this.startY = event.touches[0].clientY;
             this.startX = event.touches[0].clientX;
             this.touchData.lastY = this.startY;
             this.touchData.lastTime = Date.now();
         },
         handleDragMove(event) {
+            event.stopPropagation();
             const currentX = event.touches[0].clientX;
             const currentY = event.touches[0].clientY;
             let deltaY = currentY - this.touchData.lastY;
             const sensitivity = 0.05;
             deltaY *= sensitivity;
-            console.log(deltaY);
-
+ 
             const deltaTime = Date.now() - this.touchData.lastTime;
             this.touchData.velocity = deltaY / deltaTime;
             this.touchData.lastY = currentY;
@@ -182,6 +183,7 @@ export default {
             }
         },
         handleDragEnd(event) {
+            event.stopPropagation();
             this.lastX = event.changedTouches[0].clientX;
             const inertiaDuration = 100;
             const distance = this.touchData.velocity * inertiaDuration;
