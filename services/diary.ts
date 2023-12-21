@@ -1,4 +1,4 @@
-import { GET, POST, DELETE } from "~/services";
+import { useAxios } from "~/composables/useAxios";
 import {
     type DiaryModel,
     type MemoModel,
@@ -6,9 +6,13 @@ import {
     type DiaryListModel,
     type CalendarModel,
     type CalendarListModel,
+    type RecordsReqBodyModel,
+    type RecordResModel,
 } from "~/models/diary";
 
 export const useDiaryService = () => {
+    const { GET, POST, PUT, DELETE } = useAxios();
+
     return {
         /**
          * 아침 다이어리 조회 (꿈)
@@ -31,6 +35,25 @@ export const useDiaryService = () => {
          */
         async getMemo(memo_id: number) {
             return await GET<MemoModel>(`/diary/memo/read?memo_id=${memo_id}`);
+        },
+
+        /**
+         * 아침 다이어리 생성 (꿈)
+         */
+        async postMorningDiary(reqBody: RecordsReqBodyModel) {
+            return await POST<RecordResModel>(`/diary/morning/create`, reqBody);
+        },
+        /**
+         * 저녁 다이어리 생성 (일기)
+         */
+        async postNightDiary(reqBody: RecordsReqBodyModel) {
+            return await POST<RecordResModel>(`/diary/night/create`, reqBody);
+        },
+        /**
+         * 메모 생성
+         */
+        async postMemo(reqBody: RecordsReqBodyModel) {
+            return await POST<RecordResModel>(`/diary/memo/create`, reqBody);
         },
 
         /**
@@ -105,6 +128,31 @@ export const useDiaryService = () => {
                 month: month,
                 day: day,
             });
+        },
+
+        /**
+         * 아침 다이어리 수정 (꿈)
+         */
+        async putMorningDiary(reqBody: RecordsReqBodyModel, id: string) {
+            return await POST<RecordResModel>(
+                `/diary/morning/update?diary_id=${id}`,
+                reqBody,
+            );
+        },
+        /**
+         * 저녁 다이어리 수정 (일기)
+         */
+        async putNightDiary(reqBody: RecordsReqBodyModel, id: string) {
+            return await POST<RecordResModel>(
+                `/diary/night/update?diary_id=${id}`,
+                reqBody,
+            );
+        },
+        /**
+         * 메모 수정
+         */
+        async putMemo(reqBody: RecordsReqBodyModel, id: string) {
+            return await POST<RecordResModel>(`/diary/memo/update?memo_id=${id}`, reqBody);
         },
     };
 };

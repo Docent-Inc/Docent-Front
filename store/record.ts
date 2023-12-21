@@ -1,4 +1,5 @@
 import { useTodayService } from "~/services/today";
+import { useDiaryService } from "~/services/diary";
 import { type Record } from "~/models/chat";
 
 const initialState = () => ({

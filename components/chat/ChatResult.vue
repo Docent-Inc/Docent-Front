@@ -99,7 +99,7 @@ export default {
 
                 case 4:
                     this.$router.push(
-                        `/calendar/?date=${this.result.content.start_time}`,
+                        `/mypage?tab=calendar&date=${this.result.content.start_time}`,
                     );
                     break;
 

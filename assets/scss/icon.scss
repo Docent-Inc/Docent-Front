@@ -107,12 +107,49 @@
     display: block;
 }
 
+.ic_add_accent {
+    background: url("../images/commons/ic_add_accent.svg") no-repeat
+        center/cover;
+    background-size: contain;
+    display: block;
+}
+
 .ic_url {
     background: url("../images/commons/ic_url.svg") no-repeat center/cover;
     background-size: contain;
     display: block;
     width: 20px;
     height: 20px;
+}
+
+.ic_submit {
+    background: url("../images/commons/ic_submit.svg") no-repeat;
+    background-size: contain;
+    display: block;
+    width: 20px;
+    height: 17px;
+}
+
+.ic_submit_ready {
+    background: url("../images/commons/ic_submit_ready.svg") no-repeat;
+    // background-size: contain;
+    display: block;
+    width: 20px;
+    height: 17px;
+}
+
+.ic_clock {
+    background: url("../images/commons/ic_clock.svg") no-repeat;
+    display: block;
+    width: 16px;
+    height: 16px;
+}
+
+.ic_clock_gray {
+    background: url("../images/commons/ic_clock_gray.svg") no-repeat;
+    display: block;
+    width: 16px;
+    height: 16px;
 }
 
 // 2) Navigation
@@ -131,35 +168,51 @@
     background-size: contain;
 }
 
-.nav_calendar {
-    background: url("../images/commons/navigations/nav_calendar.svg") no-repeat
+.nav_default {
+    background: url("../images/commons/navigations/nav_docent.svg") no-repeat
         center/cover;
-    width: 50px;
-    height: 50px;
+    // width: 60px;
+    // height: 60px;
     background-size: contain;
     display: block;
 }
 
-.nav_calendar.active {
-    background: url("../images/commons/navigations/nav_calendar_active.svg")
+.nav_default.active {
+    background: url("../images/commons/navigations/nav_docent_active.svg")
         no-repeat center/cover;
-    background-size: contain;
-}
-
-.nav_report {
-    background: url("../images/commons/navigations/nav_report.svg") no-repeat
-        center/cover;
-    width: 50px;
-    height: 50px;
     background-size: contain;
     display: block;
 }
 
-.nav_report.active {
-    background: url("../images/commons/navigations/nav_report_active.svg")
-        no-repeat center/cover;
-    background-size: contain;
-}
+// .nav_calendar {
+//     background: url("../images/commons/navigations/nav_calendar.svg") no-repeat
+//         center/cover;
+//     width: 50px;
+//     height: 50px;
+//     background-size: contain;
+//     display: block;
+// }
+
+// .nav_calendar.active {
+//     background: url("../images/commons/navigations/nav_calendar_active.svg")
+//         no-repeat center/cover;
+//     background-size: contain;
+// }
+
+// .nav_report {
+//     background: url("../images/commons/navigations/nav_report.svg") no-repeat
+//         center/cover;
+//     width: 50px;
+//     height: 50px;
+//     background-size: contain;
+//     display: block;
+// }
+
+// .nav_report.active {
+//     background: url("../images/commons/navigations/nav_report_active.svg")
+//         no-repeat center/cover;
+//     background-size: contain;
+// }
 
 .nav_mypage {
     background: url("../images/commons/navigations/nav_mypage.svg") no-repeat
@@ -191,6 +244,13 @@
     height: 32px;
 }
 
+.logo_apple {
+    background: url("../images/commons/logos/logo_apple.svg") no-repeat center;
+    display: block;
+    width: 32px;
+    height: 32px;
+}
+
 .logo_full {
     background: url("../images/commons/logos/logo_full.svg") no-repeat
         center/cover;
@@ -211,6 +271,15 @@
     display: block;
     width: 22px;
     height: 26px;
+}
+
+.logo_v2 {
+    background: url("../images/commons/logos/logo_v2.svg") no-repeat
+        center/cover;
+    display: block;
+    width: 32px;
+    height: 40px;
+    cursor: pointer;
 }
 
 // 4) 페이지
@@ -292,8 +361,16 @@
 
 .ic_send {
     background: url("../images/pages/chat/ic_send.svg") no-repeat center/cover;
-    width: 24px;
-    height: 20px;
+    width: 20px;
+    height: 17px;
+    display: block;
+}
+
+.ic_send_gray {
+    background: url("../images/pages/chat/ic_send_gray.svg") no-repeat
+        center/cover;
+    width: 20px;
+    height: 17px;
     display: block;
 }
 
@@ -409,8 +486,8 @@
 .img_illust_night {
     background: url("../images/pages/report/img_illust_night.svg") no-repeat
         center;
-    width: calc(257px - 97px);
-    height: 137px;
+    width: 173px;
+    height: 129px;
     display: block;
 }
 
@@ -681,6 +758,25 @@
 .ic_new_chat {
     background: url("../images/pages/setting/ic_new_chat.svg") no-repeat
         center/cover;
+    background-size: contain;
+    display: block;
+}
+
+//edit
+.ic_moon {
+    background: url("../images/pages/edit/ic_moon.svg") no-repeat center/cover;
+    background-size: contain;
+    display: block;
+}
+
+.ic_note {
+    background: url("../images/pages/edit/ic_note.svg") no-repeat center/cover;
+    background-size: contain;
+    display: block;
+}
+
+.ic_pencil {
+    background: url("../images/pages/edit/ic_pencil.svg") no-repeat center/cover;
     background-size: contain;
     display: block;
 }

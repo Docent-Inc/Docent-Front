@@ -3,7 +3,9 @@
     "private": true,
     "scripts": {
         "build": "nuxt build --dotenv .env.prod",
-        "dev": "nuxt dev  --dotenv .env.dev",
+        "build:dev": "nuxt build  --dotenv .env.dev",
+        "dev": "nuxt dev --dotenv .env.dev",
+        "local": "nuxt dev --dotenv .env.local",
         "generate": "nuxt generate  --dotenv .env.prod",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare"
@@ -26,11 +28,12 @@
         "@vue/cli-plugin-pwa": "^5.0.8",
         "animate.css": "^4.1.1",
         "axios": "^1.4.0",
+        "dayjs": "^1.11.10",
         "hammerjs": "^2.0.8",
         "mitt": "^3.0.1",
         "nuxt-swiper": "^1.1.0",
         "register-service-worker": "^1.7.2",
-        "v-calendar": "^3.0.3",
+        "v-calendar": "^3.1.2",
         "v3-infinite-loading": "^1.2.2",
         "vuetify": "^3.4.0-alpha.0",
         "yarn": "^1.22.19"

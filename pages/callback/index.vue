@@ -11,14 +11,18 @@
 import { useUserStore } from "~/store/user";
 import { useAuthService } from "../../services/auth";
 
-const { getKakaoCallbackTest, getKakaoCallback } = useAuthService();
+const { getSocialCallback } = useAuthService();
 const route = useRoute();
 const router = useRouter();
-// console.log(route.query.code);
+
+console.log(route.query);
+console.log(route.params);
 
 onMounted(async () => {
-    const res = await getKakaoCallback(route.query.code);
-    // console.log(res);
+    const service = route.query.service;
+    const code = getCode(service);
+    console.log(`>>> service: ${service} \ncode: ${code}`);
+    const res = await getSocialCallback(service, code);
 
     if (res.success) {
         // 로그인 성공 시, 쿠키/store 세팅
@@ -50,7 +54,8 @@ onMounted(async () => {
         }
 
         await setUser();
-        router.push(`/home`);
+
+        router.push(`/chat`); // 231216 - v2 /home -> /chat으로 진입점 변경
     } else {
         const { reset } = useUserStore();
         reset();

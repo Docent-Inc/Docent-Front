@@ -1,7 +1,9 @@
+import { useAxios } from "~/composables/useAxios";
 import { type ChatContentModel, type ExampleChatModel } from "~/models/chat";
-import { GET, POST } from "~/services";
 
 export const useChatService = () => {
+    const { GET, POST, PUT, DELETE } = useAxios();
+
     return {
         /**
          * 채팅 리스트 조회
@@ -13,10 +15,12 @@ export const useChatService = () => {
         },
         /**
          * 챗봇 대화
-         * @body text
+         * @param data
+         * @param.content 채팅 내용
+         * @param.type 분류 유형 (0 = 기본, 1 = 일기, 2 = 꿈, 3 = 메모, 4 = 일정)
          */
-        async sendChat(text: string) {
-            return await POST<ChatContentModel>(`/chat`, { content: text });
+        async sendChat(data: { content: string; type: number }) {
+            return await POST<ChatContentModel>(`/chat`, data);
         },
         /**
          * 채팅방 입장 문구

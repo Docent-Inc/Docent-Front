@@ -2,8 +2,8 @@
     <main class="viewport container">
         <section class="logo-wrapper">
             <div class="logo-box">
-                <v-icon alt="Look Logo" class="logo_look_white" />
-                <h1 class="blind">look</h1>
+                <Icon alt="Looi Logo" class="logo_look_white" />
+                <h1 class="blind">looi</h1>
             </div>
             <h2>
                 스스로를 돌아볼 수 있는 <br />
@@ -11,51 +11,59 @@
             </h2>
             <h3>나를 위한 기록을 시작해보세요.</h3>
         </section>
+
         <section class="oauth-wrapper">
-            <article class="oauth-box" @click="callKakaoLogin">
+            <article class="oauth-box kakao" @click="callSocialLogin('kakao')">
                 <div class="oauth-box__logo kakao">
-                    <v-icon alt="Kakao Logo" class="logo_kakao" />
+                    <Icon alt="Kakao Logo" class="logo_kakao" />
                 </div>
                 <h2 class="oauth-login">카카오로 로그인</h2>
             </article>
-            <!-- <article class="oauth-box">
+            <!-- <article class="oauth-box line">
                 <div class="oauth-box__logo">
                     <v-icon alt="Line Logo" class="logo_line" />
                 </div>
 
                 <h2>라인으로 시작하기</h2>
             </article> -->
+            <article
+                v-if="isIOS"
+                class="oauth-box apple"
+                @click="callSocialLogin('apple')"
+            >
+                <div class="oauth-box__logo">
+                    <v-icon alt="Apple Logo" class="logo_apple" />
+                </div>
+
+                <h2>Apple으로 계속하기</h2>
+            </article>
         </section>
     </main>
-    <!-- 토스트 -->
-    <Toast
-        v-if="isOAuthFailed"
-        @click="isOAuthFailed = false"
-        text="로그인에 실패했습니다. 다시 시도해주세요."
-        :top="60"
-    />
 </template>
 
 <script>
 import { useAuthService } from "../../services/auth";
 import Toast from "~/components/common/Toast.vue";
+import { isIOS } from "~/utils/utils";
+import Icon from "~/components/common/Icon.vue";
 
 export default {
-    components: { Toast },
+    components: { Toast, Icon },
     data() {
         return {
             isOAuthFailed: false,
+            isIOS: isIOS(),
         };
     },
     methods: {
-        async callKakaoLogin() {
-            const { getKakaoLogin } = useAuthService();
-            const res = await getKakaoLogin();
-
+        async callSocialLogin(service) {
+            const { getSocialLogin } = useAuthService();
+            const res = await getSocialLogin(service);
             if (res.success) {
                 window.location.href = res.data.url;
             } else {
                 this.isOAuthFailed = true;
+                alert("로그인에 실패하였습니다.\n", res.message);
             }
         },
     },
@@ -102,38 +110,37 @@ export default {
 
 .oauth-wrapper {
     width: 100%;
-    height: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
     .oauth-box {
         width: 100%;
-        height: 100%;
+        height: 48px;
         display: flex;
         justify-content: center;
         align-items: center;
         border-radius: 12px;
-        background: #06c755;
-        margin-bottom: 1.2rem;
+        background: #000;
+
         font-family: $font-medium;
         padding-right: 1.5rem;
 
-        &:nth-child(1) {
+        &.kakao {
             color: $vc-gray-800;
             background: #fee500;
         }
+        &.line {
+            background: #06c755;
+        }
+
+        &.apple {
+            background: $vc-black;
+            color: $vc-white;
+        }
 
         &__logo {
-            width: 35px;
-            height: 35px;
             margin-right: 1.2rem;
-
-            i {
-                width: 100%;
-                height: 100%;
-            }
-
-            &.kakao {
-                width: 45px;
-                height: 45px;
-            }
         }
     }
 }

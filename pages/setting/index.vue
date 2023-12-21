@@ -45,13 +45,17 @@
                             class="logo_line"
                             v-else-if="user?.Oauth_from === 'line'"
                         />
+                        <Icon
+                            class="logo_apple"
+                            v-else-if="user?.Oauth_from === 'apple'"
+                        />
                     </div>
-                    <span class="logout">로그아웃</span>
+                    <span class="logout" @click="logout">로그아웃</span>
                 </div>
             </div>
-            <div class="setting-contents-3">
-                <SettingPush v-if="user" />
-            </div>
+<!--            <div class="setting-contents-3">-->
+<!--                <SettingPush v-if="user" />-->
+<!--            </div>-->
             <div class="setting-contents-4">
                 <div class="inquiry">
                     <span class="inquiry-title">문의하기</span>
@@ -123,6 +127,13 @@ export default {
         },
         openKakaoLink() {
             window.open("https://pf.kakao.com/_vNxnRG", "_blank");
+        },
+        logout() {
+            const { reset } = useUserStore();
+            useCookie("access_token").value = null;
+            useCookie("refresh_token").value = null;
+            reset();
+            this.$router.push("/signin");
         },
     },
 };
@@ -265,6 +276,8 @@ export default {
     height: 32px;
 }
 .account-info-div {
+    width: 100%;
+    flex-wrap: wrap;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -283,6 +296,7 @@ export default {
     font-family: Pretendard;
     font-size: 14px;
     line-height: 160%;
+    cursor: pointer;
 }
 
 .setting-contents-3 {

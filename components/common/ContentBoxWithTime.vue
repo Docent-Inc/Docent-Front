@@ -19,8 +19,26 @@
                     {{ item.title }}
                 </h3>
             </div>
-            <div class="delete-box" v-if="isCalender" @click="onDelete">
-                <v-icon class="ic_delete">아이콘</v-icon><span>삭제하기</span>
+
+            <div class="mutate-box" v-if="isCalender">
+                <button
+                    type="button"
+                    class="edit-box"
+                    @click="handleEdit"
+                    aria-label="일정 수정하기"
+                >
+                    <v-icon class="ic_modify" />
+                </button>
+
+                <button
+                    type="button"
+                    class="delete-box"
+                    @click="onDelete"
+                    aria-label="일정 삭제하기"
+                >
+                    <v-icon class="ic_delete" />
+                    <!-- <span class="responsive">삭제</span> -->
+                </button>
             </div>
         </div>
         <p class="item-box__content" v-if="isCalender && item.content">
@@ -32,6 +50,7 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { useCalendarStore } from "~/store/calendar";
+import { useMypageStore } from "~/store/mypage";
 import { useCalendarService } from "~/services/calendar";
 
 export default {
@@ -47,10 +66,21 @@ export default {
         },
     },
     computed: {
-        ...mapState(useCalendarStore, ["date", "page"]),
+        ...mapState(useCalendarStore, ["date", "page", "startTime", "endTime"]),
+        ...mapState(useMypageStore, ["title", "content"]),
     },
     methods: {
-        ...mapActions(useCalendarStore, ["setDate", "setPage", "reset"]),
+        ...mapActions(useCalendarStore, [
+            "setDate",
+            "setPage",
+            "reset",
+            "updateStartTime",
+            "updateEndTime",
+            "updateCalendarId",
+            "updateIsEditMode",
+        ]),
+        ...mapActions(useMypageStore, ["updateContents"]),
+
         isToday(start_time) {
             const today = this.$dayjs();
             const startTime = this.$dayjs(start_time);
@@ -79,6 +109,28 @@ export default {
             const today = this.$dayjs();
             const startTime = this.$dayjs(start_time);
             return today.isAfter(startTime, "day");
+        },
+        handleEdit() {
+            this.updateContents("title", this.item.title, null);
+            this.updateContents("content", this.item.content, null);
+            const startTime = {
+                year: new Date(this.item.start_time).getFullYear(),
+                month: new Date(this.item.start_time).getMonth() + 1,
+                day: new Date(this.item.start_time).getDate(),
+                week: new Date(this.item.start_time).getDay(),
+            };
+            this.updateStartTime(startTime);
+            const endTime = {
+                year: new Date(this.item.end_time).getFullYear(),
+                month: new Date(this.item.end_time).getMonth() + 1,
+                day: new Date(this.item.end_time).getDate(),
+                week: new Date(this.item.end_time).getDay(),
+            };
+            this.updateEndTime(endTime);
+            this.updateCalendarId(this.item.id);
+            this.updateIsEditMode(true);
+
+            this.$router.push("/edit/calendar");
         },
         onDelete() {
             this.$eventBus.$emit("onCustomModal", {
@@ -134,16 +186,24 @@ export default {
         .title-box {
             display: flex;
             align-items: center;
+
+            @media screen and (max-width: 380px) {
+                font-size: 90%;
+            }
         }
 
-        .delete-box {
+        .mutate-box {
+            display: flex;
+        }
+        .delete-box,
+        .edit-box {
             color: $vc-gray-400;
             font-size: 1.2rem;
             display: flex;
             align-items: center;
 
             i {
-                margin: 0 0.5rem 0 2rem;
+                margin: 0 0.5rem;
             }
         }
     }
@@ -178,6 +238,12 @@ export default {
     }
     .subject {
         color: $vc-gray-700;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .responsive {
+        display: none;
     }
 }
 </style>

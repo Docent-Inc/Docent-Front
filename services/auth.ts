@@ -1,10 +1,10 @@
+import { useAxios } from "~/composables/useAxios";
 import type {
     UserModel,
-    KakaoCallbackModel,
-    KakaoModel,
+    SocialLoginModel,
+    SocialCallbackModel,
     RefreshModel,
 } from "~/models/auth";
-import { GET, POST } from "~/services";
 
 /**
  * @interface signupData
@@ -17,23 +17,30 @@ interface signupData {
 }
 
 export const useAuthService = () => {
-    const { KAKAO_SIGNIN_URL, KAKAO_SIGNIN_CALLBACK_URL } =
-        useRuntimeConfig().public;
+    const { SERVER_MODE } = useRuntimeConfig().public;
+    const { GET, POST, PUT, DELETE } = useAxios();
+
     return {
         /**
-         * 카카오 로그인 요청
+         * 소셜 로그인 요청
+         * (ex. /auth/login/kakao/local)
          */
-        async getKakaoLogin() {
-            return await GET<KakaoModel>(KAKAO_SIGNIN_URL);
+        async getSocialLogin(service: string) {
+            return await GET<SocialLoginModel>(
+                `/auth/login/${service}/${SERVER_MODE}`,
+            );
         },
         /**
-         * 카카오 콜백 요청
-         * @params code
+         * 소셜 로그인 콜백
+         * (ex. /auth/callback/kakao/local)
          */
-        async getKakaoCallback(code: string) {
-            return await GET<KakaoCallbackModel>(KAKAO_SIGNIN_CALLBACK_URL, {
-                params: { code: code },
-            });
+        async getSocialCallback(service: string, code: string) {
+            return await GET<SocialCallbackModel>(
+                `/auth/callback/${service}/${SERVER_MODE}`,
+                {
+                    params: { code: code },
+                },
+            );
         },
         /**
          * 초기 정보 등록

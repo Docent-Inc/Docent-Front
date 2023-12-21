@@ -1,7 +1,8 @@
 // plugins/axios.ts
 
-import API from "~/services/index";
+import { useAxios } from "~/composables/useAxios";
 export default defineNuxtPlugin((nuxtApp) => {
+    const { API } = useAxios();
     let isRedirecting = false;
 
     /* /signin 페이지 접근 시, isRedirecting = false */

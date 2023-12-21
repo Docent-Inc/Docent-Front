@@ -17,8 +17,15 @@
                 </div>
 
                 <div class="memo-title__skeleton" v-if="isLoading"></div>
-                <div class="memo-title" v-else>
-                    {{ memo.title === "" ? "(제목 없음)" : memo.title }}
+                <div class="memo-title" @click="handleEditMode('title')">
+                    <input
+                        class="edit-input"
+                        ref="inputRef"
+                        v-if="isEditMode && editType === 'title'"
+                        v-model="memoTitle"
+                        @blur="handleBlur('title')"
+                    />
+                    <div v-else>{{ memoTitle || memo.title }}</div>
                 </div>
             </div>
             <div class="memo-contents memo-contents-2">
@@ -27,16 +34,53 @@
                         {{ keyword }}
                     </div>
                 </div>
-                <div class="memo-content">
-                    {{ memo.content }}
-                </div>
+              <div
+                  class="bottom-memo-content-desc"
+                  @click="handleEditMode('content')"
+              >
+                  <textarea
+                      class="edit-input content"
+                      ref="inputRef"
+                      v-if="isEditMode && editType === 'content'"
+                      v-model="memoContent"
+                      @blur="handleBlur('content')"
+                  />
+                <LimitedLength
+                    :content="memoContent"
+                    :limitedContentLength="1000"
+                    v-if="isEditMode && editType === 'content'"
+                    @update:content="memoContent = $event"
+                />
+                <div
+                    v-else-if="memoContent || memo.content"
+                    v-html="
+                          memoContent
+                              ? escapeHtml(memoContent).replace(
+                                    /\n/g,
+                                    '<br>',
+                                )
+                              : escapeHtml(memo.content).replace(
+                                    /\n/g,
+                                    '<br>',
+                                )
+                      "
+                ></div>
+              </div>
             </div>
         </div>
+      <Toast
+          v-if="isVisible"
+          @click="isVisible = false"
+          :text="successMessage"
+          :top="60"
+      />
     </div>
 </template>
 <script>
 import Icon from "~/components/common/Icon.vue";
 import { useDiaryService } from "~/services/diary";
+import Toast from "~/components/common/Toast.vue";
+import LimitedLength from "~/components/common/LimitedLength.vue";
 
 export default {
     name: "Memo",
@@ -44,6 +88,13 @@ export default {
         return {
             memo: {},
             isLoading: true,
+            // 수정
+            isEditMode: false,
+            editType: "",
+            memoTitle: "",
+            memoContent: "",
+            isVisible: false,
+            successMessage: "",
         };
     },
     async mounted() {
@@ -76,6 +127,19 @@ export default {
                 callback: this.deleteMemo,
             });
         },
+        handleEditMode(type) {
+            this.isEditMode = true;
+            this.editType = type;
+            this.$nextTick(() => {
+                this.$refs.inputRef.focus(); // input 요소에 직접 포커스를 줍니다.
+            });
+
+            if (type === "title") {
+              this.memoTitle = this.memo.title || ""; // diary_name이 존재하면 기존 값으로 초기화
+            } else if (type === "content") {
+              this.memoContent = this.memo.content || ""; // content가 존재하면 기존 값으로 초기화
+            }
+        },
         async deleteMemo() {
             const { deleteMemo } = useDiaryService();
             const res = await deleteMemo(this.$route.params.id);
@@ -95,8 +159,41 @@ export default {
                 });
             }
         },
+        async handleBlur(type) {
+            this.isEditMode = false;
+
+            if (type === "title" && this.memo.title !== this.memoTitle) {
+                // 변경된 title 값을 저장하는 로직 추가
+                this.memo.title = this.memoTitle;
+                this.handleUpdate(
+                    { title: this.memoTitle },
+                    "제목",
+                );
+            } else if (
+                  type === "content" && this.memo.content !== this.memoContent) {
+                // 변경된 content 값을 저장하는 로직 추가
+                this.memo.content = this.memoContent;
+                this.handleUpdate(
+                    { content: this.memoContent },
+                    "내용",
+                );
+            }
+          },
+          async handleUpdate(props, updatedPropName) {
+            const { putMemo } = useDiaryService();
+            let res = await putMemo(props, this.memo.id);
+            if (res.success) {
+                this.successMessage = `${updatedPropName} 수정이 완료되었어요! `;
+                this.isVisible = true;
+            }
+
+            // 추후 실행취소 기능 필요
+            setTimeout(() => {
+                this.isVisible = false;
+            }, 2500);
+        },
     },
-    components: { Icon },
+    components: { Icon, Toast, LimitedLength },
 };
 </script>
 <style lang="scss" scoped>
@@ -201,5 +298,37 @@ export default {
         line-height: 160%; /* 25.6px */
         text-transform: capitalize;
     }
+}
+.bottom-memo-content-desc {
+  /* color: var(--white, #fff); */
+
+  /* b2/b2_reg_14 */
+  font-family: "Pretendard";
+  font-size: 14px;
+  line-height: 160%; /* 22.4px */
+
+  margin-top: 8px;
+}
+.edit-input {
+  margin-top: 0.4rem;
+  border: 2.5px #ffffff !important;
+  background-color: #ffffff15;
+  color: #1f2937;
+  width: 100%;
+  height: auto;
+  border-radius: $border-radius-default;
+  padding: 0.4rem 0.6rem;
+
+  &.content {
+    height: 20rem;
+  }
+}
+.edit-input {
+  border: 2px solid #cccccc; /* 기본 태두리 색상 */
+  outline: none; /* 포커스시 테두리 제거 */
+}
+
+.edit-input:focus {
+  border-color: #666666; /* 포커스 시 태두리 색상 */
 }
 </style>

@@ -156,18 +156,21 @@ export default {
             ];
         },
         handleDragStart(event) {
+            // event.stopPropagation();
+            event.preventDefault();
             this.startY = event.touches[0].clientY;
             this.startX = event.touches[0].clientX;
             this.touchData.lastY = this.startY;
             this.touchData.lastTime = Date.now();
         },
         handleDragMove(event) {
+            // event.stopPropagation();
+            event.preventDefault();
             const currentX = event.touches[0].clientX;
             const currentY = event.touches[0].clientY;
             let deltaY = currentY - this.touchData.lastY;
             const sensitivity = 0.05;
             deltaY *= sensitivity;
-            console.log(deltaY);
 
             const deltaTime = Date.now() - this.touchData.lastTime;
             this.touchData.velocity = deltaY / deltaTime;
@@ -182,6 +185,7 @@ export default {
             }
         },
         handleDragEnd(event) {
+            // event.stopPropagation();
             this.lastX = event.changedTouches[0].clientX;
             const inertiaDuration = 100;
             const distance = this.touchData.velocity * inertiaDuration;
@@ -259,14 +263,13 @@ export default {
     color: var(--gray-700, #374151);
     font-family: "Pretendard Medium";
     font-size: 16px;
-    line-height: 160%;
+    /* line-height: 160%; */
 }
 .modify-birth-content {
     width: 100%;
     // height: 144px;
     display: flex;
     justify-content: space-around;
-    align-items: center;
 }
 .year-scroller,
 .month-scroller,
@@ -275,6 +278,8 @@ export default {
     // width: 80px;
     flex-direction: column;
     border-radius: 8px;
+    align-items: center;
+    padding-top: 1.3rem;
 }
 
 .year,

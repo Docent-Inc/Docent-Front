@@ -58,18 +58,18 @@ useHeadSafe({
 });
 useHead({
     titleTemplate: (productCategory) => {
-        return productCategory ? `${productCategory} - Look` : "Look";
+        return productCategory ? `${productCategory} - Looi` : "Looi";
     },
 });
 useSeoMeta({
-    ogTitle: "Look",
+    ogTitle: "Looi",
     description: `당신의 기록을 더욱 쉽고 가치있게!`,
     ogDescription: `당신의 기록을 더욱 쉽고 가치있게!`,
     ogImage: "https://docent-front.vercel.app/assets/images/og_img.png",
     twitterCard: "summary_large_image",
     ogType: "website",
-    ogSiteName: "Look",
-    twitterTitle: "Look",
+    ogSiteName: "Looi",
+    twitterTitle: "Looi",
     twitterDescription: `당신의 기록을 더욱 쉽고 가치있게!`,
     twitterImage: "https://docent-front.vercel.app/assets/images/og_img.png",
 });

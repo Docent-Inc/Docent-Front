@@ -7,7 +7,7 @@ import { type Record } from "~/models/chat";
 enum ChatType {
     RESULT = "result",
     LOADING = "loading",
-    SELECT = "select",
+    SELECT = "select", // 231206 - 미사용
     DEFAULT = "default",
     SUCCESS = "success",
     FAIL = "fail",
@@ -23,6 +23,7 @@ interface Chat {
 const initialState = () => ({
     chatList: [] as Chat[],
     isGenerating: false,
+    type: 0,
     resetFlag: false, // unmounted 시, 초기화 여부 플래그
 });
 
@@ -43,25 +44,21 @@ export const useChatStore = defineStore("chat", {
         async addWelcomeChat(type: number) {
             const { getWelcomeChat } = useChatService();
             const res = await getWelcomeChat(type);
-            console.log(res);
+            // console.log(res);
 
             const welcomeChat = {
                 is_docent: true,
-                type: ChatType.SELECT,
+                type: ChatType.DEFAULT,
                 text: `${res.data.text} \n기록 예시가 필요한가요?`,
-                selectList: [
-                    "꿈을 해석하고 싶어요!",
-                    "일기를 쓰고 싶어요!",
-                    "메모를 하고 싶어요!",
-                    "일정을 입력하고 싶어요!",
-                ],
             };
             this.addChat(welcomeChat);
         },
         /**
-         * 도움말 문구 추가
+         * 도움말 문구 추가 (default = 0)
          */
         async addHelperChat(type: number) {
+            if (type === 0) return;
+
             const { getHelperChat } = useChatService();
             const res = await getHelperChat(type);
 
@@ -95,7 +92,7 @@ export const useChatStore = defineStore("chat", {
          */
         async removeChatAt(idx: number) {
             this.chatList.splice(idx, 1);
-            console.log("removed!");
+            // console.log("removed!");
         },
         /**
          * 채팅 리스트 초기화
@@ -128,17 +125,22 @@ export const useChatStore = defineStore("chat", {
             this.isGenerating = true;
 
             // (3) 채팅 생성
+            const data = {
+                content: input,
+                type: this.type,
+            };
             const { sendChat } = useChatService();
-            const res = await sendChat(input);
-            console.log("✨generateChat >>> ", res);
+            const res = await sendChat(data);
+            // console.log("✨generateChat >>> ", res);
 
             // (4) 로딩 컴포넌트 삭제
             this.removeLoadingChat();
             this.isGenerating = false;
+            this.type = 0;
 
             if (!res.success) {
                 const msg = `${res.status_code}  - ${res.message}`;
-                console.log("채팅 생성 실패 >>> ", msg, res);
+                console.error("채팅 생성에 실패하였습니다. ", msg, res);
                 Object.assign(this.chatList[chatIdx], { type: ChatType.FAIL });
 
                 return res;
@@ -165,6 +167,9 @@ export const useChatStore = defineStore("chat", {
          */
         setResetFlag(resetFlag: boolean) {
             this.resetFlag = resetFlag;
+        },
+        setType(type: number) {
+            this.type = type;
         },
         reset() {
             Object.assign(this.$state, initialState());

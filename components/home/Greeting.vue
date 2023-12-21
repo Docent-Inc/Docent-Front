@@ -1,14 +1,15 @@
 <template>
-    <section class="landing" :class="dynamicBackground">
+    <!-- <section class="landing" :class="dynamicBackground"> -->
+    <section class="landing">
         <div class="landing__weather">
             <div class="date-box">
                 <div class="date">
-                    {{ $dayjs().format("YYYY.MM.DD.ddd") }}
+                    {{ $dayjs().format("YYYY.MM.DD") }}
                 </div>
-                <div class="date-icon">
-                    <div v-if="!weather.icon" class="skeleton" />
+                <div class="date-icon" v-if="!isLocationDenied">
+                    <!-- <div v-if="!weather.icon" class="skeleton" /> -->
                     <img
-                        v-else-if="
+                        v-if="
                             weather.icon && !(weather.icon === 'not supported')
                         "
                         :src="`/weathers/ic_${weather.icon}.svg`"
@@ -16,27 +17,35 @@
                     />
                 </div>
             </div>
-            <div class="degree-box">
-                <div v-if="!weather.tmx" class="skeleton" />
+            <div class="degree-box" v-if="!isLocationDenied">
+                <!-- <div v-if="!weather.tmx" class="skeleton" /> -->
                 <div
-                    v-else-if="
-                        weather.tmx && !(weather.icon === 'not supported')
-                    "
+                    class="degree-wrapper"
+                    v-if="weather.tmx && !(weather.icon === 'not supported')"
                 >
-                    <span>최고기온</span>
-                    <span class="degree">{{ weather.tmx }}°C</span>
-                    <span>최저기온</span>
-                    <span class="degree">{{ weather.tmn }}°C</span>
+                    <div>
+                        <span>최고기온</span>
+                        <span class="degree"
+                            >{{ parseInt(parseFloat(weather.tmx)) }}°C</span
+                        >
+                    </div>
+                    <div>
+                        <span>최저기온</span>
+                        <span class="degree minimum"
+                            >{{ parseInt(parseFloat(weather.tmn)) }}°C</span
+                        >
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="landing__greeting">
+        <!-- 231216 - v2 홈 디자인 변경으로 미사용 START -->
+        <!-- <div class="landing__greeting">
             <div class="greeting">
                 <h1>{{ greetingPrefix }} {{ user?.nickname }}님,</h1>
                 <h2>{{ dynamicMessage }}</h2>
             </div>
-            <!-- <div v-if="!luck" class="skeleton fortune" /> -->
-            <div class="fortune-box" @click="openModal">
+            <div v-if="!luck" class="skeleton fortune" />
+            <div v-else class="fortune-box" @click="openModal">
                 <div
                     class="red-dot"
                     :class="{
@@ -47,115 +56,93 @@
                     <v-icon class="ic_fortune" />
                 </div>
             </div>
-        </div>
+        </div> -->
+        <!-- 231216 - v2 홈 디자인 변경으로 미사용 END -->
     </section>
-    <!-- <SimpleModal :isModalOpen="isModalOpen" @close="closeModal">
-        <article class="modal" @click.stop>
-            <div class="ic_fortune-modal">
-                <div class="ic_fortune-modal-box">
-                    <v-icon class="ic_fortune" />
-                </div>
-            </div>
-
-            <div
-                v-if="!luckData.keyword && !luckData.description"
-                class="modal__skeleton"
-            />
-            <div v-else class="modal__contents">
-                <h1 class="modal__title">
-                    오늘의 운세는 <br />
-                    <span class="point">"{{ luckData.keyword }}"</span>
-                    입니다.
-                </h1>
-                <p class="modal__description">
-                    {{ luckData.description }}
-                </p>
-            </div>
-        </article>
-    </SimpleModal> -->
 </template>
 
 <script>
-import SimpleModal from "../modal/SimpleModal.vue";
 import { getHourType } from "@/utils/utils";
 
 export default {
     name: "Greeting",
-    components: { SimpleModal },
     props: {
         user: Object,
         luck: String,
         isCheckedToday: Boolean,
+        optimisticIsCheckedToday: Boolean,
         weather: Object,
     },
     data() {
         return {
-            isModalOpen: false,
-            optimisticIsCheckedToday: false,
+            isLocationDenied: false,
         };
     },
-    computed: {
-        luckData() {
-            if (this.luck) {
-                const parts = this.luck.split(".");
-                const keyword = parts[0].split('"')[1];
+    //// 231216 - v2 홈 디자인 변경으로 미사용 START
+    // computed: {
+    // luckData() {
+    //     if (this.luck) {
+    //         const parts = this.luck.split(".");
+    //         const keyword = parts[0].split('"')[1];
+    //         const [, ...rest] = parts;
+    //         const description = rest.join(". ");
+    //         return {
+    //             keyword,
+    //             description,
+    //         };
+    //     }
+    //     return {
+    //         keyword: "",
+    //         description: "",
+    //     };
+    // },
+    // timeType() {
+    //     return getHourType(new Date().getHours());
+    // },
+    // greetingPrefix() {
+    //     switch (this.timeType) {
+    //         case 1:
+    //             return "좋은 아침!";
+    //         case 4:
+    //             return "고생했어요";
+    //         default:
+    //             return "안녕하세요";
+    //     }
+    // },
+    // dynamicMessage() {
+    //     switch (this.timeType) {
+    //         case 1:
+    //             return "오늘의 생각을 말해보세요!";
+    //         case 4:
+    //             return "오늘 하루는 어땠어요?";
+    //         default:
+    //             return "새로운 일정과 메모가 있나요?";
+    //     }
+    // },
+    // dynamicBackground() {
+    //     switch (this.timeType) {
+    //         case 1:
+    //             return "daytime";
+    //         case 4:
+    //             return "night";
+    //         default:
+    //             return "dawn";
+    //     }
+    // },
+    // },
+    // methods: {
+    //     openModal() {
+    //         // this.isModalOpen = true;
+    //         this.$emit("open");
+    //     },
+    // },
+    //// 231216 - v2 홈 디자인 변경으로 미사용 END
 
-                const [, ...rest] = parts;
-                const description = rest.join(". ");
-
-                return {
-                    keyword,
-                    description,
-                };
-            }
-            return {
-                keyword: "",
-                description: "",
-            };
-        },
-        timeType() {
-            return getHourType(new Date().getHours());
-        },
-        greetingPrefix() {
-            switch (this.timeType) {
-                case 1:
-                    return "좋은 아침!";
-                case 4:
-                    return "고생했어요";
-                default:
-                    return "안녕하세요";
-            }
-        },
-        dynamicMessage() {
-            switch (this.timeType) {
-                case 1:
-                    return "오늘의 생각을 말해보세요!";
-                case 4:
-                    return "오늘 하루는 어땠어요?";
-                default:
-                    return "새로운 일정과 메모가 있나요?";
-            }
-        },
-        dynamicBackground() {
-            switch (this.timeType) {
-                case 1:
-                    return "daytime";
-                case 4:
-                    return "night";
-                default:
-                    return "dawn";
-            }
-        },
-    },
-    methods: {
-        openModal() {
-            // this.isModalOpen = true;
-            this.$emit("open");
-        },
-        closeModal() {
-            this.isModalOpen = false;
-            this.optimisticIsCheckedToday = true;
-        },
+    mounted() {
+        const isPermissionDenied = localStorage.getItem(
+            "locationPermissionDenied",
+        );
+        this.isLocationDenied = !!isPermissionDenied;
     },
 };
 </script>
@@ -165,15 +152,15 @@ export default {
 @import "@/assets/scss/mixins.scss";
 
 .landing {
-    padding: 2rem 2rem 4rem 2rem;
+    padding: 2rem;
     width: 100%;
     margin-top: 0;
-    color: $vc-gray-100;
-    background: $gradient_dawn_dusk;
+    color: $vc-gray-500;
 
-    @media screen and (max-width: 360px) {
-        padding-bottom: 2.5rem;
-    }
+    // background: $gradient_dawn_dusk;
+    // @media screen and (max-width: 360px) {
+    //     // padding-bottom: 2.5rem;
+    // }
 
     &.dawn {
         background: $gradient_dawn_dusk;
@@ -192,14 +179,13 @@ export default {
         justify-content: space-between;
         height: 20px;
 
-        @media screen and (max-width: 360px) {
-            flex-direction: column;
-            margin-bottom: 4rem;
-        }
+        // @media screen and (max-width: 340px) {
+        //     margin-bottom: 2rem;
+        // }
     }
 
     &__greeting {
-        color: $vc-white;
+        // color: $vc-white;
         margin: 2.3rem 0 2rem 0;
         display: flex;
         align-items: center;
@@ -211,19 +197,19 @@ export default {
         @media screen and (max-width: 380px) {
             font-size: 120%;
         }
-        @media screen and (max-width: 360px) {
+        @media screen and (max-width: 340px) {
             font-size: 110%;
         }
     }
 }
 
 .date-box {
-    color: $vc-gray-100;
+    // color: $vc-gray-100;
     font-size: var(--vc-text-base);
     display: flex;
     align-items: center;
 
-    @media screen and (max-width: 360px) {
+    @media screen and (max-width: 340px) {
         margin-bottom: 0.5rem;
     }
 
@@ -248,25 +234,41 @@ export default {
 }
 
 .degree-box {
-    color: $vc-gray-100;
+    // color: $vc-gray-100;
     font-size: var(--vc-text-xs);
     font-weight: 400;
     display: flex;
     justify-content: right;
     align-items: center;
-    width: 200px;
+    /* width: 200px; */
 
-    @media screen and (max-width: 360px) {
-        justify-content: left;
+    @media screen and (max-width: 340px) {
+        width: 100px;
+    }
+
+    .degree-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: right;
+
+        @media screen and (max-width: 340px) {
+            flex-direction: column;
+            align-items: flex-end;
+            width: 100px;
+        }
     }
 
     .degree {
-        margin: 0 1.7rem 0 1rem;
+        margin: 0 0.75rem 0 0.25rem;
         font-family: $font-bold;
-    }
 
-    .degree:last-child {
-        margin-right: 0;
+        &.minimum {
+            margin-right: 0;
+        }
+
+        @media screen and (max-width: 340px) {
+            margin-right: 0;
+        }
     }
 }
 
@@ -317,81 +319,6 @@ export default {
     }
 }
 
-/* .modal {
-    width: 100%;
-    max-height: calc(100% - (36px + 4rem + 20px));
-    margin-top: calc(2rem + 36px);
-
-    background: $vc-white;
-    color: $vc-gray-800;
-    padding: $padding-default;
-    border-radius: 12px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    @media screen and (max-height: 700px) {
-        border-radius: 0;
-        width: 100%;
-        min-height: 100vh;
-        margin-top: 0;
-    }
-
-    &__skeleton {
-        @include skeleton;
-        margin-top: 2rem;
-        border-radius: $border-radius-default;
-        width: 100%;
-        height: 150px;
-    }
-
-    &__contents {
-        margin: 2rem;
-        width: 100%;
-        overflow-y: scroll;
-    }
-
-    &__title {
-        text-align: center;
-        font-size: 2.4rem;
-        margin-bottom: 1.6rem;
-        font-family: $font-bold;
-        @media screen and (max-width: 360px) {
-            font-size: 130%;
-        }
-        .point {
-            color: $vc-indigo-500;
-        }
-    }
-
-    &__description {
-        color: $vc-gray-500;
-        font-size: 14px;
-        line-height: 2rem;
-        text-indent: 10px;
-        text-align: justify;
-        word-break: break-all;
-
-        overflow-y: auto;
-        max-height: 220px;
-        padding-right: 1rem;
-
-        &::-webkit-scrollbar {
-            width: 1vw;
-            padding-left: 1rem;
-        }
-        &::-webkit-scrollbar-thumb {
-            background: $vc-indigo-300;
-            border-radius: 30px;
-        }
-        @media screen and (max-width: 360px) {
-            font-size: 88%;
-        }
-    }
-} */
-
 .skeleton {
     position: absolute;
     width: 90%;
@@ -400,7 +327,7 @@ export default {
     border-radius: $border-radius-default;
 
     @include skeleton;
-    @media screen and (max-width: 360px) {
+    @media screen and (max-width: 340px) {
         margin-top: 0.3rem;
     }
 
