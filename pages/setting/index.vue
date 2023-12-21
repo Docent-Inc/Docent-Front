@@ -61,10 +61,10 @@
                     <span class="inquiry-title">문의하기</span>
                     <v-icon class="ic_kakao_inquiry" @click="openKakaoLink" />
                 </div>
-                <div class="terms">
+                <div class="terms" @click="openToSLink">
                     <span class="terms-title">이용약관</span>
                 </div>
-                <div class="privacy">
+                <div class="privacy" @click="openPolicyLink">
                     <span class="privacy-title">개인정보처리방침</span>
                 </div>
                 <div class="secession" @click="openCustomModal">
@@ -127,6 +127,12 @@ export default {
         },
         openKakaoLink() {
             window.open("https://pf.kakao.com/_vNxnRG", "_blank");
+        },
+        openToSLink() {
+            window.open("https://docent-ai.notion.site/53a465da1ef04985aabba86fdfb5d388?pvs=4", "_blank");
+        },
+        openPolicyLink() {
+            window.open("https://docent-ai.notion.site/bdd51533f0424658ac5c52b4cc067cad?pvs=4", "_blank");
         },
         logout() {
             const { reset } = useUserStore();
