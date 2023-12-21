@@ -4,11 +4,13 @@
         :isBackBtnLeftSide="true"
         :isAddBtnRightSide="true"
         :isSubmit="
-            !!content &&
-            !dateErrorMsg.startTime &&
-            !dateErrorMsg.endTime &&
-            !timeErrorMsg.startTime &&
-            !timeErrorMsg.endTime
+            isEditMode
+                ? isRemodified
+                : !!content &&
+                  !dateErrorMsg.startTime &&
+                  !dateErrorMsg.endTime &&
+                  !timeErrorMsg.startTime &&
+                  !timeErrorMsg.endTime
         "
         :func="handleSubmit"
         :isEditMode="isEditMode"
@@ -133,6 +135,7 @@ export default {
             "endTime",
             "calendarId",
             "isEditMode",
+            "isRemodified",
         ]),
         ...mapState(useMypageStore, ["title", "content"]),
     },
@@ -156,6 +159,7 @@ export default {
             "updateCalendarItem",
             "updateStartTime",
             "updateEndTime",
+            "updateIsRemodified",
         ]),
         ...mapActions(useMypageStore, ["updateContents"]),
         validateYear(placeToCall) {
@@ -167,6 +171,9 @@ export default {
                     "올바른 년도를 입력해주세요.";
             } else {
                 this.dateErrMsgObj[placeToCall].year = "";
+                if (this.isEditMode) {
+                    this.updateIsRemodified(true);
+                }
             }
             this.getDateErrMsg(placeToCall);
         },
@@ -179,6 +186,9 @@ export default {
                     "올바른 월을 입력해주세요.";
             } else {
                 this.dateErrMsgObj[placeToCall].month = "";
+                if (this.isEditMode) {
+                    this.updateIsRemodified(true);
+                }
             }
             this.getDateErrMsg(placeToCall);
         },
@@ -191,6 +201,9 @@ export default {
                     "올바른 일을 입력해주세요.";
             } else {
                 this.dateErrMsgObj[placeToCall].day = "";
+                if (this.isEditMode) {
+                    this.updateIsRemodified(true);
+                }
             }
             this.getDateErrMsg(placeToCall);
         },
@@ -215,6 +228,9 @@ export default {
                     "올바른 시간(시)을 입력해주세요.";
             } else {
                 this.timeErrMsgObj[placeToCall].hours = "";
+                if (this.isEditMode) {
+                    this.updateIsRemodified(true);
+                }
             }
             this.getTimeErrMsg(placeToCall);
         },
@@ -227,6 +243,9 @@ export default {
                     "올바른 시간(분)을 입력해주세요.";
             } else {
                 this.timeErrMsgObj[placeToCall].minutes = "";
+                if (this.isEditMode) {
+                    this.updateIsRemodified(true);
+                }
             }
             this.getTimeErrMsg(placeToCall);
         },
@@ -246,6 +265,9 @@ export default {
         updateInputContents(event) {
             const field = event.target.dataset.field;
             const value = event.target.value || event.target.innerText; // contenteditable일 경우 값이 다름
+            if (this.isEditMode) {
+                this.updateIsRemodified(true);
+            }
 
             // 만약 엔터 키가 눌렸다면 \n을 추가
             if (event.key === "Enter") {

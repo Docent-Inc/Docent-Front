@@ -45,6 +45,7 @@ const initialState = () => ({
     },
     calendarId: -1,
     isEditMode: false,
+    isRemodified: false,
 });
 
 export const useCalendarStore = defineStore("calendar", {
@@ -235,6 +236,9 @@ export const useCalendarStore = defineStore("calendar", {
         },
         updateIsEditMode(newIsEditMode: boolean) {
             this.isEditMode = newIsEditMode;
+        },
+        updateIsRemodified(newIsRemodified: boolean) {
+            this.isRemodified = newIsRemodified;
         },
     },
 });
