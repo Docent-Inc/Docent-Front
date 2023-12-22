@@ -1,14 +1,4 @@
 [
-    {
-        "relation": ["delegate_permission/common.handle_all_urls"],
-        "target": {
-            "namespace": "android_app",
-            "package_name": "zip.docent.looi",
-            "sha256_cert_fingerprints": [
-                "8A:3E:9B:CE:00:9D:15:4A:B4:20:4B:0C:6A:85:A7:35:3A:DE:7B:10:1B:4A:A3:50:6D:C5:19:A1:08:3D:99:3B"
-            ]
-        }
-    },
     [
         {
             "relation": ["delegate_permission/common.handle_all_urls"],
