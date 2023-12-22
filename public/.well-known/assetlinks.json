@@ -1,13 +1,8 @@
-[
-    [
-        {
-            "relation": ["delegate_permission/common.handle_all_urls"],
-            "target": {
-                "namespace": "android_app",
-                "package_name": "zip.docent.looi",
-                "sha256_cert_fingerprints":
-                ["8C:FB:A1:87:C0:A4:79:32:B1:5E:F2:75:5B:5D:BC:08:2A:55:28:90:BE:B7:76:AC:03:BE:F3:07:5B:37:D4:7D"]
-            }
-        }
-    ]
-]
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+        "namespace": "android_app",
+        "package_name": "zip.docent.looi",
+        "sha256_cert_fingerprints": ["8C:FB:A1:87:C0:A4:79:32:B1:5E:F2:75:5B:5D:BC:08:2A:55:28:90:BE:B7:76:AC:03:BE:F3:07:5B:37:D4:7D"]
+    }
+}]
