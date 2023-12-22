@@ -7,6 +7,7 @@ export default defineNuxtConfig({
             link: [
                 { rel: "canonical", href: "https://docent.zip/" },
                 { rel: "manifest", href: "/manifest.json" },
+                { rel: "assetlinks", href: "/.well-known/assetlinks.json" },
                 {
                     rel: "icon",
                     type: "image/ico",
