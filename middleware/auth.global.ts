@@ -13,7 +13,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     // console.log(fullPath);
 
     // 미들웨어를 거쳐가지 않는 페이지
-    const paths = ["/", "/signin", "/callback", "/onboarding"];
+    const paths = ["/", "/signin", "/callback", "/onboarding", "/event"];
     if (paths.includes(fullPath)) {
         return;
     }
