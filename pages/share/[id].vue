@@ -242,7 +242,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: safe center; // safe를 넣지 않으면 상단이 잘리는 문제 발생
+    // justify-content: safe center; // safe를 넣지 않으면 상단이 잘리는 문제 발생
 
     gap: 2rem;
 }

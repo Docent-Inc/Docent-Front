@@ -11,7 +11,7 @@ import {
 } from "~/models/diary";
 
 export const useDiaryService = () => {
-    const { GET, POST, PUT, DELETE } = useAxios();
+    const { GET, POST, PUT, PATCH, DELETE } = useAxios();
 
     return {
         /**
@@ -19,7 +19,7 @@ export const useDiaryService = () => {
          */
         async getMorningdiary(diary_id: number) {
             return await GET<DiaryModel>(
-                `/diary/morning/read?diary_id=${diary_id}`,
+                `/dream/read?dream_id=${diary_id}`,
             );
         },
         /**
@@ -27,33 +27,33 @@ export const useDiaryService = () => {
          */
         async getNightdiary(diary_id: number) {
             return await GET<DiaryModel>(
-                `/diary/night/read?diary_id=${diary_id}`,
+                `/diary/read?diary_id=${diary_id}`,
             );
         },
         /**
          * 메모 조회
          */
         async getMemo(memo_id: number) {
-            return await GET<MemoModel>(`/diary/memo/read?memo_id=${memo_id}`);
+            return await GET<MemoModel>(`/memo/read?memo_id=${memo_id}`);
         },
 
         /**
          * 아침 다이어리 생성 (꿈)
          */
         async postMorningDiary(reqBody: RecordsReqBodyModel) {
-            return await POST<RecordResModel>(`/diary/morning/create`, reqBody);
+            return await POST<RecordResModel>(`/dream/create`, reqBody);
         },
         /**
          * 저녁 다이어리 생성 (일기)
          */
         async postNightDiary(reqBody: RecordsReqBodyModel) {
-            return await POST<RecordResModel>(`/diary/night/create`, reqBody);
+            return await POST<RecordResModel>(`/diary/create`, reqBody);
         },
         /**
          * 메모 생성
          */
         async postMemo(reqBody: RecordsReqBodyModel) {
-            return await POST<RecordResModel>(`/diary/memo/create`, reqBody);
+            return await POST<RecordResModel>(`/memo/create`, reqBody);
         },
 
         /**
@@ -61,7 +61,7 @@ export const useDiaryService = () => {
          */
         async deleteMorningdiary(diary_id: number) {
             return await DELETE<DiaryModel>(
-                `/diary/morning/delete?diary_id=${diary_id}`,
+                `/dream/delete?dream_id=${diary_id}`,
             );
         },
         /**
@@ -69,7 +69,7 @@ export const useDiaryService = () => {
          */
         async deleteNightdiary(diary_id: number) {
             return await DELETE<DiaryModel>(
-                `/diary/night/delete?diary_id=${diary_id}`,
+                `/diary/delete?diary_id=${diary_id}`,
             );
         },
         /**
@@ -77,65 +77,55 @@ export const useDiaryService = () => {
          */
         async deleteMemo(memo_id: number) {
             return await DELETE<DiaryModel>(
-                `/diary/memo/delete?memo_id=${memo_id}`,
+                `/memo/delete?memo_id=${memo_id}`,
             );
         },
 
         /**
-         * 아침 다이어리 조회 - 공유용 (꿈)
+         * 아침 다이어리 조회 - 공유용 (꿈) #TODO: 수정 필요
          */
         async getShareMorningdiary(diary_id: number) {
-            return await GET<DiaryModel>(`/diary/morning/share/${diary_id}`);
+            return await GET<DiaryModel>(`/share/dream/${diary_id}`);
         },
         /**
-         * 저녁 다이어리 조회 - 공유용 (일기)
+         * 저녁 다이어리 조회 - 공유용 (일기) #TODO: 수정 필요
          */
         async getShareNightdiary(diary_id: number) {
-            return await GET<DiaryModel>(`/diary/night/share/${diary_id}`);
+            return await GET<DiaryModel>(`/share/diary/${diary_id}`);
         },
 
         /**
          * 마이페이지 목록 조회 (아침, 저녁, 메모)
          */
-        async getGalleryList(diary_type: number, page: number) {
-            return await POST<DiaryListModel>(`/diary/list`, {
-                diary_type: diary_type,
-                page: page,
-            });
+        async getGalleryList(diary_type: string, page: number) {
+            return await GET<DiaryListModel>(`/${diary_type}/list?page=${page}`);
         },
         /**
          * 마이페이지 상세 조회 (비율)
          */
         async getRatio() {
-            return await GET<DiaryRatioModel>(`/diary/ratio`);
+            return await GET<DiaryRatioModel>(`/statistics/ratio`);
         },
 
         /**
          * 캘린더 목록 조회
          */
         async getCalendarList(year: number, month: number) {
-            return await POST<CalendarListModel>(`/diary/list/calender`, {
-                year: year,
-                month: month,
-            });
+            return await GET<CalendarListModel>(`/calendar/list?year=${year}&month=${month}`);
         },
         /**
          * 캘린더 조회
          */
         async getCalendar(year: number, month: number, day: number) {
-            return await POST<CalendarModel[]>(`/diary/list/calender`, {
-                year: year,
-                month: month,
-                day: day,
-            });
+            return await GET<CalendarModel[]>(`/calendar/list?year=${year}&month=${month}&day=${day}`);
         },
 
         /**
          * 아침 다이어리 수정 (꿈)
          */
         async putMorningDiary(reqBody: RecordsReqBodyModel, id: string) {
-            return await POST<RecordResModel>(
-                `/diary/morning/update?diary_id=${id}`,
+            return await PATCH<RecordResModel>(
+                `/dream/update?dream_id=${id}`,
                 reqBody,
             );
         },
@@ -143,8 +133,8 @@ export const useDiaryService = () => {
          * 저녁 다이어리 수정 (일기)
          */
         async putNightDiary(reqBody: RecordsReqBodyModel, id: string) {
-            return await POST<RecordResModel>(
-                `/diary/night/update?diary_id=${id}`,
+            return await PATCH<RecordResModel>(
+                `/diary/update?diary_id=${id}`,
                 reqBody,
             );
         },
@@ -152,7 +142,7 @@ export const useDiaryService = () => {
          * 메모 수정
          */
         async putMemo(reqBody: RecordsReqBodyModel, id: string) {
-            return await POST<RecordResModel>(`/diary/memo/update?memo_id=${id}`, reqBody);
+            return await PATCH<RecordResModel>(`/memo/update?memo_id=${id}`, reqBody);
         },
     };
 };

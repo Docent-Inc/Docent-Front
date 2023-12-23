@@ -74,6 +74,19 @@ export function useAxios() {
         return response.data;
     };
 
+    const PATCH = async <T>(
+        url: string,
+        data?: any,
+        config?: AxiosRequestConfig,
+    ): Promise<BaseResponse<T>> => {
+        const response: AxiosResponse<BaseResponse<T>> = await API.patch(
+            url,
+            data,
+            config,
+        );
+        return response.data;
+    }
+
     const DELETE = async <T>(
         url: string,
         config?: AxiosRequestConfig,
@@ -89,6 +102,7 @@ export function useAxios() {
         API,
         GET,
         POST,
+        PATCH,
         PUT,
         DELETE,
     };
