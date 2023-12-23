@@ -1,6 +1,6 @@
 <template>
-    <div class="add-date_info-box">
-        <h2>
+    <div class="add-date_info-box" :class="{ 'birth-page': isBirthComponent }">
+        <h2 v-if="!isBirthComponent">
             {{ isStartTimeSection ? "시작하는 날짜 " : "끝나는 날짜 "
             }}<span class="point">*</span>
         </h2>
@@ -31,7 +31,7 @@
             {{ dateErrorMsg }}
         </div>
     </div>
-    <div class="add-date_time-box">
+    <div class="add-date_time-box" v-if="!isBirthComponent">
         <h2>{{ isStartTimeSection ? "시작하는 시간 " : "끝나는 시간 " }}</h2>
         <button
             type="button"
@@ -97,6 +97,7 @@ export default {
         dateErrorMsg: String,
         timeErrorMsg: String,
         isStartTimeSection: Boolean,
+        isBirthComponent: Boolean,
     },
     emits: [
         "validateYear",
@@ -115,7 +116,11 @@ export default {
         emitValidationEvent(fieldName) {
             this.$emit(
                 `validate${fieldName}`,
-                this.isStartTimeSection ? "startTime" : "endTime",
+                this.isBirthComponent
+                    ? "currentBirth"
+                    : this.isStartTimeSection
+                    ? "startTime"
+                    : "endTime",
             );
         },
         validateYear() {
@@ -148,11 +153,16 @@ export default {
 
 .add-date_info-box,
 .add-date_time-box {
+    width: 100%;
     padding: 0 2rem;
 
     h2 {
         font-family: $font-medium;
         margin-bottom: 0.8rem;
+    }
+
+    &.birth-page {
+        padding: 0;
     }
 
     .no-time {
