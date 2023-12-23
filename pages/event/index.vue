@@ -63,6 +63,9 @@ export default {
   setup() {},
   methods: {
     async send() {
+      if (this.isLoading){
+        return;
+      }
       if (!this.isValidate.status) {
         this.$eventBus.$emit("onConfirmModal", {
           title: this.isValidate.msg,
@@ -76,6 +79,7 @@ export default {
         content: this.data,
       };
       this.isLoading = true;
+      this.data = "";
       const res = await postMorningDiary(data);
       if (res.success) {
           this.$router.push(
