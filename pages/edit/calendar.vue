@@ -228,7 +228,7 @@ export default {
         },
         validateHours(placeToCall) {
             const hours = parseInt(this[placeToCall].hours) || 0;
-            this[placeToCall].hours = hours;
+            this[placeToCall].hours = hours.toString().padStart(2, '0');
 
             if (isNaN(hours) || hours < 0 || hours > 12) {
                 this.timeErrMsgObj[placeToCall].hours =
@@ -244,7 +244,7 @@ export default {
         },
         validateMinutes(placeToCall) {
             const minutes = parseInt(this[placeToCall].minutes) || 0;
-            this[placeToCall].minutes = minutes;
+            this[placeToCall].minutes = minutes.toString().padStart(2, '0');
 
             if (isNaN(minutes) || minutes < 0 || minutes > 59) {
                 this.timeErrMsgObj[placeToCall].minutes =
@@ -286,25 +286,21 @@ export default {
             this.updateContents(field, value, null);
         },
         async handleSubmit() {
-            const start_time = `${this.startTime.year}-${
-                this.startTime.month
-            }-${this.startTime.day} ${
-                (this.startTime.isAM ? 0 : +12) +
-                (this.startTime.isAM && Number(this.startTime.hours) === 12)
-                    ? "00"
-                    : Number(this.startTime.hours)
-            }:${this.startTime.minutes}`;
+            const formatTimePart = (part) => part.toString().padStart(2, '0');
+          const startHours = this.startTime.isAM
+              ? formatTimePart(this.startTime.hours === "12" ? 0 : this.startTime.hours)
+              : formatTimePart(Number(this.startTime.hours) + 12);
 
-            const end_time = `${this.endTime.year}-${this.endTime.month}-${
-                this.endTime.day
-            } ${
-                (this.endTime.isAM ? 0 : +12) +
-                (this.endTime.isAM && Number(this.endTime.hours) === 12
-                    ? 0
-                    : Number(this.endTime.hours))
-            }:${this.endTime.minutes}`;
+          const start_time = `${this.startTime.year}-${formatTimePart(this.startTime.month)}-${formatTimePart(this.startTime.day)} ${startHours}:${formatTimePart(this.startTime.minutes)}`;
 
-            const reqBody = {
+          const endHours = this.endTime.isAM
+              ? formatTimePart(this.endTime.hours === "12" ? 0 : this.endTime.hours)
+              : formatTimePart(Number(this.endTime.hours) + 12);
+
+          const end_time = `${this.endTime.year}-${formatTimePart(this.endTime.month)}-${formatTimePart(this.endTime.day)} ${endHours}:${formatTimePart(this.endTime.minutes)}`;
+
+
+          const reqBody = {
                 start_time,
                 end_time,
                 title: this.title,

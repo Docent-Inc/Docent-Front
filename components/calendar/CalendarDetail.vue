@@ -54,7 +54,6 @@ export default {
             this.updateStartTime(null);
             this.updateEndTime(null);
             this.updateCalendarId(-1);
-
             this.$router.push("edit/calendar");
         },
     },

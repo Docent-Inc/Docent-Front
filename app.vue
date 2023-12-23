@@ -62,14 +62,14 @@ useHead({
     },
 });
 useSeoMeta({
-    ogTitle: "Looi",
+    ogTitle: "나만의 기록 비서 Looi",
     description: `당신의 기록을 더욱 쉽고 가치있게!`,
     ogDescription: `당신의 기록을 더욱 쉽고 가치있게!`,
     ogImage: "https://docent-front.vercel.app/assets/images/og_img.png",
     twitterCard: "summary_large_image",
     ogType: "website",
-    ogSiteName: "Looi",
-    twitterTitle: "Looi",
+    ogSiteName: "나만의 기록 비서 Looi",
+    twitterTitle: "나만의 기록 비서 Looi",
     twitterDescription: `당신의 기록을 더욱 쉽고 가치있게!`,
     twitterImage: "https://docent-front.vercel.app/assets/images/og_img.png",
 });
