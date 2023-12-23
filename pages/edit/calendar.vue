@@ -169,11 +169,12 @@ export default {
             if (isNaN(year) || year < 1000 || year > 9999) {
                 this.dateErrMsgObj[placeToCall].year =
                     "올바른 년도를 입력해주세요.";
+
+                if (this.isEditMode) {
+                    this.updateIsRemodified(false);
+                }
             } else {
                 this.dateErrMsgObj[placeToCall].year = "";
-                if (this.isEditMode) {
-                    this.updateIsRemodified(true);
-                }
             }
             this.getDateErrMsg(placeToCall);
         },
@@ -184,11 +185,12 @@ export default {
             if (isNaN(month) || month < 1 || month > 12) {
                 this.dateErrMsgObj[placeToCall].month =
                     "올바른 월을 입력해주세요.";
+
+                if (this.isEditMode) {
+                    this.updateIsRemodified(false);
+                }
             } else {
                 this.dateErrMsgObj[placeToCall].month = "";
-                if (this.isEditMode) {
-                    this.updateIsRemodified(true);
-                }
             }
             this.getDateErrMsg(placeToCall);
         },
@@ -199,11 +201,12 @@ export default {
             if (isNaN(day) || day < 1 || day > 31) {
                 this.dateErrMsgObj[placeToCall].day =
                     "올바른 일을 입력해주세요.";
+
+                if (this.isEditMode) {
+                    this.updateIsRemodified(false);
+                }
             } else {
                 this.dateErrMsgObj[placeToCall].day = "";
-                if (this.isEditMode) {
-                    this.updateIsRemodified(true);
-                }
             }
             this.getDateErrMsg(placeToCall);
         },
@@ -218,6 +221,10 @@ export default {
                 this.dateErrorMsg[placeToCall] =
                     this.dateErrMsgObj[placeToCall].day;
             }
+
+            if (!this.dateErrorMsg[placeToCall] && this.isEditMode) {
+                this.updateIsRemodified(true);
+            }
         },
         validateHours(placeToCall) {
             const hours = parseInt(this[placeToCall].hours) || 0;
@@ -226,11 +233,12 @@ export default {
             if (isNaN(hours) || hours < 0 || hours > 12) {
                 this.timeErrMsgObj[placeToCall].hours =
                     "올바른 시간(시)을 입력해주세요.";
+
+                if (this.isEditMode) {
+                    this.updateIsRemodified(false);
+                }
             } else {
                 this.timeErrMsgObj[placeToCall].hours = "";
-                if (this.isEditMode) {
-                    this.updateIsRemodified(true);
-                }
             }
             this.getTimeErrMsg(placeToCall);
         },
@@ -241,11 +249,12 @@ export default {
             if (isNaN(minutes) || minutes < 0 || minutes > 59) {
                 this.timeErrMsgObj[placeToCall].minutes =
                     "올바른 시간(분)을 입력해주세요.";
+
+                if (this.isEditMode) {
+                    this.updateIsRemodified(false);
+                }
             } else {
                 this.timeErrMsgObj[placeToCall].minutes = "";
-                if (this.isEditMode) {
-                    this.updateIsRemodified(true);
-                }
             }
             this.getTimeErrMsg(placeToCall);
         },
@@ -257,6 +266,10 @@ export default {
                 this.timeErrorMsg[placeToCall] =
                     this.timeErrMsgObj[placeToCall].minutes;
             }
+
+            if (!this.timeErrorMsg[placeToCall] && this.isEditMode) {
+                this.updateIsRemodified(true);
+            }
         },
         toggleMeridiem(placeToCall, isAM) {
             if (placeToCall === "startTime") this.startTime.isAM = isAM;
@@ -264,10 +277,7 @@ export default {
         },
         updateInputContents(event) {
             const field = event.target.dataset.field;
-            const value = event.target.value || event.target.innerText; // contenteditable일 경우 값이 다름
-            if (this.isEditMode) {
-                this.updateIsRemodified(true);
-            }
+            const value = event.target.value || event.target.innerText; //
 
             // 만약 엔터 키가 눌렸다면 \n을 추가
             if (event.key === "Enter") {
