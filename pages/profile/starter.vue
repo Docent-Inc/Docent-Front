@@ -51,7 +51,10 @@
                     <SignUpMBTI @update:mbtiType="mbti = $event" />
                 </div>
                 <div v-else>
-                    <ModifyBirth @birthSelected="birthDay = $event" />
+                    <ModifyBirth
+                        @birthSelected="onBirthSelected"
+                        @onStopSubmit="onStopSubmit"
+                    />
                 </div>
             </article>
 
@@ -68,7 +71,7 @@
                 v-else
                 type="submit"
                 class="submit-button"
-                :disabled="!gender || !birthDay"
+                :disabled="!gender || !birthDay || !isDataChanged"
                 @click="signUp"
             >
                 가입 완료하기
@@ -103,6 +106,7 @@ export default {
             mbti: "",
             gender: "",
             birthDay: "",
+            isDataChanged: false,
         };
     },
     methods: {
@@ -112,6 +116,12 @@ export default {
         },
         changeComponent() {
             if (this.step !== 2) this.step++;
+        },
+        onStopSubmit(value) {
+            this.isDataChanged = value;
+        },
+        onBirthSelected(newBirth) {
+            this.birthDay = newBirth;
         },
         async signUp(event) {
             event.preventDefault();
