@@ -45,7 +45,7 @@ onMounted(() => {
 
         // isOnboarding = false, 자동 로그인 체크
         checkAutoLogin();
-    }, 2000); // 2초
+    }, 1000); // 1초
 });
 
 // console.log("Called!"); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
