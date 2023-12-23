@@ -12,7 +12,7 @@
             <span lang="ko">Looi가 꿈을 분석하고 있어요! 잠시만 기다려 주세요</span>
         </span>
       </div>
-      <video autoplay loop muted>
+      <video autoplay loop muted playsinline>
         <source src="./event_demo.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>

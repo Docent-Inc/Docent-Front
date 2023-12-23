@@ -175,25 +175,6 @@ export default {
       shared: true,
     };
   },
-  setup() {
-    const { getMorningdiary } = useDiaryService();
-    const { params, query } = getCurrentInstance().proxy.$route;
-    const record = useAsyncData(`content-${params.id}`, async () => {
-      query.type = "1";
-      const res = await getMorningdiary(params.id);
-      if (res.success) {
-        return res.data?.diary || null;
-      } else {
-        return null;
-      }
-    });
-
-    useSeoMeta({
-      title: () => record.data.value?.diary_name,
-      ogTitle: () => record.data.value?.diary_name,
-      ogDescription: () => record.data.value?.content,
-    });
-  },
   computed: {
     ...mapState(useUserStore, ["user"]),
     dynamicBackground() {
@@ -318,13 +299,20 @@ export default {
     }
 
     this.diary = res.data.diary;
+    this.setSeoMeta(this.diary);
 
     if (type == 1) this.diary.keyword = JSON.parse(this.diary.main_keyword);
     this.isLoading = false;
   },
   methods: {
     ...mapActions(useRecordStore, ["deleteOptimisticRecord"]),
-
+    setSeoMeta(diary) {
+      useSeoMeta({
+        title: diary.diary_name,
+        ogTitle: diary.diary_name,
+        ogDescription: diary.content,
+      });
+    },
     onDelete() {
       this.$eventBus.$emit("onCustomModal", {
         title: "정말 이 기록을 삭제하시겠어요?",
