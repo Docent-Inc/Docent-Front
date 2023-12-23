@@ -28,7 +28,10 @@
             </div>
             <ModifyMbti @mbtiSelected="onMbtiSelected" />
             <ModifyGender @genderSelected="onGenderSelected" />
-            <ModifyBirth @birthSelected="onBirthSelected" />
+            <ModifyBirth
+                @birthSelected="onBirthSelected"
+                @onStopSubmit="onStopSubmit"
+            />
         </div>
         <div
             class="button primary fixed-bottom"
@@ -102,7 +105,7 @@ export default {
         async saveChanges() {
             const { updateAccount } = useSettingService();
             this.isDataChanged = false;
-            // console.log(this.birth);
+
             const data = {
                 nickname: this.nickname,
                 mbti: this.mbti,
@@ -110,6 +113,7 @@ export default {
                 birth: this.birth,
             };
             const res = await updateAccount(data);
+
             if (res.success) {
                 this.isSuccess = true;
                 await this.userStore.updateUser();
@@ -120,6 +124,9 @@ export default {
         goBack() {
             if (this.isDataChanged) this.openCustomModal();
             else this.$router.back();
+        },
+        onStopSubmit(value) {
+            this.isDataChanged = value;
         },
         openCustomModal() {
             this.$eventBus.$emit("onCustomModal", {
@@ -133,7 +140,6 @@ export default {
             });
         },
         openErrorModal(message) {
-            console.error(message);
             this.$eventBus.$emit("onCustomModal", {
                 title: "오류가 발생했어요!",
                 desc: message,
