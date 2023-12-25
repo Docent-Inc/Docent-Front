@@ -6,21 +6,21 @@ export type CalendarCreateModel = {
 };
 
 export const useCalendarService = () => {
-    const { GET, POST, PUT, DELETE } = useAxios();
+    const { GET, POST, PUT, PATCH, DELETE } = useAxios();
 
     return {
         /**
          * 일정 추가
          */
         async createCalendar(data: CalendarCreateModel) {
-            return await POST(`/diary/calender/create`, data);
+            return await POST(`/calendar/create`, data);
         },
         /**
          * 일정 수정
          */
         async updateCalendar(calendarId: number, data: CalendarCreateModel) {
-            return await POST(
-                `/diary/calender/update?calender_id=${calendarId}`,
+            return await PATCH(
+                `/calendar/update?calendar_id=${calendarId}`,
                 data,
             );
         },
@@ -29,7 +29,7 @@ export const useCalendarService = () => {
          */
         async deleteCalendar(calenderId: number) {
             return await DELETE(
-                `/diary/calender/delete?calender_id=${calenderId}`,
+                `/calendar/delete?calendar_id=${calenderId}`,
             );
         },
     };

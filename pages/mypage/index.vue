@@ -65,7 +65,7 @@
                 />
             </div>
 
-            <Starter v-if="!list.length" />
+          <Starter v-if="!list.length && $route.query.tab !== 'calendar' && isDefaultTab !== true" />
         </div>
     </div>
 </template>
@@ -75,6 +75,7 @@ import { mapState, mapActions } from "pinia";
 import { useMypageStore } from "~/store/mypage";
 import { useUserStore } from "~/store/user";
 import { useRecordStore } from "~/store/record";
+
 
 import InfiniteLoading from "v3-infinite-loading";
 import ListDiary from "../../components/diary/ListDiary.vue";
@@ -90,7 +91,6 @@ export default {
     name: "Gallery",
     created() {
         const { tab, date } = this.$route.query;
-
         switch (tab) {
             case "calendar":
                 if (date) {
@@ -108,11 +108,12 @@ export default {
                 this.setType(3);
                 break;
             default:
-                null;
+                this.isDefaultTab = true;
                 break;
         }
     },
     setup() {
+
         definePageMeta({
             layout: "main",
         });
@@ -135,6 +136,7 @@ export default {
             viewType: "monthly",
             infiniteLoadingKey: 0,
             isDOMready: false,
+            isDefaultTab: false,
         };
     },
     watch: {

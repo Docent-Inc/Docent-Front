@@ -10,14 +10,14 @@ interface updateAccountData {
 }
 
 export const useSettingService = () => {
-    const { GET, POST, PUT, DELETE } = useAxios();
+    const { GET, POST, PUT, PATCH, DELETE } = useAxios();
 
     return {
         /**
          * 푸시 알림 상태 업데이트
          */
         async updatePushSetting(type: string, push_status: boolean) {
-            return await POST(`/auth/update/push`, {
+            return await PATCH(`/auth/update/push`, {
                 type: type,
                 value: push_status,
             });
@@ -32,7 +32,7 @@ export const useSettingService = () => {
          * 회원 정보 수정
          */
         async updateAccount(data: updateAccountData) {
-            return await POST(`/auth/update`, data);
+            return await PATCH(`/auth/update`, data);
         },
     };
 };

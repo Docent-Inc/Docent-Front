@@ -96,7 +96,6 @@ export interface CalendarModel {
 }
 
 export interface CalendarListModel {
-    today_count: number;
     list: CalendarModel[];
 }
 

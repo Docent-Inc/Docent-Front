@@ -78,9 +78,9 @@
 </template>
 <script>
 import Icon from "~/components/common/Icon.vue";
-import { useDiaryService } from "~/services/diary";
 import Toast from "~/components/common/Toast.vue";
 import LimitedLength from "~/components/common/LimitedLength.vue";
+import { useDiaryService } from "../../services/diary";
 
 export default {
     name: "Memo",

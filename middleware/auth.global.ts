@@ -44,6 +44,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     // console.log("🍪refresh - ", refreshTokenC);
     // console.log("🍪expiresIn - ", expiresIn);
     // console.log("access - ", accessToken);
+    // setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0d2NobzAyMDVAZ21haWwuY29tIiwiZXhwIjoxNDMwMDk4MDQ3Mn0._7CobpeILug91YsayMUsGONO2oddYYpUIpL7hNSuw08")
 
     // (1) 액세스 토큰 없으면 쿠키 확인
     if (!accessToken) {

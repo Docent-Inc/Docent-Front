@@ -24,12 +24,16 @@ export const useMypageStore = defineStore("mypage", {
         async getGalleryList() {
             this.isLoading = true;
             const { getGalleryList } = useDiaryService();
-
-            const res = await getGalleryList(this.type, this.pageNo);
-            if (this.pageNo === 1) this.list = res.data.list;
-            else this.list = [...this.list, ...res.data.list];
-            this.totalCounts = res.data.total_count;
-            this.isLoading = false;
+            if (this.type === 0) {
+                this.isLoading = false;
+            }
+            else {
+                const res = await getGalleryList(this.typeNameEN, this.pageNo);
+                if (this.pageNo === 1) this.list = res.data.list;
+                else this.list = [...this.list, ...res.data.list];
+                this.totalCounts = res.data.total_count;
+                this.isLoading = false;
+            }
         },
         async getRatio() {
             this.isLoading = true;

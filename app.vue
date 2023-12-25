@@ -62,15 +62,15 @@ useHead({
     },
 });
 useSeoMeta({
-    ogTitle: "Looi",
+    ogTitle: "나만의 기록 비서 Looi",
     description: `당신의 기록을 더욱 쉽고 가치있게!`,
     ogDescription: `당신의 기록을 더욱 쉽고 가치있게!`,
-    ogImage: "https://docent-front.vercel.app/assets/images/og_img.png",
+    ogImage: "https://kr.object.ncloudstorage.com/looi/%EA%B7%B8%EB%9E%98%ED%94%BD%20%EF%BC%86%20%EC%8D%B8%EB%84%A4%EC%9D%BC%20%EC%9D%B4%EB%AF%B8%EC%A7%80.png",
     twitterCard: "summary_large_image",
     ogType: "website",
-    ogSiteName: "Looi",
-    twitterTitle: "Looi",
+    ogSiteName: "나만의 기록 비서 Looi",
+    twitterTitle: "나만의 기록 비서 Looi",
     twitterDescription: `당신의 기록을 더욱 쉽고 가치있게!`,
-    twitterImage: "https://docent-front.vercel.app/assets/images/og_img.png",
+    twitterImage: "https://kr.object.ncloudstorage.com/looi/%EA%B7%B8%EB%9E%98%ED%94%BD%20%EF%BC%86%20%EC%8D%B8%EB%84%A4%EC%9D%BC%20%EC%9D%B4%EB%AF%B8%EC%A7%80.png",
 });
 </script>

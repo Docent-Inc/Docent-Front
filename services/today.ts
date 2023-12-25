@@ -19,7 +19,7 @@ export const useTodayService = () => {
          * 오늘 일정 조회
          */
         async getTodayCalendar() {
-            return await GET(`/today/calender`);
+            return await GET(`/today/calendar`);
         },
         /**
          * 오늘 기록 조회
