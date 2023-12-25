@@ -136,6 +136,39 @@
     <v-icon class="ic_event_down_2" @click="goService"/>
   </div>
 </template>
+<script setup>
+import { useRecordStore } from "~/store/record";
+import { useDiaryService } from "../../services/diary";
+const { getMorningdiary } = useDiaryService();
+const { setAccessToken  } = useUserStore();
+setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0d2NobzAyMDVAZ21haWwuY29tIiwiZXhwIjoxNDMwMDk4MDQ3Mn0._7CobpeILug91YsayMUsGONO2oddYYpUIpL7hNSuw08");
+const router = useRouter();
+const route = useRoute();
+
+const params = route.params;
+const query = route.query;
+
+const record = await useAsyncData(`content-${params.id}`, async () => {
+  const res = await getMorningdiary(params.id)
+
+  if (res.success) {
+    return res.data?.diary || null;
+  } else {
+    // 실패 처리
+    return null;
+  }
+});
+
+useServerSeoMeta({
+  title: () => record.data.value?.diary_name,
+  description: () => record.data.value?.content,
+  ogImage: () => "https://kr.object.ncloudstorage.com/looi/event_page_001.png",
+  ogTitle: () => record.data.value?.diary_name,
+  ogDescription: () => record.data.value?.content,
+  twitterTitle: () => record.data.value?.diary_name,
+  twitterDescription: () => record.data.value?.diary_name,
+});
+</script>
 <script>
 import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
@@ -299,18 +332,7 @@ export default {
     }
 
     this.diary = res.data.diary;
-    this.setSeoMeta(this.diary);
-
     if (type == 1) this.diary.keyword = JSON.parse(this.diary.main_keyword);
-    useServerSeoMeta({
-      title: () => this.diary.diary_name,
-      description: () => this.diary.content,
-      ogImage: () => "https://kr.object.ncloudstorage.com/looi/event_page_001.png",
-      ogTitle: () => this.diary.diary_name,
-      ogDescription: () => this.diary.content,
-      twitterTitle: () => this.diary.diary_name,
-      twitterDescription: () => this.diary.diary_name,
-    });
     this.isLoading = false;
   },
   methods: {
