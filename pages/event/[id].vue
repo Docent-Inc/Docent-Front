@@ -302,6 +302,15 @@ export default {
     this.setSeoMeta(this.diary);
 
     if (type == 1) this.diary.keyword = JSON.parse(this.diary.main_keyword);
+    useServerSeoMeta({
+      title: () => this.diary.diary_name,
+      description: () => this.diary.content,
+      ogImage: () => "https://kr.object.ncloudstorage.com/looi/event_page_001.png",
+      ogTitle: () => this.diary.diary_name,
+      ogDescription: () => this.diary.content,
+      twitterTitle: () => this.diary.diary_name,
+      twitterDescription: () => this.diary.diary_name,
+    });
     this.isLoading = false;
   },
   methods: {

@@ -46,7 +46,17 @@
     </div>
   </div>
 </template>
-
+<script setup>
+useServerSeoMeta({
+  title: () => "헉, 이 꿈 이런 뜻이였어?",
+  description: () => "최근 꿈으로 보는 나의 심리 상태",
+  ogImage: () => "https://kr.object.ncloudstorage.com/looi/event_page_002.png",
+  ogTitle: () => "헉, 이 꿈 이런 뜻이였어?",
+  ogDescription: () => "최근 꿈으로 보는 나의 심리 상태",
+  twitterTitle: () => "헉, 이 꿈 이런 뜻이였어?",
+  twitterDescription: () => "헉, 이 꿈 이런 뜻이였어?",
+});
+</script>
 <script>
 import {useDiaryService} from "../../services/diary";
 import { useUserStore } from "~/store/user";
