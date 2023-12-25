@@ -18,7 +18,7 @@ interface signupData {
 
 export const useAuthService = () => {
     const { SERVER_MODE } = useRuntimeConfig().public;
-    const { GET, POST, PUT, DELETE } = useAxios();
+    const { GET, POST, PUT, PATCH, DELETE } = useAxios();
 
     return {
         /**
@@ -47,7 +47,7 @@ export const useAuthService = () => {
          * @body user
          */
         async signup(data: signupData) {
-            return await POST(`/auth/update`, {
+            return await PATCH(`/auth/update`, {
                 ...data,
             });
         },
