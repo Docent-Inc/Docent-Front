@@ -12,22 +12,30 @@
         </div>
 
         <!-- 내용 -->
-        <div v-if="type === 1 || type === 2" class="chat-diary" @click="more">
-            <div class="chat-more">자세히 보러가기</div>
-            <img :src="result.content.image_url" />
-            <div class="chat-diary-title">{{ result.content.diary_name }}</div>
+        <div v-if="type === 1 || type === 2" class="chat-diary">
+            <div class="chat-diary-content">
+              <div class="chat-result-content">{{ limitedContentDiary }}</div>
+              <div class="chat-more-diary" @click="more">
+                <span class="chat-more-content">자세히 보러가기</span>
+              </div>
+            </div>
         </div>
 
-        <div v-if="type === 3 || type === 4">
-            <div class="chat-memo">
-                <div class="chat-more" @click="more">자세히 보러가기</div>
-                <div class="chat-memo-title">{{ result.content.title }}</div>
+        <div v-if="type === 3 || type === 4" class="chat-memo">
+            <div class="chat-memo-content">
                 <div
-                    class="chat-memo-content"
-                    v-if="result.content.content !== ''"
-                >
-                    {{ result.content.content }}
+                    class="chat-result-content"
+                    v-if="type === 3">
+                    {{ limitedContentMemo }}
                 </div>
+                <div
+                    class="chat-result-content"
+                    v-if="type === 4">
+                  {{ limitedContentCalendar }}
+                </div>
+              <div class="chat-more-memo" @click="more">
+                <span class="chat-more-content">자세히 보러가기</span>
+              </div>
             </div>
         </div>
     </div>
@@ -51,6 +59,27 @@ export default {
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
+        limitedContentDiary() {
+          const content = this.result.content.content;
+          const maxLength = 85;
+          return content.length > maxLength
+              ? content.substring(0, maxLength) + "..."
+              : content;
+        },
+        limitedContentMemo() {
+          const content = this.result.content.content;
+          const maxLength = 12;
+          return content.length > maxLength
+              ? content.substring(0, maxLength) + "..."
+              : content;
+        },
+        limitedContentCalendar() {
+          const content = this.result.content.title;
+          const maxLength = 12;
+          return content.length > maxLength
+              ? content.substring(0, maxLength) + "..."
+              : content;
+        },
         type_name() {
             switch (this.type) {
                 case 1:
@@ -141,85 +170,90 @@ export default {
         position: relative;
         margin-top: 16px;
         align-self: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 20px;
 
-        img {
-            width: 100%;
-            // width: 350px;
-            height: 305px;
-
-            object-fit: cover;
-        }
-        .chat-diary-title {
-            width: 100%;
-            padding: 12px;
-
-            font-family: "Pretendard Bold";
-            font-size: 14px;
-            line-height: 160%;
-
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-
-            color: #fff;
-            background: #6e6eff;
-        }
-    }
-
-    .chat-more {
-        font-family: "Pretendard";
-        font-size: 12px;
-        line-height: 160%; /* 19.2px */
-
+      .chat-diary-content {
+        width: 100%;
         border-radius: 8px;
-        padding: 6px 12px;
-        background: $vc-indigo-50;
-        color: $vc-indigo-500;
-
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 12px;
-        cursor: pointer;
-    }
-    .chat-more.disabled {
-        opacity: 0.5;
-    }
-    .chat-memo {
-        border-radius: 8px;
-        background: #fff;
+        background: #FFF;
         padding: 12px;
-        position: relative;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 20px;
 
-        color: #000;
-        font-size: 14px;
-        line-height: 20px;
-        margin-top: 0.94rem;
-        margin-bottom: 2.19rem;
+        .chat-result-content {
+          width: 100%;
+          color: var(--gray-500, #6B7280);
 
-        .chat-memo-title {
-            margin-right: 150px;
-            color: $vc-gray-700;
-            font-family: "Pretendard Bold";
-            font-size: 18px;
-            line-height: 160%; /* 28.8px */
-            max-width: 80%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+          /* b2/b2_reg_14 */
+          font-family: "Pretendard";
+          font-size: 14px;
         }
+        .chat-more-diary {
+          margin-top: 20px;
+          display: flex;
+          width: 100%;
+          height: 40px;
+          padding: 6px 12px;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          border-radius: 8px;
+          background: var(--indigo-50, #EEF2FF);
+        }
+        .chat-more-content {
+          color: var(--indigo-500, #6366F1);
+
+          /* c1/c1_reg_12 */
+          font-family: "Pretendard";
+          font-size: 12px;
+        }
+      }
+    }
+
+    .chat-memo {
+      margin-top: 16px;
+      display: inline-flex;
+      padding: 12px 12px 13px 12px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      background: #FFF;
 
         .chat-memo-content {
-            color: $vc-gray-400;
-            font-family: "Pretendard";
-            font-size: 14px;
-            line-height: 160%; /* 22.4px */
-            margin-top: 14.5px;
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          color: var(--gray-700, #374151);
+          /* h3/h3_bold_18 */
+          font-family: "Pretendard Bold";
+          font-size: 18px;
         }
+      .chat-more-memo {
+        display: flex;
+        width: 100px;
+        height: 100%;
+        right: 0;
+        padding: 6px 12px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 8px;
+        background: var(--indigo-50, #EEF2FF);
+      }
+      .chat-more-content {
+        color: var(--indigo-500, #6366F1);
+
+        /* c1/c1_reg_12 */
+        font-family: "Pretendard";
+        font-size: 12px;
+      }
     }
 }
 .chat-calendar {
@@ -249,4 +283,5 @@ export default {
 .button.disabled {
     opacity: 0.5;
 }
+
 </style>
