@@ -12,7 +12,7 @@ import {
 import axios from "axios";
 
 export const useDiaryService = () => {
-    const { GET, POST, PUT, PATCH, DELETE, cancelRequest } = useAxios();
+    const { GET, POST, PUT, PATCH, DELETE } = useAxios();
 
     return {
         /**
@@ -81,19 +81,6 @@ export const useDiaryService = () => {
             const url = `/memo/generate?memo_id=${memo_id}`;
             return await PATCH<RecordResModel>(url);
         },
-
-        // /**
-        //  * Looi 생성 취소
-        //  */
-        // async cancelGenerateMorningDiary(diary_id: number) {
-        //     const url = `/dream/generate?dream_id=${diary_id}`;
-        //     cancelRequest(url);
-        // },
-        //
-        // async cancelGenerateNightDiary(diary_id: number) {
-        //     const url = `/diary/generate?diary_id=${diary_id}`;
-        //     cancelRequest(url);
-        // },
 
         /**
          * 아침 다이어리 삭제 (꿈)
