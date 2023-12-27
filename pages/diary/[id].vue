@@ -155,13 +155,13 @@
                                 <span class="generate-text">제목, 키워드, 그림, 꿈 해석 생성하기</span>
                               </div>
                           </div>
-                          <div v-else-if="isLoading" class="bottom-generate-loading">
-                            <span class="bottom-diary-content-default-title-loading">Looi가 열심히 제목, 키워드, 그림을 생성하고 있어요!</span>
-                            <span class="bottom-diary-content-default-content-loading">잠시만 기다려주세요!</span>
-                            <div class="generate-loading" @click="cancelGenerate()">
-                              <span class="generate-text-loading">생성 취소하기</span>
-                            </div>
-                          </div>
+<!--                          <div v-else-if="isLoading" class="bottom-generate-loading">-->
+<!--                            <span class="bottom-diary-content-default-title-loading">Looi가 열심히 제목, 키워드, 그림을 생성하고 있어요!</span>-->
+<!--                            <span class="bottom-diary-content-default-content-loading">잠시만 기다려주세요!</span>-->
+<!--                            <div class="generate-loading" @click="cancelGenerate()">-->
+<!--                              <span class="generate-text-loading">생성 취소하기</span>-->
+<!--                            </div>-->
+<!--                          </div>-->
                         </div>
                         <div v-if="isGenerated" class="bottom-diary-content-desc">
                           {{ diary.resolution }}
@@ -181,13 +181,13 @@
                               <span class="generate-text">제목, 키워드, 그림, Looi의 답장 생성하기</span>
                             </div>
                           </div>
-                          <div v-else-if="isLoading" class="bottom-generate-loading">
-                            <span class="bottom-diary-content-default-title-loading">Looi가 열심히 제목, 키워드, 그림을 생성하고 있어요!</span>
-                            <span class="bottom-diary-content-default-content-loading">잠시만 기다려주세요!</span>
-                            <div class="generate-loading" @click="cancelGenerate()">
-                              <span class="generate-text-loading">생성 취소하기</span>
-                            </div>
-                          </div>
+<!--                          <div v-else-if="isLoading" class="bottom-generate-loading">-->
+<!--                            <span class="bottom-diary-content-default-title-loading">Looi가 열심히 제목, 키워드, 그림을 생성하고 있어요!</span>-->
+<!--                            <span class="bottom-diary-content-default-content-loading">잠시만 기다려주세요!</span>-->
+<!--                            <div class="generate-loading" @click="cancelGenerate()">-->
+<!--                              <span class="generate-text-loading">생성 취소하기</span>-->
+<!--                            </div>-->
+<!--                          </div>-->
                       </div>
                       <div v-if="isGenerated" class="bottom-diary-content-desc">
                         {{ diary.resolution }}
@@ -432,13 +432,17 @@ export default {
             }, 2500);
         },
         async handleGenerate() {
-          const cancelGenerate = this.cancelGenerate;
           const { generateMorningDiary, generateNightDiary } = useDiaryService();
           let res;
           this.isLoading = true;
 
+          this.$eventBus.$emit("onConfirmModal", {
+            title: "제목, 키워드, 그림, 해석을 생성하고 있어요!",
+            desc: "AI 생성에는 시간이 소요돼요. 잠시만 기다려주세요!",
+            callback: () => {
+            },
+          });
 
-          await cancelGenerate();
           console.log("generate", this.diary.id, this.type, "generate")
           if (this.type === "1") {
             res = await generateMorningDiary(this.diary.id);
@@ -465,21 +469,21 @@ export default {
           this.diary.keyword = JSON.parse(this.diary.main_keyword);
           this.isLoading = false;
         },
-      async cancelGenerate() {
-        this.$eventBus.$emit("onCustomModal", {
-          title: "제목, 키워드, 그림, 해석을 생성하고 있어요!",
-          desc: "AI 생성에는 시간이 소요돼요. 잠시만 기다려주세요!",
-          confirm: "확인",
-          cancel: "생성 취소하기",
-          callback: () => {}, // 확인 버튼 클릭 시 아무 동작도 수행하지 않음
-          cancelCallback: () => {
-            const { cancelGenerateMorningDiary, cancelGenerateNightDiary } = useDiaryService()
-            if (this.type === "1") cancelGenerateMorningDiary(this.diary.id);
-            else if (this.type === "2") cancelGenerateNightDiary(this.diary.id);
-            this.isLoading = false;
-          },
-        });
-      },
+      // async cancelGenerate() {
+      //   this.$eventBus.$emit("onCustomModal", {
+      //     title: "제목, 키워드, 그림, 해석을 생성하고 있어요!",
+      //     desc: "AI 생성에는 시간이 소요돼요. 잠시만 기다려주세요!",
+      //     confirm: "확인",
+      //     cancel: "생성 취소하기",
+      //     callback: () => {}, // 확인 버튼 클릭 시 아무 동작도 수행하지 않음
+      //     cancelCallback: () => {
+      //       const { cancelGenerateMorningDiary, cancelGenerateNightDiary } = useDiaryService()
+      //       if (this.type === "1") cancelGenerateMorningDiary(this.diary.id);
+      //       else if (this.type === "2") cancelGenerateNightDiary(this.diary.id);
+      //       this.isLoading = false;
+      //     },
+      //   });
+      // },
     },
 };
 </script>

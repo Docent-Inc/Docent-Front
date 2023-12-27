@@ -73,6 +73,15 @@ export const useDiaryService = () => {
             return await PATCH<RecordResModel>(url);
         },
 
+        /**
+         *  메모 Looi 생성
+         */
+
+        async generateMemo(memo_id: number) {
+            const url = `/memo/generate?memo_id=${memo_id}`;
+            return await PATCH<RecordResModel>(url);
+        },
+
         // /**
         //  * Looi 생성 취소
         //  */
