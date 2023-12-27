@@ -1,64 +1,104 @@
 <template>
-    <section class="viewport" :style="dynamicBackground">
-        <header class="header">
-            <Button class="btn_x" @click="this.$router.back()" />
+    <section class="viewport">
+      <header class="header">
+        <div class="left-items">
+          <Button class="ic_back" @click="this.$router.back()" />
+          <span v-if="type === '1'" class="header-title">꿈</span>
+          <span v-else class="header-title">일기</span>
+        </div>
+        <v-icon class="ic_url" @click="shareURL" />
+      </header>
 
-            <div class="btn_url" @click="shareURL">
-                <Icon class="ic_url" />
-                <span>URL 공유하기</span>
-            </div>
-        </header>
-
-        <article class="contents">
+      <article class="contents">
             <!-- 1. 상단 영역 (날짜, 제목) -->
             <div class="diary-title-box">
-                <div v-if="isLoading">
-                    <div class="diary-date__skeleton"></div>
-                    <div class="diary-title__skeleton"></div>
-                </div>
-                <div v-else>
+<!--                <div v-if="isLoading">-->
+<!--                  -->
+<!--                </div>-->
+<!--                <div v-else>-->
+                  <div class="diary-title-box-top">
                     <div class="diary-date">
-                        {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
+                      {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
                     </div>
-
-                    <div class="diary-title" @click="handleEditMode('title')">
-                        <input
-                            class="edit-input"
-                            ref="inputRef"
-                            v-if="isEditMode && editType === 'title'"
-                            v-model="diaryTitle"
-                            @blur="handleBlur('title')"
-                            :style="dynamicInputTop"
-                        />
-                        <div v-else>{{ diaryTitle || diary.diary_name }}</div>
+                    <div
+                        class="diary-delete"
+                        @click="onDelete"
+                    >
+                      <Icon class="ic_delete" />삭제하기
                     </div>
-
-                    <div class="tag-wrap">
-                        <div class="tag accent" v-for="tag in diary.keyword">
-                            {{ tag }}
+                  </div>
+                  <div v-if="diary.diary_name === ''">
+                    <div v-if="isLoading">
+                      <div class="diary-title-not-generate-title__skeleton"></div>
+                    </div>
+                    <div v-else-if="!isLoading">
+                      <div class="diary-title-not-generate">
+                        <div class="diary-title-not-generate-title" @click="handleEditMode('title')">
+                          <input
+                              class="edit-input"
+                              ref="inputRef"
+                              v-if="isEditMode && editType === 'title'"
+                              v-model="diaryTitle"
+                              @blur="handleBlur('title')"
+                          />
+                          <div v-else>{{ diaryTitle  || diary.diary_name}}</div>
                         </div>
+                      </div>
                     </div>
-                </div>
+                  </div>
+                  <div v-else>
+                    <div class="diary-title" @click="handleEditMode('title')">
+                      <input
+                          class="edit-input"
+                          ref="inputRef"
+                          v-if="isEditMode && editType === 'title'"
+                          v-model="diaryTitle"
+                          @blur="handleBlur('title')"
+                      />
+                      <div v-else>{{ diaryTitle }}</div>
+                    </div>
+                  </div>
+                    <div v-if="isGenerated">
+                      <div class="tag-wrap">
+                        <div class="tag accent" v-for="tag in diary.keyword">
+                          {{ tag }}
+                        </div>
+                      </div>
+                    </div>
+                    <div v-else-if="!isGenerated">
+                        <div v-if="isLoading">
+                          <div class="tag-not-generate__skeleton"></div>
+                        </div>
+                      <div v-else-if="!isLoading">
+                        <div class="tag-wrap">
+                          <div class="tag-not-generate">
+                            키워드 생성 전이에요!
+                          </div>
+                          <div class="tag-wrap">
+                          </div>
+                        </div>
+                      </div>
+<!--                    </div>-->
+                    </div>
+              <div v-if="isLoading">
+                <div class="diary-image__skeleton"></div>
+              </div>
             </div>
 
             <!-- 2. 중간 영역 (이미지, 삭제 버튼) -->
             <!-- maxWidth="calc((100vh - (60px + 20px)) * 0.6)" -->
-            <Image
-                class="diary-image"
-                :url="diary.image_url"
-                width="calc(100% - 40px)"
-                maxWidth="400px"
-            />
-            <div
-                class="diary-delete"
-                @click="onDelete"
-                :style="bottomTextColor"
-            >
-                <Icon class="ic_delete_white" />삭제하기
+            <div v-if="!isLoading" class="diary-image-div">
+              <Image
+                  class="diary-image"
+                  :url="diary.image_url"
+                  width="calc(100% - 40px)"
+                  maxWidth="400px"
+              />
             </div>
 
+
             <!-- 3. 바텀시트 영역 -->
-            <div class="bottom-container" :style="bottomTextColor">
+            <div class="bottom-container">
                 <div class="bottom-diary">
                     <div class="bottom-diary-content">
                         <div class="bottom-diary-content-title">
@@ -76,7 +116,6 @@
                                 v-if="isEditMode && editType === 'content'"
                                 v-model="diaryContent"
                                 @blur="handleBlur('content')"
-                                :style="dynamicInputBottom"
                             />
                             <LimitedLength
                                 :content="diaryContent"
@@ -101,17 +140,59 @@
                             ></div>
                         </div>
                     </div>
-
                     <div v-if="type == 1" class="bottom-diary-content">
                         <div class="bottom-diary-content-title">
                             <Icon class="ic_crystal" />꿈을 통해 본
                             {{ user?.nickname }}님의 마음
                         </div>
-
-                        <div class="bottom-diary-content-desc">
-                            {{ diary.resolution }}
+                        <div v-if="!isGenerated" class="bottom-diary-content-default">
+                          <span class="bottom-diary-content-default-title">아직 꿈 해석이 생성되기 전이에요!</span>
+                          <span class="bottom-diary-content-default-content">아래 버튼을 눌러주시면 Looi가 꿈을 해석해드려요.</span>
+                          <div v-if="!isLoading" class="bottom-generate">
+                              <span class="bottom-generate-title">기록에 약간의 마법을 불어넣어볼까요?</span>
+                              <span class="bottom-generate-content">직접 제목을 지으셨다면 지으신 제목은 유지되니 걱정하지마세요!</span>
+                              <div class="generate" @click="handleGenerate()">
+                                <span class="generate-text">제목, 키워드, 그림, 꿈 해석 생성하기</span>
+                              </div>
+                          </div>
+                          <div v-else-if="isLoading" class="bottom-generate-loading">
+                            <span class="bottom-diary-content-default-title-loading">Looi가 열심히 제목, 키워드, 그림을 생성하고 있어요!</span>
+                            <span class="bottom-diary-content-default-content-loading">잠시만 기다려주세요!</span>
+                            <div class="generate-loading" @click="cancelGenerate()">
+                              <span class="generate-text-loading">생성 취소하기</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div v-if="isGenerated" class="bottom-diary-content-desc">
+                          {{ diary.resolution }}
                         </div>
                     </div>
+                  <div v-if="type == 2" class="bottom-diary-content">
+                      <div class="bottom-diary-content-title">
+                          <Icon class="ic_reply" />Looi의 답장
+                      </div>
+                      <div v-if="!isGenerated" class="bottom-diary-content-default">
+                          <span class="bottom-diary-content-default-title">아직 답장이 생성되기 전이에요!</span>
+                          <span class="bottom-diary-content-default-content">아래 버튼을 눌러주시면 Looi가 일기에 답장해드려요.</span>
+                          <div v-if="!isLoading" class="bottom-generate">
+                            <span class="bottom-generate-title">기록에 약간의 마법을 불어넣어볼까요?</span>
+                            <span class="bottom-generate-content">직접 제목을 지으셨다면 지으신 제목은 유지되니 걱정하지마세요!</span>
+                            <div class="generate" @click="handleGenerate()">
+                              <span class="generate-text">제목, 키워드, 그림, Looi의 답장 생성하기</span>
+                            </div>
+                          </div>
+                          <div v-else-if="isLoading" class="bottom-generate-loading">
+                            <span class="bottom-diary-content-default-title-loading">Looi가 열심히 제목, 키워드, 그림을 생성하고 있어요!</span>
+                            <span class="bottom-diary-content-default-content-loading">잠시만 기다려주세요!</span>
+                            <div class="generate-loading" @click="cancelGenerate()">
+                              <span class="generate-text-loading">생성 취소하기</span>
+                            </div>
+                          </div>
+                      </div>
+                      <div v-if="isGenerated" class="bottom-diary-content-desc">
+                        {{ diary.resolution }}
+                      </div>
+                  </div>
                 </div>
             </div>
         </article>
@@ -151,8 +232,9 @@ export default {
         return {
             diary: {},
             type: "1",
-            isLoading: true,
+            isLoading: false,
             isOpen: false,
+            isGenerated: false,
             // 수정
             isEditMode: false,
             editType: "",
@@ -187,94 +269,6 @@ export default {
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
-        dynamicBackground() {
-            let background_color = `rgb(0, 0, 0)`;
-            let text_color = "#fff";
-
-            if (this.diary.background_color) {
-                const colorList = JSON.parse(this.diary.background_color);
-
-                if (colorList.length > 1) {
-                    background_color = `linear-gradient(rgb${colorList[0]}, rgb${colorList[1]})`;
-                    text_color = getTextColorForBackground([
-                        `rgb${colorList[0]}`,
-                    ]);
-                } else {
-                    background_color = `rgb${colorList[0]}`;
-                    text_color = getTextColorForBackground([
-                        `rgb${colorList[0]}`,
-                    ]);
-                }
-            }
-
-            return {
-                background: background_color,
-                color: text_color,
-            };
-        },
-        bottomTextColor() {
-            let text_color = "#fff";
-
-            if (this.diary.background_color) {
-                const colorList = JSON.parse(this.diary.background_color);
-
-                if (colorList.length > 1) {
-                    text_color = getTextColorForBackground([
-                        `rgb${colorList[1]}`,
-                    ]);
-                } else {
-                    text_color = getTextColorForBackground([
-                        `rgb${colorList[0]}`,
-                    ]);
-                }
-            }
-
-            return {
-                color: text_color,
-            };
-        },
-        dynamicInputTop() {
-            let text_color = "#fff";
-
-            if (this.diary.background_color) {
-                const colorList = JSON.parse(this.diary.background_color);
-
-                if (colorList.length > 1) {
-                    text_color = getTextColorForBackground([
-                        `rgb${colorList[0]}`,
-                    ]);
-                } else {
-                    text_color = getTextColorForBackground([
-                        `rgb${colorList[0]}`,
-                    ]);
-                }
-            }
-
-            return {
-                color: text_color,
-            };
-        },
-        dynamicInputBottom() {
-            let text_color = "#fff";
-
-            if (this.diary.background_color) {
-                const colorList = JSON.parse(this.diary.background_color);
-
-                if (colorList.length > 1) {
-                    text_color = getTextColorForBackground([
-                        `rgb${colorList[1]}`,
-                    ]);
-                } else {
-                    text_color = getTextColorForBackground([
-                        `rgb${colorList[0]}`,
-                    ]);
-                }
-            }
-
-            return {
-                color: text_color,
-            };
-        },
         bottomSheetTitle() {
             let type = this.type === "1" ? "꿈 해석" : "일기";
             if (this.type === "2" && !this.isOpen) type = "일기 자세히"; // 일기의 경우, '자세히' 보기
@@ -289,6 +283,7 @@ export default {
 
         const id = this.$route.params.id;
         const type = this.$route.query.type;
+        this.isLoading = true;
         this.type = type;
 
         const res =
@@ -305,8 +300,14 @@ export default {
         }
 
         this.diary = res.data.diary;
-
-        if (type == 1) this.diary.keyword = JSON.parse(this.diary.main_keyword);
+        this.isGenerated = res.data.diary.is_generated;
+        if (this.diary.diary_name === "") {
+          this.diaryTitle = "제목을 직접 입력해보세요!";
+        } else {
+          this.diaryTitle = this.diary.diary_name;
+        }
+        if (this.isGenerated) this.diary.keyword = JSON.parse(this.diary.main_keyword);
+        this.diary.resolution = res.data.diary.resolution;
         this.isLoading = false;
     },
     methods: {
@@ -430,6 +431,55 @@ export default {
                 this.isVisible = false;
             }, 2500);
         },
+        async handleGenerate() {
+          const cancelGenerate = this.cancelGenerate;
+          const { generateMorningDiary, generateNightDiary } = useDiaryService();
+          let res;
+          this.isLoading = true;
+
+
+          await cancelGenerate();
+          console.log("generate", this.diary.id, this.type, "generate")
+          if (this.type === "1") {
+            res = await generateMorningDiary(this.diary.id);
+          } else if (this.type === "2") {
+            res = await generateNightDiary(this.diary.id);
+          }
+
+          if (!res.success) {
+            this.$eventBus.$emit("onConfirmModal", {
+              title: "조회 실패하였습니다.",
+              desc: res.message,
+              callback: () => {
+                this.$router.back();
+              },
+            });
+          }
+
+          this.diary = res.data.diary;
+          this.diary.diary_name = res.data.diary.diary_name;
+          this.isGenerated = res.data.diary.is_generated;
+          this.diaryTitle = res.data.diary.diary_name;
+          this.diary.resolution = res.data.diary.resolution;
+          this.isGenerated = res.data.diary.is_generated;
+          this.diary.keyword = JSON.parse(this.diary.main_keyword);
+          this.isLoading = false;
+        },
+      async cancelGenerate() {
+        this.$eventBus.$emit("onCustomModal", {
+          title: "제목, 키워드, 그림, 해석을 생성하고 있어요!",
+          desc: "AI 생성에는 시간이 소요돼요. 잠시만 기다려주세요!",
+          confirm: "확인",
+          cancel: "생성 취소하기",
+          callback: () => {}, // 확인 버튼 클릭 시 아무 동작도 수행하지 않음
+          cancelCallback: () => {
+            const { cancelGenerateMorningDiary, cancelGenerateNightDiary } = useDiaryService()
+            if (this.type === "1") cancelGenerateMorningDiary(this.diary.id);
+            else if (this.type === "2") cancelGenerateNightDiary(this.diary.id);
+            this.isLoading = false;
+          },
+        });
+      },
     },
 };
 </script>
@@ -440,34 +490,22 @@ export default {
 }
 
 .header {
-    background: none;
+    background: #FFFFFF;
     border: none;
     justify-content: space-between;
 
     padding: 0 20px;
     // margin-top: 10%;
 
-    .btn_url {
-        border-radius: 8px;
-        background: rgba(0, 0, 0, 0.1);
-        padding: 6px 12px 6px 8px;
-
-        /* c1/c1_reg_12 */
-        color: var(--white, #fff);
-        font-family: "Pretendard";
-        font-size: 12px;
-        line-height: 160%; /* 19.2px */
-
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        text-align: center;
-
-        cursor: pointer;
-    }
+  .left-items {
+    gap: 10px;
+    display: flex; // 왼쪽 아이템들을 위한 Flex 컨테이너
+    align-items: center; // 세로 중앙 정렬
+  }
 }
 
 .contents {
+    background: var(--v2-gradient_bg_light, linear-gradient(0deg, #DED2FF -46.93%, #D2DAFF -31.6%, #DEE4FF -4.86%, #FFF 117.99%));
     // BottomSheet 높이: 108px =  calc(32px + (12px * 1.5) + 4px) + 40px + 14px;
     height: calc(100% - (60px));
     height: calc(100% - (60px + constant(safe-area-inset-top)));
@@ -482,13 +520,29 @@ export default {
     flex-direction: column;
     align-items: center;
     // justify-content: safe center; // safe를 넣지 않으면 상단이 잘리는 문제 발생, 아이폰에서 잘리는 문제 발생으로 주석처리
-
-    gap: 2rem;
+}
+.diary-image-div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.6rem;
 }
 
 .diary-image {
     border-radius: 0.94rem;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-bottom: 16px;
+
+  &__skeleton {
+        @include skeleton;
+        border-radius: 0.94rem;
+        margin-top: 16px;
+        aspect-ratio: 1/1;
+        width: 100%;
+        max-width: 500px;
+        margin-bottom: 16px;
+    }
 }
 
 .diary-title-box {
@@ -501,7 +555,8 @@ export default {
     justify-self: center;
 
     .tag-wrap {
-        margin-bottom: 1rem;
+        margin-top: 2rem;
+        margin-bottom: 1.6rem;
         /* border: 1px solid red; */
         flex-wrap: wrap;
     }
@@ -536,6 +591,7 @@ export default {
     font-family: "Pretendard Medium";
     font-size: 14px;
     line-height: 160%; /* 22.4px */
+    color: var(--gray-500, #6B7280);
 
     &__skeleton {
         @include skeleton;
@@ -545,23 +601,15 @@ export default {
 }
 
 .diary-delete {
-    /* c1/c1_reg_12 */
-    font-family: "Pretendard";
-    font-size: 12px;
-    line-height: 160%; /* 19.2px */
-
-    display: flex;
-    gap: 4px;
-    align-items: center;
-
-    align-self: flex-start;
-    margin: 0 20px;
-
-    /* z-index: 2; // 바텀 시트 때문에 z-index 추가 */
+  display: flex;
+  color: var(--gray-400, #9CA3AF);
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
 }
 
 .bottom-diary {
-    margin-bottom: 60px;
+    //margin-bottom: 30px;
     padding: 0 2rem;
     .bottom-diary-title-box {
         display: flex;
@@ -569,10 +617,9 @@ export default {
         gap: 4px;
     }
     .bottom-diary-content {
-        margin: 2rem 0 3rem 0;
-
+        margin-top: 12px;
         .bottom-diary-content-title {
-            /* color: var(--white, #fff); */
+            color: var(--gray-700, #374151);
 
             /* b1/b1_bold_16 */
             font-family: "Pretendard Bold";
@@ -586,7 +633,8 @@ export default {
         }
 
         .bottom-diary-content-desc {
-            /* color: var(--white, #fff); */
+            width: 100%;
+            color: var(--gray-500, #6B7280);
 
             /* b2/b2_reg_14 */
             font-family: "Pretendard";
@@ -607,6 +655,9 @@ export default {
     height: auto;
     border-radius: $border-radius-default;
     padding: 0.4rem 0.6rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
 
     &.content {
         height: 20rem;
@@ -619,5 +670,207 @@ textarea:focus {
 }
 .bottom-container {
     width: 100%;
+}
+.ic_url {
+  display: flex;
+  width: 115px;
+  height: 31px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 8px;
+}
+.header-title {
+  text-align: left;
+  color: var(--gray-800, #1F2937);
+  font-family: "Pretendard SemiBold";
+  font-size: 16px;
+  line-height: 150%;
+}
+.bottom-diary-content-default {
+  width: 100%;
+  height: 110px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(8px);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.bottom-diary-content-default-title {
+  color: var(--gray-600, #4B5563);
+  text-align: center;
+  margin-top: 33px;
+  font-family: "Pretendard Bold";
+  font-size: 16px;
+  line-height: 160%;
+}
+.bottom-diary-content-default-content {
+  color: var(--gray-500, #6B7280);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+}
+.bottom-diary-content {
+  margin-top: 8px;
+  border-radius: 8px;
+  background: var(--white, #FFF);
+  display: inline-flex;
+  padding: 12px;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 10px;
+}
+.bottom-generate {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  width: 100vw !important;
+  max-width: 500px;
+  flex-direction: column;
+  margin-top: 66px;
+  padding: 0 20px;
+  height: 161px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) -10.8%, rgba(255, 255, 255, 0.39) 39.17%, #FFF 100%);
+  flex-shrink: 0;
+}
+.generate {
+  width: 100%;
+  height: 48px;
+  margin-top: 12px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--v2-CTA_accent, #9398FF);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.generate-text {
+  color: var(--white, #FFF);
+  text-align: center;
+  font-family: "Pretendard Bold";
+  font-size: 16px;
+  line-height: 160%;
+}
+.bottom-generate-title {
+  margin-top: 36px;
+  color: var(--indigo-500, #6366F1);
+  text-align: center;
+  font-family: "Pretendard Bold";
+  font-size: 14px;
+  line-height: 160%;
+}
+.bottom-generate-content {
+  color: var(--gray-400, #9CA3AF);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+}
+.diary-title-box-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.diary-title-not-generate {
+  padding: 0 12px;
+  width: 100%;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--indigo-50, #EEF2FF);
+  align-items: center;
+  display: flex;
+}
+
+.diary-title-not-generate-title {
+  color: var(--gray-400, #9CA3AF);
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+
+  &__skeleton {
+    @include skeleton;
+    width: 100%;
+    height: 48px;
+    border-radius: 8px;
+  }
+}
+.tag-not-generate {
+  display: inline-flex;
+  padding: 6px 11px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  background: rgba(145, 145, 145, 0.20);
+  color: var(--gray-500, #6B7280);
+  font-family: "Pretendard Bold";
+  font-size: 12px;
+  line-height: 160%; /* 19.2px */
+
+  &__skeleton {
+    @include skeleton;
+    width: 100%;
+    margin-top: 32px;
+    height: 31px;
+    border-radius: 12px;
+  }
+}
+.bottom-generate-loading {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  width: 100vw !important;
+  max-width: 500px;
+  flex-direction: column;
+  margin-top: 66px;
+  padding: 0 20px;
+  height: 161px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) -10.8%, rgba(255, 255, 255, 0.39) 39.17%, #FFF 100%) !important;
+  flex-shrink: 0;
+}
+.bottom-diary-content-default-title-loading {
+  color: var(--indigo-500, #6366F1);
+  text-align: center;
+  margin-top: 33px;
+  font-family: "Pretendard Bold";
+  font-size: 14px;
+  line-height: 160%;
+}
+.bottom-diary-content-default-content-loading {
+  color: var(--gray-400, #9CA3AF);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+}
+.generate-loading {
+  width: 100%;
+  height: 48px;
+  margin-top: 12px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--indigo-100, #E0E7FF);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.generate-text-loading {
+  color: var(--indigo-400, #6568FE);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 16px;
+  line-height: 160%;
 }
 </style>

@@ -56,6 +56,7 @@ interface Diary {
     create_date: string;
     modify_date: string;
     is_deleted: boolean;
+    is_generated: boolean;
 
     // 해몽 내용 (꿈인 경우에만 사용)
     is_completed?: boolean;

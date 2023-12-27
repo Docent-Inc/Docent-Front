@@ -53,6 +53,7 @@ export default {
         },
         cancel() {
             this.visible = false;
+            if (this.cancelCallback) this.cancelCallback();
             this.callback = null;
         },
     },

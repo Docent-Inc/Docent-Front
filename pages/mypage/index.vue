@@ -12,10 +12,10 @@
                 <span class="nickname-color">{{ user?.nickname }}</span
                 >님의 기록공간
             </p>
-            <v-icon
-                :class="[mode === 0 ? 'ic_list' : 'ic_board', !type && 'blind']"
-                @click="changeMode()"
-            />
+<!--            <v-icon-->
+<!--                :class="[mode === 0 ? 'ic_list' : 'ic_board', !type && 'blind']"-->
+<!--                @click="changeMode()"-->
+<!--            />-->
         </div>
 
         <!-- (2) 통계 영역 -->
