@@ -171,8 +171,8 @@
 .nav_default {
     background: url("../images/commons/navigations/nav_docent.svg") no-repeat
         center/cover;
-    // width: 60px;
-    // height: 60px;
+    width: 73px !important;
+    height: 52px !important;
     background-size: contain;
     display: block;
 }
@@ -180,6 +180,8 @@
 .nav_default.active {
     background: url("../images/commons/navigations/nav_docent_active.svg")
         no-repeat center/cover;
+    width: 73px !important;
+    height: 52px !important;
     background-size: contain;
     display: block;
 }
@@ -439,6 +441,13 @@
 }
 .ic_memo {
     background: url("../images/pages/report/ic_memo.svg") no-repeat center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.ic_reply {
+    background: url("../images/pages/report/ic_reply.svg") no-repeat center/cover;
     width: 24px;
     height: 24px;
     display: block;

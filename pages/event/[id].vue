@@ -1,11 +1,7 @@
 <template>
-  <section class="viewport" :style="dynamicBackground">
+  <section class="viewport">
     <header class="header">
-
-      <div class="btn_url" @click="shareURL">
-        <Icon class="ic_url" />
-        <span>URL 공유하기</span>
-      </div>
+        <Icon class="ic_url" @click="shareURL"/>
     </header>
 
     <article class="contents" :class="{'contents-shared': shared}">
@@ -23,8 +19,15 @@
           <div class="diary-title__skeleton"></div>
         </div>
         <div v-else>
-          <div class="diary-date">
-            {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
+          <div class="diary-title-box-header">
+            <div class="diary-date">
+              {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
+            </div>
+            <div
+                class="diary-delete"
+                @click="onDelete"
+            >
+            </div>
           </div>
 
           <div class="diary-title">
@@ -34,7 +37,6 @@
                 v-if="isEditMode && editType === 'title'"
                 v-model="diaryTitle"
                 @blur="handleBlur('title')"
-                :style="dynamicInputTop"
             />
             <div v-else>{{ diaryTitle || diary.diary_name }}</div>
           </div>
@@ -55,15 +57,9 @@
           width="calc(100% - 40px)"
           maxWidth="400px"
       />
-      <div
-          class="diary-delete"
-          @click="onDelete"
-          :style="bottomTextColor"
-      >
-      </div>
 
       <!-- 3. 바텀시트 영역 -->
-      <div class="bottom-container" :style="bottomTextColor">
+      <div class="bottom-container">
         <div class="bottom-diary">
           <div class="bottom-diary-content">
             <div class="bottom-diary-content-title">
@@ -80,7 +76,6 @@
                                 v-if="isEditMode && editType === 'content'"
                                 v-model="diaryContent"
                                 @blur="handleBlur('content')"
-                                :style="dynamicInputBottom"
                             />
               <LimitedLength
                   :content="diaryContent"
@@ -108,8 +103,7 @@
 
           <div v-if="type == 1" class="bottom-diary-content">
             <div class="bottom-diary-content-title">
-              <Icon class="ic_crystal" />꿈을 통해 본
-              {{ user?.nickname }}님의 마음
+              <Icon class="ic_crystal" />꿈을 통해 본 사용자님의 마음
             </div>
 
             <div class="bottom-diary-content-desc">
@@ -132,8 +126,8 @@
     <v-icon class="ic_start" @click="start"/>
   </div>
   <div v-if="shared === 'false'" class="bottom-blur">
-    <v-icon class="ic_event_down_1" @click="goService"/>
-    <v-icon class="ic_event_down_2" @click="goService"/>
+    <v-icon class="ic_event_down_1" @click="goSave"/>
+    <v-icon class="ic_event_down_2" @click="goOther"/>
   </div>
 </template>
 <script setup>
@@ -210,94 +204,6 @@ export default {
   },
   computed: {
     ...mapState(useUserStore, ["user"]),
-    dynamicBackground() {
-      let background_color = `rgb(0, 0, 0)`;
-      let text_color = "#fff";
-
-      if (this.diary.background_color) {
-        const colorList = JSON.parse(this.diary.background_color);
-
-        if (colorList.length > 1) {
-          background_color = `linear-gradient(rgb${colorList[0]}, rgb${colorList[1]})`;
-          text_color = getTextColorForBackground([
-            `rgb${colorList[0]}`,
-          ]);
-        } else {
-          background_color = `rgb${colorList[0]}`;
-          text_color = getTextColorForBackground([
-            `rgb${colorList[0]}`,
-          ]);
-        }
-      }
-
-      return {
-        background: background_color,
-        color: text_color,
-      };
-    },
-    bottomTextColor() {
-      let text_color = "#fff";
-
-      if (this.diary.background_color) {
-        const colorList = JSON.parse(this.diary.background_color);
-
-        if (colorList.length > 1) {
-          text_color = getTextColorForBackground([
-            `rgb${colorList[1]}`,
-          ]);
-        } else {
-          text_color = getTextColorForBackground([
-            `rgb${colorList[0]}`,
-          ]);
-        }
-      }
-
-      return {
-        color: text_color,
-      };
-    },
-    dynamicInputTop() {
-      let text_color = "#fff";
-
-      if (this.diary.background_color) {
-        const colorList = JSON.parse(this.diary.background_color);
-
-        if (colorList.length > 1) {
-          text_color = getTextColorForBackground([
-            `rgb${colorList[0]}`,
-          ]);
-        } else {
-          text_color = getTextColorForBackground([
-            `rgb${colorList[0]}`,
-          ]);
-        }
-      }
-
-      return {
-        color: text_color,
-      };
-    },
-    dynamicInputBottom() {
-      let text_color = "#fff";
-
-      if (this.diary.background_color) {
-        const colorList = JSON.parse(this.diary.background_color);
-
-        if (colorList.length > 1) {
-          text_color = getTextColorForBackground([
-            `rgb${colorList[1]}`,
-          ]);
-        } else {
-          text_color = getTextColorForBackground([
-            `rgb${colorList[0]}`,
-          ]);
-        }
-      }
-
-      return {
-        color: text_color,
-      };
-    },
     bottomSheetTitle() {
       let type = this.type === "1" ? "꿈 해석" : "일기";
       if (this.type === "2" && !this.isOpen) type = "일기 자세히"; // 일기의 경우, '자세히' 보기
@@ -383,8 +289,12 @@ export default {
           `/event`,
       )
     },
-    async goService() {
-      const url = "https://pf.kakao.com/_vNxnRG/103064091";
+    async goSave() {
+      const url = "http://pf.kakao.com/_vNxnRG/103441734";
+      window.open(url, "_blank");
+    },
+    async goOther() {
+      const url = "http://pf.kakao.com/_vNxnRG";
       window.open(url, "_blank");
     },
     async shareURL() {
@@ -536,9 +446,13 @@ export default {
   overflow: visible;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-
   justify-self: center;
+
+  .diary-title-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
   .tag-wrap {
     margin-bottom: 1rem;
@@ -589,6 +503,7 @@ export default {
   font-family: "Pretendard";
   font-size: 12px;
   line-height: 160%; /* 19.2px */
+  color: var(--gray-400, #9CA3AF) !important;
 
   display: flex;
   gap: 4px;
@@ -606,7 +521,6 @@ export default {
   .bottom-diary-title-box {
     display: flex;
     flex-direction: column;
-    gap: 4px;
   }
   .bottom-diary-content {
     margin: 2rem 0 3rem 0;
@@ -634,6 +548,8 @@ export default {
       line-height: 160%; /* 22.4px */
 
       margin-top: 8px;
+      text-overflow: ellipsis;
+      white-space: normal;
     }
   }
 }
@@ -656,6 +572,10 @@ export default {
 textarea:focus {
   border: none;
   outline: 2.5px solid #ffffff35;
+  display: flex;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
 }
 .bottom-container {
   width: 100%;
@@ -720,5 +640,14 @@ textarea:focus {
 }
 .contents-header-title span[lang="en"] {
   font-family: "Pretendard Bold";
+}
+.ic_url {
+  display: flex;
+  width: 115px;
+  height: 31px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 8px;
 }
 </style>

@@ -7,33 +7,68 @@
         <div class="contents">
             <div class="memo-contents memo-contents-1">
                 <div class="memo-date-n-button">
-                    <div class="memo-date__skeleton" v-if="isLoading"></div>
-                    <div class="memo-date" v-else>
+                    <div class="memo-date">
                         {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
                     </div>
                     <div class="memo-delete" @click="onDelete">
                         <Icon class="ic_delete" />삭제하기
                     </div>
                 </div>
-
-                <div class="memo-title__skeleton" v-if="isLoading"></div>
-                <div class="memo-title" @click="handleEditMode('title')">
-                    <input
-                        class="edit-input"
-                        ref="inputRef"
-                        v-if="isEditMode && editType === 'title'"
-                        v-model="memoTitle"
-                        @blur="handleBlur('title')"
-                    />
-                    <div v-else>{{ memoTitle || memo.title }}</div>
+              <div v-if="memo.title === ''">
+                <div v-if="isLoading">
+                  <div class="memo-title-not-generate-title__skeleton"></div>
                 </div>
-            </div>
-            <div class="memo-contents memo-contents-2">
-                <div class="tag-wrap">
-                    <div class="tag primary" v-for="keyword in memo.keyword">
-                        {{ keyword }}
+                <div v-else-if="!isLoading">
+                  <div class="memo-title-not-generate">
+                    <div class="memo-title-not-generate-title" @click="handleEditMode('title')">
+                      <input
+                          class="edit-input"
+                          ref="inputRef"
+                          v-if="isEditMode && editType === 'title'"
+                          v-model="memoTitle"
+                          @blur="handleBlur('title')"
+                      />
+                      <div v-else>{{ memoTitle  || memo.title }}</div>
                     </div>
+                  </div>
                 </div>
+              </div>
+              <div v-else>
+                <div class="memo-title" @click="handleEditMode('title')">
+                  <input
+                      class="edit-input"
+                      ref="inputRef"
+                      v-if="isEditMode && editType === 'title'"
+                      v-model="memoTitle"
+                      @blur="handleBlur('title')"
+                  />
+                  <div v-else>{{ memoTitle || memo.title }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="contents-body">
+            <div class="memo-contents memo-contents-2">
+              <div v-if="isGenerated">
+                <div class="tag-wrap">
+                  <div class="tag accent" v-for="tag in memo.keyword">
+                    {{ tag }}
+                  </div>
+                </div>
+              </div>
+              <div v-else-if="!isGenerated">
+                <div v-if="isLoading">
+                  <div class="tag-not-generate__skeleton"></div>
+                </div>
+                <div v-else-if="!isLoading">
+                  <div class="tag-wrap">
+                    <div class="tag-not-generate">
+                      키워드 생성 전이에요!
+                    </div>
+                    <div class="tag-wrap">
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div
                   class="bottom-memo-content-desc"
                   @click="handleEditMode('content')"
@@ -67,7 +102,17 @@
                 ></div>
               </div>
             </div>
-        </div>
+            <div v-if="!isGenerated" class="bottom-diary-content-default">
+              <div v-if="!isLoading" class="bottom-generate">
+                <span class="bottom-generate-title">Looi가 제목과 키워드를 자동으로 지어줘요!</span>
+                <span class="bottom-generate-content">직접 제목을 지으셨다면 지으신 제목은 유지되니 걱정하지마세요!</span>
+                <div class="generate" @click="handleGenerate()">
+                  <span class="generate-text">제목과 키워드 생성하기</span>
+                </div>
+              </div>
+            </div>
+            </div>
+      </div>
       <Toast
           v-if="isVisible"
           @click="isVisible = false"
@@ -78,9 +123,9 @@
 </template>
 <script>
 import Icon from "~/components/common/Icon.vue";
+import { useDiaryService } from "../../services/diary";
 import Toast from "~/components/common/Toast.vue";
 import LimitedLength from "~/components/common/LimitedLength.vue";
-import { useDiaryService } from "../../services/diary";
 
 export default {
     name: "Memo",
@@ -95,6 +140,7 @@ export default {
             memoContent: "",
             isVisible: false,
             successMessage: "",
+            isGenerated: false,
         };
     },
     async mounted() {
@@ -113,7 +159,15 @@ export default {
         }
 
         this.memo = res.data.memo;
-        this.memo.keyword = JSON.parse(this.memo.tags);
+        if (this.memo.title === "") {
+          this.memoTitle = "제목을 직접 입력해보세요!";
+        } else {
+          this.memoTitle = this.memo.title;
+        }
+        if (this.memo.is_generated){
+          this.isGenerated = true;
+          this.memo.keyword = JSON.parse(this.memo.tags);
+        }
         this.isLoading = false;
     },
     computed: {},
@@ -192,6 +246,37 @@ export default {
                 this.isVisible = false;
             }, 2500);
         },
+      async handleGenerate() {
+        const { generateMemo } = useDiaryService();
+        let res;
+        this.isLoading = true;
+
+        this.$eventBus.$emit("onConfirmModal", {
+          title: "제목과 키워드를 생성하고 있어요!",
+          desc: "AI 생성에는 시간이 소요돼요. 잠시만 기다려주세요!",
+          callback: () => {
+          },
+        });
+
+        res = await generateMemo(this.memo.id);
+
+        if (!res.success) {
+          this.$eventBus.$emit("onConfirmModal", {
+            title: "조회 실패하였습니다.",
+            desc: res.message,
+            callback: () => {
+              this.$router.back();
+            },
+          });
+        }
+
+        this.memo = res.data.memo;
+        this.memo.keyword = JSON.parse(this.memo.tags);
+        this.isGenerated = true;
+        this.memoTitle = this.memo.title;
+        this.memoContent = this.memo.content;
+        this.isLoading = false;
+      },
     },
     components: { Icon, Toast, LimitedLength },
 };
@@ -216,11 +301,9 @@ export default {
     margin-left: 10px;
 }
 
-.memo-contents {
-    padding: 20px;
-}
 .memo-contents-1 {
     width: 100%;
+    padding: 20px;
     background: linear-gradient(
         27deg,
         #ded2ff -75.98%,
@@ -283,11 +366,18 @@ export default {
         }
     }
 }
-
+.tag-wrap {
+  margin: 20px 0 20px 0;
+}
+.tag.accent {
+  border-radius: 12px;
+  background: rgba(167, 139, 250, 0.20) !important;
+  color: var(--violet-400, #A78BFA);
+  font-family: "Pretendard Bold";
+  font-size: 12px;
+  line-height: 160%; /* 19.2px */
+}
 .memo-contents-2 {
-    .tag-wrap {
-        margin: 0 0 20px;
-    }
 
     .memo-content {
         color: var(--gray-500, #6b7280);
@@ -311,12 +401,12 @@ export default {
 }
 .edit-input {
   margin-top: 0.4rem;
-  border: 2.5px #ffffff !important;
-  background-color: #ffffff15;
+  border-radius: 8px;
+  border: 1px solid var(--indigo-400, #6568FE);
+  background: var(--white, #FFF);
   color: #1f2937;
   width: 100%;
   height: auto;
-  border-radius: $border-radius-default;
   padding: 0.4rem 0.6rem;
 
   &.content {
@@ -325,10 +415,147 @@ export default {
 }
 .edit-input {
   border: 2px solid #cccccc; /* 기본 태두리 색상 */
-  outline: none; /* 포커스시 테두리 제거 */
 }
 
 .edit-input:focus {
-  border-color: #666666; /* 포커스 시 태두리 색상 */
+  border-radius: 8px;
+  border: 1px solid var(--indigo-400, #6568FE);
+  background: var(--white, #FFF);
+}
+.bottom-diary-content-default {
+  width: 100%;
+  height: 110px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(8px);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.bottom-generate {
+  margin-top: auto;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  width: 100vw !important;
+  max-width: 500px;
+  flex-direction: column;
+  padding: 0 20px;
+  height: 161px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) -10.8%, rgba(255, 255, 255, 0.39) 39.17%, #FFF 100%);
+  flex-shrink: 0;
+}
+.bottom-generate-title {
+  margin-top: 36px;
+  color: var(--indigo-500, #6366F1);
+  text-align: center;
+  font-family: "Pretendard Bold";
+  font-size: 14px;
+  line-height: 160%;
+}
+.bottom-generate-content {
+  color: var(--gray-400, #9CA3AF);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+}
+.generate {
+  width: 100%;
+  height: 48px;
+  margin-top: 12px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--v2-CTA_accent, #9398FF);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.generate-text {
+  color: var(--white, #FFF);
+  text-align: center;
+  font-family: "Pretendard Bold";
+  font-size: 16px;
+  line-height: 160%;
+}
+.memo-title-not-generate-title {
+  color: var(--gray-400, #9CA3AF);
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+
+
+  &__skeleton {
+    @include skeleton;
+    width: 100%;
+    height: 48px;
+    border-radius: 8px;
+  }
+}
+.tag-not-generate {
+  display: inline-flex;
+  padding: 6px 11px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  background: rgba(145, 145, 145, 0.20);
+  color: var(--gray-500, #6B7280);
+  font-family: "Pretendard Bold";
+  font-size: 12px;
+  line-height: 160%; /* 19.2px */
+
+  &__skeleton {
+    @include skeleton;
+    width: 100%;
+    margin-top: 32px;
+    height: 31px;
+    border-radius: 12px;
+  }
+}
+.memo-title-box-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.memo-title-not-generate {
+  padding: 0 12px;
+  width: 100%;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  margin-top: 4px;
+  align-items: center;
+  display: flex;
+  border-radius: 8px;
+  background: var(--white, #FFF);
+}
+
+.memo-title-not-generate-title {
+  color: var(--gray-400, #9CA3AF);
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+
+  &__skeleton {
+    @include skeleton;
+    width: 100%;
+    height: 48px;
+    border-radius: 8px;
+  }
+}
+.contents-body {
+  width: 100%;
+  min-height: calc(100% - 180px);
+  padding: 0 20px;
+  flex-direction: column;
+  justify-content: space-between;
+  display: flex;
 }
 </style>

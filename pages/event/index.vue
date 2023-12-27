@@ -84,7 +84,7 @@ export default {
       }
       const { setAccessToken  } = useUserStore();
       setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0d2NobzAyMDVAZ21haWwuY29tIiwiZXhwIjoxNDMwMDk4MDQ3Mn0._7CobpeILug91YsayMUsGONO2oddYYpUIpL7hNSuw08");
-      const { postMorningDiary } = useDiaryService();
+      const { postMorningDiary, generateMorningDiary } = useDiaryService();
       const data = {
         content: this.data,
       };
@@ -92,9 +92,21 @@ export default {
       this.data = "";
       const res = await postMorningDiary(data);
       if (res.success) {
+        console.log(res.data.diary.id);
+        const res_data = await generateMorningDiary(res.data.diary.id);
+        console.log(res_data);
+        if (res_data.success){
           this.$router.push(
-              `/event/${res.data.diary.id}?shared=false`,
+              `/event/${res_data.data.diary.id}?shared=false`,
           )
+        }
+        else {
+          this.isLoading = false;
+          this.$eventBus.$emit("onConfirmModal", {
+            title: "꿈 해석 생성에 실패했습니다.",
+            desc: res.message,
+          });
+        }
       }
       else {
         this.isLoading = false;

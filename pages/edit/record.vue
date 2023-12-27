@@ -98,14 +98,14 @@
             </div>
         </div>
     </form>
-    <Toast
-        v-if="isMakingProcess"
-        @click="isMakingProcess = false"
-        text="기록을 토대로 그림을 생성하고 있어요!"
-        subText="약 15초 정도 기다려주시면 그림과 기록이 저장돼요."
-        :top="60"
-        :align="'center'"
-    />
+<!--    <Toast-->
+<!--        v-if="isMakingProcess"-->
+<!--        @click="isMakingProcess = false"-->
+<!--        text="기록을 토대로 그림을 생성하고 있어요!"-->
+<!--        subText="약 15초 정도 기다려주시면 그림과 기록이 저장돼요."-->
+<!--        :top="60"-->
+<!--        :align="'center'"-->
+<!--    />-->
 </template>
 <script>
 import { mapState, mapActions } from "pinia";
@@ -272,7 +272,7 @@ export default {
                         tab: this.typeNameEN,
                     },
                 });
-            }, 2000);
+            }, 1000);
             if (this.type === 3) return;
             // 꿈, 일기, 메모
             this.isMakingProcess = true;

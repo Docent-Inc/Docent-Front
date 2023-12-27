@@ -1,5 +1,5 @@
 // composables/useApi.ts
-import axios, { type AxiosResponse, type AxiosRequestConfig } from "axios";
+import axios, {type AxiosResponse, type AxiosRequestConfig} from "axios";
 import { useUserStore } from "~/store/user";
 
 interface BaseResponse<T> {
@@ -8,12 +8,10 @@ interface BaseResponse<T> {
     message: string;
     data: T;
 }
-
+// const pendingRequests = new Map(); // 전역 변수로 정의
 export function useAxios() {
     const { SERVER_MODE, BASE_URL } = useRuntimeConfig().public;
 
-    // console.log("SERVER_MODE", SERVER_MODE);
-    // console.log("BASE_URL", BASE_URL);
 
     const API = axios.create({
         baseURL: BASE_URL,
@@ -29,7 +27,6 @@ export function useAxios() {
             if (accessToken) {
                 config.headers["Authorization"] = `Bearer ${accessToken}`;
             }
-
             return config;
         },
         (error) => {
