@@ -447,8 +447,6 @@ export default {
   overflow: visible;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-
   justify-self: center;
 
   .diary-title-box-header {
@@ -524,7 +522,6 @@ export default {
   .bottom-diary-title-box {
     display: flex;
     flex-direction: column;
-    gap: 4px;
   }
   .bottom-diary-content {
     margin: 2rem 0 3rem 0;

@@ -42,10 +42,11 @@
                       v-model="memoTitle"
                       @blur="handleBlur('title')"
                   />
-                  <div v-else>{{ memoTitle }}</div>
+                  <div v-else>{{ memoTitle || memo.title }}</div>
                 </div>
               </div>
             </div>
+            <div class="contents-body">
             <div class="memo-contents memo-contents-2">
               <div v-if="isGenerated">
                 <div class="tag-wrap">
@@ -110,9 +111,8 @@
                 </div>
               </div>
             </div>
-
-
-        </div>
+            </div>
+      </div>
       <Toast
           v-if="isVisible"
           @click="isVisible = false"
@@ -123,7 +123,7 @@
 </template>
 <script>
 import Icon from "~/components/common/Icon.vue";
-import { useDiaryService } from "~/services/diary";
+import { useDiaryService } from "../../services/diary";
 import Toast from "~/components/common/Toast.vue";
 import LimitedLength from "~/components/common/LimitedLength.vue";
 
@@ -244,7 +244,7 @@ export default {
             // 추후 실행취소 기능 필요
             setTimeout(() => {
                 this.isVisible = false;
-            }, 2000);
+            }, 2500);
         },
       async handleGenerate() {
         const { generateMemo } = useDiaryService();
@@ -291,12 +291,6 @@ export default {
     margin-top: 60px;
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    .memo-contents-1, .memo-contents-2 {
-      flex-shrink: 0 !important;
-    }
 }
 
 .memo {
@@ -307,11 +301,9 @@ export default {
     margin-left: 10px;
 }
 
-.memo-contents {
-    padding: 20px;
-}
 .memo-contents-1 {
     width: 100%;
+    padding: 20px;
     background: linear-gradient(
         27deg,
         #ded2ff -75.98%,
@@ -374,16 +366,18 @@ export default {
         }
     }
 }
-
+.tag-wrap {
+  margin: 20px 0 20px 0;
+}
+.tag.accent {
+  border-radius: 12px;
+  background: rgba(167, 139, 250, 0.20) !important;
+  color: var(--violet-400, #A78BFA);
+  font-family: "Pretendard Bold";
+  font-size: 12px;
+  line-height: 160%; /* 19.2px */
+}
 .memo-contents-2 {
-  flex-shrink: 0; // 축소 방지
-    .tag-wrap {
-        margin: 0 0 20px;
-    }
-  .tag .accent {
-    border-radius: 12px;
-    background: rgba(167, 139, 250, 0.20);
-  }
 
     .memo-content {
         color: var(--gray-500, #6b7280);
@@ -407,12 +401,12 @@ export default {
 }
 .edit-input {
   margin-top: 0.4rem;
-  border: 2.5px #ffffff !important;
-  background-color: #ffffff15;
+  border-radius: 8px;
+  border: 1px solid var(--indigo-400, #6568FE);
+  background: var(--white, #FFF);
   color: #1f2937;
   width: 100%;
   height: auto;
-  border-radius: $border-radius-default;
   padding: 0.4rem 0.6rem;
 
   &.content {
@@ -421,11 +415,12 @@ export default {
 }
 .edit-input {
   border: 2px solid #cccccc; /* 기본 태두리 색상 */
-  outline: none; /* 포커스시 테두리 제거 */
 }
 
 .edit-input:focus {
-  border-color: #666666; /* 포커스 시 태두리 색상 */
+  border-radius: 8px;
+  border: 1px solid var(--indigo-400, #6568FE);
+  background: var(--white, #FFF);
 }
 .bottom-diary-content-default {
   width: 100%;
@@ -440,8 +435,7 @@ export default {
   flex-direction: column;
 }
 .bottom-generate {
-  flex-grow: 1 !important;
-  margin-top: auto !important;
+  margin-top: auto;
   text-align: center;
   display: flex;
   align-items: center;
@@ -555,5 +549,13 @@ export default {
     height: 48px;
     border-radius: 8px;
   }
+}
+.contents-body {
+  width: 100%;
+  min-height: calc(100% - 180px);
+  padding: 0 20px;
+  flex-direction: column;
+  justify-content: space-between;
+  display: flex;
 }
 </style>
