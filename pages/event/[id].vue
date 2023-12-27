@@ -590,7 +590,7 @@ textarea:focus {
 .bottom-blur {
   max-width: 500px;
   width: 100%;
-  height: 120px;
+  height: 76px;
   flex-shrink: 0;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.31) 46.47%, rgba(0, 0, 0, 0.49) 100%);
   backdrop-filter: blur(2px);
