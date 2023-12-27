@@ -11,8 +11,8 @@
             <!-- 1. 상단 영역 (날짜, 제목) -->
             <div class="diary-title-box">
                 <div v-if="isLoading">
-                    <div class="diary-date__skeleton"></div>
-                    <div class="diary-title__skeleton"></div>
+                    <div class="diary-title-not-generate-title__skeleton"></div>
+                    <div class="tag-not-generate__skeleton"></div>
                 </div>
                 <div v-else>
                     <div class="diary-date">
@@ -60,6 +60,16 @@
                             {{ diary.resolution }}
                         </div>
                     </div>
+                    <div v-else-if="type == 2" class="bottom-diary-content">
+                      <div class="bottom-diary-content-title">
+                        <Icon class="ic_reply" />Looi의 답장
+                      </div>
+
+                      <div class="bottom-diary-content-desc">
+                        {{ diary.resolution }}
+                      </div>
+                    </div>
+
                 </div>
             </div>
         </article>
@@ -199,7 +209,7 @@ export default {
         }
 
         this.diary = res.data.diary;
-        if (type == 1) this.diary.keyword = JSON.parse(this.diary.main_keyword);
+        this.diary.keyword = JSON.parse(this.diary.main_keyword);
         this.isLoading = false;
     },
 };
@@ -210,6 +220,11 @@ export default {
     background: none;
     border: none;
     justify-content: flex-end;
+    background: #FFFFFF;
+    border: none;
+    justify-content: space-between;
+
+    padding: 0 20px;
 
     .button {
         width: 100%;
@@ -228,134 +243,370 @@ export default {
 }
 
 .container {
-    // BottomSheet 높이: 108px =  calc(32px + (12px * 1.5) + 4px) + 40px + 14px;
-    height: calc(100% - (60px));
-    height: calc(100% - (60px + constant(safe-area-inset-top)));
-    height: calc(100% - (60px + env(safe-area-inset-top)));
-    padding: 2rem 0;
-    overflow: scroll;
+  overflow-y: auto;
+  background: var(--v2-gradient_bg_light, linear-gradient(0deg, #DED2FF -46.93%, #D2DAFF -31.6%, #DEE4FF -4.86%, #FFF 117.99%));
+  // BottomSheet 높이: 108px =  calc(32px + (12px * 1.5) + 4px) + 40px + 14px;
+  height: calc(100% - (60px));
+  height: calc(100% - (60px + constant(safe-area-inset-top)));
+  height: calc(100% - (60px + env(safe-area-inset-top)));
+  width: 100%;
+  padding: 2rem 0;
 
-    margin-top: calc(60px);
-    margin-top: calc(60px + constant(safe-area-inset-top));
-    margin-top: calc(60px + env(safe-area-inset-top));
+  margin-top: calc(60px);
+  margin-top: calc(60px + constant(safe-area-inset-top));
+  margin-top: calc(60px + env(safe-area-inset-top));
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    // justify-content: safe center; // safe를 넣지 않으면 상단이 잘리는 문제 발생
-
-    gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.diary-image-div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.6rem;
 }
 
 .diary-image {
+  border-radius: 0.94rem;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  margin-bottom: 16px;
+
+  &__skeleton {
+    @include skeleton;
     border-radius: 0.94rem;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-top: 16px;
+    aspect-ratio: 1/1;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 16px;
+  }
 }
 
 .diary-title-box {
-    width: calc(100% - 40px);
-    // overflow: hidden;
-    // text-overflow: ellipsis;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  width: calc(100% - 40px);
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
 
-    .tag-wrap {
-        margin-bottom: 1rem;
-        /* border: 1px solid red; */
-        flex-wrap: wrap;
-    }
+  justify-self: center;
+
+  .tag-wrap {
+    margin-top: 2rem;
+    margin-bottom: 1.6rem;
+    /* border: 1px solid red; */
+    flex-wrap: wrap;
+  }
 }
 
 .diary-title {
-    width: 100%;
+  width: 100%;
 
-    /* h1/h1_bold_24 */
-    font-family: "Pretendard Bold";
-    font-size: 20px;
-    line-height: 150%; /* 36px */
+  /* h1/h1_bold_24 */
+  font-family: "Pretendard Bold";
+  // font-size: 20px;
+  font-size: 1.8rem;
+  line-height: 150%; /* 36px */
 
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 
-    &__skeleton {
-        @include skeleton;
-        width: 80%;
-        height: calc(20px * 1.5);
-        margin-top: 5px;
-    }
+  &__skeleton {
+    @include skeleton;
+    width: 80%;
+    height: calc(20px * 1.5);
+    margin-top: 5px;
+  }
 }
 
 .diary-date {
-    /* b2/b2_med_14 */
-    font-family: "Pretendard Medium";
-    font-size: 14px;
-    line-height: 160%; /* 22.4px */
+  /* b2/b2_med_14 */
+  font-family: "Pretendard Medium";
+  font-size: 14px;
+  line-height: 160%; /* 22.4px */
+  color: var(--gray-500, #6B7280);
 
-    &__skeleton {
-        @include skeleton;
-        width: 20%;
-        height: calc(14px * 1.5);
-    }
-}
-.diary-tags {
-    margin-top: 0.5rem;
-    .tag {
-        font-size: 14px; // 1.2rem;;
-        color: #fff;
-        background-color: rgba(0, 0, 0, 0.1);
-        border: none;
-    }
+  &__skeleton {
+    @include skeleton;
+    width: 20%;
+    height: calc(14px * 1.5);
+  }
 }
 
+.diary-delete {
+  display: flex;
+  color: var(--gray-400, #9CA3AF);
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+}
+.bottom-diary-title-box {
+  display: flex;
+  flex-direction: column;
+}
 .bottom-diary {
-    padding: 0 2rem;
+  margin-bottom: 16px;
+  padding: 0 2rem;
+  .bottom-diary-content {
+    margin-top: 12px;
+    .bottom-diary-content-title {
+      color: var(--gray-700, #374151);
 
-    .bottom-diary-title-box {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
+      /* b1/b1_bold_16 */
+      font-family: "Pretendard Bold";
+      font-size: 16px;
+      line-height: 160%; /* 25.6px */
+
+      display: flex;
+      gap: 12px;
+
+      height: auto;
     }
-    .bottom-diary-content {
-        margin-top: 36px;
-        white-space: normal; // 기본 줄바꿈 및 공백 처리
-        overflow-wrap: break-word; // 단어가 넘칠 경우 줄바꿈
-        word-break: break-word; // 긴 단어가 줄바꿈
 
-        .bottom-diary-content-title {
-            //color: var(--white, #fff);
+    .bottom-diary-content-desc {
+      width: 100%;
+      color: var(--gray-500, #6B7280);
 
-            /* b1/b1_bold_16 */
-            font-family: "Pretendard Bold";
-            font-size: 16px;
-            line-height: 160%; /* 25.6px */
+      /* b2/b2_reg_14 */
+      font-family: "Pretendard";
+      font-size: 14px;
+      line-height: 160%; /* 22.4px */
 
-            display: flex;
-            gap: 12px;
-        }
-
-        .bottom-diary-content-desc {
-            //color: var(--white, #fff);
-
-            /* b2/b2_reg_14 */
-            font-family: "Pretendard";
-            font-size: 14px;
-            line-height: 160%; /* 22.4px */
-
-            margin-top: 8px;
-            margin-bottom: 3rem;
-
-            .tag-wrap {
-                margin: 0 0 12px;
-            }
-        }
+      margin-top: 8px;
     }
+  }
+}
+
+.edit-input {
+  margin-top: 0.4rem;
+  border-radius: 8px;
+  border: 1px solid var(--indigo-400, #6568FE);
+  background: var(--indigo-100, #E0E7FF);
+  color: #1f2937;
+  width: 100%;
+  height: auto;
+  padding: 0.4rem 0.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+
+  &.content {
+    height: 20rem;
+  }
+}
+
+textarea:focus {
+  outline: 2.5px solid #ffffff35;
 }
 .bottom-container {
+  width: 100%;
+}
+.ic_url {
+  display: flex;
+  width: 115px;
+  height: 31px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 8px;
+}
+.header-title {
+  text-align: left;
+  color: var(--gray-800, #1F2937);
+  font-family: "Pretendard SemiBold";
+  font-size: 16px;
+  line-height: 150%;
+}
+.bottom-diary-content-default {
+  width: 100%;
+  height: 110px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(8px);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.bottom-diary-content-default-title {
+  color: var(--gray-600, #4B5563);
+  text-align: center;
+  margin-top: 33px;
+  font-family: "Pretendard Bold";
+  font-size: 16px;
+  line-height: 160%;
+}
+.bottom-diary-content-default-content {
+  color: var(--gray-500, #6B7280);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+}
+.bottom-diary-content {
+  margin-top: 8px;
+  border-radius: 8px;
+  background: var(--white, #FFF);
+  display: inline-flex;
+  padding: 12px;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 10px;
+}
+.bottom-generate {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  width: 100vw !important;
+  max-width: 500px;
+  flex-direction: column;
+  margin-top: 66px;
+  padding: 0 20px;
+  height: 161px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) -10.8%, rgba(255, 255, 255, 0.39) 39.17%, #FFF 100%);
+  flex-shrink: 0;
+}
+.generate {
+  width: 100%;
+  height: 48px;
+  margin-top: 12px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--v2-CTA_accent, #9398FF);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.generate-text {
+  color: var(--white, #FFF);
+  text-align: center;
+  font-family: "Pretendard Bold";
+  font-size: 16px;
+  line-height: 160%;
+}
+.bottom-generate-title {
+  margin-top: 36px;
+  color: var(--indigo-500, #6366F1);
+  text-align: center;
+  font-family: "Pretendard Bold";
+  font-size: 14px;
+  line-height: 160%;
+}
+.bottom-generate-content {
+  color: var(--gray-400, #9CA3AF);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+}
+.diary-title-box-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.diary-title-not-generate {
+  padding: 0 12px;
+  width: 100%;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--indigo-50, #EEF2FF);
+  align-items: center;
+  display: flex;
+}
+
+.diary-title-not-generate-title {
+  color: var(--gray-400, #9CA3AF);
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+
+  &__skeleton {
+    @include skeleton;
     width: 100%;
+    height: 48px;
+    border-radius: 8px;
+  }
+}
+.tag-not-generate {
+  display: inline-flex;
+  padding: 6px 11px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  background: rgba(145, 145, 145, 0.20);
+  color: var(--gray-500, #6B7280);
+  font-family: "Pretendard Bold";
+  font-size: 12px;
+  line-height: 160%; /* 19.2px */
+
+  &__skeleton {
+    @include skeleton;
+    width: 100%;
+    margin-top: 22px;
+    height: 31px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+  }
+}
+.bottom-generate-loading {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  width: 100vw !important;
+  max-width: 500px;
+  flex-direction: column;
+  margin-top: 66px;
+  padding: 0 20px;
+  height: 161px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) -10.8%, rgba(255, 255, 255, 0.39) 39.17%, #FFF 100%) !important;
+  flex-shrink: 0;
+}
+.bottom-diary-content-default-title-loading {
+  color: var(--indigo-500, #6366F1);
+  text-align: center;
+  margin-top: 33px;
+  font-family: "Pretendard Bold";
+  font-size: 14px;
+  line-height: 160%;
+}
+.bottom-diary-content-default-content-loading {
+  color: var(--gray-400, #9CA3AF);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+}
+.generate-loading {
+  width: 100%;
+  height: 48px;
+  margin-top: 12px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--indigo-100, #E0E7FF);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.generate-text-loading {
+  color: var(--indigo-400, #6568FE);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 16px;
+  line-height: 160%;
 }
 </style>
