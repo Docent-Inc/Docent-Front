@@ -1,11 +1,7 @@
 <template>
   <section class="viewport">
     <header class="header">
-
-      <div class="btn_url" @click="shareURL">
-        <Icon class="ic_url" />
-        <span>URL 공유하기</span>
-      </div>
+        <Icon class="ic_url" @click="shareURL"/>
     </header>
 
     <article class="contents" :class="{'contents-shared': shared}">
@@ -107,8 +103,7 @@
 
           <div v-if="type == 1" class="bottom-diary-content">
             <div class="bottom-diary-content-title">
-              <Icon class="ic_crystal" />꿈을 통해 본
-              {{ user?.nickname }}님의 마음
+              <Icon class="ic_crystal" />꿈을 통해 본 사용자님의 마음
             </div>
 
             <div class="bottom-diary-content-desc">
@@ -131,8 +126,8 @@
     <v-icon class="ic_start" @click="start"/>
   </div>
   <div v-if="shared === 'false'" class="bottom-blur">
-    <v-icon class="ic_event_down_1" @click="goService"/>
-    <v-icon class="ic_event_down_2" @click="goService"/>
+    <v-icon class="ic_event_down_1" @click="goSave"/>
+    <v-icon class="ic_event_down_2" @click="goOther"/>
   </div>
 </template>
 <script setup>
@@ -294,8 +289,12 @@ export default {
           `/event`,
       )
     },
-    async goService() {
-      const url = "https://pf.kakao.com/_vNxnRG/103064091";
+    async goSave() {
+      const url = "http://pf.kakao.com/_vNxnRG/103441734";
+      window.open(url, "_blank");
+    },
+    async goOther() {
+      const url = "http://pf.kakao.com/_vNxnRG";
       window.open(url, "_blank");
     },
     async shareURL() {
@@ -641,5 +640,14 @@ textarea:focus {
 }
 .contents-header-title span[lang="en"] {
   font-family: "Pretendard Bold";
+}
+.ic_url {
+  display: flex;
+  width: 115px;
+  height: 31px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 8px;
 }
 </style>
