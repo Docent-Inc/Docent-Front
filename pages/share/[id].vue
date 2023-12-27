@@ -322,6 +322,9 @@ export default {
     }
     .bottom-diary-content {
         margin-top: 36px;
+        white-space: normal; // 기본 줄바꿈 및 공백 처리
+        overflow-wrap: break-word; // 단어가 넘칠 경우 줄바꿈
+        word-break: break-word; // 긴 단어가 줄바꿈
 
         .bottom-diary-content-title {
             //color: var(--white, #fff);

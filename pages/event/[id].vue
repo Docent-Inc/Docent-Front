@@ -1,5 +1,5 @@
 <template>
-  <section class="viewport" :style="dynamicBackground">
+  <section class="viewport">
     <header class="header">
 
       <div class="btn_url" @click="shareURL">
@@ -23,8 +23,15 @@
           <div class="diary-title__skeleton"></div>
         </div>
         <div v-else>
-          <div class="diary-date">
-            {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
+          <div class="diary-title-box-header">
+            <div class="diary-date">
+              {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
+            </div>
+            <div
+                class="diary-delete"
+                @click="onDelete"
+            >
+            </div>
           </div>
 
           <div class="diary-title">
@@ -34,7 +41,6 @@
                 v-if="isEditMode && editType === 'title'"
                 v-model="diaryTitle"
                 @blur="handleBlur('title')"
-                :style="dynamicInputTop"
             />
             <div v-else>{{ diaryTitle || diary.diary_name }}</div>
           </div>
@@ -55,15 +61,9 @@
           width="calc(100% - 40px)"
           maxWidth="400px"
       />
-      <div
-          class="diary-delete"
-          @click="onDelete"
-          :style="bottomTextColor"
-      >
-      </div>
 
       <!-- 3. 바텀시트 영역 -->
-      <div class="bottom-container" :style="bottomTextColor">
+      <div class="bottom-container">
         <div class="bottom-diary">
           <div class="bottom-diary-content">
             <div class="bottom-diary-content-title">
@@ -80,7 +80,6 @@
                                 v-if="isEditMode && editType === 'content'"
                                 v-model="diaryContent"
                                 @blur="handleBlur('content')"
-                                :style="dynamicInputBottom"
                             />
               <LimitedLength
                   :content="diaryContent"
@@ -210,94 +209,6 @@ export default {
   },
   computed: {
     ...mapState(useUserStore, ["user"]),
-    dynamicBackground() {
-      let background_color = `rgb(0, 0, 0)`;
-      let text_color = "#fff";
-
-      if (this.diary.background_color) {
-        const colorList = JSON.parse(this.diary.background_color);
-
-        if (colorList.length > 1) {
-          background_color = `linear-gradient(rgb${colorList[0]}, rgb${colorList[1]})`;
-          text_color = getTextColorForBackground([
-            `rgb${colorList[0]}`,
-          ]);
-        } else {
-          background_color = `rgb${colorList[0]}`;
-          text_color = getTextColorForBackground([
-            `rgb${colorList[0]}`,
-          ]);
-        }
-      }
-
-      return {
-        background: background_color,
-        color: text_color,
-      };
-    },
-    bottomTextColor() {
-      let text_color = "#fff";
-
-      if (this.diary.background_color) {
-        const colorList = JSON.parse(this.diary.background_color);
-
-        if (colorList.length > 1) {
-          text_color = getTextColorForBackground([
-            `rgb${colorList[1]}`,
-          ]);
-        } else {
-          text_color = getTextColorForBackground([
-            `rgb${colorList[0]}`,
-          ]);
-        }
-      }
-
-      return {
-        color: text_color,
-      };
-    },
-    dynamicInputTop() {
-      let text_color = "#fff";
-
-      if (this.diary.background_color) {
-        const colorList = JSON.parse(this.diary.background_color);
-
-        if (colorList.length > 1) {
-          text_color = getTextColorForBackground([
-            `rgb${colorList[0]}`,
-          ]);
-        } else {
-          text_color = getTextColorForBackground([
-            `rgb${colorList[0]}`,
-          ]);
-        }
-      }
-
-      return {
-        color: text_color,
-      };
-    },
-    dynamicInputBottom() {
-      let text_color = "#fff";
-
-      if (this.diary.background_color) {
-        const colorList = JSON.parse(this.diary.background_color);
-
-        if (colorList.length > 1) {
-          text_color = getTextColorForBackground([
-            `rgb${colorList[1]}`,
-          ]);
-        } else {
-          text_color = getTextColorForBackground([
-            `rgb${colorList[0]}`,
-          ]);
-        }
-      }
-
-      return {
-        color: text_color,
-      };
-    },
     bottomSheetTitle() {
       let type = this.type === "1" ? "꿈 해석" : "일기";
       if (this.type === "2" && !this.isOpen) type = "일기 자세히"; // 일기의 경우, '자세히' 보기
@@ -540,6 +451,12 @@ export default {
 
   justify-self: center;
 
+  .diary-title-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .tag-wrap {
     margin-bottom: 1rem;
     /* border: 1px solid red; */
@@ -589,6 +506,7 @@ export default {
   font-family: "Pretendard";
   font-size: 12px;
   line-height: 160%; /* 19.2px */
+  color: var(--gray-400, #9CA3AF) !important;
 
   display: flex;
   gap: 4px;
@@ -634,6 +552,8 @@ export default {
       line-height: 160%; /* 22.4px */
 
       margin-top: 8px;
+      text-overflow: ellipsis;
+      white-space: normal;
     }
   }
 }
@@ -656,6 +576,10 @@ export default {
 textarea:focus {
   border: none;
   outline: 2.5px solid #ffffff35;
+  display: flex;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
 }
 .bottom-container {
   width: 100%;

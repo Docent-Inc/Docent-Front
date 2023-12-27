@@ -9,9 +9,10 @@ import {
     type RecordsReqBodyModel,
     type RecordResModel,
 } from "~/models/diary";
+import axios from "axios";
 
 export const useDiaryService = () => {
-    const { GET, POST, PUT, PATCH, DELETE } = useAxios();
+    const { GET, POST, PUT, PATCH, DELETE, cancelRequest } = useAxios();
 
     return {
         /**
@@ -57,6 +58,44 @@ export const useDiaryService = () => {
         },
 
         /**
+         * 아침 다이어리 Looi 생성 (꿈)
+         */
+        async generateMorningDiary(diary_id: number) {
+            const url = `/dream/generate?dream_id=${diary_id}`;
+            return await PATCH<RecordResModel>(url);
+        },
+
+        /**
+         * 저녁 다이어리 Looi 생성 (일기)
+         */
+        async generateNightDiary(diary_id: number) {
+            const url = `/diary/generate?diary_id=${diary_id}`;
+            return await PATCH<RecordResModel>(url);
+        },
+
+        /**
+         *  메모 Looi 생성
+         */
+
+        async generateMemo(memo_id: number) {
+            const url = `/memo/generate?memo_id=${memo_id}`;
+            return await PATCH<RecordResModel>(url);
+        },
+
+        // /**
+        //  * Looi 생성 취소
+        //  */
+        // async cancelGenerateMorningDiary(diary_id: number) {
+        //     const url = `/dream/generate?dream_id=${diary_id}`;
+        //     cancelRequest(url);
+        // },
+        //
+        // async cancelGenerateNightDiary(diary_id: number) {
+        //     const url = `/diary/generate?diary_id=${diary_id}`;
+        //     cancelRequest(url);
+        // },
+
+        /**
          * 아침 다이어리 삭제 (꿈)
          */
         async deleteMorningdiary(diary_id: number) {
@@ -82,13 +121,13 @@ export const useDiaryService = () => {
         },
 
         /**
-         * 아침 다이어리 조회 - 공유용 (꿈) #TODO: 수정 필요
+         * 아침 다이어리 조회 - 공유용 (꿈)
          */
         async getShareMorningdiary(diary_id: number) {
             return await GET<DiaryModel>(`/share/dream/${diary_id}`);
         },
         /**
-         * 저녁 다이어리 조회 - 공유용 (일기) #TODO: 수정 필요
+         * 저녁 다이어리 조회 - 공유용 (일기)
          */
         async getShareNightdiary(diary_id: number) {
             return await GET<DiaryModel>(`/share/diary/${diary_id}`);
