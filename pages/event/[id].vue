@@ -15,8 +15,8 @@
       <!-- 1. 상단 영역 (날짜, 제목) -->
       <div class="diary-title-box">
         <div v-if="isLoading">
-          <div class="diary-date__skeleton"></div>
-          <div class="diary-title__skeleton"></div>
+<!--          <div class="diary-date__skeleton"></div>-->
+<!--          <div class="diary-title__skeleton"></div>-->
         </div>
         <div v-else>
           <div class="diary-title-box-header">
@@ -420,10 +420,11 @@ export default {
 }
 .contents {
   // BottomSheet 높이: 108px =  calc(32px + (12px * 1.5) + 4px) + 40px + 14px;
-  height: calc(100% - (164px));
-  height: calc(100% - (164px + constant(safe-area-inset-top)));
-  height: calc(100% - (164px + env(safe-area-inset-top)));
+  height: calc(100% - (60px));
+  height: calc(100% - (60px + constant(safe-area-inset-top)));
+  height: calc(100% - (60px + env(safe-area-inset-top)));
   padding: 2rem 0;
+  background: var(--v2-gradient_bg_light, linear-gradient(0deg, #DED2FF -46.93%, #D2DAFF -31.6%, #DEE4FF -4.86%, #FFF 117.99%));
 
   margin-top: calc(60px);
   margin-top: calc(60px + constant(safe-area-inset-top));
@@ -449,6 +450,7 @@ export default {
   justify-self: center;
 
   .diary-title-box-header {
+    margin-top: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -516,14 +518,14 @@ export default {
 }
 
 .bottom-diary {
-  margin-bottom: 60px;
+  margin-bottom: 120px;
   padding: 0 2rem;
   .bottom-diary-title-box {
     display: flex;
     flex-direction: column;
   }
   .bottom-diary-content {
-    margin: 2rem 0 3rem 0;
+    margin: 2rem 0 0 0;
 
     .bottom-diary-content-title {
       /* color: var(--white, #fff); */
@@ -550,6 +552,7 @@ export default {
       margin-top: 8px;
       text-overflow: ellipsis;
       white-space: normal;
+
     }
   }
 }
@@ -585,17 +588,18 @@ textarea:focus {
   width: 100%;
 }
 .bottom-blur {
+  max-width: 500px;
   width: 100%;
-  height: 164px;
+  height: 120px;
   flex-shrink: 0;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.31) 46.47%, rgba(0, 0, 0, 0.49) 100%);
   backdrop-filter: blur(2px);
   position: absolute;
   bottom: 0; /* 화면 하단에 위치시키기 */
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  flex-direction: column;
+  padding: 0 20px; /* 좌우 패딩 추가 */
 }
 .ic_event_header {
 
@@ -610,13 +614,12 @@ textarea:focus {
   bottom: 24px;
 }
 .ic_event_down_1 {
-  width: 100%;
+  width: 48%;
   height: 48px;
   flex-shrink: 0;
 }
 .ic_event_down_2 {
-  margin-top: 12px;
-  width: 100%;
+  width: 48%;
   height: 48px;
   flex-shrink: 0;
 }
@@ -627,6 +630,11 @@ textarea:focus {
   object-fit: contain;
   background: var(--indigo-100, #E0E7FF);
   align-items: center;
+  top: 59px; // 상단으로부터의 위치
+  left: 50%; // 가로 중앙 정렬
+  transform: translateX(-50%); // 가로 중앙 정렬을 위한 변환
+  z-index: 999;
+  position: fixed; // 고정 위치
 }
 .contents-header-title {
 
@@ -649,5 +657,198 @@ textarea:focus {
   align-items: center;
   flex-shrink: 0;
   border-radius: 8px;
+}
+.header-title {
+  text-align: left;
+  color: var(--gray-800, #1F2937);
+  font-family: "Pretendard SemiBold";
+  font-size: 16px;
+  line-height: 150%;
+}
+.bottom-diary-content-default {
+  width: 100%;
+  height: 110px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(8px);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.bottom-diary-content-default-title {
+  color: var(--gray-600, #4B5563);
+  text-align: center;
+  margin-top: 33px;
+  font-family: "Pretendard Bold";
+  font-size: 16px;
+  line-height: 160%;
+}
+.bottom-diary-content-default-content {
+  color: var(--gray-500, #6B7280);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+}
+.bottom-diary-content {
+  margin-top: 8px;
+  border-radius: 8px;
+  background: var(--white, #FFF);
+  display: inline-flex;
+  padding: 12px;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 10px;
+}
+.bottom-generate {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  width: 100vw !important;
+  max-width: 500px;
+  flex-direction: column;
+  margin-top: 66px;
+  padding: 0 20px;
+  height: 161px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) -10.8%, rgba(255, 255, 255, 0.39) 39.17%, #FFF 100%);
+  flex-shrink: 0;
+}
+.generate {
+  width: 100%;
+  height: 48px;
+  margin-top: 12px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--v2-CTA_accent, #9398FF);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.generate-text {
+  color: var(--white, #FFF);
+  text-align: center;
+  font-family: "Pretendard Bold";
+  font-size: 16px;
+  line-height: 160%;
+}
+.bottom-generate-title {
+  margin-top: 36px;
+  color: var(--indigo-500, #6366F1);
+  text-align: center;
+  font-family: "Pretendard Bold";
+  font-size: 14px;
+  line-height: 160%;
+}
+.bottom-generate-content {
+  color: var(--gray-400, #9CA3AF);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+}
+.diary-title-box-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.diary-title-not-generate {
+  padding: 0 12px;
+  width: 100%;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--indigo-50, #EEF2FF);
+  align-items: center;
+  display: flex;
+}
+
+.diary-title-not-generate-title {
+  color: var(--gray-400, #9CA3AF);
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+
+  &__skeleton {
+    @include skeleton;
+    width: 100%;
+    height: 48px;
+    border-radius: 8px;
+  }
+}
+.tag-not-generate {
+  display: inline-flex;
+  padding: 6px 11px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  background: rgba(145, 145, 145, 0.20);
+  color: var(--gray-500, #6B7280);
+  font-family: "Pretendard Bold";
+  font-size: 12px;
+  line-height: 160%; /* 19.2px */
+
+  &__skeleton {
+    @include skeleton;
+    width: 100%;
+    margin-top: 32px;
+    height: 31px;
+    border-radius: 12px;
+  }
+}
+.bottom-generate-loading {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  width: 100vw !important;
+  max-width: 500px;
+  flex-direction: column;
+  margin-top: 66px;
+  padding: 0 20px;
+  height: 161px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) -10.8%, rgba(255, 255, 255, 0.39) 39.17%, #FFF 100%) !important;
+  flex-shrink: 0;
+}
+.bottom-diary-content-default-title-loading {
+  color: var(--indigo-500, #6366F1);
+  text-align: center;
+  margin-top: 33px;
+  font-family: "Pretendard Bold";
+  font-size: 14px;
+  line-height: 160%;
+}
+.bottom-diary-content-default-content-loading {
+  color: var(--gray-400, #9CA3AF);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 12px;
+  line-height: 160%;
+}
+.generate-loading {
+  width: 100%;
+  height: 48px;
+  margin-top: 12px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--indigo-100, #E0E7FF);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.generate-text-loading {
+  color: var(--indigo-400, #6568FE);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 16px;
+  line-height: 160%;
 }
 </style>
