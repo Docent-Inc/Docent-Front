@@ -18,9 +18,9 @@
                 </div>
 
                 <!-- 로딩 -->
-                <div class="chat-desc" v-if="chat.type === 'loading'">
-                    {{ chat.text }}
-                </div>
+<!--                <div class="chat-desc" v-if="chat.type === 'loading'">-->
+<!--                    {{ chat.text }}-->
+<!--                </div>-->
             </div>
 
             <!-- 선택 버튼  -->

@@ -12,10 +12,6 @@
       <article class="contents">
             <!-- 1. 상단 영역 (날짜, 제목) -->
             <div class="diary-title-box">
-<!--                <div v-if="isLoading">-->
-<!--                  -->
-<!--                </div>-->
-<!--                <div v-else>-->
                   <div class="diary-title-box-top">
                     <div class="diary-date">
                       {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
@@ -78,7 +74,6 @@
                           </div>
                         </div>
                       </div>
-<!--                    </div>-->
                     </div>
               <div v-if="isLoading">
                 <div class="diary-image__skeleton"></div>
@@ -155,13 +150,6 @@
                                 <span class="generate-text">제목, 키워드, 그림, 꿈 해석 생성하기</span>
                               </div>
                           </div>
-<!--                          <div v-else-if="isLoading" class="bottom-generate-loading">-->
-<!--                            <span class="bottom-diary-content-default-title-loading">Looi가 열심히 제목, 키워드, 그림을 생성하고 있어요!</span>-->
-<!--                            <span class="bottom-diary-content-default-content-loading">잠시만 기다려주세요!</span>-->
-<!--                            <div class="generate-loading" @click="cancelGenerate()">-->
-<!--                              <span class="generate-text-loading">생성 취소하기</span>-->
-<!--                            </div>-->
-<!--                          </div>-->
                         </div>
                         <div v-if="isGenerated" class="bottom-diary-content-desc">
                           {{ diary.resolution }}
@@ -181,13 +169,6 @@
                               <span class="generate-text">제목, 키워드, 그림, Looi의 답장 생성하기</span>
                             </div>
                           </div>
-<!--                          <div v-else-if="isLoading" class="bottom-generate-loading">-->
-<!--                            <span class="bottom-diary-content-default-title-loading">Looi가 열심히 제목, 키워드, 그림을 생성하고 있어요!</span>-->
-<!--                            <span class="bottom-diary-content-default-content-loading">잠시만 기다려주세요!</span>-->
-<!--                            <div class="generate-loading" @click="cancelGenerate()">-->
-<!--                              <span class="generate-text-loading">생성 취소하기</span>-->
-<!--                            </div>-->
-<!--                          </div>-->
                       </div>
                       <div v-if="isGenerated" class="bottom-diary-content-desc">
                         {{ diary.resolution }}
@@ -443,7 +424,6 @@ export default {
             },
           });
 
-          console.log("generate", this.diary.id, this.type, "generate")
           if (this.type === "1") {
             res = await generateMorningDiary(this.diary.id);
           } else if (this.type === "2") {
@@ -469,21 +449,6 @@ export default {
           this.diary.keyword = JSON.parse(this.diary.main_keyword);
           this.isLoading = false;
         },
-      // async cancelGenerate() {
-      //   this.$eventBus.$emit("onCustomModal", {
-      //     title: "제목, 키워드, 그림, 해석을 생성하고 있어요!",
-      //     desc: "AI 생성에는 시간이 소요돼요. 잠시만 기다려주세요!",
-      //     confirm: "확인",
-      //     cancel: "생성 취소하기",
-      //     callback: () => {}, // 확인 버튼 클릭 시 아무 동작도 수행하지 않음
-      //     cancelCallback: () => {
-      //       const { cancelGenerateMorningDiary, cancelGenerateNightDiary } = useDiaryService()
-      //       if (this.type === "1") cancelGenerateMorningDiary(this.diary.id);
-      //       else if (this.type === "2") cancelGenerateNightDiary(this.diary.id);
-      //       this.isLoading = false;
-      //     },
-      //   });
-      // },
     },
 };
 </script>
@@ -523,7 +488,6 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    // justify-content: safe center; // safe를 넣지 않으면 상단이 잘리는 문제 발생, 아이폰에서 잘리는 문제 발생으로 주석처리
 }
 .diary-image-div {
   width: 100%;
@@ -554,7 +518,6 @@ export default {
     overflow: visible;
     display: flex;
     flex-direction: column;
-    gap: 4px;
 
     justify-self: center;
 
@@ -611,15 +574,13 @@ export default {
   font-size: 12px;
   line-height: 160%;
 }
-
+.bottom-diary-title-box {
+  display: flex;
+  flex-direction: column;
+}
 .bottom-diary {
-    //margin-bottom: 30px;
+    margin-bottom: 16px;
     padding: 0 2rem;
-    .bottom-diary-title-box {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
     .bottom-diary-content {
         margin-top: 12px;
         .bottom-diary-content-title {
@@ -652,12 +613,12 @@ export default {
 
 .edit-input {
     margin-top: 0.4rem;
-    border: 2.5px solid #ffffff35;
-    background-color: #ffffff15;
+    border-radius: 8px;
+    border: 1px solid var(--indigo-400, #6568FE);
+    background: var(--indigo-100, #E0E7FF);
     color: #1f2937;
     width: 100%;
     height: auto;
-    border-radius: $border-radius-default;
     padding: 0.4rem 0.6rem;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -669,7 +630,6 @@ export default {
 }
 
 textarea:focus {
-    border: none;
     outline: 2.5px solid #ffffff35;
 }
 .bottom-container {
