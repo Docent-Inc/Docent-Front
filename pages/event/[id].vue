@@ -125,8 +125,8 @@
     <v-icon class="ic_start" @click="start"/>
   </div>
   <div v-if="shared === 'false'" class="bottom-blur">
-    <v-icon class="ic_event_down_1" @click="goSave"/>
     <v-icon class="ic_event_down_2" @click="goOther"/>
+    <v-icon class="ic_event_down_1" @click="goSave"/>
   </div>
 </template>
 <script setup>
@@ -596,7 +596,7 @@ textarea:focus {
   position: absolute;
   bottom: 0; /* 화면 하단에 위치시키기 */
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 0 20px; /* 좌우 패딩 추가 */
 }
@@ -615,11 +615,13 @@ textarea:focus {
 .ic_event_down_1 {
   width: 48%;
   height: 48px;
+  margin-left: 6px;
   flex-shrink: 0;
 }
 .ic_event_down_2 {
   width: 48%;
   height: 48px;
+  margin-right: 6px;
   flex-shrink: 0;
 }
 .contents-header {
