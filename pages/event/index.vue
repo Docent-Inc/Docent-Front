@@ -6,16 +6,22 @@
     <v-icon :class="iconClass" @click="send" />
   </div>
   <div class="contents">
-    <div v-if="isLoading" class="loading-video">
-      <div class="contents-header">
-        <span class="contents-header-title">
-            <span lang="ko">Looi가 꿈을 분석하고 있어요! 잠시만 기다려 주세요</span>
-        </span>
+    <div v-if="isLoading" class="contents-loading-body">
+      <div id="app">
+        <div class="progressBar">
+          <div id="bar" class="innerbar"></div>
+        </div>
       </div>
-      <video autoplay loop muted playsinline>
-        <source src="./event_demo.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+      <div class="contents-loading-title-box">
+        <span class="contents-loading-title">잠시만 기다려주세요</span>
+        <span class="contents-loading-subtitle">꿈을 그리고 해석하고 있어요!</span>
+      </div>
+      <div class="contents-icon-box">
+        <v-icon class="ic_event" />
+      </div>
+      <div class="contents-subtitle-box">
+        <span class="contents-loading-content" v-html="randomMessage"></span>
+      </div>
     </div>
     <div v-else class="contents-body">
     <div class="contents-title-box">
@@ -60,18 +66,52 @@ useServerSeoMeta({
 <script>
 import {useDiaryService} from "../../services/diary";
 import { useUserStore } from "~/store/user";
+import messages from "~/assets/json/loading.json";
 
 export default {
   name: "event",
   data() {
     return {
+      randomMessage: '',
       data: "",
       LIMITED_CONTENT_LENGTH: 1000,
       isLoading: false,
+      progressBarInterval: null,
+      MAX_TIME: 35000, // 30초
     };
   },
   setup() {},
+  created() {
+    this.changeMessage();
+    this.messageInterval = setInterval(this.changeMessage, 10000); // 10초마다 메시지 변경
+  },
+  beforeDestroy() {
+    clearInterval(this.messageInterval); // 컴포넌트 파괴 시 인터벌 중지
+  },
   methods: {
+    changeMessage() {
+      const randomIndex = Math.floor(Math.random() * messages.length);
+      this.randomMessage = messages[randomIndex];
+    },
+    startProgressBar() {
+      let el = document.getElementById("bar");
+      if (!el) {
+        return;
+      }
+      el.style.width = "0%";
+      let startTime = Date.now();
+
+      this.progressBarInterval = setInterval(() => {
+        let elapsedTime = Date.now() - startTime;
+        let width = (elapsedTime / this.MAX_TIME) * 100;
+        console.log(`Progress: ${width}%`);
+        if (width > 100) {
+          width = 100;
+          clearInterval(this.progressBarInterval);
+        }
+        el.style.width = width + "%";
+      }, 100); // 0.1초 간격으로 너비 업데이트
+    },
     async send() {
       if (this.isLoading){
         return;
@@ -89,6 +129,9 @@ export default {
         content: this.data,
       };
       this.isLoading = true;
+      this.$nextTick(() => {
+        this.startProgressBar();
+      });
       this.data = "";
       const res = await postMorningDiary(data);
       if (res.success) {
@@ -115,6 +158,7 @@ export default {
           desc: res.message,
         });
       }
+      this.isLoading = false;
     },
   },
   computed: {
@@ -144,6 +188,15 @@ export default {
         status: true,
         msg: "",
       };
+    },
+    watch: {
+      isLoading(newValue) {
+        if (!newValue && this.progressBarInterval) {
+          clearInterval(this.progressBarInterval);
+          let el = document.getElementById("bar");
+          el.style.width = "0%";
+        }
+      }
     },
   }
 }
@@ -297,5 +350,59 @@ export default {
   width: 100%;
   height: 100%;
   position: absolute;
+}
+.progressBar {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  height: 4px;
+
+  border-radius: 3px;
+  background: var(--gray-200, #E5E7EB);
+}
+
+.innerbar {
+  max-width: 330px;
+  height: 100%;
+  text-align: right;
+  height: 8px; /* same as #progressBar height if we want text middle aligned */
+  width: 30%;
+  border-radius: 3px;
+  background: var(--v2-CTA_accent, #9398FF);
+}
+.contents-loading-body {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.contents-loading-title-box {
+  margin-top: 72px;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.contents-loading-title {
+  color: var(--gray-800, #1F2937);
+  text-align: center;
+  font-family: "Pretendard Bold";
+  font-size: 20px;
+  line-height: 150%;
+}
+.contents-loading-subtitle {
+  color: var(--gray-700, #374151);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 18px;
+  line-height: 160%;
+  margin-bottom: 12px;
+}
+.contents-loading-content {
+  color: var(--gray-500, #6B7280);
+  text-align: center;
+  font-family: "Pretendard";
+  font-size: 14px;
+  line-height: 160%;
+  margin: 0 67px;
 }
 </style>
