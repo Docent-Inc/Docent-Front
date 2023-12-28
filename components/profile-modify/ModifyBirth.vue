@@ -1,7 +1,7 @@
 <template>
     <div class="modify-birth">
         <div class="modify-birth-title-div">
-            <span class="modify-birth-title">생년월일</span>
+              <span class="modify-birth-title">생년월일 (선택)</span>
         </div>
         <div class="modify-birth-content">
             <MutateCalendar

@@ -71,7 +71,7 @@
                 v-else
                 type="submit"
                 class="submit-button"
-                :disabled="!gender || !birthDay || !isDataChanged"
+                :disabled="!gender"
                 @click="signUp"
             >
                 가입 완료하기
@@ -105,7 +105,7 @@ export default {
             nickname: "",
             mbti: "",
             gender: "",
-            birthDay: "",
+            birthDay: "2023-07-12",
             isDataChanged: false,
         };
     },

@@ -1,13 +1,17 @@
 <template>
     <div class="item_board_memo" @click="this.$router.push(`/memo/${memo.id}`)">
-        <div class="memo_title">
-            {{ memo.diary_name === "" ? "(제목 없음)" : memo.diary_name }}
+        <div v-if ="memo.diary_name === ''">
+            <div class="memo_text">
+                {{ memo.content }}
+            </div>
         </div>
-        <div class="memo_text">
-            {{ memo.content === "" ? "(내용 없음)" : memo.content }}
-        </div>
-        <div class="memo_date">
-            {{ $dayjs(memo.create_date).format("YYYY.MM.DD") }}
+        <div v-else>
+            <div class="memo_title">
+                {{ memo.diary_name }}
+            </div>
+            <div class="memo_text">
+                {{ memo.content === "" ? "(내용 없음)" : memo.content }}
+            </div>
         </div>
         <!-- <div class="memo_icon"><v-icon class="ic_tag2_memo" /></div> -->
     </div>

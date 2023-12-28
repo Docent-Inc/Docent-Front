@@ -15,8 +15,7 @@
       <!-- 1. 상단 영역 (날짜, 제목) -->
       <div class="diary-title-box">
         <div v-if="isLoading">
-<!--          <div class="diary-date__skeleton"></div>-->
-<!--          <div class="diary-title__skeleton"></div>-->
+
         </div>
         <div v-else>
           <div class="diary-title-box-header">
@@ -592,7 +591,7 @@ textarea:focus {
   width: 100%;
   height: 76px;
   flex-shrink: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.31) 46.47%, rgba(0, 0, 0, 0.49) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, rgba(255, 255, 255, 0.31) 46.47%, rgba(255, 255, 255, 0.49) 100%);
   backdrop-filter: blur(2px);
   position: absolute;
   bottom: 0; /* 화면 하단에 위치시키기 */
