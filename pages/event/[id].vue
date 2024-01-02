@@ -1,16 +1,16 @@
 <template>
   <section class="viewport">
     <header class="header">
-        <Icon class="ic_url" @click="shareURL"/>
-    </header>
-
-    <article class="contents" :class="{'contents-shared': shared}">
       <div class="contents-header">
         <span class="contents-header-title">
             <span lang="ko">Looi의 꿈 해석 하러가기&nbsp;</span>
             <span lang="en">https://look-i.app</span>&nbsp;검색
         </span>
       </div>
+    </header>
+
+    <article class="contents" :class="{'contents-shared': shared}">
+
 <!--      <v-icon class="ic_event_header" />-->
       <!-- 1. 상단 영역 (날짜, 제목) -->
       <div class="diary-title-box">
@@ -125,7 +125,7 @@
     <v-icon class="ic_start" @click="start"/>
   </div>
   <div v-if="shared === 'false'" class="bottom-blur">
-    <v-icon class="ic_event_down_2" @click="goOther"/>
+    <v-icon class="ic_event_down_2" @click="shareURL"/>
     <v-icon class="ic_event_down_1" @click="goSave"/>
   </div>
 </template>
@@ -300,17 +300,6 @@ export default {
         window.open(url, "_blank");
       }
     },
-    async goOther() {
-      const userAgent = window.navigator.userAgent.toLowerCase();
-      if(/iPhone|iPad|iPod|macintosh|mac/i.test(userAgent)){
-        const url = "https://apps.apple.com/kr/app/looi-%EC%9E%90%EA%B8%B0%EA%B4%80%EB%A6%AC%EB%A5%BC-%EB%8F%84%EC%99%80%EC%A3%BC%EB%8A%94-ai-%EA%B8%B0%EB%A1%9D-%EB%B9%84%EC%84%9C/id6474598684?l=en-GB";
-        window.open(url, "_blank");
-      }
-      else if(/android/i.test(userAgent)){
-        const url = "https://play.google.com/store/apps/details?id=zip.docent.looi";
-        window.open(url, "_blank");
-      }
-    },
     async shareURL() {
       const url = window.location.href;
       // "https://docent.zip/share/${this.diary.id}?type=${this.type}"
@@ -434,15 +423,15 @@ export default {
 }
 .contents {
   // BottomSheet 높이: 108px =  calc(32px + (12px * 1.5) + 4px) + 40px + 14px;
-  height: calc(100% - (60px));
-  height: calc(100% - (60px + constant(safe-area-inset-top)));
-  height: calc(100% - (60px + env(safe-area-inset-top)));
+  height: calc(100% - (10px));
+  height: calc(100% - (10px + constant(safe-area-inset-top)));
+  height: calc(100% - (10px + env(safe-area-inset-top)));
   padding: 2rem 0;
   background: var(--v2-gradient_bg_light, linear-gradient(0deg, #DED2FF -46.93%, #D2DAFF -31.6%, #DEE4FF -4.86%, #FFF 117.99%));
 
-  margin-top: calc(60px);
-  margin-top: calc(60px + constant(safe-area-inset-top));
-  margin-top: calc(60px + env(safe-area-inset-top));
+  margin-top: calc(10px);
+  margin-top: calc(10px + constant(safe-area-inset-top));
+  margin-top: calc(10px + env(safe-area-inset-top));
 
   display: flex;
   flex-direction: column;
@@ -646,7 +635,7 @@ textarea:focus {
   object-fit: contain;
   background: var(--indigo-100, #E0E7FF);
   align-items: center;
-  top: 59px; // 상단으로부터의 위치
+  top: 0;
   left: 50%; // 가로 중앙 정렬
   transform: translateX(-50%); // 가로 중앙 정렬을 위한 변환
   z-index: 999;
@@ -656,6 +645,7 @@ textarea:focus {
 
   justify-content: center;
   margin-top: 8px;
+
   display: flex;
   color: var(--indigo-600, #4F46E5);
   /* b2/b2_med_14 */
