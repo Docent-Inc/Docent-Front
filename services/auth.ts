@@ -4,17 +4,8 @@ import type {
     SocialLoginModel,
     SocialCallbackModel,
     RefreshModel,
+    SignupModel,
 } from "~/models/auth";
-
-/**
- * @interface signupData
- */
-interface signupData {
-    nickname: string;
-    mbti: string;
-    age: string;
-    gender: string;
-}
 
 export const useAuthService = () => {
     const { SERVER_MODE } = useRuntimeConfig().public;
@@ -46,7 +37,7 @@ export const useAuthService = () => {
          * 초기 정보 등록
          * @body user
          */
-        async signup(data: signupData) {
+        async signup(data: SignupModel) {
             return await PATCH(`/auth/update`, {
                 ...data,
             });

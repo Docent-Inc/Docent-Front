@@ -165,3 +165,13 @@ export function isIOS() {
         return /iPhone|iPad|iPod/i.test(userAgent);
     }
 }
+
+/**
+ * IOS App 확인 함수 (looi-ios)
+ */
+export function isIOSApp() {
+    if (window) {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        return /looi-ios/i.test(userAgent);
+    }
+}

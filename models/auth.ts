@@ -52,3 +52,14 @@ export interface SocialCallbackModel {
     is_signup: boolean;
     user_name: string;
 }
+
+/**
+ * SignupModel
+ */
+export interface SignupModel {
+    nickname?: string;
+    mbti?: string;
+    age?: string;
+    gender?: string;
+    push_token?: string;
+}

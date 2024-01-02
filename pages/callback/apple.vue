@@ -11,6 +11,8 @@
 import { useUserStore } from "~/store/user";
 import { useAuthService } from "../../services/auth";
 
+const { $native } = useNuxtApp();
+
 const { getSocialCallback } = useAuthService();
 const route = useRoute();
 const router = useRouter();
@@ -24,7 +26,7 @@ onMounted(async () => {
     console.log(">> apple res", res);
 
     if (res.success) {
-        // 로그인 성공 시, 쿠키/store 세팅
+        // 로그인 성공 시, 쿠키/store 세팅, FCMToken 저장
         const { setAccessToken, setRefreshToken, setUser } = useUserStore();
         const now = new Date();
         const accessTokenExpires = new Date(
@@ -46,6 +48,9 @@ onMounted(async () => {
 
         setAccessToken(res.data.access_token);
         setRefreshToken(res.data.refresh_token);
+
+        // App에 FCM Token 요청
+        $native.reqFCMToken();
 
         if (res.data.is_signup) {
             router.push(`/profile/starter`);
