@@ -423,9 +423,9 @@ export default {
 }
 .contents {
   // BottomSheet 높이: 108px =  calc(32px + (12px * 1.5) + 4px) + 40px + 14px;
-  height: calc(100% - (60px));
-  height: calc(100% - (60px + constant(safe-area-inset-top)));
-  height: calc(100% - (60px + env(safe-area-inset-top)));
+  height: calc(100% - (10px));
+  height: calc(100% - (10px + constant(safe-area-inset-top)));
+  height: calc(100% - (10px + env(safe-area-inset-top)));
   padding: 2rem 0;
   background: var(--v2-gradient_bg_light, linear-gradient(0deg, #DED2FF -46.93%, #D2DAFF -31.6%, #DEE4FF -4.86%, #FFF 117.99%));
 
