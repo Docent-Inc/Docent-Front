@@ -1,16 +1,16 @@
 <template>
   <section class="viewport">
-<!--    <header class="header">-->
-<!--        <Icon class="ic_url" @click="shareURL"/>-->
-<!--    </header>-->
-
-    <article class="contents" :class="{'contents-shared': shared}">
+    <header class="header">
       <div class="contents-header">
         <span class="contents-header-title">
             <span lang="ko">Looi의 꿈 해석 하러가기&nbsp;</span>
             <span lang="en">https://look-i.app</span>&nbsp;검색
         </span>
       </div>
+    </header>
+
+    <article class="contents" :class="{'contents-shared': shared}">
+
 <!--      <v-icon class="ic_event_header" />-->
       <!-- 1. 상단 영역 (날짜, 제목) -->
       <div class="diary-title-box">
@@ -645,6 +645,7 @@ textarea:focus {
 
   justify-content: center;
   margin-top: 8px;
+
   display: flex;
   color: var(--indigo-600, #4F46E5);
   /* b2/b2_med_14 */
