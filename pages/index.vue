@@ -39,7 +39,7 @@ onMounted(() => {
         // isOnboarding = true, 온보딩 화면으로 이동
         const isOnboarding = window.localStorage.getItem("isOnboarding");
         if (!isOnboarding) {
-            router.push(`/onboarding`);
+            router.replace(`/onboarding`);
             return;
         }
 
@@ -53,7 +53,7 @@ async function checkAutoLogin() {
     // (1) 리프레시 토큰 존재하지 않으면 로그인 필요
     const refreshToken = useCookie("refresh_token").value;
     if (!refreshToken) {
-        router.push(`/signin`);
+        router.replace(`/signin`);
         return;
     }
 
@@ -66,7 +66,7 @@ async function checkAutoLogin() {
         reset();
         useCookie("access_token").value = null;
         useCookie("refresh_token").value = null;
-        router.push(`/signin`);
+        router.replace(`/signin`);
 
         return;
     }
@@ -97,7 +97,7 @@ async function checkAutoLogin() {
     setRefreshToken(res.data.refresh_token);
     await updateUser();
 
-    router.push(`/chat`);
+    router.replace(`/chat`);
 }
 </script>
 
