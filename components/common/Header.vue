@@ -2,12 +2,8 @@
     <header class="header">
         <!-- 왼쪽 -->
         <div class="left">
-            <div
-                v-if="isBackBtnLeftSide"
-                class="ic_back-box"
-                @click="() => this.$router.back()"
-            >
-                <v-icon class="ic_back" />
+            <div v-if="isBackBtnLeftSide" class="ic_back-box">
+                <BackBtn />
             </div>
 
             <div
@@ -46,9 +42,11 @@
 
 <script>
 import Icon from "~/components/common/Icon";
+import BackBtn from "./buttons/BackBtn.vue";
+
 export default {
     name: "Header",
-    components: { Icon },
+    components: { Icon, BackBtn },
     props: {
         title: {
             type: String,

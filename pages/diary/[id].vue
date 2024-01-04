@@ -1,96 +1,98 @@
 <template>
     <section class="viewport">
-      <header class="header">
-        <div class="left-items">
-          <Button class="ic_back" @click="this.$router.back()" />
-          <span v-if="type === '1'" class="header-title">꿈</span>
-          <span v-else class="header-title">일기</span>
-        </div>
-        <v-icon class="ic_url" @click="shareURL" />
-      </header>
+        <header class="header">
+            <div class="left-items">
+                <BackBtn />
+                <span v-if="type === '1'" class="header-title">꿈</span>
+                <span v-else class="header-title">일기</span>
+            </div>
+            <v-icon class="ic_url" @click="shareURL" />
+        </header>
 
-      <article class="contents">
+        <article class="contents">
             <!-- 1. 상단 영역 (날짜, 제목) -->
             <div class="diary-title-box">
-                  <div class="diary-title-box-top">
+                <div class="diary-title-box-top">
                     <div class="diary-date">
-                      {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
+                        {{ $dayjs(diary.create_date).format("YYYY.MM.DD") }}
                     </div>
-                    <div
-                        class="diary-delete"
-                        @click="onDelete"
-                    >
-                      <Icon class="ic_delete" />삭제하기
+                    <div class="diary-delete" @click="onDelete">
+                        <Icon class="ic_delete" />삭제하기
                     </div>
-                  </div>
-                  <div v-if="diary.diary_name === ''">
+                </div>
+                <div v-if="diary.diary_name === ''">
                     <div v-if="isLoading">
-                      <div class="diary-title-not-generate-title__skeleton"></div>
+                        <div
+                            class="diary-title-not-generate-title__skeleton"
+                        ></div>
                     </div>
                     <div v-else-if="!isLoading">
-                      <div class="diary-title-not-generate">
-                        <div class="diary-title-not-generate-title" @click="handleEditMode('title')">
-                          <input
-                              class="edit-input"
-                              ref="inputRef"
-                              v-if="isEditMode && editType === 'title'"
-                              v-model="diaryTitle"
-                              @blur="handleBlur('title')"
-                          />
-                          <div v-else>{{ diaryTitle  || diary.diary_name}}</div>
+                        <div class="diary-title-not-generate">
+                            <div
+                                class="diary-title-not-generate-title"
+                                @click="handleEditMode('title')"
+                            >
+                                <input
+                                    class="edit-input"
+                                    ref="inputRef"
+                                    v-if="isEditMode && editType === 'title'"
+                                    v-model="diaryTitle"
+                                    @blur="handleBlur('title')"
+                                />
+                                <div v-else>
+                                    {{ diaryTitle || diary.diary_name }}
+                                </div>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
-                  <div v-else>
+                </div>
+                <div v-else>
                     <div class="diary-title" @click="handleEditMode('title')">
-                      <input
-                          class="edit-input"
-                          ref="inputRef"
-                          v-if="isEditMode && editType === 'title'"
-                          v-model="diaryTitle"
-                          @blur="handleBlur('title')"
-                      />
-                      <div v-else>{{ diaryTitle }}</div>
+                        <input
+                            class="edit-input"
+                            ref="inputRef"
+                            v-if="isEditMode && editType === 'title'"
+                            v-model="diaryTitle"
+                            @blur="handleBlur('title')"
+                        />
+                        <div v-else>{{ diaryTitle }}</div>
                     </div>
-                  </div>
-                    <div v-if="isGenerated">
-                      <div class="tag-wrap">
+                </div>
+                <div v-if="isGenerated">
+                    <div class="tag-wrap">
                         <div class="tag accent" v-for="tag in diary.keyword">
-                          {{ tag }}
+                            {{ tag }}
                         </div>
-                      </div>
                     </div>
-                    <div v-else-if="!isGenerated">
-                        <div v-if="isLoading">
-                          <div class="tag-not-generate__skeleton"></div>
-                        </div>
-                      <div v-else-if="!isLoading">
+                </div>
+                <div v-else-if="!isGenerated">
+                    <div v-if="isLoading">
+                        <div class="tag-not-generate__skeleton"></div>
+                    </div>
+                    <div v-else-if="!isLoading">
                         <div class="tag-wrap">
-                          <div class="tag-not-generate">
-                            키워드 생성 전이에요!
-                          </div>
-                          <div class="tag-wrap">
-                          </div>
+                            <div class="tag-not-generate">
+                                키워드 생성 전이에요!
+                            </div>
+                            <div class="tag-wrap"></div>
                         </div>
-                      </div>
                     </div>
-              <div v-if="isLoading">
-                <div class="diary-image__skeleton"></div>
-              </div>
+                </div>
+                <div v-if="isLoading">
+                    <div class="diary-image__skeleton"></div>
+                </div>
             </div>
 
             <!-- 2. 중간 영역 (이미지, 삭제 버튼) -->
             <!-- maxWidth="calc((100vh - (60px + 20px)) * 0.6)" -->
             <div v-if="!isLoading" class="diary-image-div">
-              <Image
-                  class="diary-image"
-                  :url="diary.image_url"
-                  width="calc(100% - 40px)"
-                  maxWidth="400px"
-              />
+                <Image
+                    class="diary-image"
+                    :url="diary.image_url"
+                    width="calc(100% - 40px)"
+                    maxWidth="400px"
+                />
             </div>
-
 
             <!-- 3. 바텀시트 영역 -->
             <div class="bottom-container">
@@ -140,40 +142,78 @@
                             <Icon class="ic_crystal" />꿈을 통해 본
                             {{ user?.nickname }}님의 마음
                         </div>
-                        <div v-if="!isGenerated" class="bottom-diary-content-default">
-                          <span class="bottom-diary-content-default-title">아직 꿈 해석이 생성되기 전이에요!</span>
-                          <span class="bottom-diary-content-default-content">아래 버튼을 눌러주시면 Looi가 꿈을 해석해드려요.</span>
-                          <div v-if="!isLoading" class="bottom-generate">
-                              <span class="bottom-generate-title">기록에 약간의 마법을 불어넣어볼까요?</span>
-                              <span class="bottom-generate-content">직접 제목을 지으셨다면 지으신 제목은 유지되니 걱정하지마세요!</span>
-                              <div class="generate" @click="handleGenerate()">
-                                <span class="generate-text">제목, 키워드, 그림, 꿈 해석 생성하기</span>
-                              </div>
-                          </div>
+                        <div
+                            v-if="!isGenerated"
+                            class="bottom-diary-content-default"
+                        >
+                            <span class="bottom-diary-content-default-title"
+                                >아직 꿈 해석이 생성되기 전이에요!</span
+                            >
+                            <span class="bottom-diary-content-default-content"
+                                >아래 버튼을 눌러주시면 Looi가 꿈을
+                                해석해드려요.</span
+                            >
+                            <div v-if="!isLoading" class="bottom-generate">
+                                <span class="bottom-generate-title"
+                                    >기록에 약간의 마법을 불어넣어볼까요?</span
+                                >
+                                <span class="bottom-generate-content"
+                                    >직접 제목을 지으셨다면 지으신 제목은
+                                    유지되니 걱정하지마세요!</span
+                                >
+                                <div class="generate" @click="handleGenerate()">
+                                    <span class="generate-text"
+                                        >제목, 키워드, 그림, 꿈 해석
+                                        생성하기</span
+                                    >
+                                </div>
+                            </div>
                         </div>
-                        <div v-if="isGenerated" class="bottom-diary-content-desc">
-                          {{ diary.resolution }}
+                        <div
+                            v-if="isGenerated"
+                            class="bottom-diary-content-desc"
+                        >
+                            {{ diary.resolution }}
                         </div>
                     </div>
-                  <div v-if="type == 2" class="bottom-diary-content">
-                      <div class="bottom-diary-content-title">
-                          <Icon class="ic_reply" />Looi의 답장
-                      </div>
-                      <div v-if="!isGenerated" class="bottom-diary-content-default">
-                          <span class="bottom-diary-content-default-title">아직 답장이 생성되기 전이에요!</span>
-                          <span class="bottom-diary-content-default-content">아래 버튼을 눌러주시면 Looi가 일기에 답장해드려요.</span>
-                          <div v-if="!isLoading" class="bottom-generate">
-                            <span class="bottom-generate-title">기록에 약간의 마법을 불어넣어볼까요?</span>
-                            <span class="bottom-generate-content">직접 제목을 지으셨다면 지으신 제목은 유지되니 걱정하지마세요!</span>
-                            <div class="generate" @click="handleGenerate()">
-                              <span class="generate-text">제목, 키워드, 그림, Looi의 답장 생성하기</span>
+                    <div v-if="type == 2" class="bottom-diary-content">
+                        <div class="bottom-diary-content-title">
+                            <Icon class="ic_reply" />Looi의 답장
+                        </div>
+                        <div
+                            v-if="!isGenerated"
+                            class="bottom-diary-content-default"
+                        >
+                            <span class="bottom-diary-content-default-title"
+                                >아직 답장이 생성되기 전이에요!</span
+                            >
+                            <span class="bottom-diary-content-default-content"
+                                >아래 버튼을 눌러주시면 Looi가 일기에
+                                답장해드려요.</span
+                            >
+                            <div v-if="!isLoading" class="bottom-generate">
+                                <span class="bottom-generate-title"
+                                    >기록에 약간의 마법을 불어넣어볼까요?</span
+                                >
+                                <span class="bottom-generate-content"
+                                    >직접 제목을 지으셨다면 지으신 제목은
+                                    유지되니 걱정하지마세요!</span
+                                >
+                                <div class="generate" @click="handleGenerate()">
+                                    <span class="generate-text"
+                                        >제목, 키워드, 그림, Looi의 답장
+                                        생성하기</span
+                                    >
+                                </div>
                             </div>
-                          </div>
-                      </div>
-                      <div v-if="isGenerated" class="bottom-diary-content-desc">
-                        {{ diary.resolution }}
-                      </div>
-                  </div>
+                        </div>
+                        <div
+                            v-if="isGenerated"
+                            class="bottom-diary-content-desc"
+                        >
+                            {{ diary.resolution }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </article>
@@ -199,6 +239,7 @@ import Icon from "~/components/common/Icon.vue";
 import Image from "~/components/common/Image.vue";
 import Toast from "~/components/common/Toast.vue";
 import LimitedLength from "~/components/common/LimitedLength.vue";
+import BackBtn from "~/components/common/buttons/BackBtn.vue";
 
 export default {
     name: "Diary",
@@ -208,6 +249,7 @@ export default {
         Image,
         Toast,
         LimitedLength,
+        BackBtn,
     },
     data() {
         return {
@@ -283,11 +325,12 @@ export default {
         this.diary = res.data.diary;
         this.isGenerated = res.data.diary.is_generated;
         if (this.diary.diary_name === "") {
-          this.diaryTitle = "제목을 직접 입력해보세요!";
+            this.diaryTitle = "제목을 직접 입력해보세요!";
         } else {
-          this.diaryTitle = this.diary.diary_name;
+            this.diaryTitle = this.diary.diary_name;
         }
-        if (this.isGenerated) this.diary.keyword = JSON.parse(this.diary.main_keyword);
+        if (this.isGenerated)
+            this.diary.keyword = JSON.parse(this.diary.main_keyword);
         this.diary.resolution = res.data.diary.resolution;
         this.isLoading = false;
     },
@@ -329,34 +372,35 @@ export default {
             }
         },
         async shareURL() {
-          const baseUrl = window.location.href.split("/").slice(0, 3).join("/");
-          let url = `${baseUrl}/share/${this.diary.share_id}`;
-          if (this.type === "1") {
-            url += "?type=1";
-          } else if (this.type === "2") {
-            url += "?type=2";
-          }
-          try {
-            if (!navigator?.clipboard?.writeText)
-              throw new Error(
-                  "복사 기능이 제공되지 않는 브라우저입니다.",
-              );
+            const baseUrl = window.location.href
+                .split("/")
+                .slice(0, 3)
+                .join("/");
+            let url = `${baseUrl}/share/${this.diary.share_id}`;
+            if (this.type === "1") {
+                url += "?type=1";
+            } else if (this.type === "2") {
+                url += "?type=2";
+            }
+            try {
+                if (!navigator?.clipboard?.writeText)
+                    throw new Error(
+                        "복사 기능이 제공되지 않는 브라우저입니다.",
+                    );
 
-            // 클립보드에 복사
-            window.navigator.clipboard
-                .writeText(url)
-                .then(() => {
-                  this.$eventBus.$emit("onConfirmModal", {
-                    title: "URL이 복사되었습니다.",
-                  });
+                // 클립보드에 복사
+                window.navigator.clipboard.writeText(url).then(() => {
+                    this.$eventBus.$emit("onConfirmModal", {
+                        title: "URL이 복사되었습니다.",
+                    });
                 });
-          } catch (e) {
-            console.error(e);
-            this.$eventBus.$emit("onConfirmModal", {
-              title: "URL 복사에 실패하였습니다",
-              desc: e.message,
-            });
-          }
+            } catch (e) {
+                console.error(e);
+                this.$eventBus.$emit("onConfirmModal", {
+                    title: "URL 복사에 실패하였습니다",
+                    desc: e.message,
+                });
+            }
         },
         handleEditMode(type) {
             this.isEditMode = true;
@@ -417,41 +461,41 @@ export default {
             }, 2500);
         },
         async handleGenerate() {
-          const { generateMorningDiary, generateNightDiary } = useDiaryService();
-          let res;
-          this.isLoading = true;
+            const { generateMorningDiary, generateNightDiary } =
+                useDiaryService();
+            let res;
+            this.isLoading = true;
 
-          this.$eventBus.$emit("onConfirmModal", {
-            title: "제목, 키워드, 그림, 해석을 생성하고 있어요!",
-            desc: "AI 생성에는 시간이 소요돼요. 잠시만 기다려주세요!",
-            callback: () => {
-            },
-          });
-
-          if (this.type === "1") {
-            res = await generateMorningDiary(this.diary.id);
-          } else if (this.type === "2") {
-            res = await generateNightDiary(this.diary.id);
-          }
-
-          if (!res.success) {
             this.$eventBus.$emit("onConfirmModal", {
-              title: "조회 실패하였습니다.",
-              desc: res.message,
-              callback: () => {
-                this.$router.back();
-              },
+                title: "제목, 키워드, 그림, 해석을 생성하고 있어요!",
+                desc: "AI 생성에는 시간이 소요돼요. 잠시만 기다려주세요!",
+                callback: () => {},
             });
-          }
 
-          this.diary = res.data.diary;
-          this.diary.diary_name = res.data.diary.diary_name;
-          this.isGenerated = res.data.diary.is_generated;
-          this.diaryTitle = res.data.diary.diary_name;
-          this.diary.resolution = res.data.diary.resolution;
-          this.isGenerated = res.data.diary.is_generated;
-          this.diary.keyword = JSON.parse(this.diary.main_keyword);
-          this.isLoading = false;
+            if (this.type === "1") {
+                res = await generateMorningDiary(this.diary.id);
+            } else if (this.type === "2") {
+                res = await generateNightDiary(this.diary.id);
+            }
+
+            if (!res.success) {
+                this.$eventBus.$emit("onConfirmModal", {
+                    title: "조회 실패하였습니다.",
+                    desc: res.message,
+                    callback: () => {
+                        this.$router.back();
+                    },
+                });
+            }
+
+            this.diary = res.data.diary;
+            this.diary.diary_name = res.data.diary.diary_name;
+            this.isGenerated = res.data.diary.is_generated;
+            this.diaryTitle = res.data.diary.diary_name;
+            this.diary.resolution = res.data.diary.resolution;
+            this.isGenerated = res.data.diary.is_generated;
+            this.diary.keyword = JSON.parse(this.diary.main_keyword);
+            this.isLoading = false;
         },
     },
 };
@@ -463,22 +507,31 @@ export default {
 }
 
 .header {
-    background: #FFFFFF;
+    background: #ffffff;
     border: none;
     justify-content: space-between;
 
     padding: 0 20px;
     // margin-top: 10%;
 
-  .left-items {
-    gap: 10px;
-    display: flex; // 왼쪽 아이템들을 위한 Flex 컨테이너
-    align-items: center; // 세로 중앙 정렬
-  }
+    .left-items {
+        gap: 10px;
+        display: flex; // 왼쪽 아이템들을 위한 Flex 컨테이너
+        align-items: center; // 세로 중앙 정렬
+    }
 }
 
 .contents {
-    background: var(--v2-gradient_bg_light, linear-gradient(0deg, #DED2FF -46.93%, #D2DAFF -31.6%, #DEE4FF -4.86%, #FFF 117.99%));
+    background: var(
+        --v2-gradient_bg_light,
+        linear-gradient(
+            0deg,
+            #ded2ff -46.93%,
+            #d2daff -31.6%,
+            #dee4ff -4.86%,
+            #fff 117.99%
+        )
+    );
     // BottomSheet 높이: 108px =  calc(32px + (12px * 1.5) + 4px) + 40px + 14px;
     height: calc(100% - (60px));
     height: calc(100% - (60px + constant(safe-area-inset-top)));
@@ -494,11 +547,11 @@ export default {
     align-items: center;
 }
 .diary-image-div {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1.6rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.6rem;
 }
 
 .diary-image {
@@ -506,7 +559,7 @@ export default {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     margin-bottom: 16px;
 
-  &__skeleton {
+    &__skeleton {
         @include skeleton;
         border-radius: 0.94rem;
         margin-top: 16px;
@@ -562,7 +615,7 @@ export default {
     font-family: "Pretendard Medium";
     font-size: 14px;
     line-height: 160%; /* 22.4px */
-    color: var(--gray-500, #6B7280);
+    color: var(--gray-500, #6b7280);
 
     &__skeleton {
         @include skeleton;
@@ -572,15 +625,15 @@ export default {
 }
 
 .diary-delete {
-  display: flex;
-  color: var(--gray-400, #9CA3AF);
-  font-family: "Pretendard";
-  font-size: 12px;
-  line-height: 160%;
+    display: flex;
+    color: var(--gray-400, #9ca3af);
+    font-family: "Pretendard";
+    font-size: 12px;
+    line-height: 160%;
 }
 .bottom-diary-title-box {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 .bottom-diary {
     margin-bottom: 16px;
@@ -603,7 +656,7 @@ export default {
 
         .bottom-diary-content-desc {
             width: 100%;
-            color: var(--gray-500, #6B7280);
+            color: var(--gray-500, #6b7280);
 
             /* b2/b2_reg_14 */
             font-family: "Pretendard";
@@ -618,8 +671,8 @@ export default {
 .edit-input {
     margin-top: 0.4rem;
     border-radius: 8px;
-    border: 1px solid var(--indigo-400, #6568FE);
-    background: var(--indigo-100, #E0E7FF);
+    border: 1px solid var(--indigo-400, #6568fe);
+    background: var(--indigo-100, #e0e7ff);
     color: #1f2937;
     width: 100%;
     height: auto;
@@ -640,205 +693,215 @@ textarea:focus {
     width: 100%;
 }
 .ic_url {
-  display: flex;
-  width: 115px;
-  height: 31px;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  border-radius: 8px;
+    display: flex;
+    width: 115px;
+    height: 31px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 8px;
 }
 .header-title {
-  text-align: left;
-  color: var(--gray-800, #1F2937);
-  font-family: "Pretendard SemiBold";
-  font-size: 16px;
-  line-height: 150%;
+    text-align: left;
+    color: var(--gray-800, #1f2937);
+    font-family: "Pretendard SemiBold";
+    font-size: 16px;
+    line-height: 150%;
 }
 .bottom-diary-content-default {
-  width: 100%;
-  height: 110px;
-  flex-shrink: 0;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(8px);
-  text-align: center;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+    width: 100%;
+    height: 110px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 .bottom-diary-content-default-title {
-  color: var(--gray-600, #4B5563);
-  text-align: center;
-  margin-top: 33px;
-  font-family: "Pretendard Bold";
-  font-size: 16px;
-  line-height: 160%;
+    color: var(--gray-600, #4b5563);
+    text-align: center;
+    margin-top: 33px;
+    font-family: "Pretendard Bold";
+    font-size: 16px;
+    line-height: 160%;
 }
 .bottom-diary-content-default-content {
-  color: var(--gray-500, #6B7280);
-  text-align: center;
-  font-family: "Pretendard";
-  font-size: 12px;
-  line-height: 160%;
+    color: var(--gray-500, #6b7280);
+    text-align: center;
+    font-family: "Pretendard";
+    font-size: 12px;
+    line-height: 160%;
 }
 .bottom-diary-content {
-  margin-top: 8px;
-  border-radius: 8px;
-  background: var(--white, #FFF);
-  display: inline-flex;
-  padding: 12px;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  gap: 10px;
+    margin-top: 8px;
+    border-radius: 8px;
+    background: var(--white, #fff);
+    display: inline-flex;
+    padding: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 10px;
 }
 .bottom-generate {
-  text-align: center;
-  display: flex;
-  align-items: center;
-  width: 100vw !important;
-  max-width: 500px;
-  flex-direction: column;
-  margin-top: 66px;
-  padding: 0 20px;
-  height: 161px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) -10.8%, rgba(255, 255, 255, 0.39) 39.17%, #FFF 100%);
-  flex-shrink: 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    width: 100vw !important;
+    max-width: 500px;
+    flex-direction: column;
+    margin-top: 66px;
+    padding: 0 20px;
+    height: 161px;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) -10.8%,
+        rgba(255, 255, 255, 0.39) 39.17%,
+        #fff 100%
+    );
+    flex-shrink: 0;
 }
 .generate {
-  width: 100%;
-  height: 48px;
-  margin-top: 12px;
-  flex-shrink: 0;
-  border-radius: 12px;
-  background: var(--v2-CTA_accent, #9398FF);
-  text-align: center;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
+    width: 100%;
+    height: 48px;
+    margin-top: 12px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: var(--v2-CTA_accent, #9398ff);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 .generate-text {
-  color: var(--white, #FFF);
-  text-align: center;
-  font-family: "Pretendard Bold";
-  font-size: 16px;
-  line-height: 160%;
+    color: var(--white, #fff);
+    text-align: center;
+    font-family: "Pretendard Bold";
+    font-size: 16px;
+    line-height: 160%;
 }
 .bottom-generate-title {
-  margin-top: 36px;
-  color: var(--indigo-500, #6366F1);
-  text-align: center;
-  font-family: "Pretendard Bold";
-  font-size: 14px;
-  line-height: 160%;
+    margin-top: 36px;
+    color: var(--indigo-500, #6366f1);
+    text-align: center;
+    font-family: "Pretendard Bold";
+    font-size: 14px;
+    line-height: 160%;
 }
 .bottom-generate-content {
-  color: var(--gray-400, #9CA3AF);
-  text-align: center;
-  font-family: "Pretendard";
-  font-size: 12px;
-  line-height: 160%;
+    color: var(--gray-400, #9ca3af);
+    text-align: center;
+    font-family: "Pretendard";
+    font-size: 12px;
+    line-height: 160%;
 }
 .diary-title-box-top {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 4px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
 }
 .diary-title-not-generate {
-  padding: 0 12px;
-  width: 100%;
-  height: 48px;
-  flex-shrink: 0;
-  border-radius: 8px;
-  background: var(--indigo-50, #EEF2FF);
-  align-items: center;
-  display: flex;
+    padding: 0 12px;
+    width: 100%;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: var(--indigo-50, #eef2ff);
+    align-items: center;
+    display: flex;
 }
 
 .diary-title-not-generate-title {
-  color: var(--gray-400, #9CA3AF);
-  font-family: "Pretendard";
-  font-size: 12px;
-  line-height: 160%;
+    color: var(--gray-400, #9ca3af);
+    font-family: "Pretendard";
+    font-size: 12px;
+    line-height: 160%;
 
-  &__skeleton {
-    @include skeleton;
-    width: 100%;
-    height: 48px;
-    border-radius: 8px;
-  }
+    &__skeleton {
+        @include skeleton;
+        width: 100%;
+        height: 48px;
+        border-radius: 8px;
+    }
 }
 .tag-not-generate {
-  display: inline-flex;
-  padding: 6px 11px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  border-radius: 12px;
-  background: rgba(145, 145, 145, 0.20);
-  color: var(--gray-500, #6B7280);
-  font-family: "Pretendard Bold";
-  font-size: 12px;
-  line-height: 160%; /* 19.2px */
-
-  &__skeleton {
-    @include skeleton;
-    width: 100%;
-    margin-top: 32px;
-    height: 31px;
+    display: inline-flex;
+    padding: 6px 11px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
     border-radius: 12px;
-  }
+    background: rgba(145, 145, 145, 0.2);
+    color: var(--gray-500, #6b7280);
+    font-family: "Pretendard Bold";
+    font-size: 12px;
+    line-height: 160%; /* 19.2px */
+
+    &__skeleton {
+        @include skeleton;
+        width: 100%;
+        margin-top: 32px;
+        height: 31px;
+        border-radius: 12px;
+    }
 }
 .bottom-generate-loading {
-  text-align: center;
-  display: flex;
-  align-items: center;
-  width: 100vw !important;
-  max-width: 500px;
-  flex-direction: column;
-  margin-top: 66px;
-  padding: 0 20px;
-  height: 161px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) -10.8%, rgba(255, 255, 255, 0.39) 39.17%, #FFF 100%) !important;
-  flex-shrink: 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    width: 100vw !important;
+    max-width: 500px;
+    flex-direction: column;
+    margin-top: 66px;
+    padding: 0 20px;
+    height: 161px;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) -10.8%,
+        rgba(255, 255, 255, 0.39) 39.17%,
+        #fff 100%
+    ) !important;
+    flex-shrink: 0;
 }
 .bottom-diary-content-default-title-loading {
-  color: var(--indigo-500, #6366F1);
-  text-align: center;
-  margin-top: 33px;
-  font-family: "Pretendard Bold";
-  font-size: 14px;
-  line-height: 160%;
+    color: var(--indigo-500, #6366f1);
+    text-align: center;
+    margin-top: 33px;
+    font-family: "Pretendard Bold";
+    font-size: 14px;
+    line-height: 160%;
 }
 .bottom-diary-content-default-content-loading {
-  color: var(--gray-400, #9CA3AF);
-  text-align: center;
-  font-family: "Pretendard";
-  font-size: 12px;
-  line-height: 160%;
+    color: var(--gray-400, #9ca3af);
+    text-align: center;
+    font-family: "Pretendard";
+    font-size: 12px;
+    line-height: 160%;
 }
 .generate-loading {
-  width: 100%;
-  height: 48px;
-  margin-top: 12px;
-  flex-shrink: 0;
-  border-radius: 12px;
-  background: var(--indigo-100, #E0E7FF);
-  text-align: center;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
+    width: 100%;
+    height: 48px;
+    margin-top: 12px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: var(--indigo-100, #e0e7ff);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 .generate-text-loading {
-  color: var(--indigo-400, #6568FE);
-  text-align: center;
-  font-family: "Pretendard";
-  font-size: 16px;
-  line-height: 160%;
+    color: var(--indigo-400, #6568fe);
+    text-align: center;
+    font-family: "Pretendard";
+    font-size: 16px;
+    line-height: 160%;
 }
 </style>
