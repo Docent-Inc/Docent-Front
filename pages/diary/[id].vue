@@ -328,25 +328,6 @@ export default {
                 });
             }
         },
-      async Copy(url) {
-        try {
-          if (!navigator?.clipboard?.writeText) {
-            throw new Error("복사 기능이 제공되지 않는 브라우저입니다.");
-          }
-
-          // 클립보드에 복사
-          await navigator.clipboard.writeText(url);
-          this.$eventBus.$emit("onConfirmModal", {
-            title: "URL이 복사되었습니다.",
-          });
-        } catch (e) {
-          console.error(e);
-          this.$eventBus.$emit("onConfirmModal", {
-            title: "URL 복사에 실패하였습니다",
-            desc: e.message,
-          });
-        }
-      },
         async shareURL() {
           const { getShareMorningdiary, getShareNightdiary } = useDiaryService();
             const fullUrl = window.location.href;
@@ -358,14 +339,46 @@ export default {
             if (res.success) {
               const id = res.data.id;
               url = `${baseUrl}/share/${id}?type=1`; // 기본 URL과 결합
-              await this.Copy(url);
+              try {
+                if (!navigator?.clipboard?.writeText) {
+                  throw new Error("복사 기능이 제공되지 않는 브라우저입니다.");
+                }
+
+                // 클립보드에 복사
+                await navigator.clipboard.writeText(url);
+                this.$eventBus.$emit("onConfirmModal", {
+                  title: "URL이 복사되었습니다.",
+                });
+              } catch (e) {
+                console.error(e);
+                this.$eventBus.$emit("onConfirmModal", {
+                  title: "URL 복사에 실패하였습니다",
+                  desc: e.message,
+                });
+              }
             }
           } else if (this.type === "2") {
             const res = await getShareNightdiary(this.diary.id);
             if (res.success) {
               const id = res.data.id;
               url = `${baseUrl}/share/${id}?type=2`; // 기본 URL과 결합
-              await this.Copy(url);
+              try {
+                if (!navigator?.clipboard?.writeText) {
+                  throw new Error("복사 기능이 제공되지 않는 브라우저입니다.");
+                }
+
+                // 클립보드에 복사
+                await navigator.clipboard.writeText(url);
+                this.$eventBus.$emit("onConfirmModal", {
+                  title: "URL이 복사되었습니다.",
+                });
+              } catch (e) {
+                console.error(e);
+                this.$eventBus.$emit("onConfirmModal", {
+                  title: "URL 복사에 실패하였습니다",
+                  desc: e.message,
+                });
+              }
             }
           }
         },
