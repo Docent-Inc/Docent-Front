@@ -2,7 +2,7 @@
     <div class="viewport">
         <div class="header">
             <div class="setting-top">
-                <v-icon class="ic_back" @click="this.$router.back()" />
+                <BackBtn />
                 <span class="setting-title">설정</span>
             </div>
         </div>
@@ -53,9 +53,9 @@
                     <span class="logout" @click="logout">로그아웃</span>
                 </div>
             </div>
-<!--            <div class="setting-contents-3">-->
-<!--                <SettingPush v-if="user" />-->
-<!--            </div>-->
+            <!--            <div class="setting-contents-3">-->
+            <!--                <SettingPush v-if="user" />-->
+            <!--            </div>-->
             <div class="setting-contents-4">
                 <div class="inquiry">
                     <span class="inquiry-title">문의하기</span>
@@ -80,6 +80,7 @@ import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
 import { Popover } from "v-calendar";
 import Icon from "~/components/common/Icon.vue";
+import BackBtn from "~/components/common/buttons/BackBtn.vue";
 import { useSettingService } from "../../services/setting";
 
 export default {
@@ -87,6 +88,7 @@ export default {
     components: {
         Popover,
         Icon,
+        BackBtn,
     },
     setup() {},
     data() {
@@ -129,10 +131,16 @@ export default {
             window.open("https://pf.kakao.com/_vNxnRG", "_blank");
         },
         openToSLink() {
-            window.open("https://docent-ai.notion.site/53a465da1ef04985aabba86fdfb5d388?pvs=4", "_blank");
+            window.open(
+                "https://docent-ai.notion.site/53a465da1ef04985aabba86fdfb5d388?pvs=4",
+                "_blank",
+            );
         },
         openPolicyLink() {
-            window.open("https://docent-ai.notion.site/bdd51533f0424658ac5c52b4cc067cad?pvs=4", "_blank");
+            window.open(
+                "https://docent-ai.notion.site/bdd51533f0424658ac5c52b4cc067cad?pvs=4",
+                "_blank",
+            );
         },
         logout() {
             const { reset } = useUserStore();

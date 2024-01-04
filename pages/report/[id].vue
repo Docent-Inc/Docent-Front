@@ -1,8 +1,5 @@
 <template>
-    <div class="header">
-        <Icon class="ic_back_white" @click="this.$router.back()" />한 주
-        돌아보기
-    </div>
+    <div class="header"><BackBtn :is-dark="true" />한 주 돌아보기</div>
     <div class="contents">
         <Icon class="img_blur_elipsis" />
 
@@ -115,6 +112,7 @@ import { mapState } from "pinia";
 import { useUserStore } from "~/store/user";
 import { useReportService } from "../../services/report";
 import Image from "~/components/common/Image.vue";
+import BackBtn from "~/components/common/buttons/BackBtn.vue";
 
 export default {
     name: "Report",
@@ -123,7 +121,7 @@ export default {
             layout: "dark",
         });
     },
-    components: { Icon, Image },
+    components: { Icon, Image, BackBtn },
     computed: { ...mapState(useUserStore, ["user"]) },
     data() {
         return {
