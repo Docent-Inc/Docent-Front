@@ -331,6 +331,11 @@ export default {
         async shareURL() {
           const baseUrl = window.location.href.split("/").slice(0, 3).join("/");
           let url = `${baseUrl}/share/${this.diary.share_id}`;
+          if (this.type === "1") {
+            url += "?type=1";
+          } else if (this.type === "2") {
+            url += "?type=2";
+          }
           try {
             if (!navigator?.clipboard?.writeText)
               throw new Error(
