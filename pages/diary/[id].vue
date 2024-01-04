@@ -329,45 +329,28 @@ export default {
             }
         },
         async shareURL() {
-          const { getShareMorningdiary, getShareNightdiary } = useDiaryService();
           const baseUrl = window.location.href.split("/").slice(0, 3).join("/");
-          let textPromise;
+          let url = `${baseUrl}/share/${this.diary.share_id}`;
+          try {
+            if (!navigator?.clipboard?.writeText)
+              throw new Error(
+                  "복사 기능이 제공되지 않는 브라우저입니다.",
+              );
 
-          if (this.type === "1") {
-            textPromise = getShareMorningdiary(this.diary.id).then(res => {
-              if (res.success) {
-                return `${baseUrl}/share/${res.data.id}?type=1`;
-              }
-              throw new Error("URL 생성 실패");
-            });
-          } else if (this.type === "2") {
-            textPromise = getShareNightdiary(this.diary.id).then(res => {
-              if (res.success) {
-                return `${baseUrl}/share/${res.data.id}?type=2`;
-              }
-              throw new Error("URL 생성 실패");
-            });
-          }
-
-          if (textPromise) {
-            textPromise
-                .then(text => new Blob([text], { type: "text/plain" }))
-                .then(blob => {
-                  const clipboardItem = new ClipboardItem({ "text/plain": blob });
-                  navigator.clipboard.write([clipboardItem]);
-                })
+            // 클립보드에 복사
+            window.navigator.clipboard
+                .writeText(url)
                 .then(() => {
                   this.$eventBus.$emit("onConfirmModal", {
                     title: "URL이 복사되었습니다.",
                   });
-                })
-                .catch(e => {
-                  console.error(e);
-                  this.$eventBus.$emit("onConfirmModal", {
-                    title: "URL 복사에 실패하였습니다",
-                    desc: e.message,
-                  });
                 });
+          } catch (e) {
+            console.error(e);
+            this.$eventBus.$emit("onConfirmModal", {
+              title: "URL 복사에 실패하였습니다",
+              desc: e.message,
+            });
           }
         },
         handleEditMode(type) {

@@ -8,7 +8,6 @@ import {
     type CalendarListModel,
     type RecordsReqBodyModel,
     type RecordResModel,
-    type ShareModel,
 } from "~/models/diary";
 import axios from "axios";
 
@@ -106,19 +105,6 @@ export const useDiaryService = () => {
             return await DELETE<DiaryModel>(
                 `/memo/delete?memo_id=${memo_id}`,
             );
-        },
-
-        /**
-         * 아침 다이어리 공유 URL 생성 (꿈)
-         */
-        async getShareMorningdiary(diary_id: number) {
-            return await GET<ShareModel>(`/dream/share?dream_id=${diary_id}`);
-        },
-        /**
-         * 저녁 다이어리 공유 URL 생성 (일기)
-         */
-        async getShareNightdiary(diary_id: number) {
-            return await GET<ShareModel>(`/diary/share?diary_id=${diary_id}`);
         },
 
         /**
