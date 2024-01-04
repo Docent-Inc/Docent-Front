@@ -330,56 +330,44 @@ export default {
         },
         async shareURL() {
           const { getShareMorningdiary, getShareNightdiary } = useDiaryService();
-            const fullUrl = window.location.href;
-            const baseUrl = fullUrl.split("/").slice(0, 3).join("/");
-            // "https://docent.zip/share/${this.diary.id}?type=${this.type}"
-          let url = "";
+          const baseUrl = window.location.href.split("/").slice(0, 3).join("/");
+          let textPromise;
+
           if (this.type === "1") {
-            const res = await getShareMorningdiary(this.diary.id);
-            if (res.success) {
-              const id = res.data.id;
-              url = `${baseUrl}/share/${id}?type=1`; // 기본 URL과 결합
-              try {
-                if (!navigator?.clipboard?.writeText) {
-                  throw new Error("복사 기능이 제공되지 않는 브라우저입니다.");
-                }
-
-                // 클립보드에 복사
-                await navigator.clipboard.writeText(url);
-                this.$eventBus.$emit("onConfirmModal", {
-                  title: "URL이 복사되었습니다.",
-                });
-              } catch (e) {
-                console.error(e);
-                this.$eventBus.$emit("onConfirmModal", {
-                  title: "URL 복사에 실패하였습니다",
-                  desc: e.message,
-                });
+            textPromise = getShareMorningdiary(this.diary.id).then(res => {
+              if (res.success) {
+                return `${baseUrl}/share/${res.data.id}?type=1`;
               }
-            }
+              throw new Error("URL 생성 실패");
+            });
           } else if (this.type === "2") {
-            const res = await getShareNightdiary(this.diary.id);
-            if (res.success) {
-              const id = res.data.id;
-              url = `${baseUrl}/share/${id}?type=2`; // 기본 URL과 결합
-              try {
-                if (!navigator?.clipboard?.writeText) {
-                  throw new Error("복사 기능이 제공되지 않는 브라우저입니다.");
-                }
-
-                // 클립보드에 복사
-                await navigator.clipboard.writeText(url);
-                this.$eventBus.$emit("onConfirmModal", {
-                  title: "URL이 복사되었습니다.",
-                });
-              } catch (e) {
-                console.error(e);
-                this.$eventBus.$emit("onConfirmModal", {
-                  title: "URL 복사에 실패하였습니다",
-                  desc: e.message,
-                });
+            textPromise = getShareNightdiary(this.diary.id).then(res => {
+              if (res.success) {
+                return `${baseUrl}/share/${res.data.id}?type=2`;
               }
-            }
+              throw new Error("URL 생성 실패");
+            });
+          }
+
+          if (textPromise) {
+            textPromise
+                .then(text => new Blob([text], { type: "text/plain" }))
+                .then(blob => {
+                  const clipboardItem = new ClipboardItem({ "text/plain": blob });
+                  navigator.clipboard.write([clipboardItem]);
+                })
+                .then(() => {
+                  this.$eventBus.$emit("onConfirmModal", {
+                    title: "URL이 복사되었습니다.",
+                  });
+                })
+                .catch(e => {
+                  console.error(e);
+                  this.$eventBus.$emit("onConfirmModal", {
+                    title: "URL 복사에 실패하였습니다",
+                    desc: e.message,
+                  });
+                });
           }
         },
         handleEditMode(type) {
