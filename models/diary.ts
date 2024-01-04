@@ -40,6 +40,13 @@ export interface DiaryList {
 }
 
 /**
+ * ShareModel
+ */
+export interface ShareModel {
+    id: string;
+}
+
+/**
  * DiaryModel
  */
 export interface DiaryModel {

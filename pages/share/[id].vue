@@ -1,7 +1,7 @@
 <template>
-    <section class="viewport" :style="dynamicBackgrond">
+    <section class="viewport">
         <div class="header">
-            <div class="button" @click="router.replace('/')">
+            <div class="button" @click="Download">
                 <Icon class="logo_look_small" />
                 <span>Looi 체험해보기</span>
             </div>
@@ -40,10 +40,13 @@
             />
 
             <!-- 3. 바텀시트 영역 -->
-            <div class="bottom-container" :style="bottomTextColor">
+            <div class="bottom-container">
                 <div class="bottom-diary">
                     <div class="bottom-diary-content">
-                        <div class="bottom-diary-content-title">
+                        <div v-if="type == 1" class="bottom-diary-content-title">
+                            <Icon class="ic_memo" /> 꿈 내용
+                        </div>
+                        <div v-else-if="type == 2" class="bottom-diary-content-title">
                             <Icon class="ic_memo" /> 일기 내용
                         </div>
                         <div class="bottom-diary-content-desc">
@@ -76,7 +79,7 @@
     </section>
 </template>
 <script setup>
-const { getShareMorningdiary, getShareNightdiary } = useDiaryService();
+const { getSharedDiary } = useDiaryService();
 const router = useRouter();
 const route = useRoute();
 
@@ -84,10 +87,7 @@ const params = route.params;
 const query = route.query;
 
 const record = await useAsyncData(`content-${params.id}`, async () => {
-    const res =
-        query.type === "1"
-            ? await getShareMorningdiary(params.id)
-            : await getShareNightdiary(params.id);
+    const res = await getSharedDiary(params.id);
 
     if (res.success) {
         return res.data?.diary || null;
@@ -130,73 +130,26 @@ export default {
             isOpen: false,
         };
     },
-    computed: {
-        dynamicBackgrond() {
-            let background_color = `rgb(0, 0, 0)`;
-            let text_color = "#fff";
-
-            if (this.diary.background_color) {
-                const colorList = JSON.parse(this.diary.background_color);
-
-                if (colorList.length > 1) {
-                    background_color = `linear-gradient(rgb${colorList[0]}, rgb${colorList[1]})`;
-                    text_color = getTextColorForBackground(
-                        colorList.map((color) => `rgb${color}`),
-                    );
-                } else {
-                    background_color = `rgb${colorList[0]}`;
-                    text_color = getTextColorForBackground([
-                        `rgb${colorList[0]}`,
-                    ]);
-                }
-            }
-
-            return {
-                background: background_color,
-                color: text_color,
-            };
-        },
-        bottomTextColor() {
-            let text_color = "#fff";
-
-            if (this.diary.background_color) {
-                const colorList = JSON.parse(this.diary.background_color);
-
-                if (colorList.length > 1) {
-                    text_color = getTextColorForBackground([
-                        `rgb${colorList[1]}`,
-                    ]);
-                } else {
-                    text_color = getTextColorForBackground([
-                        `rgb${colorList[0]}`,
-                    ]);
-                }
-            }
-
-            return {
-                color: text_color,
-            };
-        },
-        bottomSheetTitle() {
-            let type = this.type === "1" ? "꿈 해석" : "일기";
-            if (this.type === "2" && !this.isOpen) type = "일기 자세히"; // 일기의 경우, '자세히' 보기
-
-            const open = !this.isOpen ? "보기" : "닫기";
-
-            return `${type} ${open}`;
-        },
+    methods: {
+      async Download(){
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        if(/iPhone|iPad|iPod|macintosh|mac/i.test(userAgent)){
+          const url = "https://apps.apple.com/kr/app/looi-%EC%9E%90%EA%B8%B0%EA%B4%80%EB%A6%AC%EB%A5%BC-%EB%8F%84%EC%99%80%EC%A3%BC%EB%8A%94-ai-%EA%B8%B0%EB%A1%9D-%EB%B9%84%EC%84%9C/id6474598684";
+          window.open(url, "_blank");
+        }
+        else if(/android/i.test(userAgent)){
+          const url = "https://play.google.com/store/apps/details?id=zip.docent.looi";
+          window.open(url, "_blank");
+        }
+      },
     },
     async mounted() {
-        const { getShareMorningdiary, getShareNightdiary } = useDiaryService();
+        const { getSharedDiary } = useDiaryService();
 
         const id = this.$route.params.id;
-        const type = this.$route.query.type;
-        this.type = type;
+        this.type = this.$route.query.type;
 
-        const res =
-            type === "1"
-                ? await getShareMorningdiary(id)
-                : await getShareNightdiary(id);
+        const res = await getSharedDiary(id);
 
         if (!res.success) {
             this.$eventBus.$emit("onConfirmModal", {

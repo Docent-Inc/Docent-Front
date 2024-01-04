@@ -329,10 +329,24 @@ export default {
             }
         },
         async shareURL() {
-            const url = window.location.href;
+          const { getShareMorningdiary, getShareNightdiary } = useDiaryService();
+            const base_url = window.location.origin;
             // "https://docent.zip/share/${this.diary.id}?type=${this.type}"
-
-            try {
+          let url = "";
+          if (this.type === "1") {
+            const res = await getShareMorningdiary(this.diary.id);
+            if (res.success) {
+              const id = res.data.id;
+              url = `${base_url}/share/${id}?type=1`; // 기본 URL과 결합
+            }
+          } else if (this.type === "2") {
+            const res = await getShareNightdiary(this.diary.id);
+            if (res.success) {
+              const id = res.data.id;
+              url = `${base_url}/share/${id}?type=2`; // 기본 URL과 결합
+            }
+          }
+          try {
                 if (!navigator?.clipboard?.writeText)
                     throw new Error(
                         "복사 기능이 제공되지 않는 브라우저입니다.",
@@ -340,7 +354,7 @@ export default {
 
                 // 클립보드에 복사
                 window.navigator.clipboard
-                    .writeText(url.replace("diary", "share"))
+                    .writeText(url)
                     .then(() => {
                         this.$eventBus.$emit("onConfirmModal", {
                             title: "URL이 복사되었습니다.",
