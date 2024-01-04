@@ -112,7 +112,19 @@ async function getSessionChatList() {
     if (chatList) {
         store.initChatList(JSON.parse(chatList));
     } else {
-        // Welcome Chat 추가
+        // if guide 문구 있으면,
+        const guide = useRoute().query.guide;
+        if (guide) {
+            const guideChat = {
+                is_docent: true,
+                type: "default",
+                text: guide,
+            };
+            store.addChat(guideChat);
+            return;
+        }
+
+        // else, Welcome Chat 추가
         const type = getHourType(new Date().getHours());
         store.addWelcomeChat(type);
     }
