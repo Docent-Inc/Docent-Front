@@ -108,16 +108,10 @@ export const useDiaryService = () => {
         },
 
         /**
-         * 아침 다이어리 조회 - 공유용 (꿈)
+         * 공유된 게시물 조회
          */
-        async getShareMorningdiary(diary_id: number) {
-            return await GET<DiaryModel>(`/share/dream/${diary_id}`);
-        },
-        /**
-         * 저녁 다이어리 조회 - 공유용 (일기)
-         */
-        async getShareNightdiary(diary_id: number) {
-            return await GET<DiaryModel>(`/share/diary/${diary_id}`);
+        async getSharedDiary(diary_id: string) {
+            return await GET<DiaryModel>(`/share/${diary_id}`);
         },
 
         /**

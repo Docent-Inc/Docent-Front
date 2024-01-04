@@ -329,30 +329,34 @@ export default {
             }
         },
         async shareURL() {
-            const url = window.location.href;
-            // "https://docent.zip/share/${this.diary.id}?type=${this.type}"
+          const baseUrl = window.location.href.split("/").slice(0, 3).join("/");
+          let url = `${baseUrl}/share/${this.diary.share_id}`;
+          if (this.type === "1") {
+            url += "?type=1";
+          } else if (this.type === "2") {
+            url += "?type=2";
+          }
+          try {
+            if (!navigator?.clipboard?.writeText)
+              throw new Error(
+                  "복사 기능이 제공되지 않는 브라우저입니다.",
+              );
 
-            try {
-                if (!navigator?.clipboard?.writeText)
-                    throw new Error(
-                        "복사 기능이 제공되지 않는 브라우저입니다.",
-                    );
-
-                // 클립보드에 복사
-                window.navigator.clipboard
-                    .writeText(url.replace("diary", "share"))
-                    .then(() => {
-                        this.$eventBus.$emit("onConfirmModal", {
-                            title: "URL이 복사되었습니다.",
-                        });
-                    });
-            } catch (e) {
-                console.error(e);
-                this.$eventBus.$emit("onConfirmModal", {
-                    title: "URL 복사에 실패하였습니다",
-                    desc: e.message,
+            // 클립보드에 복사
+            window.navigator.clipboard
+                .writeText(url)
+                .then(() => {
+                  this.$eventBus.$emit("onConfirmModal", {
+                    title: "URL이 복사되었습니다.",
+                  });
                 });
-            }
+          } catch (e) {
+            console.error(e);
+            this.$eventBus.$emit("onConfirmModal", {
+              title: "URL 복사에 실패하였습니다",
+              desc: e.message,
+            });
+          }
         },
         handleEditMode(type) {
             this.isEditMode = true;

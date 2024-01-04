@@ -62,6 +62,7 @@ interface Diary {
     is_completed?: boolean;
     resolution?: string;
     main_keyword?: string; // TODO: string[]
+    share_id?: string;
 }
 
 /**

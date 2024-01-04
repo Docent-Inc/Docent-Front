@@ -52,7 +52,7 @@ export default {
     data() {
         return {
             isOAuthFailed: false,
-            isIOS: isIOS(),
+            isIOS: false,
         };
     },
     methods: {
@@ -66,6 +66,9 @@ export default {
                 alert("로그인에 실패하였습니다.\n", res.message);
             }
         },
+    },
+    mounted() {
+        this.isIOS = isIOS();
     },
 };
 </script>
