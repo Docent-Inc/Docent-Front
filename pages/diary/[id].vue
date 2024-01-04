@@ -330,20 +330,22 @@ export default {
         },
         async shareURL() {
           const { getShareMorningdiary, getShareNightdiary } = useDiaryService();
-            const base_url = window.location.origin;
+            const fullUrl = window.location.href;
+            const baseUrl = fullUrl.split("/").slice(0, 3).join("/");
             // "https://docent.zip/share/${this.diary.id}?type=${this.type}"
           let url = "";
           if (this.type === "1") {
             const res = await getShareMorningdiary(this.diary.id);
             if (res.success) {
               const id = res.data.id;
-              url = `${base_url}/share/${id}?type=1`; // 기본 URL과 결합
+              url = `${baseUrl}/share/${id}?type=1`; // 기본 URL과 결합
+              console.log(url)
             }
           } else if (this.type === "2") {
             const res = await getShareNightdiary(this.diary.id);
             if (res.success) {
               const id = res.data.id;
-              url = `${base_url}/share/${id}?type=2`; // 기본 URL과 결합
+              url = `${baseUrl}/share/${id}?type=2`; // 기본 URL과 결합
             }
           }
           try {
