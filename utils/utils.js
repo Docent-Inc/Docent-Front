@@ -162,7 +162,7 @@ export function isAndroid() {
 export function isIOS() {
     if (window) {
         const userAgent = window.navigator.userAgent.toLowerCase();
-        return /iPhone|iPad|iPod/i.test(userAgent);
+        return /iPhone|iPad|iPod|macintosh|mac/i.test(userAgent);
     }
 }
 
