@@ -89,28 +89,28 @@ import { onMessageListener } from "./firebase/firebase";
 export default {
     mounted() {
         // 앱 사용 중 메시지 수신
-        onMessageListener()
-            .then((payload) => {
-                const sendMessage = (payload) => {
-                    const notificationTitle = payload.notification.title;
-                    const notificationOptions = {
-                        body: payload.notification.body,
-                        icon: payload.notification.image,
-                    };
-                    const notif = new Notification(
-                        notificationTitle,
-                        notificationOptions,
-                    );
-                    notif.onclick = () => {
-                        const router = useRouter();
-                        router.push("/home");
-                        console.log("Notification clicked");
-                    };
-                    // console.log(notif);
-                };
-                sendMessage(payload);
-            })
-            .catch((err) => console.log(err));
+        // onMessageListener()
+        //     .then((payload) => {
+        //         const sendMessage = (payload) => {
+        //             const notificationTitle = payload.notification.title;
+        //             const notificationOptions = {
+        //                 body: payload.notification.body,
+        //                 icon: payload.notification.image,
+        //             };
+        //             const notif = new Notification(
+        //                 notificationTitle,
+        //                 notificationOptions,
+        //             );
+        //             notif.onclick = () => {
+        //                 const router = useRouter();
+        //                 router.push("/home");
+        //                 console.log("Notification clicked");
+        //             };
+        //             // console.log(notif);
+        //         };
+        //         sendMessage(payload);
+        //     })
+        //     .catch((err) => console.log(err));
     },
 };
 </script>
