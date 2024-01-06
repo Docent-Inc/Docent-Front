@@ -15,12 +15,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 
-// 사용자가 현재 웹페이지를 보고 있을 때는 데이터 및 알림 페이로드를 페이지에서 직접 수신
-onMessage(messaging, (payload) => {
-    console.log("Message received. ", payload);
-    // ...
-});
-
 // 앱이 백그라운드 상태일 때 수신된 메시지는 브라우저의 화면 알림을 트리거
 messaging.onBackgroundMessage(function (payload) {
     console.log(

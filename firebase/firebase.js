@@ -44,3 +44,9 @@ getToken(messaging, {
     .catch((err) => {
         console.log("An error occurred while retrieving token. ", err);
     });
+
+// 사용자가 현재 웹페이지를 보고 있을 때는 데이터 및 알림 페이로드를 페이지에서 직접 수신
+onMessage(messaging, (payload) => {
+    console.log("Message received. ", payload);
+    // ...
+});
