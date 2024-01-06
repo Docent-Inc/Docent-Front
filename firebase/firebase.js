@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken } from "firebase/messaging";
-import { useSettingService } from "./services/setting";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { useSettingService } from "~/services/setting";
 // import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -13,9 +13,8 @@ const firebaseConfig = {
     measurementId: "G-MNM6B8Q54T",
 };
 
-console.log("firebase on");
 const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);
+export const messaging = getMessaging(app);
 // GA 사용 필요할 경우 주석 해제하여 사용
 // const analytics = getAnalytics(app);
 
@@ -24,29 +23,28 @@ getToken(messaging, {
     vapidKey:
         "BIpZ0ulrR4xjIQQsiJUyhHKmC1vV681U38HJcXDDcvaHGIye5V5-cxF657EoODQt5a4pRphThXk2_L4OICEN-SI",
 })
-    .then(async (currentToken) => {
+    .then((currentToken) => {
         if (currentToken) {
             // 서버에 토큰 전송
             const { updateAccount } = useSettingService();
-            console.log(currentToken);
+            window.alert(currentToken);
             updateAccount({ push_token: currentToken });
         } else {
             console.log(
                 "No registration token available. Request permission to generate one.",
             );
             // 토큰 없으면 알림 권한 요청
-            const token = await messaging.requestPermission();
-            const { updateAccount } = useSettingService();
-            console.log(token);
-            updateAccount({ push_token: token });
+            Notification.requestPermission();
         }
     })
-    .catch((err) => {
-        console.log("An error occurred while retrieving token. ", err);
+    .catch(async (err) => {
+        console.log(err);
     });
 
-// 사용자가 현재 웹페이지를 보고 있을 때는 데이터 및 알림 페이로드를 페이지에서 직접 수신
-onMessage(messaging, (payload) => {
-    console.log("Message received. ", payload);
-    // ...
-});
+// 앱 사용 중 메시지 수신
+export const onMessageListener = () =>
+    new Promise((resolve) => {
+        onMessage(messaging, (payload) => {
+            resolve(payload);
+        });
+    });
