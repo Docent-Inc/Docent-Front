@@ -83,34 +83,34 @@ useSeoMeta({
         "https://kr.object.ncloudstorage.com/looi/%EA%B7%B8%EB%9E%98%ED%94%BD%20%EF%BC%86%20%EC%8D%B8%EB%84%A4%EC%9D%BC%20%EC%9D%B4%EB%AF%B8%EC%A7%80.png",
 });
 </script>
-<!-- <script> -->
-// import { onMessageListener } from "./firebase/firebase";
+<script>
+import { onMessageListener } from "./firebase/firebase";
 
-// export default {
-//     mounted() {
+export default {
+    mounted() {
         // 앱 사용 중 메시지 수신
-        // onMessageListener()
-        //     .then((payload) => {
-        //         const sendMessage = (payload) => {
-        //             const notificationTitle = payload.notification.title;
-        //             const notificationOptions = {
-        //                 body: payload.notification.body,
-        //                 icon: payload.notification.image,
-        //             };
-        //             const notif = new Notification(
-        //                 notificationTitle,
-        //                 notificationOptions,
-        //             );
-        //             notif.onclick = () => {
-        //                 const router = useRouter();
-        //                 router.push("/home");
-        //                 console.log("Notification clicked");
-        //             };
-        //             // console.log(notif);
-        //         };
-        //         sendMessage(payload);
-        //     })
-        //     .catch((err) => console.log(err));
+        onMessageListener()
+            .then((payload) => {
+                const sendMessage = (payload) => {
+                    const notificationTitle = payload.notification.title;
+                    const notificationOptions = {
+                        body: payload.notification.body,
+                        icon: payload.notification.image,
+                    };
+                    const notif = new Notification(
+                        notificationTitle,
+                        notificationOptions,
+                    );
+                    notif.onclick = () => {
+                        const router = useRouter();
+                        router.push("/home");
+                        console.log("Notification clicked");
+                    };
+                    // console.log(notif);
+                };
+                sendMessage(payload);
+            })
+            .catch((err) => console.log(err));
     },
 };
-<!-- </script> -->
+</script>
