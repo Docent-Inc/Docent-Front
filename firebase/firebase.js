@@ -57,6 +57,7 @@ export const onMessageListener = () => {
                 const notificationOptions = {
                     body: payload.notification.body,
                     icon: payload.notification.image,
+                    image: '/icon.png',
                 };
                 const notif = new Notification(
                     notificationTitle,
@@ -64,11 +65,12 @@ export const onMessageListener = () => {
                 );
 
                 notif.onclick = () => {
-                    const router = useRouter();
+                    // const router = useRouter();
 
                     const landing_url = payload.data.landing_url;
                     const newPath = landing_url ? landing_url : `/chat`;
-                    router.replace(newPath);
+                    window.location.href = `${BASE_FRONT_URL}${newPath}`;
+                    // router.replace(newPath);
                 };
             };
             sendMessage(payload);
