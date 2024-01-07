@@ -23,19 +23,30 @@ const messaging = firebase.messaging(app);
  */
 messaging.onBackgroundMessage(function (payload) {
     console.log("[Background]", payload);
-
+    addEventListener("notificationclick", (event) => {
+        event.notification.close();
+        event.waitUntil(
+            clients
+                .matchAll({
+                    type: "window",
+                })
+                .then((clientList) => {
+                    for (const client of clientList) {
+                        if (client.url === "/" && "focus" in client)
+                            return client.focus();
+                    }
+                    if (clients.openWindow)
+                        return clients.openWindow(
+                            "https://docent.zip" + newPath,
+                        );
+                }),
+        );
+    });
     const notificationTitle = payload.notification.title;
     const notificationOptions = {
         body: payload.notification.body,
+        icon: "https://docent.zip/icon.png",
         icon: payload.notification.image,
     };
-    const notif = new Notification(notificationTitle, notificationOptions);
-
-    notif.onclick = () => {
-        const landing_url = payload.data.landing_url;
-        const newPath = landing_url ? landing_url : `/chat`;
-        window.location.replace = "https://docent.zip" + newPath;
-    };
-
     self.registration.showNotification(notificationTitle, notificationOptions);
 });
