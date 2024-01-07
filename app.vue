@@ -13,6 +13,7 @@
 
 <script setup>
 import { SW } from "./registerServiceWorker";
+import { onMessageListener } from "./firebase/firebase";
 
 onMounted(() => {
     // Service Worker 세팅
