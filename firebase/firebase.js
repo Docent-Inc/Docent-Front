@@ -36,7 +36,7 @@ export async function getFCMToken() {
             Notification.requestPermission();
             return "";
         }
-
+        window.alert(currentToken);
         return currentToken;
     }
 }
@@ -57,7 +57,7 @@ export const onMessageListener = () => {
                 const notificationOptions = {
                     body: payload.notification.body,
                     icon: payload.notification.image,
-                    image: '/icon.png',
+                    image: "/icon.png",
                 };
                 const notif = new Notification(
                     notificationTitle,
