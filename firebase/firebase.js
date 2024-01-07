@@ -1,7 +1,9 @@
+/**
+ * Firebase.js
+ * (Firebase 모듈은 CSR에서 동작하지 않으므로 함수들은 client 모드일 때만 실행됨)
+ */
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { useSettingService } from "~/services/setting";
-// import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAR7EVRk7tK2-ygKtecKt9iK6qaEVFSvLs",
@@ -13,38 +15,59 @@ const firebaseConfig = {
     measurementId: "G-MNM6B8Q54T",
 };
 
-const app = initializeApp(firebaseConfig);
-export const messaging = getMessaging(app);
-// GA 사용 필요할 경우 주석 해제하여 사용
-// const analytics = getAnalytics(app);
+/**
+ * getFCMToken - FCM Token 가져오는 함수
+ * @return currentToken
+ */
+export async function getFCMToken() {
+    if (process.client) {
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+        const currentToken = await getToken(messaging, {
+            vapidKey:
+                "BIpZ0ulrR4xjIQQsiJUyhHKmC1vV681U38HJcXDDcvaHGIye5V5-cxF657EoODQt5a4pRphThXk2_L4OICEN-SI",
+        });
 
-// subsequent calls to getToken will return from cache.
-getToken(messaging, {
-    vapidKey:
-        "BIpZ0ulrR4xjIQQsiJUyhHKmC1vV681U38HJcXDDcvaHGIye5V5-cxF657EoODQt5a4pRphThXk2_L4OICEN-SI",
-})
-    .then((currentToken) => {
-        if (currentToken) {
-            // 서버에 토큰 전송
-            const { updateAccount } = useSettingService();
-            window.alert(currentToken);
-            updateAccount({ push_token: currentToken });
-        } else {
-            console.log(
+        // 토큰이 없는 경우, 권한 요청 후 빈 스트링 '' 리턴
+        if (!currentToken) {
+            console.error(
                 "No registration token available. Request permission to generate one.",
             );
-            // 토큰 없으면 알림 권한 요청
             Notification.requestPermission();
+            return "";
         }
-    })
-    .catch(async (err) => {
-        console.log(err);
-    });
 
-// 앱 사용 중 메시지 수신
-export const onMessageListener = () =>
-    new Promise((resolve) => {
+        return currentToken;
+    }
+}
+
+/**
+ * onMessageListener - 앱 사용 중 메시지 수신 (포그라운드)
+ */
+export const onMessageListener = () => {
+    if (process.client) {
+        console.log("hrer");
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
         onMessage(messaging, (payload) => {
-            resolve(payload);
+            const sendMessage = (payload) => {
+                const notificationTitle = payload.notification.title;
+                const notificationOptions = {
+                    body: payload.notification.body,
+                    icon: payload.notification.image,
+                };
+                const notif = new Notification(
+                    notificationTitle,
+                    notificationOptions,
+                );
+                notif.onclick = () => {
+                    const router = useRouter();
+                    router.push("/home");
+                    console.log("Notification clicked");
+                };
+                console.log(notif);
+            };
+            sendMessage(payload);
         });
-    });
+    }
+};

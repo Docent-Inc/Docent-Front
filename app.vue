@@ -13,11 +13,13 @@
 
 <script setup>
 import { SW } from "./registerServiceWorker";
+import { onMessageListener } from "./firebase/firebase";
 
 onMounted(() => {
     // Service Worker 세팅
     if ("serviceWorker" in navigator) {
         SW();
+        onMessageListener();
     }
 
     // Viewport 세팅
