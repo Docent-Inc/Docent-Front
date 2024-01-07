@@ -2,7 +2,6 @@
     <div class="viewport">
         <div class="layout">
             <Header :isLogoLeftSide="true" :isSettingRightSide="true" />
-
             <main class="contents">
                 <!-- 상단 날짜 & 날씨 영역 -->
                 <Greeting :weather="weather" />

@@ -3,18 +3,22 @@
  * (Web -> App 웹에서 앱에 정의된 Bridge 함수 호출)
  */
 import { isIOSApp } from "~/utils/utils";
+import { getFCMToken } from "~/firebase/firebase";
 
 export default defineNuxtPlugin(() => {
     const native = {
-        reqFCMToken: () => {
+        /**
+         * reqFCMToken - FCM Token 요청
+         */
+        reqFCMToken: async () => {
             console.log("Call Native bridge [ reqFCMToken ]");
 
             if (isIOSApp()) {
                 window.webkit.messageHandlers.reqFCMToken.postMessage("");
-                return;
+            } else {
+                const token = await getFCMToken();
+                window.resFCMToken(token);
             }
-
-            console.error("Failed Native bridge [ reqFCMToken ]");
         },
     };
     return {

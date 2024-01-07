@@ -13,37 +13,13 @@
 
 <script setup>
 import { SW } from "./registerServiceWorker";
-import { onMessageListener } from "./firebase/firebase";
+// import { onMessageListener } from "./firebase/firebase";
 
 onMounted(() => {
     // Service Worker 세팅
     if ("serviceWorker" in navigator) {
         SW();
     }
-
-    // 앱 사용 중 메시지 수신
-    onMessageListener()
-        .then((payload) => {
-            const sendMessage = (payload) => {
-                const notificationTitle = payload.notification.title;
-                const notificationOptions = {
-                    body: payload.notification.body,
-                    icon: payload.notification.image,
-                };
-                const notif = new Notification(
-                    notificationTitle,
-                    notificationOptions,
-                );
-                notif.onclick = () => {
-                    const router = useRouter();
-                    router.push("/home");
-                    console.log("Notification clicked");
-                };
-                // console.log(notif);
-            };
-            sendMessage(payload);
-        })
-        .catch((err) => console.log(err));
 
     // Viewport 세팅
     let vh = window.innerHeight * 0.01;

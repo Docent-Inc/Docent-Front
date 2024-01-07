@@ -11,9 +11,11 @@ export default defineNuxtPlugin((nuxtApp) => {
         const res = await useAuthService().signup({ push_token: token });
         if (res.success) {
             console.log("*FCM 토큰 등록 성공", res);
+            return true;
         }
 
-        return true;
+        console.error("*FCM 토큰 등록 실패", res);
+        return false;
     };
 
     // Native 앱에서 사용할 수 있도록 window 객체에 할당
