@@ -18,7 +18,9 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging(app);
 
-// 앱이 백그라운드 상태일 때 수신된 메시지는 브라우저의 화면 알림을 트리거
+/**
+ * messaging.onBackgroundMessage - 앱 사용하지 않는 중 메시지 수신 (백그라운드)
+ */
 messaging.onBackgroundMessage(function (payload) {
     console.log("Received background message ", payload);
 

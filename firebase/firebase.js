@@ -1,5 +1,6 @@
 /**
  * Firebase.js
+ * (Firebase 모듈은 CSR에서 동작하지 않으므로 함수들은 client 모드일 때만 실행됨)
  */
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
@@ -40,10 +41,33 @@ export async function getFCMToken() {
     }
 }
 
-// 앱 사용 중 메시지 수신
-export const onMessageListener = () =>
-    new Promise((resolve) => {
+/**
+ * onMessageListener - 앱 사용 중 메시지 수신 (포그라운드)
+ */
+export const onMessageListener = () => {
+    if (process.client) {
+        console.log("hrer");
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
         onMessage(messaging, (payload) => {
-            resolve(payload);
+            const sendMessage = (payload) => {
+                const notificationTitle = payload.notification.title;
+                const notificationOptions = {
+                    body: payload.notification.body,
+                    icon: payload.notification.image,
+                };
+                const notif = new Notification(
+                    notificationTitle,
+                    notificationOptions,
+                );
+                notif.onclick = () => {
+                    const router = useRouter();
+                    router.push("/home");
+                    console.log("Notification clicked");
+                };
+                console.log(notif);
+            };
+            sendMessage(payload);
         });
-    });
+    }
+};
