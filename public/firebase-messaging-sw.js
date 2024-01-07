@@ -22,11 +22,19 @@ const messaging = firebase.messaging(app);
  * messaging.onBackgroundMessage - 앱 사용하지 않는 중 메시지 수신 (백그라운드)
  */
 messaging.onBackgroundMessage(function (payload) {
-    console.log("Received background message ", payload);
+    console.log("[Background]", payload);
 
     const notificationTitle = payload.notification.title;
     const notificationOptions = {
         body: payload.notification.body,
+        icon: payload.notification.image,
+    };
+    const notif = new Notification(notificationTitle, notificationOptions);
+
+    notif.onclick = () => {
+        const landing_url = payload.data.landing_url;
+        const newPath = landing_url ? landing_url : `/chat`;
+        window.location.replace = "https://docent.zip" + newPath;
     };
 
     self.registration.showNotification(notificationTitle, notificationOptions);

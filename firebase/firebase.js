@@ -46,10 +46,12 @@ export async function getFCMToken() {
  */
 export const onMessageListener = () => {
     if (process.client) {
-        console.log("hrer");
+        console.log("Foreground Message Listener registered!");
+
         const app = initializeApp(firebaseConfig);
         const messaging = getMessaging(app);
         onMessage(messaging, (payload) => {
+            console.log("[Foreground]", payload);
             const sendMessage = (payload) => {
                 const notificationTitle = payload.notification.title;
                 const notificationOptions = {
@@ -60,12 +62,14 @@ export const onMessageListener = () => {
                     notificationTitle,
                     notificationOptions,
                 );
+
                 notif.onclick = () => {
                     const router = useRouter();
-                    router.push("/home");
-                    console.log("Notification clicked");
+
+                    const landing_url = payload.data.landing_url;
+                    const newPath = landing_url ? landing_url : `/chat`;
+                    router.replace(newPath);
                 };
-                console.log(notif);
             };
             sendMessage(payload);
         });
