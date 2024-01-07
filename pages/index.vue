@@ -30,6 +30,8 @@ import { useAuthService } from "~/services/auth";
 import { useUserStore } from "~/store/user";
 import splashVideo from "../assets/video/splash.mp4";
 
+const { $native } = useNuxtApp();
+
 const isChecked = ref(false);
 const router = useRouter();
 // console.log("check", isChecked.value); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
@@ -96,6 +98,7 @@ async function checkAutoLogin() {
     setAccessToken(res.data.access_token);
     setRefreshToken(res.data.refresh_token);
     await updateUser();
+    $native.reqFCMToken(); // FCM Token 갱신
 
     router.replace(`/chat`);
 }
