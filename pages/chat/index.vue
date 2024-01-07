@@ -104,30 +104,44 @@ onUnmounted(() => {
 /**
  * Methods
  */
-
 async function getSessionChatList() {
     const chatList = window.sessionStorage.getItem("chatList");
     // console.log("Chat init! ", chatList);
 
     if (chatList) {
         store.initChatList(JSON.parse(chatList));
+        addGuideChat(); // if, Guide Chat 있으면 추가
     } else {
-        // if guide 문구 있으면,
-        const guide = useRoute().query.guide;
-        if (guide) {
-            const guideChat = {
-                is_docent: true,
-                type: "default",
-                text: guide,
-            };
-            store.addChat(guideChat);
-            return;
-        }
+        // if, Guide Chat 있으면 추가
+        if (addGuideChat()) return;
 
         // else, Welcome Chat 추가
         const type = getHourType(new Date().getHours());
         store.addWelcomeChat(type);
     }
+}
+
+/**
+ * addGuideChat - 푸시를 통해 Guide 문구를 받아온 경우 해당 가이드 문구 추가
+ * (Background) 항상 welcome 문구 대신 addGuideChat() = true
+ * (Foreground) 해당 페이지에 있었을 경우, 기존 채팅 기록 뒤에 addGuideChat()
+ */
+function addGuideChat() {
+    const route = useRoute();
+    const { guide: guideQuery, ...queries } = route.query;
+    if (guideQuery) {
+        const guideChat = {
+            is_docent: true,
+            type: "default",
+            text: guideQuery,
+        };
+        store.addChat(guideChat);
+        useRouter().replace({ ...route, query: queries }); // 문구 추가 후, 쿼리 제거
+
+        return true;
+    }
+
+    return false;
 }
 
 function updateSessionChatList(chatList) {
