@@ -36,7 +36,7 @@ export async function getFCMToken() {
             Notification.requestPermission();
             return "";
         }
-        window.alert(currentToken);
+
         return currentToken;
     }
 }
@@ -69,7 +69,7 @@ export const onMessageListener = () => {
 
                     const landing_url = payload.data.landing_url;
                     const newPath = landing_url ? landing_url : `/chat`;
-                    window.location.href = `${BASE_FRONT_URL}${newPath}`;
+                    window.location.href = `${process.env.BASE_FRONT_URL}${newPath}`;
                     // router.replace(newPath);
                 };
             };
