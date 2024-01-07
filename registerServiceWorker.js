@@ -5,7 +5,9 @@ export function SW() {
     // 메시지 수신 서비스 워커
     register("/firebase-messaging-sw.js", {
         ready() {},
-        registered() {},
+        registered() {
+            console.log("firebase Service worker has been registered.");
+        },
         cached() {},
         updatefound() {},
         updated() {},
