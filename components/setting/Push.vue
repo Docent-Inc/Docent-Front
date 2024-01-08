@@ -409,6 +409,7 @@ export default {
   width: 100%;
   height: 44px;
   padding-left: 12px;
+  padding-right: 12px;
   align-items: center;
   margin-bottom: 4px;
   justify-content: space-between;
