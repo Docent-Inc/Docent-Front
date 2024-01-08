@@ -11,7 +11,7 @@
         </div>
         <div class="calendar-contents" v-if="todosList?.length > 0">
             <div class="calendar-content" v-for="todo in todosList" :key="todo">
-                <ContentBoxWithTime :item="todo" :isCalender="true" />
+                <ContentBoxWithOnlyTime :item="todo" :isCalender="true" />
             </div>
         </div>
 
@@ -30,12 +30,12 @@ import { mapActions } from "pinia";
 import { useCalendarStore } from "~/store/calendar";
 import { useMypageStore } from "~/store/mypage";
 
-import ContentBoxWithTime from "../common/ContentBoxWithTime.vue";
+import ContentBoxWithOnlyTime from "../common/ContentBoxWithOnlyTime.vue";
 import AddBtn from "../common/buttons/AddBtn.vue";
 
 export default {
     name: "CalendarDetail",
-    components: { ContentBoxWithTime, AddBtn },
+    components: { ContentBoxWithOnlyTime, AddBtn },
     props: {
         date: Object,
         todosList: Array,

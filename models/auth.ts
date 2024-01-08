@@ -1,5 +1,7 @@
 // models/auth.vue
 
+import {integer} from "vscode-languageserver-types";
+
 /**
  * UserModel
  */
@@ -17,7 +19,7 @@ export interface UserModel {
     // 구독 및 푸시 설정 정보
     subscription_status: boolean;
     push_token: string;
-    push_report: boolean;
+    push_schedule: number;
     push_morning: string;
     push_night: string;
 }

@@ -12,6 +12,7 @@
     },
     "devDependencies": {
         "@nuxt/devtools": "latest",
+        "@types/hammerjs": "^2.0.45",
         "@types/node": "^20.10.1",
         "dayjs-nuxt": "^1.1.2",
         "eslint": "^8.53.0",
