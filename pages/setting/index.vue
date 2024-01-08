@@ -22,11 +22,9 @@
                     </div>
                     <div class="setting-content-1-bottom-contents">
                         <span class="gender-content">{{ user?.gender }}</span>
-                        <span class="birth-content">{{
-                            this.$dayjs(this.user?.birth).format(
-                                "YYYY년 MM월 DD일",
-                            )
-                        }}</span>
+                        <span class="birth-content">
+                            {{ user?.birth ? this.$dayjs(user.birth).format("YYYY년 MM월 DD일") : '' }}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -53,9 +51,9 @@
                     <span class="logout" @click="logout">로그아웃</span>
                 </div>
             </div>
-            <!--            <div class="setting-contents-3">-->
-            <!--                <SettingPush v-if="user" />-->
-            <!--            </div>-->
+            <div class="setting-contents-3">
+                <SettingPush v-if="user" />
+            </div>
             <div class="setting-contents-4">
                 <div class="inquiry">
                     <span class="inquiry-title">문의하기</span>
