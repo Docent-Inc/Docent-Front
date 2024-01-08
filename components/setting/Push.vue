@@ -446,7 +446,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 24px;
+  margin-top: 14px;
 }
 .bottom-sheet-foot-btn.active {
   border-radius: 12px;
