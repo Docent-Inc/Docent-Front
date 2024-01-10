@@ -4,7 +4,7 @@ importScripts(
 importScripts(
     "https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js",
 );
-
+console.log("sw");
 const firebaseConfig = {
     apiKey: "AIzaSyAR7EVRk7tK2-ygKtecKt9iK6qaEVFSvLs",
     authDomain: "looi-b28fe.firebaseapp.com",
@@ -21,31 +21,55 @@ const messaging = firebase.messaging(app);
 /**
  * messaging.onBackgroundMessage - 앱 사용하지 않는 중 메시지 수신 (백그라운드)
  */
+self.addEventListener("notificationclick", (event) => {
+    event.notification.close(); // 알림 닫기
+
+    const landing_url = event.notification.data;
+    const newPath = landing_url ? landing_url : `/chat`;
+
+    const urlToOpen = new URL(`https://docent.zip${newPath}`);
+
+    event.waitUntil(
+        clients
+            .matchAll({
+                type: "window",
+                includeUncontrolled: true, // 포커스된 창이 없을 때 새 창 열기
+            })
+            .then((windowClients) => {
+                let foundWindowClient = null;
+
+                // 이미 열려 있는 창에서 동일한 URL을 찾기 위한 로직 추가
+                for (let i = 0; i < windowClients.length; i++) {
+                    const client = windowClients[i];
+
+                    if (
+                        client.url.includes(urlToOpen.origin) &&
+                        "focus" in client
+                    ) {
+                        foundWindowClient = client;
+                        break;
+                    }
+                }
+
+                if (foundWindowClient) {
+                    return foundWindowClient.focus().then((focusedClient) => {
+                        if ("navigate" in focusedClient) {
+                            return focusedClient.navigate(urlToOpen.href);
+                        }
+                    });
+                } else if (clients.openWindow) {
+                    return clients.openWindow(urlToOpen.href);
+                }
+            }),
+    );
+});
+
 messaging.onBackgroundMessage(function (payload) {
     console.log("[Background]", payload);
-    addEventListener("notificationclick", (event) => {
-        event.notification.close();
-        event.waitUntil(
-            clients
-                .matchAll({
-                    type: "window",
-                })
-                .then((clientList) => {
-                    for (const client of clientList) {
-                        if (client.url === "/" && "focus" in client)
-                            return client.focus();
-                    }
-                    if (clients.openWindow)
-                        return clients.openWindow(
-                            "https://docent.zip" + newPath,
-                        );
-                }),
-        );
-    });
+
     const notificationTitle = payload.notification.title;
     const notificationOptions = {
-        body: payload.notification.body,
-        icon: "https://docent.zip/icon.png",
+        body: payload.notification.body + "백그라운드",
         icon: payload.notification.image,
     };
     self.registration.showNotification(notificationTitle, notificationOptions);

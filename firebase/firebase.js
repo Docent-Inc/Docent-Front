@@ -36,7 +36,6 @@ export async function getFCMToken() {
             Notification.requestPermission();
             return "";
         }
-
         return currentToken;
     }
 }
@@ -53,13 +52,14 @@ export const onMessageListener = () => {
 
         onMessage(messaging, (payload) => {
             console.log("[Foreground]", payload);
+            const { BASE_FRONT_URL } = useRuntimeConfig().public;
 
             const sendMessage = (payload) => {
                 const notificationTitle = payload.notification.title;
                 const notificationOptions = {
-                    body: payload.notification.body,
-                    image: payload.notification.image,
-                    icon: `${process.env.BASE_FRONT_URL}${"/icon.png"}`,
+                    body: payload.notification.body + "포어",
+                    icon: payload.notification.image,
+                    badge: `${BASE_FRONT_URL}${"/icon.png"}`,
                 };
                 const notif = new Notification(
                     notificationTitle,
@@ -67,13 +67,11 @@ export const onMessageListener = () => {
                 );
 
                 notif.onclick = (event) => {
-                    // const router = useRouter();
-
                     event.preventDefault();
                     const landing_url = payload.data.landing_url;
                     const newPath = landing_url ? landing_url : `/chat`;
-                    window.location.href = `${process.env.BASE_FRONT_URL}${newPath}`;
-                    // router.replace(newPath);
+                    window.location.href = `${BASE_FRONT_URL}${newPath}`;
+                    notif.close();
                 };
             };
             sendMessage(payload);

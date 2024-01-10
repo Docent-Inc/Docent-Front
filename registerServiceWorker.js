@@ -2,20 +2,6 @@ import { register } from "register-service-worker";
 
 export function SW() {
     // if (process.env.NODE_ENV === "production") {
-    // 메시지 수신 서비스 워커
-    register("/firebase-messaging-sw.js", {
-        ready() {},
-        registered() {
-            console.log("firebase Service worker has been registered.");
-        },
-        cached() {},
-        updatefound() {},
-        updated() {},
-        offline() {},
-        error(error) {
-            console.error("Error during service worker registration:", error);
-        },
-    });
 
     // console.log(navigator);
     register(`/service-worker.js`, {
