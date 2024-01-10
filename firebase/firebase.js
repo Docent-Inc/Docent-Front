@@ -50,23 +50,26 @@ export const onMessageListener = () => {
 
         const app = initializeApp(firebaseConfig);
         const messaging = getMessaging(app);
+
         onMessage(messaging, (payload) => {
             console.log("[Foreground]", payload);
+
             const sendMessage = (payload) => {
                 const notificationTitle = payload.notification.title;
                 const notificationOptions = {
                     body: payload.notification.body,
                     image: payload.notification.image,
-                    icon: "/icon.png",
+                    icon: `${process.env.BASE_FRONT_URL}${"/icon.png"}`,
                 };
                 const notif = new Notification(
                     notificationTitle,
                     notificationOptions,
                 );
 
-                notif.onclick = () => {
+                notif.onclick = (event) => {
                     // const router = useRouter();
 
+                    event.preventDefault();
                     const landing_url = payload.data.landing_url;
                     const newPath = landing_url ? landing_url : `/chat`;
                     window.location.href = `${process.env.BASE_FRONT_URL}${newPath}`;
