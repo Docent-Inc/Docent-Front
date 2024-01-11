@@ -3,13 +3,20 @@
  * (App -> Web 앱에서 JavaScript 함수 호출)
  */
 
+import { isIOSApp } from "~/utils/utils";
 import { useAuthService } from "~/services/auth";
 
 export default defineNuxtPlugin((nuxtApp) => {
     const resFCMToken = async (token) => {
         console.log("✈️Hybrid Function Called: \n", token);
 
-        const currentDevice = "AOS";
+        let currentDevice;
+
+        if (isIOSApp()) {
+            currentDevice = "iOS";
+        } else {
+            currentDevice = "AOS";
+        }
 
         const res = await useAuthService().signup({
             push_token: token,

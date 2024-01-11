@@ -4,6 +4,7 @@
  */
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { isIOSApp } from "~/utils/utils";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAR7EVRk7tK2-ygKtecKt9iK6qaEVFSvLs",
@@ -42,10 +43,16 @@ export async function getFCMToken() {
 
 function isNewNotificationSupported() {
     if (!window.Notification || !Notification.requestPermission) return false;
-    if (Notification.permission == "granted")
-        throw new Error(
-            "You must only call this *before* calling Notification.requestPermission(), otherwise this feature detect would bug the user with an actual notification!",
-        );
+    if (Notification.permission == "granted") {
+        // Ensure that Notification.permission is "default" before testing
+        Notification.requestPermission().then((permission) => {
+            if (permission === "default") {
+                throw new Error(
+                    "You must only call this *before* calling Notification.requestPermission(), otherwise this feature detect would bug the user with an actual notification!",
+                );
+            }
+        });
+    }
     try {
         new Notification("");
     } catch (e) {
@@ -63,8 +70,9 @@ export const onMessageListener = () => {
 
         const app = initializeApp(firebaseConfig);
         const messaging = getMessaging(app);
+        const isMobile = /Mobile/.test(navigator.userAgent);
 
-        if (window.Notification && Notification.permission == "granted") {
+        if (!isMobile) {
             onMessage(messaging, (payload) => {
                 console.log("[Foreground]", payload);
                 const { BASE_FRONT_URL } = useRuntimeConfig().public;
@@ -72,27 +80,29 @@ export const onMessageListener = () => {
                 const notificationTitle = payload.data.title;
                 const notificationOptions = {
                     body: payload.data.body + "포어",
-                    icon: payload.data.image_url,
-                    badge: "https://docent.zip/icon.png",
+                    image: payload.data.image_url,
+                    icon: "https://docent.zip/icon.png",
                 };
 
                 const notif = new Notification(
                     notificationTitle,
                     notificationOptions,
                 );
-
+                console.log(notif);
                 notif.onclick = (event) => {
                     event.preventDefault();
                     const landing_url = payload.data.landing_url;
-                    const newPath = landing_url ? landing_url : `/chat`;
+                    const newPath = landing_url ? landing_url : "/chat";
                     window.location.href = `${BASE_FRONT_URL}${newPath}`;
                     notif.close();
                 };
             });
-        } else if (isNewNotificationSupported()) {
-            // new Notification is supported, so prompt the user for permission.
-            Notification.requestPermission();
-            return "";
+        } else if (!isIOSApp() && isMobile) {
+            console.log("Mobile:AOS");
+            registration.showNotification(
+                notificationTitle,
+                notificationOptions,
+            );
         }
     }
 };
