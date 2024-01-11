@@ -8,7 +8,14 @@ import { useAuthService } from "~/services/auth";
 export default defineNuxtPlugin((nuxtApp) => {
     const resFCMToken = async (token) => {
         console.log("✈️Hybrid Function Called: \n", token);
-        const res = await useAuthService().signup({ push_token: token });
+
+        const currentDevice = "AOS";
+
+        const res = await useAuthService().signup({
+            push_token: token,
+            device: currentDevice,
+        });
+
         if (res.success) {
             console.log("*FCM 토큰 등록 성공", res);
             return true;
