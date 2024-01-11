@@ -58,8 +58,7 @@ export const onMessageListener = () => {
                 const notificationTitle = payload.data.title;
                 const notificationOptions = {
                     body: payload.data.body + "포어",
-                    image: payload.data.image_url,
-                    icon: `${BASE_FRONT_URL}${"/icon.png"}`,
+                    icon: payload.data.image_url,
                 };
                 const notif = new Notification(
                     notificationTitle,

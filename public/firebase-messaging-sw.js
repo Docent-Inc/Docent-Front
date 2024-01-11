@@ -4,7 +4,7 @@ importScripts(
 importScripts(
     "https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js",
 );
-console.log("sw");
+
 const firebaseConfig = {
     apiKey: "AIzaSyAR7EVRk7tK2-ygKtecKt9iK6qaEVFSvLs",
     authDomain: "looi-b28fe.firebaseapp.com",
@@ -69,9 +69,8 @@ messaging.onBackgroundMessage(function (payload) {
 
     const notificationTitle = payload.data.title;
     const notificationOptions = {
-        body: payload.data.body + "백그라운드",
-        image: payload.data.image_url,
-        icon: "https://docent.zip/icon.png",
+        body: payload.data.body + "백",
+        icon: payload.data.image_url,
     };
     self.registration.showNotification(notificationTitle, notificationOptions);
 });
