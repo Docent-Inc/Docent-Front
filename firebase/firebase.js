@@ -41,26 +41,6 @@ export async function getFCMToken() {
     }
 }
 
-function isNewNotificationSupported() {
-    if (!window.Notification || !Notification.requestPermission) return false;
-    if (Notification.permission == "granted") {
-        // Ensure that Notification.permission is "default" before testing
-        Notification.requestPermission().then((permission) => {
-            if (permission === "default") {
-                throw new Error(
-                    "You must only call this *before* calling Notification.requestPermission(), otherwise this feature detect would bug the user with an actual notification!",
-                );
-            }
-        });
-    }
-    try {
-        new Notification("");
-    } catch (e) {
-        if (e.name == "TypeError") return false;
-    }
-    return true;
-}
-
 /**
  * onMessageListener - 앱 사용 중 메시지 수신 (포그라운드)
  */
@@ -99,10 +79,12 @@ export const onMessageListener = () => {
             });
         } else if (!isIOSApp() && isMobile) {
             console.log("Mobile:AOS");
-            registration.showNotification(
-                notificationTitle,
-                notificationOptions,
-            );
+            navigator.serviceWorker.ready.then(function (registration) {
+                registration.showNotification(
+                    notificationTitle,
+                    notificationOptions,
+                );
+            });
         }
     }
 };
