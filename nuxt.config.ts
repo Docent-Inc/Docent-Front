@@ -48,7 +48,13 @@ export default defineNuxtConfig({
     build: {
         transpile: ["vuetify"],
     },
-    modules: ["@pinia/nuxt", "dayjs-nuxt", "nuxt-swiper", "nuxt-gtag"],
+    modules: [
+        "@pinia/nuxt",
+        "dayjs-nuxt",
+        "nuxt-swiper",
+        "nuxt-gtag",
+        "@hebilicious/vue-query-nuxt",
+    ],
     gtag: {
         id: "G-LJWL49EEVB",
     },
