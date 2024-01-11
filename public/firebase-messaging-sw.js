@@ -70,8 +70,7 @@ messaging.onBackgroundMessage(function (payload) {
     const notificationTitle = payload.data.title;
     const notificationOptions = {
         body: payload.data.body + "백",
-        icon: payload.data.image_url,
-        image: payload.data.landing_url,
+        image: payload.data.image_url,
         icon: "https://docent.zip/icon.png",
     };
     self.registration.showNotification(notificationTitle, notificationOptions);

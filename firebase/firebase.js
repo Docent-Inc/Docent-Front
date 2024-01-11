@@ -46,7 +46,7 @@ export async function getFCMToken() {
  */
 export const onMessageListener = () => {
     if (process.client) {
-        console.log("Foreground Message Listener registered!");
+        // console.log("Foreground Message Listener registered!");
 
         const app = initializeApp(firebaseConfig);
         const messaging = getMessaging(app);
@@ -68,7 +68,7 @@ export const onMessageListener = () => {
                     notificationTitle,
                     notificationOptions,
                 );
-                console.log(notif);
+
                 notif.onclick = (event) => {
                     event.preventDefault();
                     const landing_url = payload.data.landing_url;
@@ -77,7 +77,6 @@ export const onMessageListener = () => {
                     notif.close();
                 };
             } else if (!isIOSApp() && isMobile) {
-                console.log("Mobile:AOS");
                 navigator.serviceWorker.ready.then(function (registration) {
                     registration.showNotification(
                         notificationTitle,
