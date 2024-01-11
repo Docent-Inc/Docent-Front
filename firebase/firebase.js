@@ -40,6 +40,20 @@ export async function getFCMToken() {
     }
 }
 
+function isNewNotificationSupported() {
+    if (!window.Notification || !Notification.requestPermission) return false;
+    if (Notification.permission == "granted")
+        throw new Error(
+            "You must only call this *before* calling Notification.requestPermission(), otherwise this feature detect would bug the user with an actual notification!",
+        );
+    try {
+        new Notification("");
+    } catch (e) {
+        if (e.name == "TypeError") return false;
+    }
+    return true;
+}
+
 /**
  * onMessageListener - 앱 사용 중 메시지 수신 (포그라운드)
  */
@@ -50,16 +64,18 @@ export const onMessageListener = () => {
         const app = initializeApp(firebaseConfig);
         const messaging = getMessaging(app);
 
-        onMessage(messaging, (payload) => {
-            console.log("[Foreground]", payload);
-            const { BASE_FRONT_URL } = useRuntimeConfig().public;
+        if (window.Notification && Notification.permission == "granted") {
+            onMessage(messaging, (payload) => {
+                console.log("[Foreground]", payload);
+                const { BASE_FRONT_URL } = useRuntimeConfig().public;
 
-            const sendMessage = (payload) => {
                 const notificationTitle = payload.data.title;
                 const notificationOptions = {
                     body: payload.data.body + "포어",
                     icon: payload.data.image_url,
+                    badge: "https://docent.zip/icon.png",
                 };
+
                 const notif = new Notification(
                     notificationTitle,
                     notificationOptions,
@@ -72,8 +88,11 @@ export const onMessageListener = () => {
                     window.location.href = `${BASE_FRONT_URL}${newPath}`;
                     notif.close();
                 };
-            };
-            sendMessage(payload);
-        });
+            });
+        } else if (isNewNotificationSupported()) {
+            // new Notification is supported, so prompt the user for permission.
+            Notification.requestPermission();
+            return "";
+        }
     }
 };

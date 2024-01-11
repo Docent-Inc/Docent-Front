@@ -72,6 +72,7 @@ messaging.onBackgroundMessage(function (payload) {
         body: payload.data.body + "백",
         icon: payload.data.image_url,
         data: payload.data.landing_url,
+        badge: "https://docent.zip/icon.png",
     };
     self.registration.showNotification(notificationTitle, notificationOptions);
 });
