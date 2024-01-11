@@ -55,10 +55,10 @@ export const onMessageListener = () => {
             const { BASE_FRONT_URL } = useRuntimeConfig().public;
 
             const sendMessage = (payload) => {
-                const notificationTitle = payload.notification.title;
+                const notificationTitle = payload.data.title;
                 const notificationOptions = {
-                    body: payload.notification.body + "포어",
-                    icon: payload.notification.image,
+                    body: payload.data.body + "포어",
+                    icon: payload.data.image_url,
                     badge: `${BASE_FRONT_URL}${"/icon.png"}`,
                 };
                 const notif = new Notification(

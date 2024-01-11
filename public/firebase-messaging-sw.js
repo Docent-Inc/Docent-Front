@@ -67,10 +67,10 @@ self.addEventListener("notificationclick", (event) => {
 messaging.onBackgroundMessage(function (payload) {
     console.log("[Background]", payload);
 
-    const notificationTitle = payload.notification.title;
+    const notificationTitle = payload.data.title;
     const notificationOptions = {
-        body: payload.notification.body + "백그라운드",
-        icon: payload.notification.image,
+        body: payload.data.body + "백그라운드",
+        icon: payload.data.image_url,
     };
     self.registration.showNotification(notificationTitle, notificationOptions);
 });
