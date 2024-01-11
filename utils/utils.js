@@ -61,21 +61,31 @@ function getBrightness(r, g, b) {
  */
 export async function getCoordinates() {
     return new Promise((resolve, reject) => {
+        // 1. 권한 미허용 시 return
         const isPermissionDenied = localStorage.getItem(
             "locationPermissionDenied",
         );
+        if (isPermissionDenied) return;
 
-        if (isPermissionDenied) {
-            return;
+        // 2. 이미 위/경도 있을 경우, resolve
+        const location = localStorage.getItem("location");
+        if (location) {
+            const loc = JSON.parse(location);
+            if (isExpiredIn(loc.date, 5)) resolve(loc); // expires - 5분
+
+            localStorage.removeItem("location");
         }
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    resolve({
+                    const loc = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
-                    });
+                        date: new Date().toString(),
+                    };
+                    localStorage.setItem("location", JSON.stringify(loc));
+                    resolve(loc);
                 },
                 (error) => {
                     reject(error);
