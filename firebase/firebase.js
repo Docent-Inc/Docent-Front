@@ -52,18 +52,18 @@ export const onMessageListener = () => {
         const messaging = getMessaging(app);
         const isMobile = /Mobile/.test(navigator.userAgent);
 
-        if (!isMobile) {
-            onMessage(messaging, (payload) => {
-                console.log("[Foreground]", payload);
-                const { BASE_FRONT_URL } = useRuntimeConfig().public;
+        onMessage(messaging, (payload) => {
+            console.log("[Foreground]", payload);
+            const { BASE_FRONT_URL } = useRuntimeConfig().public;
 
-                const notificationTitle = payload.data.title;
-                const notificationOptions = {
-                    body: payload.data.body + "포어",
-                    image: payload.data.image_url,
-                    icon: "https://docent.zip/icon.png",
-                };
+            const notificationTitle = payload.data.title;
+            const notificationOptions = {
+                body: payload.data.body + "포어",
+                image: payload.data.image_url,
+                icon: "https://docent.zip/icon.png",
+            };
 
+            if (!isMobile) {
                 const notif = new Notification(
                     notificationTitle,
                     notificationOptions,
@@ -76,15 +76,15 @@ export const onMessageListener = () => {
                     window.location.href = `${BASE_FRONT_URL}${newPath}`;
                     notif.close();
                 };
-            });
-        } else if (!isIOSApp() && isMobile) {
-            console.log("Mobile:AOS");
-            navigator.serviceWorker.ready.then(function (registration) {
-                registration.showNotification(
-                    notificationTitle,
-                    notificationOptions,
-                );
-            });
-        }
+            } else if (!isIOSApp() && isMobile) {
+                console.log("Mobile:AOS");
+                navigator.serviceWorker.ready.then(function (registration) {
+                    registration.showNotification(
+                        notificationTitle,
+                        notificationOptions,
+                    );
+                });
+            }
+        });
     }
 };
