@@ -4,7 +4,7 @@
             <Header :isLogoLeftSide="true" :isSettingRightSide="true" />
             <main class="contents">
                 <!-- 상단 날짜 & 날씨 영역 -->
-                <Weather />
+                <Weather :location="location" />
                 <Report />
 
                 <div class="contents-wrapper">
@@ -70,6 +70,7 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
+import { useWeatherStore } from "~/store/weather";
 import { useRecordStore } from "~/store/record";
 import { useTodayService } from "../../services/today";
 import Header from "~/components/common/Header.vue";
@@ -104,6 +105,7 @@ export default {
     computed: {
         ...mapState(useUserStore, ["user"]),
         ...mapState(useRecordStore, ["record"]),
+        ...mapState(useWeatherStore, ["location"]),
         luckData() {
             if (this.luck) {
                 const parts = this.luck.split(".");
@@ -125,12 +127,15 @@ export default {
     },
     methods: {
         ...mapActions(useRecordStore, ["updateRecord"]),
+        ...mapActions(useWeatherStore, ["updateLocation"]),
         closeModal() {
             this.isModalOpen = false;
             this.optimisticIsCheckedToday = true;
         },
     },
     async mounted() {
+        this.updateLocation();
+
         const { getTodayLucky, getTodayCalendar } = useTodayService();
 
         getTodayLucky().then((res) => {
@@ -147,6 +152,7 @@ export default {
                 this.isCalendarLoading = false;
             }
         });
+
         this.updateRecord();
     },
 };

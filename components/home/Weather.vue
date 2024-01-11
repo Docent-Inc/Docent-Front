@@ -2,7 +2,7 @@
     <section class="landing">
         <div class="landing__weather">
             <div class="date-box">
-                <div class="date">*{{ $dayjs().format("YYYY.MM.DD") }}</div>
+                <div class="date">{{ $dayjs().format("YYYY.MM.DD") }}</div>
                 <div class="date-icon" v-if="!isLocationDenied">
                     <!-- <div v-if="!weather.icon" class="skeleton" /> -->
                     <img
@@ -39,14 +39,8 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "pinia";
-import { useWeatherStore } from "~/store/weather";
-
 export default {
     name: "Weather",
-    computed: {
-        ...mapState(useWeatherStore, ["weather"]),
-    },
     data() {
         return {
             isLocationDenied: false,
@@ -57,13 +51,36 @@ export default {
             "locationPermissionDenied",
         );
         this.isLocationDenied = !!isPermissionDenied;
-
-        this.updateWeather();
-    },
-    methods: {
-        ...mapActions(useWeatherStore, ["updateWeather"]),
     },
 };
+</script>
+
+<script setup>
+import { useTodayService } from "~/services/today";
+
+const props = defineProps({
+    location: { type: Object, default: null },
+});
+
+const { data: data, refetch } = useQuery({
+    queryKey: ["weather", props.latitude, props.longitude],
+    queryFn: () =>
+        useTodayService().getTodayWeather(
+            props.location.latitude,
+            props.location.longitude,
+        ),
+    enabled: !props.location,
+});
+
+const weather = computed(() => {
+    return data.value ? data.value.data : {};
+});
+
+watch(
+    () => props.location,
+    (newVal) => newVal?.longitude && newVal?.latitude && refetch(),
+    { deep: true },
+);
 </script>
 
 <style lang="scss" scoped>
