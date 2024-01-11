@@ -71,6 +71,7 @@ messaging.onBackgroundMessage(function (payload) {
     const notificationOptions = {
         body: payload.data.body + "백",
         icon: payload.data.image_url,
+        data: payload.data.landing_url,
     };
     self.registration.showNotification(notificationTitle, notificationOptions);
 });
