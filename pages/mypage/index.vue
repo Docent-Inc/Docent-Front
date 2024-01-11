@@ -12,10 +12,10 @@
                 <span class="nickname-color">{{ user?.nickname }}</span
                 >님의 기록공간
             </p>
-<!--            <v-icon-->
-<!--                :class="[mode === 0 ? 'ic_list' : 'ic_board', !type && 'blind']"-->
-<!--                @click="changeMode()"-->
-<!--            />-->
+            <!--            <v-icon-->
+            <!--                :class="[mode === 0 ? 'ic_list' : 'ic_board', !type && 'blind']"-->
+            <!--                @click="changeMode()"-->
+            <!--            />-->
         </div>
 
         <!-- (2) 통계 영역 -->
@@ -43,7 +43,11 @@
         </div>
 
         <div v-if="isSkeleton"></div>
-        <div class="board-contents" :class="type === 0 && 'calendar'" v-else>
+        <div
+            class="board-contents"
+            :class="type === 0 || $route.query.tab === 'calendar'"
+            v-else
+        >
             <CalendarMain
                 v-if="type === 0"
                 :viewType="viewType"
@@ -65,7 +69,13 @@
                 />
             </div>
 
-          <Starter v-if="!list.length && $route.query.tab !== 'calendar' && isDefaultTab !== true" />
+            <Starter
+                v-if="
+                    !list.length &&
+                    $route.query.tab !== 'calendar' &&
+                    isDefaultTab !== true
+                "
+            />
         </div>
     </div>
 </template>
@@ -75,7 +85,6 @@ import { mapState, mapActions } from "pinia";
 import { useMypageStore } from "~/store/mypage";
 import { useUserStore } from "~/store/user";
 import { useRecordStore } from "~/store/record";
-
 
 import InfiniteLoading from "v3-infinite-loading";
 import ListDiary from "../../components/diary/ListDiary.vue";
@@ -113,7 +122,6 @@ export default {
         }
     },
     setup() {
-
         definePageMeta({
             layout: "main",
         });
