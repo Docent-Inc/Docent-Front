@@ -70,7 +70,8 @@ messaging.onBackgroundMessage(function (payload) {
     const notificationTitle = payload.data.title;
     const notificationOptions = {
         body: payload.data.body + "백그라운드",
-        icon: payload.data.image_url,
+        image: payload.data.image_url,
+        icon: "https://docent.zip/icon.png",
     };
     self.registration.showNotification(notificationTitle, notificationOptions);
 });
