@@ -15,7 +15,8 @@ export const useWeatherStore = defineStore("weather", {
     state: initialState,
     actions: {
         async updateWeather() {
-            if (this.isAlreadyCalled) return;
+            console.log(">>", this.isAlreadyCalled);
+            // if (this.isAlreadyCalled) return;
 
             const { getTodayWeather } = useTodayService();
 

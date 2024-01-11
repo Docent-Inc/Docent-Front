@@ -4,7 +4,7 @@
             <Header :isLogoLeftSide="true" :isSettingRightSide="true" />
             <main class="contents">
                 <!-- 상단 날짜 & 날씨 영역 -->
-                <Greeting :weather="weather" />
+                <Weather />
                 <Report />
 
                 <div class="contents-wrapper">
@@ -71,10 +71,9 @@
 import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
 import { useRecordStore } from "~/store/record";
-import { useWeatherStore } from "~/store/weather";
 import { useTodayService } from "../../services/today";
 import Header from "~/components/common/Header.vue";
-import Greeting from "../../components/home/Greeting.vue";
+import Weather from "~/components/home/Weather.vue";
 import DDays from "../../components/home/DDays.vue";
 import Records from "../../components/home/Records.vue";
 import Report from "../../components/home/Report.vue";
@@ -85,7 +84,7 @@ export default {
     name: "Home",
     components: {
         Header,
-        Greeting,
+        Weather,
         DDays,
         Records,
         Report,
@@ -105,7 +104,6 @@ export default {
     computed: {
         ...mapState(useUserStore, ["user"]),
         ...mapState(useRecordStore, ["record"]),
-        ...mapState(useWeatherStore, ["weather"]),
         luckData() {
             if (this.luck) {
                 const parts = this.luck.split(".");
@@ -127,14 +125,10 @@ export default {
     },
     methods: {
         ...mapActions(useRecordStore, ["updateRecord"]),
-        ...mapActions(useWeatherStore, ["updateWeather"]),
         closeModal() {
             this.isModalOpen = false;
             this.optimisticIsCheckedToday = true;
         },
-    },
-    created() {
-        this.updateWeather();
     },
     async mounted() {
         const { getTodayLucky, getTodayCalendar } = useTodayService();
