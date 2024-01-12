@@ -2,8 +2,12 @@ import { register } from "register-service-worker";
 
 export function SW() {
     // if (process.env.NODE_ENV === "production") {
+    navigator.serviceWorker.addEventListener("message", (event) => {
+        if (event.data.includes("docent")) {
+            window.location.href = event.data;
+        }
+    });
 
-    // console.log(navigator);
     register(`/service-worker.js`, {
         ready() {
             // console.log(
