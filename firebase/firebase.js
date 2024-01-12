@@ -58,12 +58,13 @@ export const onMessageListener = () => {
 
             const notificationTitle = payload.data.title;
             const notificationOptions = {
-                body: payload.data.body + "포어",
+                body: payload.data.body,
                 image: payload.data.image_url,
                 icon: "https://docent.zip/icon.png",
             };
 
             if (!isMobile) {
+                console.log("Web");
                 const notif = new Notification(
                     notificationTitle,
                     notificationOptions,
@@ -77,6 +78,7 @@ export const onMessageListener = () => {
                     notif.close();
                 };
             } else if (!isIOSApp() && isMobile) {
+                console.log("Mobile:AOS");
                 navigator.serviceWorker.ready.then(function (registration) {
                     registration.showNotification(
                         notificationTitle,

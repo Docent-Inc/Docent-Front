@@ -21,6 +21,25 @@ const messaging = firebase.messaging(app);
 /**
  * messaging.onBackgroundMessage - 앱 사용하지 않는 중 메시지 수신 (백그라운드)
  */
+self.addEventListener("activate", (event) => {
+    event.waitUntil(
+        clients
+            .matchAll({ type: "window", includeUncontrolled: true })
+            .then((clientList) => {
+                return Promise.all(
+                    clientList.map((client) => {
+                        return client.postMessage({
+                            type: "SERVICE_WORKER_ACTIVATED",
+                        });
+                    }),
+                );
+            })
+            .then(() => {
+                return self.clients.claim(); // 제어권을 즉시 넘깁니다.
+            }),
+    );
+});
+
 self.addEventListener("notificationclick", (event) => {
     event.notification.close(); // 알림 닫기
 
@@ -37,16 +56,16 @@ self.addEventListener("notificationclick", (event) => {
             })
             .then((windowClients) => {
                 let foundWindowClient = null;
-
                 // 이미 열려 있는 창에서 동일한 URL을 찾기 위한 로직 추가
                 for (let i = 0; i < windowClients.length; i++) {
                     const client = windowClients[i];
 
                     if (
-                        client.url.includes(urlToOpen.origin) &&
+                        new URL(client.url).hostname.includes("localhost") &&
                         "focus" in client
                     ) {
                         foundWindowClient = client;
+                        console.log(event.currentTarget.clients);
                         break;
                     }
                 }
@@ -54,10 +73,11 @@ self.addEventListener("notificationclick", (event) => {
                 if (foundWindowClient) {
                     return foundWindowClient.focus().then((focusedClient) => {
                         if ("navigate" in focusedClient) {
-                            return focusedClient.navigate(urlToOpen.href);
+                            focusedClient.postMessage(urlToOpen.href);
                         }
                     });
                 } else if (clients.openWindow) {
+                    console.log(clients);
                     return clients.openWindow(urlToOpen.href);
                 }
             }),
@@ -69,9 +89,10 @@ messaging.onBackgroundMessage(function (payload) {
 
     const notificationTitle = payload.data.title;
     const notificationOptions = {
-        body: payload.data.body + "백",
+        body: payload.data.body,
         image: payload.data.image_url,
         icon: "https://docent.zip/icon.png",
+        data: payload.data.landing_url,
     };
     self.registration.showNotification(notificationTitle, notificationOptions);
 });
