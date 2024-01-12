@@ -15,8 +15,8 @@ const { getSocialCallback } = useAuthService();
 const route = useRoute();
 const router = useRouter();
 
-console.log(route.query);
-console.log(route.params);
+// console.log(route.query);
+// console.log(route.params);
 
 onMounted(async () => {
     const service = route.query.service;

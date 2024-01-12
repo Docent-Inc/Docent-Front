@@ -65,7 +65,7 @@ self.addEventListener("notificationclick", (event) => {
                         "focus" in client
                     ) {
                         foundWindowClient = client;
-                        console.log(event.currentTarget.clients);
+                        // console.log(event.currentTarget.clients);
                         break;
                     }
                 }
@@ -77,7 +77,7 @@ self.addEventListener("notificationclick", (event) => {
                         }
                     });
                 } else if (clients.openWindow) {
-                    console.log(clients);
+                    // console.log(clients);
                     return clients.openWindow(urlToOpen.href);
                 }
             }),

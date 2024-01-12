@@ -172,7 +172,7 @@ export default {
             this.$refs.myBottomSheet.close();
         },
         openErrorModal(message) {
-            console.log(message);
+            // console.log(message);
             this.$eventBus.$emit("onCustomModal", {
                 title: "오류가 발생했어요!",
                 desc: message,

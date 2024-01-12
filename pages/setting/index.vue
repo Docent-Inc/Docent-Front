@@ -108,7 +108,7 @@ export default {
                 confirm: "탈퇴하기",
                 async callback() {
                     const res = await deleteAccount();
-                    console.log(res);
+                    // console.log(res);
                     if (!res.success) {
                         alert(res.message);
                     }

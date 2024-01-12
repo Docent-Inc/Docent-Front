@@ -62,11 +62,11 @@ export default {
             // this.setReload(true);
 
             const res = await sendChat(this.data);
-            console.log("sendChat >>> ", this.data);
+            // console.log("sendChat >>> ", this.data);
 
             if (!res.success) {
                 const msg = `${res.status_code}  - ${res.message}`;
-                console.error("Error! > ", msg, res);
+                // console.error("Error! > ", msg, res);
                 alert(msg);
             }
 
