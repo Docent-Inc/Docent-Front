@@ -21,24 +21,6 @@ const messaging = firebase.messaging(app);
 /**
  * messaging.onBackgroundMessage - 앱 사용하지 않는 중 메시지 수신 (백그라운드)
  */
-self.addEventListener("activate", (event) => {
-    event.waitUntil(
-        clients
-            .matchAll({ type: "window", includeUncontrolled: true })
-            .then((clientList) => {
-                return Promise.all(
-                    clientList.map((client) => {
-                        return client.postMessage({
-                            type: "SERVICE_WORKER_ACTIVATED",
-                        });
-                    }),
-                );
-            })
-            .then(() => {
-                return self.clients.claim(); // 제어권을 즉시 넘깁니다.
-            }),
-    );
-});
 
 self.addEventListener("notificationclick", (event) => {
     event.notification.close(); // 알림 닫기
@@ -77,7 +59,6 @@ self.addEventListener("notificationclick", (event) => {
                         }
                     });
                 } else if (clients.openWindow) {
-                    // console.log(clients);
                     return clients.openWindow(urlToOpen.href);
                 }
             }),
