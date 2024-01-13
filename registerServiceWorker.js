@@ -31,7 +31,10 @@ export function SW() {
                         const client = windowClients[i];
 
                         if (
-                            new URL(client.url).hostname.includes("docent") &&
+                            (new URL(client.url).hostname.includes("docent") ||
+                                new URL(client.url).hostname.includes(
+                                    "bmongsmong",
+                                )) &&
                             "focus" in client
                         ) {
                             foundWindowClient = client;
