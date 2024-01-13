@@ -3,7 +3,7 @@ import { register } from "register-service-worker";
 export function SW() {
     // if (process.env.NODE_ENV === "production") {
     navigator.serviceWorker.addEventListener("message", (event) => {
-        if (event.data.includes("docent")) {
+        if (event.data && event.data.includes("docent")) {
             window.location.href = event.data;
         }
     });
