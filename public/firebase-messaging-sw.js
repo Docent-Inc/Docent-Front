@@ -43,7 +43,7 @@ self.addEventListener("notificationclick", (event) => {
                     const client = windowClients[i];
 
                     if (
-                        new URL(client.url).hostname.includes("localhost") &&
+                        new URL(client.url).hostname.includes("docent") &&
                         "focus" in client
                     ) {
                         foundWindowClient = client;
