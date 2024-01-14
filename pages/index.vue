@@ -30,6 +30,8 @@ import { useAuthService } from "~/services/auth";
 import { useUserStore } from "~/store/user";
 import splashVideo from "../assets/video/splash.mp4";
 
+const { $native } = useNuxtApp();
+
 const isChecked = ref(false);
 const router = useRouter();
 // console.log("check", isChecked.value); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
@@ -39,7 +41,7 @@ onMounted(() => {
         // isOnboarding = true, 온보딩 화면으로 이동
         const isOnboarding = window.localStorage.getItem("isOnboarding");
         if (!isOnboarding) {
-            router.push(`/onboarding`);
+            router.replace(`/onboarding`);
             return;
         }
 
@@ -53,7 +55,7 @@ async function checkAutoLogin() {
     // (1) 리프레시 토큰 존재하지 않으면 로그인 필요
     const refreshToken = useCookie("refresh_token").value;
     if (!refreshToken) {
-        router.push(`/signin`);
+        router.replace(`/signin`);
         return;
     }
 
@@ -66,7 +68,7 @@ async function checkAutoLogin() {
         reset();
         useCookie("access_token").value = null;
         useCookie("refresh_token").value = null;
-        router.push(`/signin`);
+        router.replace(`/signin`);
 
         return;
     }
@@ -96,8 +98,9 @@ async function checkAutoLogin() {
     setAccessToken(res.data.access_token);
     setRefreshToken(res.data.refresh_token);
     await updateUser();
+    $native.reqFCMToken(); // FCM Token 갱신
 
-    router.push(`/chat`);
+    router.replace(`/chat`);
 }
 </script>
 

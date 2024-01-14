@@ -139,7 +139,7 @@ export default {
     //// 231216 - v2 홈 디자인 변경으로 미사용 END
 
     mounted() {
-        const isPermissionDenied = localStorage.getItem(
+        const isPermissionDenied = window.localStorage.getItem(
             "locationPermissionDenied",
         );
         this.isLocationDenied = !!isPermissionDenied;

@@ -47,8 +47,7 @@ onMounted(async () => {
         setAccessToken(res.data.access_token);
         setRefreshToken(res.data.refresh_token);
 
-        // App에 FCM Token 요청
-        $native.reqFCMToken();
+        $native.reqFCMToken(); // FCM Token 갱신
 
         if (res.data.is_signup) {
             router.push(`/profile/starter`);

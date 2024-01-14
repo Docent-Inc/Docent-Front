@@ -53,7 +53,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
             // (2)-1. 만료 15분 전이면 갱신
             // (2)-2. 15분 이상 남았으면 자동 로그인
             if (expiresIn && isExpiredIn(expiresIn, 15)) {
-                console.log("🔒 Expired in 15m...", isExpiredIn(expiresIn, 15));
+                // console.log("🔒 Expired in 15m...", isExpiredIn(expiresIn, 15));
                 try {
                     const res = await refresh(refreshTokenC);
 

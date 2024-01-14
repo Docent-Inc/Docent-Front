@@ -22,7 +22,7 @@ recognition.onresult = (e) => {
         let transcript = e.results[i][0].transcript;
         if (e.results[i].isFinal) {
             data.value += transcript;
-            console.log("🎤 ", transcript);
+            // console.log("🎤 ", transcript);
         }
     }
 };

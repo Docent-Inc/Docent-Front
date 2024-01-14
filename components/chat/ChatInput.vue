@@ -183,7 +183,7 @@ export default {
             this.isOpen = to;
         },
         resizeViewport() {
-            console.log("RESIZE - ", window.visualViewport?.height);
+            // console.log("RESIZE - ", window.visualViewport?.height);
             if (window.visualViewport && this.$refs.chatTextRef) {
                 const currentVisualViewport = window.visualViewport.height;
                 this.$refs.chatTextRef.style.height = `${currentVisualViewport}px`;

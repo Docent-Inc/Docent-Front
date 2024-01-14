@@ -532,6 +532,28 @@
     height: 36px;
 }
 
+.ic_alarm {
+    background: url("../images/pages/setting/ic_alarm.svg") no-repeat center/cover;
+    width: 25px;
+    height: 25px;
+    display: block;
+}
+
+.ic_close {
+    background: url("../images/pages/setting/ic_close.svg") no-repeat center/cover;
+    width: 25px;
+    height: 25px;
+    display: block;
+}
+
+.ic_setting_check {
+    background: url("../images/pages/setting/ic_setting_check.svg") no-repeat
+        center/cover;
+    width: 25px;
+    height: 25px;
+    display: block;
+}
+
 .ic_status_diary {
     background: url("../images/pages/mypage/ic_status_diary.svg") no-repeat
         center;

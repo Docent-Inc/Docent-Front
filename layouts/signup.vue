@@ -1,7 +1,7 @@
 <template>
     <div class="viewport">
         <div class="header">
-            <v-icon class="ic_back" @click="goBack" />
+            <BackBtn />
         </div>
         <v-progress-linear
             v-model="progress"
@@ -18,8 +18,11 @@
 <script>
 import { mapState } from "pinia";
 import { useSignupStore } from "~/store/signup";
+import BackBtn from "~/components/common/buttons/BackBtn.vue";
+
 export default {
     name: "SignupLayout",
+    components: { BackBtn },
     data() {
         return {};
     },
