@@ -53,18 +53,29 @@
                 :viewType="viewType"
                 :updateViewType="updateViewType"
             />
-            <div v-else class="board-content">
-                {{ type }}
-                <BoardItems2 :type="type" />
-                <!-- <BoardItems :list="list" :loadingTab="loadingTab" v-else />
+            <div v-else class="board-content" v-if="list?.length > 0">
+                <ListItems
+                    :list="list"
+                    :loadingTab="loadingTab"
+                    v-if="mode === 0"
+                />
+                <BoardItems :list="list" :loadingTab="loadingTab" v-else />
                 <InfiniteLoading
                     v-if="isDOMready"
                     :key="infiniteLoadingKey"
                     :first-load="false"
                     :distance="1000"
                     @infinite="loadMore"
-                /> -->
+                />
             </div>
+
+            <Starter
+                v-if="
+                    !list.length &&
+                    $route.query.tab !== 'calendar' &&
+                    isDefaultTab !== true
+                "
+            />
         </div>
     </div>
 </template>
@@ -78,8 +89,8 @@ import { useRecordStore } from "~/store/record";
 import InfiniteLoading from "v3-infinite-loading";
 import ListDiary from "../../components/diary/ListDiary.vue";
 import ListMemo from "../../components/diary/ListMemo.vue";
-import ListItems2 from "../../components/diary/ListItems2.vue";
-import BoardItems2 from "../../components/diary/BoardItems2.vue";
+import ListItems from "../../components/diary/ListItems.vue";
+import BoardItems from "../../components/diary/BoardItems.vue";
 import Tags from "../../components/diary/Tags.vue";
 import Starter from "../../components/diary/Starter.vue";
 import Icon from "~/components/common/Icon.vue";
@@ -121,8 +132,8 @@ export default {
         ListMemo,
         InfiniteLoading,
         Tags,
-        BoardItems2,
-        ListItems2,
+        BoardItems,
+        ListItems,
         Icon,
         CalendarMain,
     },
@@ -139,7 +150,7 @@ export default {
     watch: {
         type() {
             this.setPageNo(1);
-            // this.getGalleryList();
+            this.getGalleryList();
         },
     },
     computed: {
@@ -213,7 +224,7 @@ export default {
     async mounted() {
         this.setPageNo(1);
         this.getRatio();
-        // this.getGalleryList();
+        this.getGalleryList();
 
         await nextTick();
         this.isDOMready = true;
@@ -233,7 +244,7 @@ export default {
             // console.log(`loadmore ${this.list.length}/${this.totalCounts}`);
             if (!this.isLoading && this.list.length < this.totalCounts) {
                 this.setPageNo(this.pageNo + 1);
-                // this.getGalleryList();
+                this.getGalleryList();
             }
         },
         goSetting() {
