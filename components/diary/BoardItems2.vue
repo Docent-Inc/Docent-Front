@@ -1,5 +1,5 @@
 <template>
-    <Starter v-if="!isLoading && list.length < 1" />
+    <Starter v-if="!isLoading && !isFetching && list.length < 1" />
     <div v-else class="board-items">
         <div class="add_btn-box">
             <AddBtn :isCard="true" />
@@ -10,7 +10,10 @@
             <BoardDiary :diary="data" v-else />
         </div>
 
+        <!-- page 1인 경우에는 3개, 나머지 경우에는 2개 skeleton 노출 -->
         <div v-if="isFetching" class="item empty" />
+        <div v-if="isFetching" class="item empty" />
+        <div v-if="isFetching && pageNo === 1" class="item empty" />
 
         <InfiniteLoading
             :first-load="false"
@@ -30,15 +33,6 @@ import Starter from "../../components/diary/Starter.vue";
 export default {
     name: "BoardItems",
     components: { BoardMemo, BoardDiary, AddBtn, InfiniteLoading, Starter },
-    props: {
-        list: {
-            type: Array,
-            required: true,
-            default: [],
-        },
-        loadingTab: Number,
-        show: Boolean,
-    },
 };
 </script>
 
@@ -65,28 +59,25 @@ const {
     isFetching,
     data: data,
     fetchNextPage,
+    refetch,
 } = useInfiniteQuery({
     queryKey: ["mypage", props.type, pageNo.value],
     queryFn: () => getMypageList(),
     getNextPageParam: (lastPage, pages) => {
-        console.log("page", pageNo.value);
-
-        if (!hasNextPage) return undefined;
-        return pageNo.value;
+        return hasNextPage ? pageNo.value : undefined;
     },
 });
 
 watch(
     () => data.value,
     () => {
-        console.log("****", data?.value);
+        console.log(">>Response!", data.value);
         const lastPage = data?.value.pages[data?.value.pages.length - 1];
         totalCounts.value = lastPage.data.total_count;
         list.value =
             pageNo.value === 1
                 ? lastPage.data.list
                 : [...list.value, ...lastPage.data.list];
-        console.log(">>list1", list.value, list.value.length);
     },
     { deep: true },
 );
@@ -94,18 +85,22 @@ watch(
 watch(
     () => props.type,
     () => {
-        console.log("refetch!");
         pageNo.value = 1;
-        fetchNextPage();
+        list.value = [];
+        refetch();
     },
+    { immediate: true },
 );
 
 function loadMore() {
-    console.log(">>hasNextPage", hasNextPage.value);
+    console.log(
+        ">>Load More - ",
+        hasNextPage.value,
+        `${list.value.length}/${totalCounts.value}`,
+    );
+
     if (isLoading.value || isFetching.value || !hasNextPage.value) return;
     pageNo.value++;
-    console.log(">>go next", pageNo.value);
-
     fetchNextPage();
 }
 </script>
@@ -114,6 +109,7 @@ function loadMore() {
 @import "@/assets/scss/mixins.scss";
 
 .board-items {
+    background: $gradient_bg_light;
     display: flex;
     flex-wrap: wrap;
     width: 100%;
