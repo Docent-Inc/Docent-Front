@@ -54,8 +54,8 @@
                 :updateViewType="updateViewType"
             />
             <div v-else class="others">
-                <ListItems2 :type="type" v-if="mode === 0" />
-                <BoardItems2 :type="type" v-else />
+                <!-- <ListItems :type="type" v-if="mode === 0" /> -->
+                <BoardItems :type="type" />
             </div>
         </div>
     </div>
@@ -66,8 +66,8 @@ import { mapState, mapActions } from "pinia";
 import { useMypageStore } from "~/store/mypage";
 import { useUserStore } from "~/store/user";
 
-import ListItems2 from "../../components/diary/ListItems2.vue";
-import BoardItems2 from "../../components/diary/BoardItems2.vue";
+import ListItems from "../../components/diary/ListItems.vue";
+import BoardItems from "../../components/diary/BoardItems.vue";
 import Tags from "../../components/diary/Tags.vue";
 import Icon from "~/components/common/Icon.vue";
 import CalendarMain from "~/components/calendar/CalendarMain.vue";
@@ -81,8 +81,8 @@ export default {
     },
     components: {
         Tags,
-        BoardItems2,
-        ListItems2,
+        BoardItems,
+        ListItems,
         Icon,
         CalendarMain,
     },
