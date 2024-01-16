@@ -19,6 +19,26 @@ export function getHourType(hour) {
 }
 
 /**
+ * 타입명 한글로 변환
+ * @param {number} type
+ *  일정 (0), 꿈 (1), 일기(2), 메모(3)
+ */
+export function getTypeNameKO(type) {
+    const typeNameArray = ["일정", "꿈", "일기", "메모"];
+    return typeNameArray[type];
+}
+
+/**
+ * 타입명 영어로 변환
+ * @param {number}
+ * calendar (0), dream (1), diary (2), memo(3)
+ */
+export function getTypeNameEN(type) {
+    const typeNameArrayEN = ["calendar", "dream", "diary", "memo"];
+    return typeNameArrayEN[type];
+}
+
+/**
  * 랜덤 인덱스 제너레이터 함수
  * @param {number} min 시작 인덱스
  * @param {number} max 끝 인덱스

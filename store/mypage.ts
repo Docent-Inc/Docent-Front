@@ -1,6 +1,7 @@
-import type { DiaryList, DiaryRatio } from "~/models/diary";
+import type { DiaryRatio } from "~/models/diary";
 import { useDiaryService } from "../services/diary";
 import { type RecordGeneralResModel } from "~/models/diary";
+import { getTypeNameKO, getTypeNameEN } from "~/utils/utils";
 
 export const useMypageStore = defineStore("mypage", {
     state: () => ({
@@ -9,50 +10,30 @@ export const useMypageStore = defineStore("mypage", {
         typeName: "", // ["일정", "꿈", "일기", "메모"],
         typeNameEN: "",
         mode: 1, // List (0), Board(1)
-        list: [] as DiaryList[],
-        totalCounts: 0,
         ratio: {} as DiaryRatio,
-        isLoading: true,
+        // isLoading: true,
         currentURL: "calendar",
         recordRes: {} as RecordGeneralResModel,
         resSuccessCount: -1,
         loadingTab: -1, // 0 dream, 1 diary, 2 memo
         title: "",
         content: "",
+        isCreating: false, // createRecord 성공 시, 새로고침
     }),
     actions: {
-        async getGalleryList() {
-            this.isLoading = true;
-            const { getGalleryList } = useDiaryService();
-            if (this.type === 0) {
-                this.isLoading = false;
-            }
-            else {
-                const res = await getGalleryList(this.typeNameEN, this.pageNo);
-                if (this.pageNo === 1) this.list = res.data.list;
-                else this.list = [...this.list, ...res.data.list];
-                this.totalCounts = res.data.total_count;
-                this.isLoading = false;
-            }
-        },
         async getRatio() {
-            this.isLoading = true;
             const { getRatio } = useDiaryService();
             const res = await getRatio();
 
             this.ratio = res.data.ratio;
-            this.isLoading = false;
         },
         /**
          * Setter
          */
         setType(type: number, placeToCall?: string) {
-            const typeNameArray = ["일정", "꿈", "일기", "메모"];
-            const typeNameArrayEN = ["calendar", "dream", "diary", "memo"];
-
             this.type = type;
-            this.typeName = typeNameArray[type];
-            this.typeNameEN = typeNameArrayEN[type];
+            this.typeName = getTypeNameKO(type);
+            this.typeNameEN = getTypeNameEN(type);
 
             if (placeToCall === "edit") return;
 
@@ -90,15 +71,13 @@ export const useMypageStore = defineStore("mypage", {
                     break;
             }
         },
-        setPageNo(pageNo: number) {
-            this.pageNo = pageNo;
-        },
         changeMode() {
             this.mode = (this.mode + 1) % 2;
         },
         async createRecords(type: number, data: any) {
             try {
                 this.loadingTab = type;
+                this.isCreating = true;
                 const { postMorningDiary, postNightDiary, postMemo } =
                     useDiaryService();
 
@@ -108,14 +87,17 @@ export const useMypageStore = defineStore("mypage", {
                 else if (type === 3) this.recordRes = await postMemo(data);
 
                 if (this.recordRes.success && type === 3) {
+                    // 메모
                     // this.list.unshift(this.recordRes.data.memo);
                     this.title = "";
                     this.content = "";
+                    this.isCreating = false;
                     // console.log(this.recordRes.data.memo);
                 } else if (this.recordRes.success) {
-                    this.list.unshift(this.recordRes.data.diary);
+                    // this.list.unshift(this.recordRes.data.diary);
                     this.title = "";
                     this.content = "";
+                    this.isCreating = false;
                 } else {
                     window.alert(
                         "기록을 생성하지 못했어요. 다시 시도해보시겠어요?",
