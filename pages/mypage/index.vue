@@ -12,10 +12,10 @@
                 <span class="nickname-color">{{ user?.nickname }}</span
                 >님의 기록공간
             </p>
-<!--            <v-icon-->
-<!--                :class="[mode === 0 ? 'ic_list' : 'ic_board', !type && 'blind']"-->
-<!--                @click="changeMode()"-->
-<!--            />-->
+            <!--            <v-icon-->
+            <!--                :class="[mode === 0 ? 'ic_list' : 'ic_board', !type && 'blind']"-->
+            <!--                @click="changeMode()"-->
+            <!--            />-->
         </div>
 
         <!-- (2) 통계 영역 -->
@@ -42,30 +42,21 @@
             />
         </div>
 
-        <div v-if="isSkeleton"></div>
-        <div class="board-contents" :class="type === 0 && 'calendar'" v-else>
+        <div
+            class="board-contents"
+            :class="{
+                calendar: type === 0 || $route.query.tab === 'calendar',
+            }"
+        >
             <CalendarMain
                 v-if="type === 0"
                 :viewType="viewType"
                 :updateViewType="updateViewType"
             />
-            <div v-else class="board-content" v-if="list?.length > 0">
-                <ListItems
-                    :list="list"
-                    :loadingTab="loadingTab"
-                    v-if="mode === 0"
-                />
-                <BoardItems :list="list" :loadingTab="loadingTab" v-else />
-                <InfiniteLoading
-                    v-if="isDOMready"
-                    :key="infiniteLoadingKey"
-                    :first-load="false"
-                    :distance="1000"
-                    @infinite="loadMore"
-                />
+            <div v-else class="others">
+                <!-- <ListItems :type="type" v-if="mode === 0" /> -->
+                <BoardItems :type="type" />
             </div>
-
-          <Starter v-if="!list.length && $route.query.tab !== 'calendar' && isDefaultTab !== true" />
         </div>
     </div>
 </template>
@@ -74,55 +65,21 @@
 import { mapState, mapActions } from "pinia";
 import { useMypageStore } from "~/store/mypage";
 import { useUserStore } from "~/store/user";
-import { useRecordStore } from "~/store/record";
 
-
-import InfiniteLoading from "v3-infinite-loading";
-import ListDiary from "../../components/diary/ListDiary.vue";
-import ListMemo from "../../components/diary/ListMemo.vue";
 import ListItems from "../../components/diary/ListItems.vue";
 import BoardItems from "../../components/diary/BoardItems.vue";
 import Tags from "../../components/diary/Tags.vue";
-import Starter from "../../components/diary/Starter.vue";
 import Icon from "~/components/common/Icon.vue";
 import CalendarMain from "~/components/calendar/CalendarMain.vue";
 
 export default {
-    name: "Gallery",
-    created() {
-        const { tab, date } = this.$route.query;
-        switch (tab) {
-            case "calendar":
-                if (date) {
-                    break;
-                }
-                this.setType(0);
-                break;
-            case "dream":
-                this.setType(1);
-                break;
-            case "diary":
-                this.setType(2);
-                break;
-            case "memo":
-                this.setType(3);
-                break;
-            default:
-                this.isDefaultTab = true;
-                break;
-        }
-    },
+    name: "Mypage",
     setup() {
-
         definePageMeta({
             layout: "main",
         });
     },
     components: {
-        Starter,
-        ListDiary,
-        ListMemo,
-        InfiniteLoading,
         Tags,
         BoardItems,
         ListItems,
@@ -135,29 +92,12 @@ export default {
             isChecked: false,
             viewType: "monthly",
             infiniteLoadingKey: 0,
-            isDOMready: false,
             isDefaultTab: false,
         };
     },
-    watch: {
-        type() {
-            this.setPageNo(1);
-            this.getGalleryList();
-        },
-    },
     computed: {
         ...mapState(useUserStore, ["user"]),
-        // ...mapState(useRecordStore, []),
-        ...mapState(useMypageStore, [
-            "type",
-            "mode",
-            "list",
-            "totalCounts",
-            "pageNo",
-            "ratio",
-            "isLoading",
-            "loadingTab",
-        ]),
+        ...mapState(useMypageStore, ["type", "ratio", "mode"]),
         highestCountCategory() {
             const categoryInfo = [
                 {
@@ -186,10 +126,10 @@ export default {
                 },
             ];
 
-            if (this.isLoading && !this.isChecked) {
-                this.isChecked = true;
+            if (!this.ratio.max_category) {
                 return categoryInfo[5];
-            } else return categoryInfo[this.ratio.max_category];
+            }
+            return categoryInfo[this.ratio.max_category];
         },
         barStyles() {
             return {
@@ -208,37 +148,35 @@ export default {
                 },
             };
         },
-        isSkeleton() {
-            if (this.pageNo === 1 && this.isLoading) return true;
-            return false;
-        },
     },
-    async mounted() {
-        this.setPageNo(1);
+    created() {
+        const { tab, date } = this.$route.query;
+        switch (tab) {
+            case "calendar":
+                if (date) {
+                    break;
+                }
+                this.setType(0);
+                break;
+            case "dream":
+                this.setType(1);
+                break;
+            case "diary":
+                this.setType(2);
+                break;
+            case "memo":
+                this.setType(3);
+                break;
+            default:
+                this.isDefaultTab = true;
+                break;
+        }
+    },
+    mounted() {
         this.getRatio();
-        this.getGalleryList();
-
-        await nextTick();
-        this.isDOMready = true;
-    },
-    beforeUnmount() {
-        this.isDOMready = false;
     },
     methods: {
-        ...mapActions(useMypageStore, [
-            "setType",
-            "changeMode",
-            "getGalleryList",
-            "setPageNo",
-            "getRatio",
-        ]),
-        loadMore() {
-            // console.log(`loadmore ${this.list.length}/${this.totalCounts}`);
-            if (!this.isLoading && this.list.length < this.totalCounts) {
-                this.setPageNo(this.pageNo + 1);
-                this.getGalleryList();
-            }
-        },
+        ...mapActions(useMypageStore, ["setType", "changeMode", "getRatio"]),
         goSetting() {
             this.$router.push(`/setting`);
         },
@@ -247,9 +185,6 @@ export default {
         },
         handleCloseCalendarDetail(event) {
             this.$eventBus.$emit("toggle-view-type", event);
-        },
-        reloadInfiniteLoading() {
-            this.infiniteLoadingKey += 1;
         },
     },
 };
@@ -293,7 +228,7 @@ export default {
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
 
-    padding: 1.31rem 0;
+    // padding: 1.31rem 0;
     background: #ffffff;
 
     .contents-header-1 {
@@ -421,11 +356,15 @@ export default {
     width: 100%;
     height: calc(100% - 48px - 56px - 40px - 20px);
     margin-bottom: -2rem;
+    box-sizing: border-box;
     &.calendar {
         height: calc(100% + 2rem);
     }
 
-    .board-content {
+    .others {
+        height: 100%;
+        min-height: 100%;
+        max-height: fit-content;
         background: $gradient_bg_light;
     }
 }

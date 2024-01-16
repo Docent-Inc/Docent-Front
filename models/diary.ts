@@ -20,24 +20,24 @@ export interface DiaryRatio {
 /**
  * DiaryListModel
  */
-export interface DiaryListModel {
-    list: DiaryList[];
-    count: number;
-    total_count: number;
-}
+// export interface DiaryListModel {
+//     list: DiaryList[];
+//     count: number;
+//     total_count: number;
+// }
 
-export interface DiaryList {
-    id: number;
-    User_id: number;
-    diary_name: string;
-    diary_type: number;
-    resolution?: string;
-    image_url?: string;
-    background_color?: string;
-    create_date: string;
-    modify_date: string;
-    is_deleted: boolean;
-}
+// export interface DiaryList {
+//     id: number;
+//     User_id: number;
+//     diary_name: string;
+//     diary_type: number;
+//     resolution?: string;
+//     image_url?: string;
+//     background_color?: string;
+//     create_date: string;
+//     modify_date: string;
+//     is_deleted: boolean;
+// }
 
 /**
  * DiaryModel

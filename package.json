@@ -23,9 +23,11 @@
         "sass-loader": "^13.3.2"
     },
     "dependencies": {
+        "@hebilicious/vue-query-nuxt": "^0.3.0",
         "@mdi/font": "^7.2.96",
         "@pinia/nuxt": "^0.4.11",
         "@popperjs/core": "^2.11.8",
+        "@tanstack/vue-query": "^5.17.9",
         "@vue/cli-plugin-pwa": "^5.0.8",
         "animate.css": "^4.1.1",
         "axios": "^1.4.0",
