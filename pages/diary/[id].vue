@@ -145,10 +145,8 @@
                             <Icon class="ic_crystal" />꿈을 통해 본
                             {{ user?.nickname }}님의 마음
                           </div>
-                          <div v-if="isGenerated">
-                            <Icon v-if="diary.is_like" class="ic_like_on" @click="updateLike"/>
-                            <Icon v-else class="ic_like_off" @click="updateLike"/>
-                          </div>
+                          <Icon v-if="diary.is_like&&isGenerated" class="ic_like_on" @click="updateLike"/>
+                          <Icon v-if="!diary.is_like&&isGenerated" class="ic_like_off" @click="updateLike"/>
                         </div>
                         <div
                             v-if="!isGenerated"
@@ -168,10 +166,8 @@
                           <div class="left-content">
                             <Icon class="ic_reply" />Looi의 답장
                           </div>
-                          <div v-if="isGenerated">
-                            <Icon v-if="diary.is_like" class="ic_like_on" @click="updateLike"/>
-                            <Icon v-else class="ic_like_off" @click="updateLike"/>
-                          </div>
+                          <Icon v-if="diary.is_like&&isGenerated" class="ic_like_on" @click="updateLike"/>
+                          <Icon v-if="!diary.is_like&&isGenerated" class="ic_like_off" @click="updateLike"/>
                         </div>
                         <div
                             v-if="!isGenerated"
