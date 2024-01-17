@@ -63,6 +63,7 @@ interface Diary {
     resolution?: string;
     main_keyword?: string; // TODO: string[]
     share_id?: string;
+    is_like?: boolean;
 }
 
 /**
@@ -115,6 +116,7 @@ export interface RecordsReqBodyModel {
     date?: Date; // "2023-12-12 00:00:00",
     title?: string;
     content: string;
+    is_like?: boolean;
 }
 
 export interface MemoRecord {

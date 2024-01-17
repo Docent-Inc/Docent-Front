@@ -99,9 +99,11 @@
                 <div class="bottom-diary">
                     <div class="bottom-diary-content">
                         <div class="bottom-diary-content-title">
+                          <div class="left-content">
                             <Icon class="ic_memo" />
                             <span v-if="type === '1'">꿈 내용</span>
                             <span v-else>일기 내용</span>
+                          </div>
                         </div>
                         <div
                             class="bottom-diary-content-desc"
@@ -139,8 +141,12 @@
                     </div>
                     <div v-if="type == 1" class="bottom-diary-content">
                         <div class="bottom-diary-content-title">
+                          <div class="left-content">
                             <Icon class="ic_crystal" />꿈을 통해 본
                             {{ user?.nickname }}님의 마음
+                          </div>
+                            <Icon v-if="diary.is_like" class="ic_like_on" @click="updateLike"/>
+                            <Icon v-else class="ic_like_off" @click="updateLike"/>
                         </div>
                         <div
                             v-if="!isGenerated"
@@ -157,7 +163,11 @@
                     </div>
                     <div v-if="type == 2" class="bottom-diary-content">
                         <div class="bottom-diary-content-title">
+                          <div class="left-content">
                             <Icon class="ic_reply" />Looi의 답장
+                          </div>
+                            <Icon v-if="diary.is_like" class="ic_like_on" @click="updateLike"/>
+                            <Icon v-else class="ic_like_off" @click="updateLike"/>
                         </div>
                         <div
                             v-if="!isGenerated"
@@ -290,6 +300,7 @@ export default {
         if (this.isGenerated)
             this.diary.keyword = JSON.parse(this.diary.main_keyword);
         this.diary.resolution = res.data.diary.resolution;
+        this.diary.is_like = res.data.diary.is_like;
         this.isLoading = false;
     },
     methods: {
@@ -404,6 +415,16 @@ export default {
                 );
             }
         },
+        async updateLike() {
+            const { putMorningDiary, putNightDiary } = useDiaryService();
+            let res;
+            this.diary.is_like = !this.diary.is_like;
+            if (this.type === "1") {
+                res = await putMorningDiary({is_like: this.diary.is_like}, this.diary.id);
+            } else if (this.type === "2") {
+                res = await putNightDiary({is_like: this.diary.is_like}, this.diary.id);
+            }
+        },
         async handleUpdate(type, props, updatedPropName) {
             const { putMorningDiary, putNightDiary } = useDiaryService();
             let res;
@@ -459,6 +480,7 @@ export default {
             this.diaryTitle = res.data.diary.diary_name;
             this.diary.resolution = res.data.diary.resolution;
             this.isGenerated = res.data.diary.is_generated;
+            this.like = res.data.diary.like;
             this.diary.keyword = JSON.parse(this.diary.main_keyword);
             this.isLoading = false;
         },
@@ -605,6 +627,8 @@ export default {
         margin-top: 12px;
         .bottom-diary-content-title {
             color: var(--gray-700, #374151);
+            justify-content: space-between; /* 양 끝 정렬 */
+            align-items: center; /* 수직 중앙 정렬 */
 
             /* b1/b1_bold_16 */
             font-family: "Pretendard Bold";
@@ -612,9 +636,14 @@ export default {
             line-height: 160%; /* 25.6px */
 
             display: flex;
-            gap: 12px;
+            width: 100%;
 
             height: auto;
+            .left-content {
+              display: flex;
+              align-items: center;
+              gap: 12px;
+            }
         }
 
         .bottom-diary-content-desc {
@@ -859,5 +888,10 @@ textarea:focus {
     font-family: "Pretendard";
     font-size: 16px;
     line-height: 160%;
+}
+.ic_like_on, .ic_like_off {
+    width: 24px;
+    height: 24px;
+    right: 0;
 }
 </style>
