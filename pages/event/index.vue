@@ -62,6 +62,17 @@ useServerSeoMeta({
   twitterTitle: () => "헉, 이 꿈 이런 뜻이였어?",
   twitterDescription: () => "헉, 이 꿈 이런 뜻이였어?",
 });
+onMounted(async () => {
+  const userAgent = window.navigator.userAgent.toLowerCase();
+  if(/iPhone|iPad|iPod|macintosh|mac/i.test(userAgent)){
+    const url = "https://apps.apple.com/kr/app/looi-%EC%9E%90%EA%B8%B0%EA%B4%80%EB%A6%AC%EB%A5%BC-%EB%8F%84%EC%99%80%EC%A3%BC%EB%8A%94-ai-%EA%B8%B0%EB%A1%9D-%EB%B9%84%EC%84%9C/id6474598684?l=en-GB";
+    location.href=url;
+  }
+  else if(/android/i.test(userAgent)){
+    const url = "https://play.google.com/store/apps/details?id=zip.docent.looi";
+    location.href=url;
+  }
+});
 </script>
 <script>
 import {useDiaryService} from "../../services/diary";
