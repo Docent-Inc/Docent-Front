@@ -447,6 +447,9 @@ export default {
             }, 2500);
         },
         async handleGenerate() {
+            console.log(this.isGenerated);
+            if (this.isGenerated) return;
+
             const { generateMorningDiary, generateNightDiary } =
                 useDiaryService();
             let res;
