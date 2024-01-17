@@ -85,7 +85,7 @@
 
             <!-- 2. 중간 영역 (이미지, 삭제 버튼) -->
             <!-- maxWidth="calc((100vh - (60px + 20px)) * 0.6)" -->
-            <div v-if="!isLoading" class="diary-image-div">
+            <div v-if="!isLoading" class="diary-image-div" @click="handleGenerate()">
                 <Image
                     class="diary-image"
                     :url="diary.image_url"
@@ -146,29 +146,8 @@
                             v-if="!isGenerated"
                             class="bottom-diary-content-default"
                         >
-                            <span class="bottom-diary-content-default-title"
-                                >아직 꿈 해석이 생성되기 전이에요!</span
-                            >
-                            <span class="bottom-diary-content-default-content"
-                                >아래 버튼을 눌러주시면 Looi가 꿈을
-                                해석해드려요.</span
-                            >
-                            <div v-if="!isLoading" class="bottom-generate">
-                                <span class="bottom-generate-title"
-                                    >기록에 약간의 마법을 불어넣어볼까요?</span
-                                >
-                                <span class="bottom-generate-content"
-                                    >직접 제목을 지으셨다면 지으신 제목은
-                                    유지되니 걱정하지마세요!</span
-                                >
-                                <div class="generate" @click="handleGenerate()">
-                                    <span class="generate-text"
-                                        >제목, 키워드, 그림, 꿈 해석
-                                        생성하기</span
-                                    >
-                                </div>
+                            <span class="bottom-diary-content-default-title">아직 꿈 해석이 생성되기 전이에요!</span>
                             </div>
-                        </div>
                         <div
                             v-if="isGenerated"
                             class="bottom-diary-content-desc"
@@ -184,28 +163,7 @@
                             v-if="!isGenerated"
                             class="bottom-diary-content-default"
                         >
-                            <span class="bottom-diary-content-default-title"
-                                >아직 답장이 생성되기 전이에요!</span
-                            >
-                            <span class="bottom-diary-content-default-content"
-                                >아래 버튼을 눌러주시면 Looi가 일기에
-                                답장해드려요.</span
-                            >
-                            <div v-if="!isLoading" class="bottom-generate">
-                                <span class="bottom-generate-title"
-                                    >기록에 약간의 마법을 불어넣어볼까요?</span
-                                >
-                                <span class="bottom-generate-content"
-                                    >직접 제목을 지으셨다면 지으신 제목은
-                                    유지되니 걱정하지마세요!</span
-                                >
-                                <div class="generate" @click="handleGenerate()">
-                                    <span class="generate-text"
-                                        >제목, 키워드, 그림, Looi의 답장
-                                        생성하기</span
-                                    >
-                                </div>
-                            </div>
+                            <span class="bottom-diary-content-default-title">아직 답장이 생성되기 전이에요!</span>
                         </div>
                         <div
                             v-if="isGenerated"
@@ -255,7 +213,7 @@ export default {
         return {
             diary: {},
             type: "1",
-            isLoading: false,
+            isLoading: true,
             isOpen: false,
             isGenerated: false,
             // 수정
@@ -372,6 +330,13 @@ export default {
             }
         },
         async shareURL() {
+            if (!this.isGenerated) {
+                this.$eventBus.$emit("onConfirmModal", {
+                    title: "URL 복사에 실패하였습니다",
+                    desc: "URL 복사는 Looi의 답장이 생성된 후에 가능합니다.",
+                });
+                return;
+            }
             const baseUrl = window.location.href
                 .split("/")
                 .slice(0, 3)
@@ -467,8 +432,8 @@ export default {
             this.isLoading = true;
 
             this.$eventBus.$emit("onConfirmModal", {
-                title: "제목, 키워드, 그림, 해석을 생성하고 있어요!",
-                desc: "AI 생성에는 시간이 소요돼요. 잠시만 기다려주세요!",
+                title: "제목, 키워드, 그림, 답장을 생성하고 있어요!",
+                desc: "생성된 Looi의 답장에 좋아요를 남길 수 있어요! 답장이 마음에 든다면 좋아요를 남겨보세요.",
                 callback: () => {},
             });
 
@@ -551,7 +516,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 1.6rem;
 }
 
 .diary-image {
@@ -566,7 +530,6 @@ export default {
         aspect-ratio: 1/1;
         width: 100%;
         max-width: 500px;
-        margin-bottom: 16px;
     }
 }
 
@@ -719,20 +682,13 @@ textarea:focus {
     display: flex;
     align-items: center;
     flex-direction: column;
+    justify-content: center;
 }
 .bottom-diary-content-default-title {
-    color: var(--gray-600, #4b5563);
-    text-align: center;
-    margin-top: 33px;
-    font-family: "Pretendard Bold";
-    font-size: 16px;
-    line-height: 160%;
-}
-.bottom-diary-content-default-content {
-    color: var(--gray-500, #6b7280);
+    color: var(--gray-400, #9CA3AF);
     text-align: center;
     font-family: "Pretendard";
-    font-size: 12px;
+    font-size: 14px;
     line-height: 160%;
 }
 .bottom-diary-content {

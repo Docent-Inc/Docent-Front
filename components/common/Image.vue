@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import EMPTY_URL from "@/assets/images/commons/ic_empty.svg";
+import EMPTY_URL from "@/assets/images/commons/ic_empty.png";
 
 export default {
     name: "Icon",

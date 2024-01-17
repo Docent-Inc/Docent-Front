@@ -29,15 +29,21 @@
                         </div>
                     </div>
                 </div>
+              <div v-if="isLoading">
+                <div class="diary-image__skeleton"></div>
+              </div>
             </div>
 
             <!-- 2. 중간 영역 (이미지, 삭제 버튼) -->
-            <Image
-                class="diary-image"
-                :url="diary.image_url"
-                width="calc(100% - 40px)"
-                maxWidth="400px"
-            />
+            <div v-if="!isLoading" class="diary-image-div">
+              <Image
+                  class="diary-image"
+                  :url="diary.image_url"
+                  width="calc(100% - 40px)"
+                  maxWidth="400px"
+              />
+            </div>
+
 
             <!-- 3. 바텀시트 영역 -->
             <div class="bottom-container">
@@ -233,7 +239,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 1.6rem;
 }
 
 .diary-image {
