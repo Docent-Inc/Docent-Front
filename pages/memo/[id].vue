@@ -216,6 +216,7 @@ export default {
                 this.$eventBus.$emit("onConfirmModal", {
                     title: "삭제되었습니다.",
                     callback: () => {
+                        this.$eventBus.$emit("refetch", { path: "/mypage" });
                         this.$router.back();
                     },
                 });

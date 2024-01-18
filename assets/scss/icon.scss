@@ -582,6 +582,20 @@
     height: 36px;
 }
 
+.ic_like_off {
+    background: url("../images/commons/ic_like_off.svg") no-repeat
+        center/cover;
+    width: 24px;
+    height: 24px;
+}
+
+.ic_like_on {
+    background: url("../images/commons/ic_like_on.svg") no-repeat
+    center/cover;
+    width: 24px;
+    height: 24px;
+}
+
 .ic_status_default {
     border-radius: 8px;
     display: block;

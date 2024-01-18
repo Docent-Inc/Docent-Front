@@ -55,6 +55,6 @@ export default {
     align-items: center;
     justify-content: center;
 
-    background: $gradient_bg_light;
+    // background: $gradient_bg_light;
 }
 </style>

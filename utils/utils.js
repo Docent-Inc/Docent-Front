@@ -19,6 +19,26 @@ export function getHourType(hour) {
 }
 
 /**
+ * 타입명 한글로 변환
+ * @param {number} type
+ *  일정 (0), 꿈 (1), 일기(2), 메모(3)
+ */
+export function getTypeNameKO(type) {
+    const typeNameArray = ["일정", "꿈", "일기", "메모"];
+    return typeNameArray[type];
+}
+
+/**
+ * 타입명 영어로 변환
+ * @param {number}
+ * calendar (0), dream (1), diary (2), memo(3)
+ */
+export function getTypeNameEN(type) {
+    const typeNameArrayEN = ["calendar", "dream", "diary", "memo"];
+    return typeNameArrayEN[type];
+}
+
+/**
  * 랜덤 인덱스 제너레이터 함수
  * @param {number} min 시작 인덱스
  * @param {number} max 끝 인덱스
@@ -61,21 +81,31 @@ function getBrightness(r, g, b) {
  */
 export async function getCoordinates() {
     return new Promise((resolve, reject) => {
+        // 1. 권한 미허용 시 return
         const isPermissionDenied = localStorage.getItem(
             "locationPermissionDenied",
         );
+        if (isPermissionDenied) return;
 
-        if (isPermissionDenied) {
-            return;
+        // 2. 이미 위/경도 있을 경우, resolve
+        const location = localStorage.getItem("location");
+        if (location) {
+            const loc = JSON.parse(location);
+            if (isExpiredIn(loc.date, 5)) resolve(loc); // expires - 5분
+
+            localStorage.removeItem("location");
         }
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    resolve({
+                    const loc = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
-                    });
+                        date: new Date().toString(),
+                    };
+                    localStorage.setItem("location", JSON.stringify(loc));
+                    resolve(loc);
                 },
                 (error) => {
                     reject(error);

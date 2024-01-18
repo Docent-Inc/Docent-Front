@@ -20,24 +20,24 @@ export interface DiaryRatio {
 /**
  * DiaryListModel
  */
-export interface DiaryListModel {
-    list: DiaryList[];
-    count: number;
-    total_count: number;
-}
+// export interface DiaryListModel {
+//     list: DiaryList[];
+//     count: number;
+//     total_count: number;
+// }
 
-export interface DiaryList {
-    id: number;
-    User_id: number;
-    diary_name: string;
-    diary_type: number;
-    resolution?: string;
-    image_url?: string;
-    background_color?: string;
-    create_date: string;
-    modify_date: string;
-    is_deleted: boolean;
-}
+// export interface DiaryList {
+//     id: number;
+//     User_id: number;
+//     diary_name: string;
+//     diary_type: number;
+//     resolution?: string;
+//     image_url?: string;
+//     background_color?: string;
+//     create_date: string;
+//     modify_date: string;
+//     is_deleted: boolean;
+// }
 
 /**
  * DiaryModel
@@ -63,6 +63,7 @@ interface Diary {
     resolution?: string;
     main_keyword?: string; // TODO: string[]
     share_id?: string;
+    is_like?: boolean;
 }
 
 /**
@@ -115,6 +116,7 @@ export interface RecordsReqBodyModel {
     date?: Date; // "2023-12-12 00:00:00",
     title?: string;
     content: string;
+    is_like?: boolean;
 }
 
 export interface MemoRecord {

@@ -98,14 +98,14 @@
             </div>
         </div>
     </form>
-<!--    <Toast-->
-<!--        v-if="isMakingProcess"-->
-<!--        @click="isMakingProcess = false"-->
-<!--        text="기록을 토대로 그림을 생성하고 있어요!"-->
-<!--        subText="약 15초 정도 기다려주시면 그림과 기록이 저장돼요."-->
-<!--        :top="60"-->
-<!--        :align="'center'"-->
-<!--    />-->
+    <!--    <Toast-->
+    <!--        v-if="isMakingProcess"-->
+    <!--        @click="isMakingProcess = false"-->
+    <!--        text="기록을 토대로 그림을 생성하고 있어요!"-->
+    <!--        subText="약 15초 정도 기다려주시면 그림과 기록이 저장돼요."-->
+    <!--        :top="60"-->
+    <!--        :align="'center'"-->
+    <!--    />-->
 </template>
 <script>
 import { mapState, mapActions } from "pinia";
@@ -113,7 +113,6 @@ import { useCalendarStore } from "~/store/calendar";
 import { useMypageStore } from "~/store/mypage";
 import Header from "~/components/common/Header.vue";
 import Toast from "~/components/common/Toast.vue";
-
 
 export default {
     components: {
@@ -264,15 +263,21 @@ export default {
                 content: this.content,
             };
             // console.log(reqBody);
-            this.createRecords(this.type, reqBody, this.typeName);
-            setTimeout(() => {
+            const isSuccess = this.createRecords(
+                this.type,
+                reqBody,
+                this.typeName,
+            );
+            if (isSuccess) {
                 this.$router.push({
                     path: "/mypage",
                     query: {
                         tab: this.typeNameEN,
                     },
                 });
-            }, 1000);
+                this.$eventBus.$emit("refetch", { path: "/mypage" });
+            }
+
             if (this.type === 3) return;
             // 꿈, 일기, 메모
             this.isMakingProcess = true;
