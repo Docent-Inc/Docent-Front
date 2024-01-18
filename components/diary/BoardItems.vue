@@ -87,14 +87,14 @@ function getMypageList(pageParam) {
 }
 
 function loadMore() {
-    console.log(
-        ">>Load More - ",
-        hasNextPage.value,
-        `${list.value.length}/${totalCounts.value}`,
-    );
+    // console.log(
+    //     ">>Load More - ",
+    //     hasNextPage.value,
+    //     `${list.value.length}/${totalCounts.value}`,
+    // );
     if (isLoading.value || isFetching.value || !hasNextPage.value) return;
 
-    console.log(">>Load More - OK ", isLoading.value, isFetching.value);
+    // console.log(">>Load More - OK ", isLoading.value, isFetching.value);
     fetchNextPage();
 }
 </script>
