@@ -1,25 +1,27 @@
 <template>
-    <Starter v-if="!isLoading && !isFetching && list.length < 1" />
-    <div v-else class="board-items">
-        <div class="add_btn-box">
-            <AddBtn :isCard="true" />
+    <div v-show="show">
+        <Starter v-if="!isLoading && !isFetching && list.length < 1" />
+        <div class="board-items">
+            <div class="add_btn-box">
+                <AddBtn :isCard="true" />
+            </div>
+
+            <div v-for="(data, idx) in list" :key="idx" class="item">
+                <BoardMemo :memo="data" v-if="data.diary_type === 3" />
+                <BoardDiary :diary="data" v-else />
+            </div>
+
+            <!-- 초기에는 3개, 나머지 경우에는 2개 skeleton 노출 -->
+            <div v-if="isFetching" class="item empty" />
+            <div v-if="isFetching" class="item empty" />
+            <div v-if="isFetching && !data?.pages" class="item empty" />
+
+            <InfiniteLoading
+                :first-load="false"
+                :distance="1000"
+                @infinite="loadMore"
+            />
         </div>
-
-        <div v-for="(data, idx) in list" :key="idx" class="item">
-            <BoardMemo :memo="data" v-if="data.diary_type === 3" />
-            <BoardDiary :diary="data" v-else />
-        </div>
-
-        <!-- page 1인 경우에는 3개, 나머지 경우에는 2개 skeleton 노출 -->
-        <div v-if="isFetching" class="item empty" />
-        <div v-if="isFetching" class="item empty" />
-        <div v-if="isFetching && pageNo === 1" class="item empty" />
-
-        <InfiniteLoading
-            :first-load="false"
-            :distance="1000"
-            @infinite="loadMore"
-        />
     </div>
 </template>
 
@@ -38,59 +40,51 @@ export default {
 
 <script setup>
 import { useDiaryService } from "../services/diary";
+/**
+ * Data
+ */
 const props = defineProps({
     type: { type: Number, default: 0 },
+    show: { type: Boolean, default: false },
 });
 
-const pageNo = ref(1);
-const totalCounts = ref(0);
-const list = ref([]);
+const typeNameEN = getTypeNameEN(props.type);
 const hasNextPage = computed(() => {
     return list.value.length < totalCounts.value;
 });
+const list = computed(() => {
+    // console.log("data.value?.pages", data.value?.pages);
+    // console.log("data.value?.pageParams", data.value?.pageParams);
+    return data.value?.pages?.flatMap((page) => page.data.list) || [];
+});
 
-function getMypageList() {
-    const typeName = ["calendar", "dream", "diary", "memo"];
-    return useDiaryService().getGalleryList(typeName[props.type], pageNo.value);
-}
+const totalCounts = computed(() => {
+    const lastPage = data.value?.pages?.[data.value.pages.length - 1];
+    return lastPage?.data.total_count || 0;
+});
 
+/**
+ * Data Fetching
+ */
 const {
     isLoading,
     isFetching,
     data: data,
     fetchNextPage,
-    refetch,
 } = useInfiniteQuery({
-    queryKey: ["mypage", props.type, pageNo.value],
-    queryFn: () => getMypageList(),
-    getNextPageParam: (lastPage, pages) => {
-        return hasNextPage ? pageNo.value : undefined;
+    queryKey: ["mypage", props.type],
+    queryFn: ({ pageParam = 1 }) => getMypageList(pageParam),
+    getNextPageParam: (lastPage, allPages) => {
+        return allPages.length + 1;
     },
 });
 
-watch(
-    () => data.value,
-    () => {
-        console.log(">>Response!", data.value);
-        const lastPage = data?.value.pages[data?.value.pages.length - 1];
-        totalCounts.value = lastPage.data.total_count;
-        list.value =
-            pageNo.value === 1
-                ? lastPage.data.list
-                : [...list.value, ...lastPage.data.list];
-    },
-    { deep: true },
-);
-
-watch(
-    () => props.type,
-    () => {
-        pageNo.value = 1;
-        list.value = [];
-        refetch();
-    },
-    { immediate: true },
-);
+/**
+ * Function
+ */
+function getMypageList(pageParam) {
+    return useDiaryService().getGalleryList(typeNameEN, pageParam);
+}
 
 function loadMore() {
     console.log(
@@ -98,9 +92,9 @@ function loadMore() {
         hasNextPage.value,
         `${list.value.length}/${totalCounts.value}`,
     );
-
     if (isLoading.value || isFetching.value || !hasNextPage.value) return;
-    pageNo.value++;
+
+    console.log(">>Load More - OK ", isLoading.value, isFetching.value);
     fetchNextPage();
 }
 </script>
