@@ -11,10 +11,10 @@
                 <BoardDiary :diary="data" v-else />
             </div>
 
-            <!-- page 1인 경우에는 3개, 나머지 경우에는 2개 skeleton 노출 -->
+            <!-- 초기에는 3개, 나머지 경우에는 2개 skeleton 노출 -->
             <div v-if="isFetching" class="item empty" />
             <div v-if="isFetching" class="item empty" />
-            <div v-if="isFetching && pageNo === 1" class="item empty" />
+            <div v-if="isFetching && !data?.pages" class="item empty" />
 
             <InfiniteLoading
                 :first-load="false"
@@ -49,11 +49,12 @@ const props = defineProps({
 });
 
 const typeNameEN = getTypeNameEN(props.type);
-const pageNo = ref(1);
 const hasNextPage = computed(() => {
     return list.value.length < totalCounts.value;
 });
 const list = computed(() => {
+    // console.log("data.value?.pages", data.value?.pages);
+    // console.log("data.value?.pageParams", data.value?.pageParams);
     return data.value?.pages?.flatMap((page) => page.data.list) || [];
 });
 
@@ -71,18 +72,18 @@ const {
     data: data,
     fetchNextPage,
 } = useInfiniteQuery({
-    queryKey: ["mypage", props.type, pageNo.value],
-    queryFn: () => getMypageList(),
-    getNextPageParam: (lastPage, pages) => {
-        return hasNextPage ? pageNo.value : undefined;
+    queryKey: ["mypage", props.type],
+    queryFn: ({ pageParam = 1 }) => getMypageList(pageParam),
+    getNextPageParam: (lastPage, allPages) => {
+        return allPages.length + 1;
     },
 });
 
 /**
  * Function
  */
-function getMypageList() {
-    return useDiaryService().getGalleryList(typeNameEN, pageNo.value);
+function getMypageList(pageParam) {
+    return useDiaryService().getGalleryList(typeNameEN, pageParam);
 }
 
 function loadMore() {
@@ -94,8 +95,6 @@ function loadMore() {
     if (isLoading.value || isFetching.value || !hasNextPage.value) return;
 
     console.log(">>Load More - OK ", isLoading.value, isFetching.value);
-
-    pageNo.value++;
     fetchNextPage();
 }
 </script>
