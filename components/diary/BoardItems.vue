@@ -1,25 +1,27 @@
 <template>
-    <Starter v-if="!isLoading && !isFetching && list.length < 1" />
-    <div class="board-items">
-        <div class="add_btn-box">
-            <AddBtn :isCard="true" />
+    <div v-show="show">
+        <Starter v-if="!isLoading && !isFetching && list.length < 1" />
+        <div class="board-items">
+            <div class="add_btn-box">
+                <AddBtn :isCard="true" />
+            </div>
+
+            <div v-for="(data, idx) in list" :key="idx" class="item">
+                <BoardMemo :memo="data" v-if="data.diary_type === 3" />
+                <BoardDiary :diary="data" v-else />
+            </div>
+
+            <!-- page 1인 경우에는 3개, 나머지 경우에는 2개 skeleton 노출 -->
+            <div v-if="isFetching" class="item empty" />
+            <div v-if="isFetching" class="item empty" />
+            <div v-if="isFetching && pageNo === 1" class="item empty" />
+
+            <InfiniteLoading
+                :first-load="false"
+                :distance="1000"
+                @infinite="loadMore"
+            />
         </div>
-
-        <div v-for="(data, idx) in list" :key="idx" class="item">
-            <BoardMemo :memo="data" v-if="data.diary_type === 3" />
-            <BoardDiary :diary="data" v-else />
-        </div>
-
-        <!-- page 1인 경우에는 3개, 나머지 경우에는 2개 skeleton 노출 -->
-        <div v-if="isFetching" class="item empty" />
-        <div v-if="isFetching" class="item empty" />
-        <div v-if="isFetching && pageNo === 1" class="item empty" />
-
-        <InfiniteLoading
-            :first-load="false"
-            :distance="1000"
-            @infinite="loadMore"
-        />
     </div>
 </template>
 
@@ -43,6 +45,7 @@ import { useDiaryService } from "../services/diary";
  */
 const props = defineProps({
     type: { type: Number, default: 0 },
+    show: { type: Boolean, default: false },
 });
 
 const typeNameEN = getTypeNameEN(props.type);
@@ -68,12 +71,11 @@ const {
     data: data,
     fetchNextPage,
 } = useInfiniteQuery({
-    queryKey: [`mypage`, typeNameEN, pageNo.value],
+    queryKey: ["mypage", props.type, pageNo.value],
     queryFn: () => getMypageList(),
     getNextPageParam: (lastPage, pages) => {
         return hasNextPage ? pageNo.value : undefined;
     },
-    concurrent: 1,
 });
 
 /**
@@ -91,7 +93,7 @@ function loadMore() {
     );
     if (isLoading.value || isFetching.value || !hasNextPage.value) return;
 
-    console.log(">>Load More - OK ");
+    console.log(">>Load More - OK ", isLoading.value, isFetching.value);
 
     pageNo.value++;
     fetchNextPage();
