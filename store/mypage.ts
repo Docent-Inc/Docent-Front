@@ -66,7 +66,7 @@ export const useMypageStore = defineStore("mypage", {
                 default:
                     router.push({
                         path: "/mypage",
-                        query: { type: "calendar" },
+                        query: { tab: "calendar" },
                     });
                     break;
             }

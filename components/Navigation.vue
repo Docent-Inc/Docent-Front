@@ -30,7 +30,7 @@
         <button
             type="button"
             class="icon"
-            @click="navigateTo(`/mypage`)"
+            @click="navigateTo(`/mypage?tab=calendar`)"
             aria-label="마이페이지로 이동"
         >
             <v-icon class="nav_mypage" :class="{ active: isActive('/mypage') }">
