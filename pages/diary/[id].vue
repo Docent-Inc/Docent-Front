@@ -328,10 +328,10 @@ export default {
                 this.$eventBus.$emit("onConfirmModal", {
                     title: "삭제되었습니다.",
                     callback: () => {
+                        this.$eventBus.$emit("refetch", { path: "/mypage" });
                         this.$router.back();
                     },
                 });
-                this.deleteOptimisticRecord(this.diary);
             } else {
                 // 실패 시, 문구 띄우고 새로고침
                 this.$eventBus.$emit("onConfirmModal", {

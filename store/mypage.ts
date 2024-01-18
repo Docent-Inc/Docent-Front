@@ -93,17 +93,23 @@ export const useMypageStore = defineStore("mypage", {
                     this.content = "";
                     this.isCreating = false;
                     // console.log(this.recordRes.data.memo);
+
+                    return true;
                 } else if (this.recordRes.success) {
                     // this.list.unshift(this.recordRes.data.diary);
                     this.title = "";
                     this.content = "";
                     this.isCreating = false;
+
+                    return true;
                 } else {
                     window.alert(
                         "기록을 생성하지 못했어요. 다시 시도해보시겠어요?",
                     );
                 }
                 this.loadingTab = -1;
+
+                return false;
             } catch (error) {
                 console.error(error);
             }

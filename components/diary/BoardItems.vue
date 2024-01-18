@@ -71,6 +71,7 @@ const {
     isFetching,
     data: data,
     fetchNextPage,
+    refetch,
 } = useInfiniteQuery({
     queryKey: ["mypage", props.type],
     queryFn: ({ pageParam = 1 }) => getMypageList(pageParam),
@@ -87,16 +88,22 @@ function getMypageList(pageParam) {
 }
 
 function loadMore() {
-    console.log(
-        ">>Load More - ",
-        hasNextPage.value,
-        `${list.value.length}/${totalCounts.value}`,
-    );
+    // console.log(
+    //     ">>Load More - ",
+    //     hasNextPage.value,
+    //     `${list.value.length}/${totalCounts.value}`,
+    // );
     if (isLoading.value || isFetching.value || !hasNextPage.value) return;
 
-    console.log(">>Load More - OK ", isLoading.value, isFetching.value);
+    // console.log(">>Load More - OK ", isLoading.value, isFetching.value);
     fetchNextPage();
 }
+
+//// 삭제, 생성 시 Refetch
+const { $eventBus } = useNuxtApp();
+$eventBus.$on("refetch", ({ path }) => {
+    if (path.includes("/mypage")) refetch();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -118,8 +125,10 @@ function loadMore() {
     }
 
     .item {
-        flex: 0 0 calc(50% - 3px);
+        flex: 0 0 auto;
+        width: calc(50% - 3px);
         height: auto;
+        aspect-ratio: 1/1;
         box-sizing: border-box;
 
         &.empty {
