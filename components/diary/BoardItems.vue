@@ -71,6 +71,7 @@ const {
     isFetching,
     data: data,
     fetchNextPage,
+    refetch,
 } = useInfiniteQuery({
     queryKey: ["mypage", props.type],
     queryFn: ({ pageParam = 1 }) => getMypageList(pageParam),
@@ -97,6 +98,12 @@ function loadMore() {
     // console.log(">>Load More - OK ", isLoading.value, isFetching.value);
     fetchNextPage();
 }
+
+//// 삭제, 생성 시 Refetch
+const { $eventBus } = useNuxtApp();
+$eventBus.$on("refetch", ({ path }) => {
+    if (path.includes("/mypage")) refetch();
+});
 </script>
 
 <style lang="scss" scoped>
