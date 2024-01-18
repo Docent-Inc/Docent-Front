@@ -118,8 +118,10 @@ function loadMore() {
     }
 
     .item {
-        flex: 0 0 calc(50% - 3px);
+        flex: 0 0 auto;
+        width: calc(50% - 3px);
         height: auto;
+        aspect-ratio: 1/1;
         box-sizing: border-box;
 
         &.empty {
