@@ -55,7 +55,9 @@
             />
             <div v-else class="others">
                 <!-- <ListItems :type="type" v-if="mode === 0" /> -->
-                <BoardItems :type="type" />
+                <BoardItems v-if="type === 1" :type="1" />
+                <BoardItems v-else-if="type === 2" :type="2" />
+                <BoardItems v-else-if="type === 3" :type="3" />
             </div>
         </div>
     </div>

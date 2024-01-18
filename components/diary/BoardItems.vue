@@ -1,6 +1,6 @@
 <template>
     <Starter v-if="!isLoading && !isFetching && list.length < 1" />
-    <div v-else class="board-items">
+    <div class="board-items">
         <div class="add_btn-box">
             <AddBtn :isCard="true" />
         </div>
@@ -38,59 +38,50 @@ export default {
 
 <script setup>
 import { useDiaryService } from "../services/diary";
+/**
+ * Data
+ */
 const props = defineProps({
     type: { type: Number, default: 0 },
 });
 
+const typeNameEN = getTypeNameEN(props.type);
 const pageNo = ref(1);
-const totalCounts = ref(0);
-const list = ref([]);
 const hasNextPage = computed(() => {
     return list.value.length < totalCounts.value;
 });
+const list = computed(() => {
+    return data.value?.pages?.flatMap((page) => page.data.list) || [];
+});
 
-function getMypageList() {
-    const typeName = ["calendar", "dream", "diary", "memo"];
-    return useDiaryService().getGalleryList(typeName[props.type], pageNo.value);
-}
+const totalCounts = computed(() => {
+    const lastPage = data.value?.pages?.[data.value.pages.length - 1];
+    return lastPage?.data.total_count || 0;
+});
 
+/**
+ * Data Fetching
+ */
 const {
     isLoading,
     isFetching,
     data: data,
     fetchNextPage,
-    refetch,
 } = useInfiniteQuery({
-    queryKey: ["mypage", props.type, pageNo.value],
+    queryKey: [`mypage`, typeNameEN, pageNo.value],
     queryFn: () => getMypageList(),
     getNextPageParam: (lastPage, pages) => {
         return hasNextPage ? pageNo.value : undefined;
     },
+    concurrent: 1,
 });
 
-watch(
-    () => data.value,
-    () => {
-        console.log(">>Response!", data.value);
-        const lastPage = data?.value.pages[data?.value.pages.length - 1];
-        totalCounts.value = lastPage.data.total_count;
-        list.value =
-            pageNo.value === 1
-                ? lastPage.data.list
-                : [...list.value, ...lastPage.data.list];
-    },
-    { deep: true },
-);
-
-watch(
-    () => props.type,
-    () => {
-        pageNo.value = 1;
-        list.value = [];
-        refetch();
-    },
-    { immediate: true },
-);
+/**
+ * Function
+ */
+function getMypageList() {
+    return useDiaryService().getGalleryList(typeNameEN, pageNo.value);
+}
 
 function loadMore() {
     console.log(
@@ -98,8 +89,10 @@ function loadMore() {
         hasNextPage.value,
         `${list.value.length}/${totalCounts.value}`,
     );
-
     if (isLoading.value || isFetching.value || !hasNextPage.value) return;
+
+    console.log(">>Load More - OK ");
+
     pageNo.value++;
     fetchNextPage();
 }
