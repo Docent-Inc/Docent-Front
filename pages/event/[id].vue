@@ -161,6 +161,17 @@ useServerSeoMeta({
   twitterTitle: () => record.data.value?.diary_name,
   twitterDescription: () => record.data.value?.diary_name,
 });
+onMounted(async () => {
+  const userAgent = window.navigator.userAgent.toLowerCase();
+  if(/iPhone|iPad|iPod|macintosh|mac/i.test(userAgent)){
+    const url = "https://apps.apple.com/kr/app/looi-%EC%9E%90%EA%B8%B0%EA%B4%80%EB%A6%AC%EB%A5%BC-%EB%8F%84%EC%99%80%EC%A3%BC%EB%8A%94-ai-%EA%B8%B0%EB%A1%9D-%EB%B9%84%EC%84%9C/id6474598684?l=en-GB";
+    location.href=url;
+  }
+  else if(/android/i.test(userAgent)){
+    const url = "https://play.google.com/store/apps/details?id=zip.docent.looi";
+    location.href=url;
+  }
+});
 </script>
 <script>
 import { mapState, mapActions } from "pinia";
@@ -214,8 +225,8 @@ export default {
     },
   },
   async mounted() {
-    const { setAccessToken  } = useUserStore();
-    setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0d2NobzAyMDVAZ21haWwuY29tIiwiZXhwIjoxNDMwMDk4MDQ3Mn0._7CobpeILug91YsayMUsGONO2oddYYpUIpL7hNSuw08");
+    // const { setAccessToken  } = useUserStore();
+    // setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0d2NobzAyMDVAZ21haWwuY29tIiwiZXhwIjoxNDMwMDk4MDQ3Mn0._7CobpeILug91YsayMUsGONO2oddYYpUIpL7hNSuw08");
 
     const { getMorningdiary } = useDiaryService();
 
