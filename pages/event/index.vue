@@ -133,8 +133,8 @@ export default {
         });
         return;
       }
-      const { setAccessToken  } = useUserStore();
-      setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0d2NobzAyMDVAZ21haWwuY29tIiwiZXhwIjoxNDMwMDk4MDQ3Mn0._7CobpeILug91YsayMUsGONO2oddYYpUIpL7hNSuw08");
+      // const { setAccessToken  } = useUserStore();
+      // setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0d2NobzAyMDVAZ21haWwuY29tIiwiZXhwIjoxNDMwMDk4MDQ3Mn0._7CobpeILug91YsayMUsGONO2oddYYpUIpL7hNSuw08");
       const { postMorningDiary, generateMorningDiary } = useDiaryService();
       const data = {
         content: this.data,
