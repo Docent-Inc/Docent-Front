@@ -1,20 +1,20 @@
 <template>
     <div class="item-board-diary" @click="showDetail">
-        <img v-if="diary.image_url !== ''" :src="diary.image_url" />
+        <img v-if="diary.image_url !== ''" v-lazyload="diary.image_url" />
         <div v-else class="diary-contents">
-          <div v-if="diary.diary_name === ''">
-            <div class="diary-text-only">
-              {{ diary.content }}
+            <div v-if="diary.diary_name === ''">
+                <div class="diary-text-only">
+                    {{ diary.content }}
+                </div>
             </div>
-          </div>
-          <div v-else>
-            <div class="diary-title">
-              {{ diary.diary_name }}
+            <div v-else>
+                <div class="diary-title">
+                    {{ diary.diary_name }}
+                </div>
+                <div class="diary-text">
+                    {{ diary.content === "" ? "" : diary.content }}
+                </div>
             </div>
-            <div class="diary-text">
-              {{ diary.content === "" ? "" : diary.content }}
-            </div>
-          </div>
         </div>
         <div class="diary-date">
             {{ this.$dayjs(this.diary.create_date).format("YYYY.MM.DD") }}
@@ -81,54 +81,54 @@ export default {
         font-size: 12px;
         line-height: 160%;
     }
-  .diary-contents {
-    height: 100%;
-    width: 100%;
-    padding-top: 100%;
-    position: relative;
-    background: var(--white, #FFF);
-    overflow: hidden;
+    .diary-contents {
+        height: 100%;
+        width: 100%;
+        padding-top: 100%;
+        position: relative;
+        background: var(--white, #fff);
+        overflow: hidden;
 
-    .diary-title {
-      position: absolute;
-      top: 12px;
-      left: 20px;
-      right: 20px;
-      color: var(--gray-700, #374151);
-      font-family: "Pretendard Bold";
-      font-size: 20px;
-      white-space: nowrap;
-      overflow: hidden;
-      max-height: 30px;
-      text-overflow: ellipsis;
+        .diary-title {
+            position: absolute;
+            top: 12px;
+            left: 20px;
+            right: 20px;
+            color: var(--gray-700, #374151);
+            font-family: "Pretendard Bold";
+            font-size: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            max-height: 30px;
+            text-overflow: ellipsis;
+        }
+        .diary-text {
+            position: absolute;
+            max-height: 76px;
+            top: 54px;
+            left: 20px;
+            right: 20px;
+            color: var(--gray-400, #9ca3af);
+            font-family: "Pretendard";
+            font-size: 12px;
+            overflow: hidden;
+            line-height: 160%;
+            text-overflow: ellipsis;
+        }
+        .diary-text-only {
+            position: absolute;
+            max-height: 110px;
+            top: 12px;
+            left: 20px;
+            right: 20px;
+            color: var(--gray-400, #9ca3af);
+            font-family: "Pretendard";
+            line-height: 160%;
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
-    .diary-text {
-      position: absolute;
-      max-height: 76px;
-      top: 54px;
-      left: 20px;
-      right: 20px;
-      color: var(--gray-400, #9CA3AF);
-      font-family: "Pretendard";
-      font-size: 12px;
-      overflow: hidden;
-      line-height: 160%;
-      text-overflow: ellipsis;
-    }
-    .diary-text-only {
-      position: absolute;
-      max-height: 110px;
-      top: 12px;
-      left: 20px;
-      right: 20px;
-      color: var(--gray-400, #9CA3AF);
-      font-family: "Pretendard";
-      line-height: 160%;
-      font-size: 12px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
     .diary_icon {
         position: absolute;
         right: 0;

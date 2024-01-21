@@ -85,5 +85,6 @@ export default defineNuxtConfig({
         "~/plugins/axios",
         "~/plugins/native", // Native App 함수 호출
         "~/plugins/functions", // Receive From Native App (JavaScript Functions)
+        "~/plugins/directives",
     ],
 });
