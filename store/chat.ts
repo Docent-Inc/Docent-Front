@@ -155,10 +155,10 @@ export const useChatStore = defineStore("chat", {
             };
             this.addChat(resultChat);
 
-            if (result.text_type === 1 || result.text_type === 2) {
-                const { addOptimisticRecord } = useRecordStore();
-                addOptimisticRecord(result.content as Record, result.text_type);
-            }
+            // if (result.text_type === 1 || result.text_type === 2) {
+            //     const { addOptimisticRecord } = useRecordStore();
+            //     addOptimisticRecord(result.content as Record, result.text_type);
+            // }
             return res;
         },
         /**
