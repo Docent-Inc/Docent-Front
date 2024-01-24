@@ -1,6 +1,6 @@
 <template>
     <div class="item-board-diary" @click="showDetail">
-        <img v-if="diary.image_url !== ''" v-lazyload="diary.image_url" />
+        <SkeletonImage v-if="diary.image_url !== ''" :url="diary.image_url" />
         <div v-else class="diary-contents">
             <div v-if="diary.diary_name === ''">
                 <div class="diary-text-only">
@@ -22,8 +22,10 @@
     </div>
 </template>
 <script>
+import SkeletonImage from "~/components/common/SkeletonImage.vue";
 export default {
     name: "BoardDiary",
+    components: { SkeletonImage },
     props: {
         diary: {
             type: Object,
@@ -58,10 +60,6 @@ export default {
     height: 100%;
     position: relative;
 
-    img {
-        width: 100%;
-        height: 100%;
-    }
     .diary-date {
         position: absolute;
         bottom: 0;

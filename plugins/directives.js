@@ -6,9 +6,9 @@
 // v-lazyload (참고: https://url.kr/l5bxa1)
 const lazyloadDirective = {
     mounted(el, binding) {
-        function loadImage(targetElement, imageUrl) {
-            const imgElement = targetElement;
-            imgElement.setAttribute("src", imageUrl);
+        function loadImage(el, imageUrl) {
+            el.setAttribute("src", imageUrl);
+            el.onload = () => {};
         }
 
         function callIntersectionApi() {
@@ -16,6 +16,7 @@ const lazyloadDirective = {
                 root: null,
                 threshold: 0.5,
                 rootMargin: "0px",
+                once: true,
             };
 
             const callback = (entries, observer) => {
