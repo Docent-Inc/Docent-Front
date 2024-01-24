@@ -1,6 +1,10 @@
 <template>
     <div class="viewport">
-        <div class="video-container">
+      <v-progress-circular
+          indeterminate
+          color="#9398FF"
+      ></v-progress-circular>
+<!--        <div class="video-container">-->
             <!-- <client-only>
                 <video
                     class="video"
@@ -15,13 +19,13 @@
             </client-only> -->
 
             <!-- <div id="logo_box"> -->
-            <img
-                src="@/assets/images/commons/logos/logo_v2_white.svg"
-                id="logo"
-                class="small"
-            />
+<!--            <img-->
+<!--                src="@/assets/images/commons/logos/logo_v2_white.svg"-->
+<!--                id="logo"-->
+<!--                class="small"-->
+<!--            />-->
             <!-- </div> -->
-        </div>
+<!--        </div>-->
     </div>
 </template>
 
@@ -37,17 +41,14 @@ const router = useRouter();
 // console.log("check", isChecked.value); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
 
 onMounted(() => {
-    setTimeout(() => {
-        // isOnboarding = true, 온보딩 화면으로 이동
-        const isOnboarding = window.localStorage.getItem("isOnboarding");
-        if (!isOnboarding) {
-            router.replace(`/onboarding`);
-            return;
-        }
+  const isOnboarding = window.localStorage.getItem("isOnboarding");
+  if (!isOnboarding) {
+    router.replace(`/onboarding`);
+    return;
+  }
 
-        // isOnboarding = false, 자동 로그인 체크
-        checkAutoLogin();
-    }, 1000); // 1초
+  // isOnboarding = false, 자동 로그인 체크
+  checkAutoLogin();
 });
 
 // console.log("Called!"); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
@@ -106,10 +107,9 @@ async function checkAutoLogin() {
 
 <style lang="scss" scoped>
 .viewport {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: var(--CTA_accent, #9398ff); // 9398FF a1a1ff
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .video-container {
