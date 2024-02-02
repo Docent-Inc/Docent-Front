@@ -8,14 +8,13 @@
         <div class="contents">
             <div class="report-content report-content-1">
                 <div class="report-content-1-title">
-                    <div v-if="generated_total_count < 5">
-                        이번주에 <b>{{ 5 - generated_total_count }}개</b> 더
+                    <div v-if="generated_total_count < 3">
+                        이번주에 <b>{{ 3 - generated_total_count }}개</b> 더
                         기록해주시면 <br />
-                        월요일 아침에 돌아보기가 완성돼요!
+                        한 주 돌아보기가 완성돼요!
                     </div>
                     <div v-else>
-                        이번 한 주도 수고했어요 :&#41;<br />
-                        <b>일요일 밤</b>에 돌아보기가 완성돼요!
+                        한 주 돌아보기 보고서가 만들어지고 있어요 :&#41;<br />
                     </div>
                 </div>
                 <div class="report-progress-wrap">
@@ -29,7 +28,7 @@
                     </div>
                     <div
                         class="report-progress-result"
-                        :class="{ inactive: generated_total_count < 5 }"
+                        :class="{ inactive: generated_total_count < 3 }"
                     >
                         <Icon class="ic_frame" />
                     </div>
@@ -41,8 +40,8 @@
                     <Icon class="ic_box" />{{ user?.nickname }}님의 돌아보기
                 </div>
                 <div class="report-content-2-desc">
-                    하루하루 열심히 기록하신 꿈, 일기, 일정을 바탕으로 <br />
-                    일요일 밤에 한 주 돌아보기를 보내드려요.
+                    하루하루 열심히 기록하신 일기, 일정을 바탕으로 <br />
+                    한 주 돌아보기를 보내드려요.
                 </div>
 
                 <ReportItems
@@ -78,12 +77,11 @@ export default {
     computed: {
         ...mapState(useUserStore, ["user"]),
         generated_list() {
-            const list = [false, false, false, false, false];
-            for (let i = 0; i < 5; i++) {
+            const list = [false, false, false];
+            for (let i = 0; i < 3; i++) {
                 if (i >= this.generated_total_count) break;
                 list[i] = true;
             }
-
             return list;
         },
     },

@@ -18,7 +18,7 @@
             </div>
             <div
                 class="report-progress-result"
-                :class="{ inactive: generated_total_count < 5 }"
+                :class="{ inactive: generated_total_count < 3 }"
             >
                 <Icon class="ic_frame" />
             </div>
@@ -44,8 +44,8 @@ export default {
     },
     computed: {
         generated_list() {
-            const list = [false, false, false, false, false];
-            for (let i = 0; i < 5; i++) {
+            const list = [false, false, false];
+            for (let i = 0; i < 3; i++) {
                 if (i >= this.generated_total_count) break;
                 list[i] = true;
             }
@@ -67,25 +67,25 @@ export default {
             const now = this.$dayjs();
             // 조건 충족
             if (this.generated_total_count >= 5) {
-                // 1) 일요일 19시-20시
-                const isSunday19to20 =
-                    now.day() === 0 && now.hour() >= 19 && now.hour() <= 20;
-                if (isSunday19to20) {
-                    return `*한 주 돌아보기를 생성하고 있어요* \n일요일 20시에 돌아보기가 완성돼요!`;
-                }
+                // // 1) 일요일 19시-20시
+                // const isSunday19to20 =
+                //     now.day() === 0 && now.hour() >= 19 && now.hour() <= 20;
+                // if (isSunday19to20) {
+                //     return `*한 주 돌아보기를 생성하고 있어요* \n일요일 20시에 돌아보기가 완성돼요!`;
+                // }
 
                 // 2) 지난주 확인 안 한 돌아보기 있을 때
                 if (this.isLastestReportUnread) {
-                    return `*이번주 돌아보기가 완성되었어요!* \n확인해보러 가볼까요?`;
+                    return `*한 주 돌아보기가 완성되었어요!* \n확인해보러 가볼까요?`;
                 }
 
-                return `*이번주도 수고했어요!* \n일요일 20시에 돌아보기가 완성돼요!`;
+                return `*이번주도 수고했어요!* \n한 주 돌아보기 보고서가 곧 생성돼요!`;
             }
 
             // 조건 미충족
             return `이번 주에 *${
                 5 - this.generated_total_count
-            }개* 더 기록해주시면 \n일요일 밤에 돌아보기가 완성돼요!`;
+            }개* 더 기록해주시면 \n한 주 돌아보기 보고서가 완성돼요!`;
         },
         /** 지난주 돌아보기 확인 여부 */
         isLastestReportUnread() {
