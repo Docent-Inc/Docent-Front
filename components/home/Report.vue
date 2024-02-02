@@ -76,16 +76,16 @@ export default {
 
                 // 2) 지난주 확인 안 한 돌아보기 있을 때
                 if (this.isLastestReportUnread) {
-                    return `*한 주 돌아보기가 완성되었어요!* \n확인해보러 가볼까요?`;
+                    return `*마음 상태 보고서가 완성되었어요!* \n확인해보러 가볼까요?`;
                 }
 
-                return `*이번주도 수고했어요!* \n한 주 돌아보기 보고서가 곧 생성돼요!`;
+                return `*이번주도 수고했어요!* \n마음 상태 보고서가 곧 생성돼요!`;
             }
 
             // 조건 미충족
             return `이번 주에 *${
                 3 - this.generated_total_count
-            }개* 더 기록해주시면 \n한 주 돌아보기 보고서가 완성돼요!`;
+            }개* 더 기록해주시면 \n마음 상태 보고서가 완성돼요!`;
         },
         /** 지난주 돌아보기 확인 여부 */
         isLastestReportUnread() {

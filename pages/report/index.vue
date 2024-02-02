@@ -1,8 +1,7 @@
 <template>
     <div class="viewport">
         <div class="header">
-            <Icon class="ic_back_white" @click="this.$router.back()" />한 주
-            돌아보기
+            <Icon class="ic_back_white" @click="this.$router.back()" />마음 상태 보고서
         </div>
 
         <div class="contents">
@@ -11,10 +10,10 @@
                     <div v-if="generated_total_count < 3">
                         이번주에 <b>{{ 3 - generated_total_count }}개</b> 더
                         기록해주시면 <br />
-                        한 주 돌아보기가 완성돼요!
+                        마음 상태 보고서가 완성돼요!
                     </div>
                     <div v-else>
-                        한 주 돌아보기 보고서가 만들어지고 있어요 :&#41;<br />
+                      마음 상태 보고서가 만들어지고 있어요 :&#41;<br />
                     </div>
                 </div>
                 <div class="report-progress-wrap">
@@ -37,11 +36,11 @@
             </div>
             <div class="report-content report-content-2">
                 <div class="report-content-2-title">
-                    <Icon class="ic_box" />{{ user?.nickname }}님의 돌아보기
+                    <Icon class="ic_box" />{{ user?.nickname }}님의 마음 상태 보고서
                 </div>
                 <div class="report-content-2-desc">
                     하루하루 열심히 기록하신 일기, 일정을 바탕으로 <br />
-                    한 주 돌아보기를 보내드려요.
+                    마음 상태 보고서를 보내드려요.
                 </div>
 
                 <ReportItems

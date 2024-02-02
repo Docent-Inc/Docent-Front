@@ -1,5 +1,5 @@
 <template>
-    <div class="header"><BackBtn :is-dark="true" />한 주 돌아보기</div>
+    <div class="header"><BackBtn :is-dark="true" />마음 상태 보고서</div>
     <div class="contents">
         <Icon class="img_blur_elipsis" />
 
