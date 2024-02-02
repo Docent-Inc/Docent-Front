@@ -84,7 +84,7 @@ export default {
 
             // 조건 미충족
             return `이번 주에 *${
-                5 - this.generated_total_count
+                3 - this.generated_total_count
             }개* 더 기록해주시면 \n한 주 돌아보기 보고서가 완성돼요!`;
         },
         /** 지난주 돌아보기 확인 여부 */
