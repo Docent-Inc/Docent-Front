@@ -6,9 +6,9 @@
         <!-- 도슨트 -->
         <div v-if="chat.is_docent" style="width: 100%" class="chat-docent">
             <div class="chat-docent-profile">
-                <!-- <div class="chat-profile">
-                    <Icon class="ic_profile_ai" />
-                </div> -->
+<!--                <div class="chat-profile">-->
+<!--                    <Icon class="ic_profile_ai" />-->
+<!--                </div>-->
 
                 <div class="chat-title" v-if="chat.type === 'loading'">
                     잠시 후 기록 결과를 말씀드릴게요! 📑

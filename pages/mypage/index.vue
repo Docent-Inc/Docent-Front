@@ -244,7 +244,7 @@ export default {
         margin-top: 16px;
         padding: 0 2rem;
         height: 32px;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
 
         display: flex;
         justify-content: space-between;

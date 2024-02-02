@@ -8,7 +8,7 @@ enum ChatType {
     RESULT = "result",
     LOADING = "loading",
     SELECT = "select", // 231206 - 미사용
-    DEFAULT = "2",
+    DEFAULT = "default",
     SUCCESS = "success",
     FAIL = "fail",
 }
@@ -23,7 +23,7 @@ interface Chat {
 const initialState = () => ({
     chatList: [] as Chat[],
     isGenerating: false,
-    type: 2,
+    type: 0,
     resetFlag: false, // unmounted 시, 초기화 여부 플래그
 });
 
@@ -127,7 +127,7 @@ export const useChatStore = defineStore("chat", {
             // (3) 채팅 생성
             const data = {
                 content: input,
-                type: this.type,
+                type: 2,
             };
             const { sendChat } = useChatService();
             const res = await sendChat(data);

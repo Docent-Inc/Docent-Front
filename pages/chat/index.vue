@@ -198,16 +198,17 @@ const updateChatBoxCss = () => {
 .contents {
     width: 100%;
     height: 100%;
-    height: calc(100% - env(safe-area-inset-bottom));
-    height: calc(100% - constant(safe-area-inset-bottom));
+    height: calc(100% - (env(safe-area-inset-bottom)));
+    height: calc(100% - (constant(safe-area-inset-bottom)));
 
     padding: 0 2rem;
     background: $gradient_bg_light;
     padding-top: 60px; // header
     // input + CSS 52px 간격 요청 + nav
     //padding-bottom: calc(12.5rem + 52px + 9rem);
+    padding-bottom: calc(12.5rem);
     // IOS 네비 하단에 배경 X
-    // margin-bottom: env(safe-area-inset-bottom);
+    // margin-bottom: calc(78px + env(safe-area-inset-bottom));
     // margin-bottom: constant(safe-area-inset-bottom);
 
     display: flex;

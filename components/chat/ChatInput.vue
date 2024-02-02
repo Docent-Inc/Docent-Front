@@ -58,18 +58,18 @@
                     />
                     <Button v-else class="btn_mic_x" @click="cancelVoice" />
 
-                    <div class="input" @click="openTextarea(true)">
+                    <div class="input">
                         <textarea
                             v-model="data"
                             :placeholder="placeholder"
                             rows="1"
                             :class="{ voice: mode === 'VOICE' }"
-                            style="pointer-events: none"
-                            readonly
+                            :disabled="isGenerating"
+                            @input="adjustTextAreaHeight"
                         />
                     </div>
+                    <v-icon class="ic_send" @click="send" />
                 </div>
-
                 <chat-voice
                     v-if="mode === 'VOICE'"
                     ref="chatVoiceRef"
@@ -98,6 +98,7 @@ export default {
             selectList: [`🌙  꿈 기록`, "✏️  일기", "🗒️  메모", "🗓️  일정"],
             isOpen: false,
             LIMITED_CONTENT_LENGTH: LIMITED_CONTENT_LENGTH,
+            textAreaHeight: 0,
         };
     },
     setup() {},
@@ -138,7 +139,26 @@ export default {
     },
     methods: {
         ...mapActions(useChatStore, ["sendChat", "removeLastChat", "setType"]),
-        onSelect(idx) {
+        adjustTextAreaHeight($event) {
+          const textarea = $event.target;
+          const lineHeight = parseInt(getComputedStyle(textarea).lineHeight, 10); // textarea의 line-height를 계산
+          const maxRows = 5;
+          const maxHeight = lineHeight * maxRows; // 최대 높이를 계산 (line-height * 최대 줄 수)
+
+          textarea.style.height = "auto"; // textarea 높이를 auto로 임시 설정하여 현재 내용을 모두 담을 수 있는 높이를 계산
+          const requiredHeight = textarea.scrollHeight; // 현재 내용을 모두 담기 위해 필요한 높이
+
+          if (requiredHeight > maxHeight) {
+            // 필요한 높이가 최대 높이보다 크면 최대 높이를 사용하고 스크롤바 활성화
+            textarea.style.height = `${maxHeight}px`;
+            textarea.style.overflowY = "scroll"; // 내용이 최대 높이를 초과할 경우 스크롤바 활성화
+          } else {
+            // 필요한 높이가 최대 높이 이하면 필요한 만큼만 높이 설정
+            textarea.style.height = `${requiredHeight}px`;
+            textarea.style.overflowY = "hidden"; // 스크롤바 비활성화
+          }
+        },
+      onSelect(idx) {
             this.selected = idx;
             this.setType(idx + 1);
         },
@@ -151,7 +171,6 @@ export default {
                 return;
             }
             if (this.isGenerating) return;
-
             this.openTextarea(false);
             const res = await this.sendChat(this.data);
             if (res.success) this.data = "";
@@ -352,7 +371,7 @@ export default {
 }
 
 .input {
-    width: 80%;
+    width: 70%;
     max-width: 500px;
     min-height: 48px;
     height: 100%;
@@ -411,5 +430,15 @@ export default {
     img {
         height: 160px;
     }
+}
+.textarea {
+  overflow-y: auto; // 스크롤이 필요할 때만 y축 스크롤바가 나타나도록 설정합니다.
+
+  &::-webkit-scrollbar {
+    display: none; // Webkit 브라우저(Chrome, Safari 등)에서 스크롤바를 숨깁니다.
+  }
+
+  -ms-overflow-style: none; // IE, Edge에서 스크롤바를 숨깁니다.
+  scrollbar-width: none; // Firefox에서 스크롤바를 숨깁니다.
 }
 </style>
