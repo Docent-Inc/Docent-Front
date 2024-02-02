@@ -32,18 +32,18 @@
     </div>
 
     <div class="chat-input">
-        <div class="chat-select-box" v-if="!(mode === 'VOICE' || isGenerating)">
-            <div
-                v-for="(select, idx) in selectList"
-                :key="idx"
-                class="chat-select"
-                :class="{ selected: type === idx + 1 }"
-                @click="onSelect(idx)"
-            >
-                {{ select }}
-            </div>
-            <div class="chat-select" @click="onSelect(-1)">↩︎</div>
-        </div>
+<!--        <div class="chat-select-box" v-if="!(mode === 'VOICE' || isGenerating)">-->
+<!--            <div-->
+<!--                v-for="(select, idx) in selectList"-->
+<!--                :key="idx"-->
+<!--                class="chat-select"-->
+<!--                :class="{ selected: type === idx + 1 }"-->
+<!--                @click="onSelect(idx)"-->
+<!--            >-->
+<!--                {{ select }}-->
+<!--            </div>-->
+<!--            <div class="chat-select" @click="onSelect(-1)">↩︎</div>-->
+<!--        </div>-->
 
         <div class="chat-input-box">
             <div v-if="isGenerating" class="chat-loading">
@@ -294,9 +294,8 @@ export default {
 
     z-index: 997;
     position: fixed;
-    bottom: 9rem;
-    bottom: calc(9rem + env(safe-area-inset-bottom));
-    bottom: calc(9rem + constant(safe-area-inset-bottom));
+    bottom: calc(env(safe-area-inset-bottom));
+    bottom: calc(constant(safe-area-inset-bottom));
 }
 
 .chat-select-box {

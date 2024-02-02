@@ -1,8 +1,8 @@
 <template>
     <div class="header">
         <div class="header-top">
-            <span class="mypage-title">마이페이지</span>
-            <v-icon class="ic_setting" @click="goSetting" />
+            <v-icon class="ic_back" @click="navigateTo(`/chat`)" />
+             <v-icon class="ic_setting" @click="goSetting" />
         </div>
     </div>
     <div class="contents">
@@ -19,6 +19,8 @@
         </div>
 
         <!-- (2) 통계 영역 -->
+        <Report />
+
         <div
             class="contents-header-2"
             v-if="highestCountCategory"
@@ -27,6 +29,8 @@
             <Icon :class="highestCountCategory.iconClass" />
             <p class="status-text">{{ highestCountCategory.message }}</p>
         </div>
+
+
 
         <!-- (3) 콘텐츠 영역 -->
         <div class="contents-header-4">
@@ -73,6 +77,7 @@ import BoardItems from "../../components/diary/BoardItems.vue";
 import Tags from "../../components/diary/Tags.vue";
 import Icon from "~/components/common/Icon.vue";
 import CalendarMain from "~/components/calendar/CalendarMain.vue";
+import Report from "../../components/home/Report.vue";
 
 export default {
     name: "Mypage",
@@ -87,6 +92,7 @@ export default {
         ListItems,
         Icon,
         CalendarMain,
+        Report,
     },
     data() {
         return {
@@ -238,6 +244,7 @@ export default {
         margin-top: 16px;
         padding: 0 2rem;
         height: 32px;
+        margin-bottom: 20px;
 
         display: flex;
         justify-content: space-between;
@@ -251,7 +258,7 @@ export default {
     }
 
     .contents-header-2 {
-        margin: 2rem 0 3rem 0;
+        margin: 3rem 0 3rem 0;
         padding: 0 2rem;
 
         width: 100%;

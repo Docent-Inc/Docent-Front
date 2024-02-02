@@ -1,8 +1,8 @@
 <template>
     <div class="viewport">
         <div class="header">
-            <span class="header-title"> Looi </span>
-            <Icon class="ic_help" @click="isVisible = !isVisible" />
+            <span class="logo_v2 icon" />
+            <Icon class="nav_mypage" @click="navigateTo(`/mypage?tab=diary`)" />
         </div>
 
         <div class="contents" ref="scrollableRef">
@@ -17,7 +17,7 @@
             />
         </div>
 
-        <Navigation />
+<!--        <Navigation />-->
         <ChatInput />
 
         <!-- 토스트 -->
@@ -205,7 +205,7 @@ const updateChatBoxCss = () => {
     background: $gradient_bg_light;
     padding-top: 60px; // header
     // input + CSS 52px 간격 요청 + nav
-    padding-bottom: calc(12.5rem + 52px + 9rem);
+    //padding-bottom: calc(12.5rem + 52px + 9rem);
     // IOS 네비 하단에 배경 X
     // margin-bottom: env(safe-area-inset-bottom);
     // margin-bottom: constant(safe-area-inset-bottom);
@@ -231,5 +231,10 @@ const updateChatBoxCss = () => {
         // margin: 0 auto;
         padding: 6px 42px;
     }
+}
+.nav_mypage {
+  //width: 100%;
+  //height: 100%;
+  //margin-top: 10px;
 }
 </style>

@@ -38,7 +38,7 @@
                 </div>
             </main>
         </div>
-        <Navigation />
+<!--        <Navigation />-->
     </div>
 
     <SimpleModal :isModalOpen="isModalOpen" @close="closeModal">
@@ -163,18 +163,18 @@ export default {
 @import "@/assets/scss/mixins.scss";
 
 .contents {
-    height: calc(100% - (6rem + 9rem));
-    height: calc(100% - (6rem + 9rem + constant(safe-area-inset-top)));
-    height: calc(100% - (6rem + 9rem + env(safe-area-inset-top)));
+    height: calc(100% - (6rem));
+    height: calc(100% - (6rem + constant(safe-area-inset-top)));
+    height: calc(100% - (6rem + env(safe-area-inset-top)));
 
     margin-top: 6rem;
     margin-top: calc(6rem + constant(safe-area-inset-top));
     margin-top: calc(6rem + env(safe-area-inset-top));
     padding: 0;
 
-    margin-bottom: 9rem;
-    margin-bottom: calc(9rem + constant(safe-area-inset-bottom));
-    margin-bottom: calc(9rem + env(safe-area-inset-bottom));
+    //margin-bottom: 9rem;
+    //margin-bottom: calc(9rem + constant(safe-area-inset-bottom));
+    //margin-bottom: calc(9rem + env(safe-area-inset-bottom));
 
     overflow-x: none;
     overflow-y: scroll;
