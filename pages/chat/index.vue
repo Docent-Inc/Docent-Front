@@ -209,7 +209,8 @@ const updateChatBoxCss = () => {
     padding: 0 2rem;
     background: $gradient_bg_light;
     padding-top: 60px; // header
-
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
 
     // input + CSS 52px 간격 요청 + nav
     //padding-bottom: calc(12.5rem + 52px + 9rem);
