@@ -1,37 +1,37 @@
 <template>
-    <div class="chat-text" v-if="isOpen" ref="chatTextRef">
-        <div class="chat-text-top">
-            <Icon class="ic_arrow" @click="openTextarea(false)" />
-            <span class="header-title"> Looi </span>
+<!--    <div class="chat-text" v-if="isOpen" ref="chatTextRef">-->
+<!--        <div class="chat-text-top">-->
+<!--            <Icon class="ic_arrow" @click="openTextarea(false)" />-->
+<!--            <span class="header-title"> Looi </span>-->
 
-            <div
-                class="chat-text-sumbit"
-                v-if="isValidate.status"
-                @click="send"
-            >
-                <Icon class="ic_send" />입력 완료하기
-            </div>
-            <div class="chat-text-sumbit disabled" v-else @click="send">
-                <Icon class="ic_send_gray" />입력 완료하기
-            </div>
-        </div>
+<!--            <div-->
+<!--                class="chat-text-sumbit"-->
+<!--                v-if="isValidate.status"-->
+<!--                @click="send"-->
+<!--            >-->
+<!--                <Icon class="ic_send" />입력 완료하기-->
+<!--            </div>-->
+<!--            <div class="chat-text-sumbit disabled" v-else @click="send">-->
+<!--                <Icon class="ic_send_gray" />입력 완료하기-->
+<!--            </div>-->
+<!--        </div>-->
 
-        <div class="input">
-            <textarea
-                v-model="data"
-                maxlength="1000"
-                :class="{ warn: data.length === LIMITED_CONTENT_LENGTH }"
-            />
-            <div
-                class="character-count"
-                :class="{ warn: data.length === LIMITED_CONTENT_LENGTH }"
-            >
-                {{ data.length }} / {{ LIMITED_CONTENT_LENGTH }} 자
-            </div>
-        </div>
-    </div>
+<!--        <div class="input">-->
+<!--            <textarea-->
+<!--                v-model="data"-->
+<!--                maxlength="1000"-->
+<!--                :class="{ warn: data.length === LIMITED_CONTENT_LENGTH }"-->
+<!--            />-->
+<!--            <div-->
+<!--                class="character-count"-->
+<!--                :class="{ warn: data.length === LIMITED_CONTENT_LENGTH }"-->
+<!--            >-->
+<!--                {{ data.length }} / {{ LIMITED_CONTENT_LENGTH }} 자-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
-    <div class="chat-input">
+    <div class="chat-input" ref="chatTextRef">
 <!--        <div class="chat-select-box" v-if="!(mode === 'VOICE' || isGenerating)">-->
 <!--            <div-->
 <!--                v-for="(select, idx) in selectList"-->
@@ -130,6 +130,15 @@ export default {
     },
     mounted() {
         window.visualViewport.addEventListener("resize", this.resizeViewport);
+        // 포커스가 있을 때 safe area 패딩을 조정하는 클래스 추가
+        window.addEventListener('focusin', this.handleFocusIn);
+        // 포커스가 사라질 때 클래스 제거
+        window.addEventListener('focusout', this.handleFocusOut);
+    },
+    beforeUnmount() {
+      // 이벤트 리스너 제거
+      window.removeEventListener('focusin', this.handleFocusIn);
+      window.removeEventListener('focusout', this.handleFocusOut);
     },
     beforeMount() {
         window.visualViewport.removeEventListener(
@@ -139,7 +148,21 @@ export default {
     },
     methods: {
         ...mapActions(useChatStore, ["sendChat", "removeLastChat", "setType"]),
-        adjustTextAreaHeight($event) {
+      handleFocusIn() {
+        console.log('focusin');
+        if (this.$refs.chatTextRef) {
+          this.$refs.chatTextRef.style.bottom = "0"; // 직접 bottom 스타일 속성 설정
+        }
+      },
+      handleFocusOut() {
+        console.log('focusout');
+        if (this.$refs.chatTextRef) {
+          // 원래 bottom 스타일로 되돌리기 (예를 들어 safe-area-inset-bottom을 사용했다면)
+          this.$refs.chatTextRef.style.bottom = `calc(env(safe-area-inset-bottom))`;
+        }
+      },
+
+      adjustTextAreaHeight($event) {
           const textarea = $event.target;
           const lineHeight = parseInt(getComputedStyle(textarea).lineHeight, 10); // textarea의 line-height를 계산
           const maxRows = 5;
@@ -201,13 +224,13 @@ export default {
             if (this.mode === "VOICE") return;
             this.isOpen = to;
         },
-        resizeViewport() {
-            // console.log("RESIZE - ", window.visualViewport?.height);
-            if (window.visualViewport && this.$refs.chatTextRef) {
-                const currentVisualViewport = window.visualViewport.height;
-                this.$refs.chatTextRef.style.height = `${currentVisualViewport}px`;
-            }
-        },
+        // resizeViewport() {
+        //     // console.log("RESIZE - ", window.visualViewport?.height);
+        //     if (window.visualViewport && this.$refs.chatTextRef) {
+        //         const currentVisualViewport = window.visualViewport.height;
+        //         this.$refs.chatTextRef.style.height = `${currentVisualViewport}px`;
+        //     }
+        // },
     },
 };
 </script>
@@ -302,8 +325,8 @@ export default {
     position: fixed;
     top: 0;
 
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-bottom: constant(safe-area-inset-bottom);
+    //padding-bottom: env(safe-area-inset-bottom);
+    //padding-bottom: constant(safe-area-inset-bottom);
 }
 
 .chat-input {
@@ -316,7 +339,6 @@ export default {
     bottom: calc(env(safe-area-inset-bottom));
     bottom: calc(constant(safe-area-inset-bottom));
 }
-
 .chat-select-box {
     height: 3rem;
     padding-left: 1.5rem;
@@ -349,7 +371,7 @@ export default {
     width: 100%;
     // height: 8rem;
 
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 255);
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
 
