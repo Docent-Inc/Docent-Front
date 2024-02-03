@@ -185,6 +185,11 @@ const updateChatBoxCss = () => {
 <style lang="scss" scoped>
 @import "@/assets/scss/variables.scss";
 
+.viewport {
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -205,8 +210,7 @@ const updateChatBoxCss = () => {
     background: $gradient_bg_light;
     padding-top: 60px; // header
 
-    padding-bottom: constant(safe-area-inset-bottom);
-    padding-bottom: env(safe-area-inset-bottom);
+
     // input + CSS 52px 간격 요청 + nav
     //padding-bottom: calc(12.5rem + 52px + 9rem);
     // padding-bottom: calc(12.5rem);
