@@ -1,4 +1,5 @@
 <template>
+  <div class="viewport">
     <div class="header">
         <div class="header-top">
             <v-icon class="ic_back" @click="navigateTo(`/chat`)" />
@@ -65,6 +66,7 @@
             </div>
         </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -235,6 +237,8 @@ export default {
     margin-top: 60px;
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
+
+    bottom: 0!important;
 
     // padding: 1.31rem 0;
     background: #ffffff;

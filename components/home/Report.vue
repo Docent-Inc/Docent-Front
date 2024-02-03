@@ -66,7 +66,7 @@ export default {
         dynamicMessage() {
             const now = this.$dayjs();
             // 조건 충족
-            if (this.generated_total_count >= 5) {
+            if (this.generated_total_count >= 3) {
                 // // 1) 일요일 19시-20시
                 // const isSunday19to20 =
                 //     now.day() === 0 && now.hour() >= 19 && now.hour() <= 20;
