@@ -336,8 +336,8 @@ export default {
 
     z-index: 997;
     position: fixed;
-    bottom: calc(env(safe-area-inset-bottom));
-    bottom: calc(constant(safe-area-inset-bottom));
+    bottom: env(safe-area-inset-bottom);
+    bottom: constant(safe-area-inset-bottom);
 }
 .chat-select-box {
     height: 3rem;

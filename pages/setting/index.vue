@@ -75,6 +75,7 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
+const { $native } = useNuxtApp();
 import { useUserStore } from "~/store/user";
 import { Popover } from "v-calendar";
 import Icon from "~/components/common/Icon.vue";
@@ -95,7 +96,10 @@ export default {
             birth: null,
         };
     },
-    computed: {
+    mounted() {
+        $native.controlSafeArea(false);
+    },
+  computed: {
         ...mapState(useUserStore, ["user"]),
     },
     methods: {

@@ -73,6 +73,7 @@
 import { mapState, mapActions } from "pinia";
 import { useMypageStore } from "~/store/mypage";
 import { useUserStore } from "~/store/user";
+const { $native } = useNuxtApp();
 
 import ListItems from "../../components/diary/ListItems.vue";
 import BoardItems from "../../components/diary/BoardItems.vue";
@@ -183,6 +184,7 @@ export default {
         }
     },
     mounted() {
+        $native.controlSafeArea(false);
         this.getRatio();
     },
     methods: {
@@ -237,6 +239,9 @@ export default {
     margin-top: 60px;
     margin-top: calc(60px + constant(safe-area-inset-top));
     margin-top: calc(60px + env(safe-area-inset-top));
+
+    //padding-bottom: env(safe-area-inset-bottom);
+    //padding-bottom: constant(safe-area-inset-bottom);
 
     bottom: 0!important;
 
