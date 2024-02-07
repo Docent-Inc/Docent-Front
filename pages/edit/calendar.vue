@@ -6,7 +6,7 @@
         :isSubmit="
             isEditMode
                 ? isRemodified
-                : !!content &&
+                : !!title &&
                   !dateErrorMsg.startTime &&
                   !dateErrorMsg.endTime &&
                   !timeErrorMsg.startTime &&
@@ -17,20 +17,20 @@
     />
     <form class="contents viewport">
         <div class="add_input-box">
-            <h2>일정 제목</h2>
+            <h2>일정 <span class="point">*</span></h2>
             <textarea
                 class="textarea-title"
-                placeholder="입력하지 않으면 자동으로 제목을 지어드려요!"
+                placeholder="일정을 입력해 주세요"
                 @input="updateInputContents"
                 :value="title"
                 data-field="title"
             ></textarea>
         </div>
         <div class="add_input-box">
-            <h2>일정 내용 <span class="point">*</span></h2>
+            <h2>일정 메모</h2>
             <textarea
                 class="textarea-content"
-                placeholder="일정에 대한 내용을 입력해주세요"
+                placeholder="메모를 작성해 주세요"
                 @input="updateInputContents"
                 :value="content"
                 data-field="content"

@@ -1,8 +1,12 @@
 <template>
-<!--  <div class="viewport">-->
+  <div class="viewport">
     <div class="header">
         <div class="header-top">
-            <v-icon class="ic_back" @click="navigateTo(`/chat`)" />
+            <div class="header-top-title">
+                <BackBtn />
+<!--                <v-icon class="ic_back" @click="navigateTo(`/chat`)" />-->
+                <span class="mypage-title">나의 기록</span>
+            </div>
              <v-icon class="ic_setting" @click="goSetting" />
         </div>
     </div>
@@ -20,7 +24,7 @@
         </div>
 
         <!-- (2) 통계 영역 -->
-        <Report />
+
 
         <div
             class="contents-header-2"
@@ -30,7 +34,7 @@
             <Icon :class="highestCountCategory.iconClass" />
             <p class="status-text">{{ highestCountCategory.message }}</p>
         </div>
-
+        <Report />
 
 
         <!-- (3) 콘텐츠 영역 -->
@@ -66,7 +70,7 @@
             </div>
         </div>
     </div>
-<!--  </div>-->
+  </div>
 </template>
 
 <script>
@@ -81,6 +85,7 @@ import Tags from "../../components/diary/Tags.vue";
 import Icon from "~/components/common/Icon.vue";
 import CalendarMain from "~/components/calendar/CalendarMain.vue";
 import Report from "../../components/home/Report.vue";
+import BackBtn from "~/components/common/buttons/BackBtn.vue";
 
 export default {
     name: "Mypage",
@@ -90,6 +95,7 @@ export default {
         });
     },
     components: {
+        BackBtn,
         Tags,
         BoardItems,
         ListItems,
@@ -209,7 +215,7 @@ export default {
 @import "@/assets/scss/mixins.scss";
 
 .header {
-    padding: 2rem 2rem;
+    padding: 2rem 2rem 2rem 1.3rem;
 
     .header-top {
         width: 100%;
@@ -217,6 +223,14 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+    .header-top-title {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        align-items: center;
+        height: 100%;
+        gap: 10px;
     }
     .mypage-title {
         display: flex;
@@ -269,7 +283,7 @@ export default {
     }
 
     .contents-header-2 {
-        margin: 3rem 0 3rem 0;
+        margin: 1rem 0 2rem 0;
         padding: 0 2rem;
 
         width: 100%;
@@ -390,5 +404,9 @@ export default {
 }
 .blind {
     visibility: hidden;
+}
+.ic_back {
+    width: 3.2rem;
+    height: 3.2rem;
 }
 </style>

@@ -112,8 +112,14 @@ export default {
                 : currentPath;
             this.$router.push(newUrl);
 
-            window.scrollTo({
-                top: document.body.scrollHeight,
+            // window.scrollTo({
+            //     top: document.body.scrollHeight,
+            //     behavior: "smooth",
+            // });
+            console.log("scroll");
+            const element = document.querySelector(".contents");
+            element.scroll({
+                top: element.scrollHeight,
                 behavior: "smooth",
             });
         },

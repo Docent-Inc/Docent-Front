@@ -66,12 +66,12 @@ export default {
 
 .calendar-detail {
     width: 100%;
-    height: 47%;
+    height: 65%;
     position: absolute;
     overflow: scroll;
     border-radius: 12px 12px 0 0;
     padding: 2rem;
-    bottom: 90px;
+    bottom: 0;
     font-size: 12px;
     z-index: 10;
 

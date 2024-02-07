@@ -227,7 +227,7 @@ export default {
                     );
                     break;
                 }
-              }, 5000);
+              }, 8000);
               this.data = "";
             }
             else {
@@ -258,20 +258,21 @@ export default {
             this.isOpen = to;
         },
         resizeViewport() {
-          setTimeout(() => {
-            const chatInput = document.querySelector(".chat-input");
-            const bottomNotch = parseFloat(getComputedStyle(document.querySelector(".contents")).paddingBottom);
-            const isPageScrollable = document.body.scrollHeight > window.innerHeight;
-            const currentHeight = parseFloat(getComputedStyle(chatInput).bottom);
-            if (!isPageScrollable && !currentHeight) return;
-            window.scrollTo(0, 0); // 스크롤을 상단으로 이동
-            if (currentHeight === 0 || currentHeight === bottomNotch) {
-              chatInput.style.bottom = `${300 + bottomNotch}px`; // 키보드 높이만큼 bottom 조정
-            }
-            else {
-              chatInput.style.bottom = `${0 + bottomNotch}px`; // 키보드 높이만큼 bottom 조정
-            }
-          }, 100);
+            window.scrollTo(0, 0);
+              setTimeout(() => {
+                const chatInput = document.querySelector(".chat-input");
+                const bottomNotch = parseFloat(getComputedStyle(document.querySelector(".contents")).paddingBottom);
+                const isPageScrollable = document.body.scrollHeight > window.innerHeight;
+                const currentHeight = parseFloat(getComputedStyle(chatInput).bottom);
+                if (!isPageScrollable && !currentHeight) return;
+                window.scrollTo(0, 0); // 스크롤을 상단으로 이동
+                if (currentHeight === 0 || currentHeight === bottomNotch) {
+                  chatInput.style.bottom = `${300 + bottomNotch}px`; // 키보드 높이만큼 bottom 조정
+                }
+                else {
+                  chatInput.style.bottom = `${0 + bottomNotch}px`; // 키보드 높이만큼 bottom 조정
+                }
+          }, 200);
         },
     },
 };

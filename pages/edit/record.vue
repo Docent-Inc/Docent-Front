@@ -41,46 +41,46 @@
                 </button>
             </div>
         </div>
-        <div class="add-date_info-box" v-if="type !== 3">
-            <h2>날짜 <span class="point">*</span></h2>
-            <div class="date-input-box">
-                <input
-                    placeholder="YYYY"
-                    v-model="startTime.year"
-                    @input="validateYear('startTime')"
-                    :class="dateErrMsgObj.year && 'error'"
-                />
-                년
-                <input
-                    placeholder="MM"
-                    v-model="startTime.month"
-                    @input="validateMonth('startTime')"
-                    :class="dateErrMsgObj.month && 'error'"
-                />
-                월
-                <input
-                    placeholder="DD"
-                    v-model="startTime.day"
-                    @input="validateDay('startTime')"
-                    :class="dateErrMsgObj.day && 'error'"
-                />
-                일
-                <div class="week">{{ startTime.week }}요일</div>
-            </div>
-            <div class="error-msg">
-                {{ dateErrorMsg.startTime }}
-            </div>
-        </div>
-        <div class="add_input-box">
-            <h2>제목</h2>
-            <textarea
-                class="textarea-title"
-                placeholder="입력하지 않으면 자동으로 제목을 지어드려요!"
-                @input="updateInputContents"
-                :value="title"
-                data-field="title"
-            ></textarea>
-        </div>
+<!--        <div class="add-date_info-box" v-if="type !== 3">-->
+<!--            <h2>날짜 <span class="point">*</span></h2>-->
+<!--            <div class="date-input-box">-->
+<!--                <input-->
+<!--                    placeholder="YYYY"-->
+<!--                    v-model="startTime.year"-->
+<!--                    @input="validateYear('startTime')"-->
+<!--                    :class="dateErrMsgObj.year && 'error'"-->
+<!--                />-->
+<!--                년-->
+<!--                <input-->
+<!--                    placeholder="MM"-->
+<!--                    v-model="startTime.month"-->
+<!--                    @input="validateMonth('startTime')"-->
+<!--                    :class="dateErrMsgObj.month && 'error'"-->
+<!--                />-->
+<!--                월-->
+<!--                <input-->
+<!--                    placeholder="DD"-->
+<!--                    v-model="startTime.day"-->
+<!--                    @input="validateDay('startTime')"-->
+<!--                    :class="dateErrMsgObj.day && 'error'"-->
+<!--                />-->
+<!--                일-->
+<!--                <div class="week">{{ startTime.week }}요일</div>-->
+<!--            </div>-->
+<!--            <div class="error-msg">-->
+<!--                {{ dateErrorMsg.startTime }}-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="add_input-box">-->
+<!--            <h2>제목</h2>-->
+<!--            <textarea-->
+<!--                class="textarea-title"-->
+<!--                placeholder="입력하지 않으면 자동으로 제목을 지어드려요!"-->
+<!--                @input="updateInputContents"-->
+<!--                :value="title"-->
+<!--                data-field="title"-->
+<!--            ></textarea>-->
+<!--        </div>-->
         <div class="add_input-box content">
             <h2>내용 <span class="point">*</span></h2>
             <textarea

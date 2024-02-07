@@ -99,7 +99,7 @@ export default {
     beforeMount() {
       $native.controlSafeArea(false);
     },
-  computed: {
+    computed: {
         ...mapState(useUserStore, ["user"]),
     },
     methods: {

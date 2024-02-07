@@ -1,8 +1,8 @@
 <template>
     <div v-show="show">
-        <Starter v-if="!isLoading && !isFetching && list.length < 1" />
         <div class="board-items">
-            <div class="add_btn-box">
+            <Starter v-if="!isLoading && !isFetching && list.length < 1" />
+            <div class="add_btn-box" v-else >
                 <AddBtn :isCard="true" />
             </div>
 
@@ -63,6 +63,8 @@ const totalCounts = computed(() => {
     return lastPage?.data.total_count || 0;
 });
 
+console.log(list.length);
+
 /**
  * Data Fetching
  */
@@ -113,6 +115,7 @@ $eventBus.$on("refetch", ({ path }) => {
     background: $gradient_bg_light;
     display: flex;
     flex-wrap: wrap;
+    height: 100%;
     width: 100%;
     padding-top: 1rem;
 

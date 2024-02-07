@@ -12,10 +12,14 @@ export default {
     },
     methods: {
         goBackOrHome() {
-            if (window.history.length > 1) {
-                this.$router.back();
-            } else {
+            // console.log(this.$route.path);
+            if(this.$route.path == "/mypage") {
                 this.$router.push("/chat");
+            } else if (this.$route.path == "/edit") {
+                this.$router.push("/mypage");
+            }
+            else {
+                this.$router.back();
             }
         },
     },
