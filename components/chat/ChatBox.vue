@@ -7,13 +7,13 @@
         <div v-if="chat.is_docent" style="width: 100%" class="chat-docent">
             <div class="chat-docent-profile">
 <!--                <div class="chat-profile">-->
-<!--                    <Icon class="ic_profile_ai" />-->
 <!--                </div>-->
 
                 <div class="chat-title" v-if="chat.type === 'loading'">
                     잠시 후 기록 결과를 말씀드릴게요! 📑
                 </div>
                 <div class="chat-title" v-else-if="chat.type !== 'result'">
+                  <Icon class="ic_profile_ai" />
                     {{ chat.text }}
                 </div>
 
@@ -37,12 +37,12 @@
             </div>
 
             <!-- 결과  -->
-            <chat-result
-                v-if="chat.type === 'result'"
-                :result="chat.result"
-                :chat="chat.result"
-                :type="chat.result.text_type"
-            />
+<!--            <chat-result-->
+<!--                v-if="chat.type === 'result'"-->
+<!--                :result="chat.result"-->
+<!--                :chat="chat.result"-->
+<!--                :type="chat.result.text_type"-->
+<!--            />-->
         </div>
         <!-- 유저 -->
         <div class="chat-user" v-else>
@@ -83,13 +83,25 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/scss/variables.scss";
 .chat-title {
+    border-radius: 12px;
+    background: var(--indigo-500, #6366F1);
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    align-items: center;
+
+    gap: 12px;
     color: $vc-gray-700;
     font-family: "Pretendard Bold";
     font-size: 20px;
     line-height: 150%; /* 30px */
-    padding-bottom: 0.5rem;
     white-space: pre-wrap;
+    color: var(--white, #FFF);
 
+    /* h3/h3_bold_18 */
+    font-family: "Pretendard Bold";
+    font-size: 18px;
+    line-height: 160%; /* 28.8px */
     span {
         color: $vc-indigo-500;
     }

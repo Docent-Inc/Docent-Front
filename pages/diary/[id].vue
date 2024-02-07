@@ -200,6 +200,7 @@ import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
 import { useRecordStore } from "~/store/record";
 import { escapeHtml } from "~/utils/utils";
+const { $native } = useNuxtApp();
 
 import { useDiaryService } from "../../services/diary";
 import Button from "~/components/common/Button.vue";
@@ -234,6 +235,11 @@ export default {
             // 토스트
             isVisible: false,
             successMessage: "",
+            // chat을 통한 자동 생성
+            generating: false,
+            generatedItem: null,
+            generateError: null,
+            checkInterval: null,
         };
     },
     setup() {
@@ -269,11 +275,14 @@ export default {
             return `${type} ${open}`;
         },
     },
+    beforeMount() {
+      $native.controlSafeArea(false);
+    },
     async mounted() {
         const { getMorningdiary, getNightdiary } = useDiaryService();
-
         const id = this.$route.params.id;
         const type = this.$route.query.type;
+        this.generating = this.$route.query.generating;
         this.isLoading = true;
         this.type = type;
 
@@ -301,11 +310,43 @@ export default {
             this.diary.keyword = JSON.parse(this.diary.main_keyword);
         this.diary.resolution = res.data.diary.resolution;
         this.diary.is_like = res.data.diary.is_like;
-        this.isLoading = false;
+        if (this.generating && !this.isGenerated) {
+          this.checkInterval = setInterval(this.checkGeneratedItem, 1000);
+          this.isLoading = true;
+        }
+        else {
+          this.isLoading = false;
+        }
+    },
+    beforeDestroy() {
+      // 컴포넌트가 파괴될 때 인터벌 정지
+      clearInterval(this.checkInterval);
     },
     methods: {
         ...mapActions(useRecordStore, ["deleteOptimisticRecord"]),
+        checkGeneratedItem() {
+          const generatedItem = sessionStorage.getItem('generatedItem');
+          const generateError = sessionStorage.getItem('generateError');
 
+          if (generatedItem) {
+            this.generatedItem = JSON.parse(generatedItem);
+            console.log(this.generatedItem);
+            clearInterval(this.checkInterval); // 결과 확인이 완료되면 인터벌을 정지
+          } else if (generateError) {
+            this.generateError = generateError;
+            clearInterval(this.checkInterval); // 에러 확인이 완료되면 인터벌을 정지
+          }
+
+          if (this.generatedItem || this.generateError) {
+            this.diary = this.generatedItem.diary;
+            this.isGenerated = this.generatedItem.diary.is_generated;
+            this.diary.diary_name = this.generatedItem.diary.diary_name;
+            this.diary.resolution = this.generatedItem.diary.resolution;
+            this.diary.keyword = JSON.parse(this.diary.main_keyword);
+            this.is_like = this.generatedItem.diary.is_like;
+            this.isLoading = false;
+          }
+        },
         onDelete() {
             this.$eventBus.$emit("onCustomModal", {
                 title: "정말 이 기록을 삭제하시겠어요?",

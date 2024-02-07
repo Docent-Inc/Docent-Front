@@ -46,7 +46,8 @@ self.addEventListener("notificationclick", (event) => {
                         (new URL(client.url).hostname.includes("docent") ||
                             new URL(client.url).hostname.includes(
                                 "bmongsmong",
-                            )) &&
+                            ) ||
+                            new URL(client.url).hostname === "localhost") &&
                         "focus" in client
                     ) {
                         foundWindowClient = client;

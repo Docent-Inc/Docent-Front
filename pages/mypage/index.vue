@@ -1,5 +1,5 @@
 <template>
-  <div class="viewport">
+<!--  <div class="viewport">-->
     <div class="header">
         <div class="header-top">
             <v-icon class="ic_back" @click="navigateTo(`/chat`)" />
@@ -66,7 +66,7 @@
             </div>
         </div>
     </div>
-  </div>
+<!--  </div>-->
 </template>
 
 <script>
@@ -183,9 +183,11 @@ export default {
                 break;
         }
     },
-    mounted() {
-        $native.controlSafeArea(false);
-        this.getRatio();
+    beforeMount() {
+      $native.controlSafeArea(false);
+    },
+  mounted() {
+      this.getRatio();
     },
     methods: {
         ...mapActions(useMypageStore, ["setType", "changeMode", "getRatio"]),

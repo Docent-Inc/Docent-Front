@@ -96,8 +96,8 @@ export default {
             birth: null,
         };
     },
-    mounted() {
-        $native.controlSafeArea(false);
+    beforeMount() {
+      $native.controlSafeArea(false);
     },
   computed: {
         ...mapState(useUserStore, ["user"]),

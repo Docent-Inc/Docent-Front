@@ -125,18 +125,24 @@ export const useChatStore = defineStore("chat", {
             this.isGenerating = true;
 
             // (3) 채팅 생성
+            if (this.type === 1) {
+                this.type = 2;
+            } else if (this.type === 2) {
+                this.type = 1;
+            }
             const data = {
                 content: input,
-                type: 2,
+                type: this.type,
             };
+            console.log(data.type)
             const { sendChat } = useChatService();
             const res = await sendChat(data);
             // console.log("✨generateChat >>> ", res);
 
             // (4) 로딩 컴포넌트 삭제
-            this.removeLoadingChat();
-            this.isGenerating = false;
-            this.type = 0;
+            // this.removeLoadingChat();
+            // this.isGenerating = false;
+            // this.type = 0;
 
             if (!res.success) {
                 const msg = `${res.status_code}  - ${res.message}`;
@@ -147,13 +153,13 @@ export const useChatStore = defineStore("chat", {
             }
 
             // (5) 결과 채팅 추가
-            const result: ChatContentModel = res.data;
-            const resultChat: Chat = {
-                is_docent: true,
-                type: ChatType.RESULT,
-                result: result,
-            };
-            this.addChat(resultChat);
+            // const result: ChatContentModel = res.data;
+            // const resultChat: Chat = {
+            //     is_docent: true,
+            //     type: ChatType.RESULT,
+            //     result: result,
+            // };
+            // this.addChat(resultChat);
 
             // if (result.text_type === 1 || result.text_type === 2) {
             //     const { addOptimisticRecord } = useRecordStore();

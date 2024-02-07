@@ -1,7 +1,8 @@
 <template>
     <div class="viewport">
         <div class="header">
-            <span class="logo_v2 icon" />
+<!--            <span class="logo_v2 icon" />-->
+            <span class="header-title"> Looi </span>
             <Icon class="nav_mypage" @click="navigateTo(`/mypage?tab=diary`)" />
         </div>
 
@@ -78,17 +79,20 @@ watch(
 watch(
     () => store.type,
     async (newVal, oldVal) => {
-        store.addHelperChat(newVal);
+        // store.addHelperChat(newVal);
     },
 );
 
 /**
  * LifeCycle
  */
+onBeforeMount(() => {
+  $native.controlSafeArea(true);
+});
+
 onMounted(() => {
     getSessionChatList();
     updateCSS();
-    $native.controlSafeArea(true);
 });
 
 onUnmounted(() => {
@@ -209,7 +213,7 @@ const updateChatBoxCss = () => {
     height: calc(100% - (constant(safe-area-inset-bottom)));
 
     padding: 0 2rem;
-    background: $gradient_bg_light;
+    background: var(--v-14-gradient, linear-gradient(0deg, #D4DBFF 4.74%, #DEE4FF 29.52%, #FFF 93.66%));
     padding-top: 60px; // header
     padding-bottom: constant(safe-area-inset-bottom);
     padding-bottom: env(safe-area-inset-bottom);
@@ -238,7 +242,7 @@ const updateChatBoxCss = () => {
         font-family: "Pretendard";
         font-size: 12px;
         line-height: 160%;
-        margin: 2rem auto;
+        margin: 2rem auto 0;
         // margin: 0 auto;
         padding: 6px 42px;
     }

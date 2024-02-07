@@ -31,19 +31,19 @@
 <!--        </div>-->
 <!--    </div>-->
 
-    <div class="chat-input" ref="chatTextRef">
-<!--        <div class="chat-select-box" v-if="!(mode === 'VOICE' || isGenerating)">-->
-<!--            <div-->
-<!--                v-for="(select, idx) in selectList"-->
-<!--                :key="idx"-->
-<!--                class="chat-select"-->
-<!--                :class="{ selected: type === idx + 1 }"-->
-<!--                @click="onSelect(idx)"-->
-<!--            >-->
-<!--                {{ select }}-->
-<!--            </div>-->
+    <div class="chat-input">
+        <div class="chat-select-box" v-if="!(mode === 'VOICE' || isGenerating)">
+            <div
+                v-for="(select, idx) in selectList"
+                :key="idx"
+                class="chat-select"
+                :class="{ selected: type === idx + 1 }"
+                @click="onSelect(idx)"
+            >
+                {{ select }}
+            </div>
 <!--            <div class="chat-select" @click="onSelect(-1)">↩︎</div>-->
-<!--        </div>-->
+        </div>
 
         <div class="chat-input-box">
             <div v-if="isGenerating" class="chat-loading">
@@ -66,6 +66,8 @@
                             :class="{ voice: mode === 'VOICE' }"
                             :disabled="isGenerating"
                             @input="adjustTextAreaHeight"
+                            @focus="resizeViewport"
+                            @blur="resizeViewport"
                         />
                     </div>
                     <v-icon class="ic_send" @click="send" />
@@ -84,8 +86,10 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { useChatStore } from "../../store/chat";
+const store = useChatStore();
 import Button from "~/components/common/Button.vue";
 import Icon from "~/components/common/Icon.vue";
+import { useDiaryService } from "../../services/diary";
 const LIMITED_CONTENT_LENGTH = 1000;
 
 export default {
@@ -95,14 +99,18 @@ export default {
         return {
             mode: "INPUT",
             data: "",
-            selectList: [`🌙  꿈 기록`, "✏️  일기", "🗒️  메모", "🗓️  일정"],
+            selectList: [`✏️  내 이야기를 들어줘!`, "🌙  꿈 해석해줘!"],
             isOpen: false,
             LIMITED_CONTENT_LENGTH: LIMITED_CONTENT_LENGTH,
             textAreaHeight: 0,
         };
     },
     setup() {},
-    computed: {
+    unmounted() {
+      window.sessionStorage.removeItem("chatList");
+      store.reset();
+    },
+  computed: {
         ...mapState(useChatStore, ["chatList", "isGenerating", "type"]),
         placeholder() {
             if (this.mode === "INPUT")
@@ -128,41 +136,10 @@ export default {
             };
         },
     },
-    mounted() {
-        window.visualViewport.addEventListener("resize", this.resizeViewport);
-        // 포커스가 있을 때 safe area 패딩을 조정하는 클래스 추가
-        window.addEventListener('focusin', this.handleFocusIn);
-        // 포커스가 사라질 때 클래스 제거
-        window.addEventListener('focusout', this.handleFocusOut);
-    },
-    beforeUnmount() {
-      // 이벤트 리스너 제거
-      window.removeEventListener('focusin', this.handleFocusIn);
-      window.removeEventListener('focusout', this.handleFocusOut);
-    },
-    beforeMount() {
-        window.visualViewport.removeEventListener(
-            "resize",
-            this.resizeViewport,
-        );
-    },
     methods: {
         ...mapActions(useChatStore, ["sendChat", "removeLastChat", "setType"]),
-      handleFocusIn() {
-        console.log('focusin');
-        if (this.$refs.chatTextRef) {
-          this.$refs.chatTextRef.style.bottom = "0"; // 직접 bottom 스타일 속성 설정
-        }
-      },
-      handleFocusOut() {
-        console.log('focusout');
-        if (this.$refs.chatTextRef) {
-          // 원래 bottom 스타일로 되돌리기 (예를 들어 safe-area-inset-bottom을 사용했다면)
-          this.$refs.chatTextRef.style.bottom = `calc(env(safe-area-inset-bottom))`;
-        }
-      },
-
       adjustTextAreaHeight($event) {
+          // this.resizeViewport();
           const textarea = $event.target;
           const lineHeight = parseInt(getComputedStyle(textarea).lineHeight, 10); // textarea의 line-height를 계산
           const maxRows = 5;
@@ -181,11 +158,32 @@ export default {
             textarea.style.overflowY = "hidden"; // 스크롤바 비활성화
           }
         },
-      onSelect(idx) {
+        onSelect(idx) {
             this.selected = idx;
             this.setType(idx + 1);
         },
-        async send() {
+      async generateDiary(diaryType, diaryId) {
+        const { generateMorningDiary, generateNightDiary } = useDiaryService();
+
+        try {
+          let data;
+          if (diaryType === 1) {
+            data = await generateMorningDiary(diaryId);
+          } else if (diaryType === 2) {
+            data = await generateNightDiary(diaryId);
+          }
+
+          if (data && data.success) {
+            sessionStorage.setItem('generatedItem', JSON.stringify(data.data));
+          } else {
+            throw new Error(data.message);
+          }
+        } catch (error) {
+          console.error('Generation Error:', error);
+          sessionStorage.setItem('generateError', JSON.stringify(error.message || 'Unknown error'));
+        }
+      },
+      async send() {
             // Validation
             if (!this.isValidate.status) {
                 this.$eventBus.$emit("onConfirmModal", {
@@ -194,9 +192,44 @@ export default {
                 return;
             }
             if (this.isGenerating) return;
+            if (!(this.selected + 1)) {
+                this.$eventBus.$emit("onConfirmModal", {
+                    title: "채팅 종류를 선택해주세요.",
+                });
+                return;
+            }
             this.openTextarea(false);
             const res = await this.sendChat(this.data);
-            if (res.success) this.data = "";
+            if (res.success) {
+              this.result = res.data;
+              sessionStorage.removeItem('generatedItem');
+              sessionStorage.removeItem('generateError');
+              this.generateDiary(this.result.text_type, this.result.diary_id);
+
+              setTimeout(() => {
+                window.sessionStorage.removeItem("chatList");
+                store.reset();
+                switch (this.result.text_type) {
+                  case 1:
+                  case 2:
+                    this.$router.push(
+                        `/diary/${this.result.diary_id}?type=${this.result.text_type}&generating=true`,
+                    );
+                    break;
+
+                  case 3:
+                    this.$router.push(`/memo/${this.result.diary_id}`);
+                    break;
+
+                  case 4:
+                    this.$router.push(
+                        `/mypage?tab=calendar&date=${this.result.content.start_time}`,
+                    );
+                    break;
+                }
+              }, 5000);
+              this.data = "";
+            }
             else {
                 this.$eventBus.$emit("onConfirmModal", {
                     title: "채팅 생성에 실패했습니다.",
@@ -224,19 +257,31 @@ export default {
             if (this.mode === "VOICE") return;
             this.isOpen = to;
         },
-        // resizeViewport() {
-        //     // console.log("RESIZE - ", window.visualViewport?.height);
-        //     if (window.visualViewport && this.$refs.chatTextRef) {
-        //         const currentVisualViewport = window.visualViewport.height;
-        //         this.$refs.chatTextRef.style.height = `${currentVisualViewport}px`;
-        //     }
-        // },
+        resizeViewport() {
+          setTimeout(() => {
+            const chatInput = document.querySelector(".chat-input");
+            const bottomNotch = parseFloat(getComputedStyle(document.querySelector(".contents")).paddingBottom);
+            const isPageScrollable = document.body.scrollHeight > window.innerHeight;
+            const currentHeight = parseFloat(getComputedStyle(chatInput).bottom);
+            if (!isPageScrollable && !currentHeight) return;
+            window.scrollTo(0, 0); // 스크롤을 상단으로 이동
+            if (currentHeight === 0 || currentHeight === bottomNotch) {
+              chatInput.style.bottom = `${300 + bottomNotch}px`; // 키보드 높이만큼 bottom 조정
+            }
+            else {
+              chatInput.style.bottom = `${0 + bottomNotch}px`; // 키보드 높이만큼 bottom 조정
+            }
+          }, 100);
+        },
     },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/assets/scss/variables.scss";
+body {
+  overflow: hidden;
+}
 .chat-text {
     position: fixed;
     top: 0;
@@ -336,12 +381,15 @@ export default {
 
     z-index: 997;
     position: fixed;
+    bottom: 0;
     bottom: env(safe-area-inset-bottom);
     bottom: constant(safe-area-inset-bottom);
+    //transition: bottom 0.001s;
 }
 .chat-select-box {
     height: 3rem;
-    padding-left: 1.5rem;
+    align-content: center;
+    justify-content: center;
     margin-bottom: 1.5rem;
 
     display: flex;
