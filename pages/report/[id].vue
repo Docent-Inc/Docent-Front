@@ -71,6 +71,12 @@
                     <div class="tag-wrap col">
                         <div
                             class="tag primary big left"
+                            v-for="rec in content.recommendations"
+                        >
+                            {{ rec }}
+                        </div>
+                        <div
+                            class="tag primary big left"
                             v-for="rec in content.personal_questions"
                         >
                             {{ rec }}
@@ -296,8 +302,8 @@ export default {
 
 .report-activities {
     width: 100%;
-    display: flex;
-    gap: 12px;
+    //display: flex;
+    gap: 14px;
     margin-top: 16px;
 
     .report-activity-box {
