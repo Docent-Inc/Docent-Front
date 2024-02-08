@@ -37,6 +37,22 @@ export default defineNuxtPlugin(() => {
                 }, 300); // 300ms 딜레이
             }
         },
+        // openKakaoLink 함수를 native 객체에 추가
+        openKakaoLink: async (url) => {
+            if (isIOSApp() && window.webkit && window.webkit.messageHandlers.openKakaoLink) {
+                window.webkit.messageHandlers.openKakaoLink.postMessage(url);
+                // } else {
+                //     window.location.href = url;
+                // }
+            }
+        },
+        openLink: async (url) => {
+            if (isIOSApp() && window.webkit && window.webkit.messageHandlers.openLink) {
+                window.webkit.messageHandlers.openLink.postMessage(url);
+            } else {
+                window.location.href = url;
+            }
+        }
     };
 
     // native 객체를 Nuxt 애플리케이션에 제공

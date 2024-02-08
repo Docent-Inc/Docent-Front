@@ -130,19 +130,22 @@ export default {
             this.$router.push(`/profile/modify`);
         },
         openKakaoLink() {
-            window.open("https://pf.kakao.com/_vNxnRG", "_blank");
+            $native.openLink("https://pf.kakao.com/_vNxnRG");
+            // window.open("https://pf.kakao.com/_vNxnRG", "_blank");
         },
         openToSLink() {
-            window.open(
-                "https://docent-ai.notion.site/53a465da1ef04985aabba86fdfb5d388?pvs=4",
-                "_blank",
-            );
+            $native.openLink("https://docent-ai.notion.site/53a465da1ef04985aabba86fdfb5d388?pvs=4");
+            // window.open(
+            //     "https://docent-ai.notion.site/53a465da1ef04985aabba86fdfb5d388?pvs=4",
+            //     "_blank",
+            // );
         },
         openPolicyLink() {
-            window.open(
-                "https://docent-ai.notion.site/bdd51533f0424658ac5c52b4cc067cad?pvs=4",
-                "_blank",
-            );
+            $native.openLink("https://docent-ai.notion.site/bdd51533f0424658ac5c52b4cc067cad?pvs=4");
+            // window.open(
+            //     "https://docent-ai.notion.site/bdd51533f0424658ac5c52b4cc067cad?pvs=4",
+            //     "_blank",
+            // );
         },
         logout() {
             const { reset } = useUserStore();

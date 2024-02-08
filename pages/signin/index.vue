@@ -60,7 +60,8 @@ export default {
             const { getSocialLogin } = useAuthService();
             const res = await getSocialLogin(service);
             if (res.success) {
-                window.location.href = res.data.url;
+                console.log("res.data.url", res.data.url);
+                await $native.openKakaoLink(res.data.url);
             } else {
                 this.isOAuthFailed = true;
                 alert("로그인에 실패하였습니다.\n", res.message);

@@ -42,7 +42,7 @@ const router = useRouter();
 
 onMounted(() => {
   const isOnboarding = window.localStorage.getItem("isOnboarding");
-  if (isOnboarding) {
+  if (!isOnboarding) {
     router.replace(`/onboarding`);
     return;
   }

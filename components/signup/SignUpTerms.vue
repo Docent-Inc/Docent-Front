@@ -41,6 +41,7 @@
 </template>
 
 <script>
+const { $native } = useNuxtApp();
 export default {
     emits: ["all-checkboxes-checked"],
     data() {
@@ -112,12 +113,13 @@ export default {
             return label.replace(/\/(.*?)\//g, "<strong>$1</strong>");
         },
         handleMoveToBrowser(link) {
-            const newTab = window.open(link, "_blank");
-            if (newTab) {
-                newTab.opener = null;
-                newTab.referrerPolicy = "no-referrer";
-                newTab.location.href = serviceCheckbox.content;
-            }
+            $native.openLink(link);
+            // const newTab = window.open(link, "_blank");
+            // if (newTab) {
+            //     newTab.opener = null;
+            //     newTab.referrerPolicy = "no-referrer";
+            //     newTab.location.href = serviceCheckbox.content;
+            // }
         },
     },
 };
