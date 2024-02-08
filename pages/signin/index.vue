@@ -46,7 +46,7 @@ import { useAuthService } from "../../services/auth";
 import Toast from "~/components/common/Toast.vue";
 import { isIOS } from "~/utils/utils";
 import Icon from "~/components/common/Icon.vue";
-
+const { $native } = useNuxtApp();
 export default {
     components: { Toast, Icon },
     data() {
@@ -69,6 +69,7 @@ export default {
     },
     mounted() {
         this.isIOS = isIOS();
+        $native.controlSafeArea(false);
     },
 };
 </script>

@@ -113,6 +113,7 @@ import { useUserStore } from "~/store/user";
 import { useReportService } from "../../services/report";
 import Image from "~/components/common/Image.vue";
 import BackBtn from "~/components/common/buttons/BackBtn.vue";
+const { $native } = useNuxtApp();
 
 export default {
     name: "Report",
@@ -152,6 +153,7 @@ export default {
             Object.assign(this.data, res.data);
             Object.assign(this.content, res.data.content);
         }
+        $native.controlSafeArea(false);
     },
 };
 </script>

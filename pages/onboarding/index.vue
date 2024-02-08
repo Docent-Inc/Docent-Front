@@ -1,44 +1,51 @@
 <template>
     <div class="viewport">
         <!-- (1) 헤더 -->
-        <div class="header">
-            <div class="onboarding-title">튜토리얼</div>
+<!--        <div class="header">-->
+<!--            <div class="onboarding-title">튜토리얼</div>-->
 
-            <div class="onboarding-skip" @click="goSignIn">건너뛰기</div>
-        </div>
+<!--            <div class="onboarding-skip" @click="goSignIn">건너뛰기</div>-->
+<!--        </div>-->
 
         <!-- (2) 본문  -->
         <div class="layout">
-            <div class="contents" ref="scrollableRef">
-                <ExampleChatBox
-                    v-for="(chat, idx) in exampleList"
-                    :key="idx"
-                    :chat="chat"
-                    class="chat-box"
-                />
-            </div>
+            <v-icon class="ic_onboarding_1" v-if="page_number===1"/>
+            <v-icon class="ic_onboarding_2" v-else-if="page_number===2"/>
+            <v-icon class="ic_onboarding_3" v-else-if="page_number===3"/>
+            <v-icon class="ic_onboarding_4" v-else-if="page_number===4"/>
+<!--            <div class="contents" ref="scrollableRef">-->
+<!--                <ExampleChatBox-->
+<!--                    v-for="(chat, idx) in exampleList"-->
+<!--                    :key="idx"-->
+<!--                    :chat="chat"-->
+<!--                    class="chat-box"-->
+<!--                />-->
+<!--            </div>-->
         </div>
         <div class="bottom">
-            <div
-                class="onabording-button animate__animated animate__fadeIn"
-                v-if="showButton"
-                @click="push2List"
-            >
-                오늘은 인상깊은 날이다. 나만의 공간에서 나를 도와줄 기록 비서
-                Looi와 만나게 되었다. 기록 열심히 해야지!
+<!--            <div-->
+<!--                class="onabording-button animate__animated animate__fadeIn"-->
+<!--                v-if="showButton"-->
+<!--                @click="push2List"-->
+<!--            >-->
+<!--                오늘은 인상깊은 날이다. 나만의 공간에서 나를 도와줄 기록 비서-->
+<!--                Looi와 만나게 되었다. 기록 열심히 해야지!-->
+<!--            </div>-->
+            <div class="onabording-button" @click="next">
+                다음
             </div>
 
-            <div class="chat-loading" v-if="isLoading">
-                <img src="@/assets/images/pages/chat/loading-dot.gif" />
-            </div>
+<!--            <div class="chat-loading" v-if="isLoading">-->
+<!--                <img src="@/assets/images/pages/chat/loading-dot.gif" />-->
+<!--            </div>-->
 
-            <div
-                class="button primary animate__animated animate__fadeIn"
-                v-if="showStartButton"
-                @click="goSignIn"
-            >
-                Looi 가입하러 가기
-            </div>
+<!--            <div-->
+<!--                class="button primary animate__animated animate__fadeIn"-->
+<!--                v-if="showStartButton"-->
+<!--                @click="goSignIn"-->
+<!--            >-->
+<!--                Looi 가입하러 가기-->
+<!--            </div>-->
         </div>
     </div>
 </template>
@@ -50,6 +57,11 @@ import ChatResult from "../../components/chat/ChatBox.vue";
 export default {
     name: "Chat",
     components: { ExampleChatBox, ChatResult },
+    data() {
+        return {
+            page_number: 0,
+        }
+    }
 };
 </script>
 
@@ -64,7 +76,8 @@ import OnboardingJSON from "@/assets/json/onboarding.json";
  * Data
  */
 const router = useRouter();
-
+const { $native } = useNuxtApp();
+let page_number = ref(0);
 const exampleList = ref([]);
 const showButton = ref(false);
 const isLoading = ref(false);
@@ -80,8 +93,13 @@ watch(
 /**
  * LifeCycle
  */
+onBeforeMount(() => {
+    $native.controlSafeArea(true);
+});
+
 onMounted(() => {
     push1List(OnboardingJSON[0]);
+    page_number.value++;
 });
 
 /**
@@ -91,6 +109,15 @@ onMounted(() => {
  * 3. push3List [버튼 클릭 결과]
  * 4. push4List [보고서 예시 ~ 시작]
  */
+
+async function next() {
+    if(page_number.value === 4) {
+        goSignIn();
+        return;
+    }
+    page_number.value++;
+    console.log(page_number.value)
+}
 
 // 1. [인사 ~ 버튼 클릭 전]
 async function push1List() {
@@ -186,6 +213,9 @@ const updateChatBoxCss = () => {
 
 <style lang="scss" scoped>
 @import "@/assets/scss/variables.scss";
+.viewport {
+    overflow-x: hidden;
+}
 .layout {
     height: calc(100%);
     height: calc(
@@ -196,8 +226,9 @@ const updateChatBoxCss = () => {
         100% - (env(safe-area-inset-bottom) + env(safe-area-inset-top))
     );
 
-    padding-top: 60px;
+    //padding-top: 60px;
     padding-bottom: 10rem;
+    overflow: hidden; /* 컨테이너 밖으로 나가는 이미지 부분을 숨김 */
     background: $gradient_bg_light;
 }
 
@@ -243,16 +274,16 @@ const updateChatBoxCss = () => {
 .bottom {
     width: 100%;
     max-width: 500px;
-    min-height: 10rem;
-    background: rgba(255, 255, 255, 0.5);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
+    min-height: 5rem;
+    background: rgba(255, 255, 255, 255);
+    //-webkit-backdrop-filter: blur(16px);
+    //backdrop-filter: blur(16px);
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    padding: 1.5rem 0 3rem;
+    padding: 2rem 0 2rem;
     z-index: 998;
     position: fixed;
     bottom: 0;
@@ -262,8 +293,9 @@ const updateChatBoxCss = () => {
     .onabording-button {
         border-radius: 12px;
         background: var(--CTA_accent, #9398ff);
-        box-shadow: 0px 8px 30px 0px rgba(70, 96, 250, 0.46);
+        //box-shadow: 0px 8px 30px 0px rgba(70, 96, 250, 0.46);
 
+        text-align: center;
         color: $vc-white;
 
         /* b2/b2_bold_14 */
@@ -290,5 +322,9 @@ const updateChatBoxCss = () => {
             height: 160px;
         }
     }
+}
+.ic_onboarding_1, .ic_onboarding_2, .ic_onboarding_3, .ic_onboarding_4 {
+    width: 100%;
+    height: 120%;
 }
 </style>
