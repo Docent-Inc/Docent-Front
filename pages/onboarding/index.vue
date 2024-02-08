@@ -225,7 +225,7 @@ const updateChatBoxCss = () => {
         100% - (env(safe-area-inset-bottom) + env(safe-area-inset-top))
     );
 
-    //padding-top: 60px;
+    padding-top: 40px;
     padding-bottom: 10rem;
     overflow: hidden; /* 컨테이너 밖으로 나가는 이미지 부분을 숨김 */
     background: $gradient_bg_light;
