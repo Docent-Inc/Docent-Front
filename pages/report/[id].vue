@@ -36,25 +36,6 @@
             </div>
             <div class="report-detail-section">
                 <div class="report-detail-section-title">
-                    <Icon class="ic_star" />외향적 활동과 내향적 활동
-                </div>
-                <div class="report-activities">
-                    <div class="report-activity-box">
-                        <div class="report-activity-title">외향적 활동</div>
-                        <div class="report-activity-desc">
-                            {{ content.extroverted_activities.join("\n\n") }}
-                        </div>
-                    </div>
-                    <div class="report-activity-box violet">
-                        <div class="report-activity-title">내향적 활동</div>
-                        <div class="report-activity-desc">
-                            {{ content.introverted_activities.join("\n\n") }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="report-detail-section">
-                <div class="report-detail-section-title">
                     <Icon class="ic_hands" />일주일 간 발견한 긍정적인
                     부분이에요!
                 </div>
@@ -84,17 +65,32 @@
             </div>
             <div class="report-detail-section">
                 <div class="report-detail-section-title">
-                    <Icon class="ic_rocket" />추천활동
+                    <Icon class="ic_star" />루이의 질문
                 </div>
-                <div class="tag-wrap col">
-                    <div
-                        class="tag primary big left"
-                        v-for="rec in content.recommendations"
-                    >
-                        {{ rec }}
+                <div class="report-activities">
+                    <div class="tag-wrap col">
+                        <div
+                            class="tag primary big left"
+                            v-for="rec in content.personal_questions"
+                        >
+                            {{ rec }}
+                        </div>
                     </div>
                 </div>
             </div>
+<!--            <div class="report-detail-section">-->
+<!--                <div class="report-detail-section-title">-->
+<!--                    <Icon class="ic_rocket" />추천활동-->
+<!--                </div>-->
+<!--                <div class="tag-wrap col">-->
+<!--                    <div-->
+<!--                        class="tag primary big left"-->
+<!--                        v-for="rec in content.recommendations"-->
+<!--                    >-->
+<!--                        {{ rec }}-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
 
         <div class="report-detail-footer">
@@ -113,7 +109,7 @@ import { useUserStore } from "~/store/user";
 import { useReportService } from "../../services/report";
 import Image from "~/components/common/Image.vue";
 import BackBtn from "~/components/common/buttons/BackBtn.vue";
-const { $native } = useNuxtApp();
+
 
 export default {
     name: "Report",
@@ -139,6 +135,7 @@ export default {
                 mental_state: "",
                 negatives: { comment: "", main_keyword: "" },
                 positives: { comment: "", main_keyword: "" },
+                personal_questions: [],
                 recommendations: [],
                 keywords: [],
             },
@@ -153,6 +150,7 @@ export default {
             Object.assign(this.data, res.data);
             Object.assign(this.content, res.data.content);
         }
+        const { $native } = useNuxtApp();
         $native.controlSafeArea(false);
     },
 };

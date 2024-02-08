@@ -53,7 +53,6 @@ export default {
 
 <script setup>
 import { watch } from "vue";
-const { $native } = useNuxtApp();
 import { useChatStore } from "../../store/chat";
 import { smoothScroll } from "@/utils/animation";
 import { getHourType } from "@/utils/utils";
@@ -62,6 +61,7 @@ import { getHourType } from "@/utils/utils";
 /**
  * Data
  */
+
 const store = useChatStore();
 const chatList = computed(() => store.chatList);
 const resetFlag = computed(() => store.resetFlag);
@@ -87,7 +87,8 @@ watch(
  * LifeCycle
  */
 onBeforeMount(() => {
-  $native.controlSafeArea(true);
+    const { $native } = useNuxtApp();
+    $native.controlSafeArea(true);
 });
 
 onMounted(() => {

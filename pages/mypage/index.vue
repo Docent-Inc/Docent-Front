@@ -77,7 +77,7 @@
 import { mapState, mapActions } from "pinia";
 import { useMypageStore } from "~/store/mypage";
 import { useUserStore } from "~/store/user";
-const { $native } = useNuxtApp();
+
 
 import ListItems from "../../components/diary/ListItems.vue";
 import BoardItems from "../../components/diary/BoardItems.vue";
@@ -190,6 +190,7 @@ export default {
         }
     },
     beforeMount() {
+        const { $native } = useNuxtApp();
       $native.controlSafeArea(false);
     },
   mounted() {

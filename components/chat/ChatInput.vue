@@ -86,7 +86,6 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { useChatStore } from "../../store/chat";
-const store = useChatStore();
 import Button from "~/components/common/Button.vue";
 import Icon from "~/components/common/Icon.vue";
 import { useDiaryService } from "../../services/diary";
@@ -105,10 +104,13 @@ export default {
             textAreaHeight: 0,
         };
     },
-    setup() {},
+    setup() {
+        const store = useChatStore();
+        return { store };
+    },
     unmounted() {
       window.sessionStorage.removeItem("chatList");
-      store.reset();
+      this.store.reset();
     },
   computed: {
         ...mapState(useChatStore, ["chatList", "isGenerating", "type"]),
@@ -204,11 +206,12 @@ export default {
               this.result = res.data;
               sessionStorage.removeItem('generatedItem');
               sessionStorage.removeItem('generateError');
+              sessionStorage.setItem("isGenerating", "true");
               this.generateDiary(this.result.text_type, this.result.diary_id);
 
               setTimeout(() => {
                 window.sessionStorage.removeItem("chatList");
-                store.reset();
+                this.store.reset();
                 switch (this.result.text_type) {
                   case 1:
                   case 2:

@@ -89,7 +89,7 @@ import SignUpGender from "~/components/signup/SignUpGender.vue";
 import ModifyBirth from "~/components/profile-modify/ModifyBirth.vue";
 import { useAuthService } from "~/services/auth";
 import { useUserStore } from "~/store/user";
-const { $native } = useNuxtApp();
+
 export default {
     components: {
         SignUpTerms,
@@ -110,6 +110,7 @@ export default {
         };
     },
     beforeMount() {
+        const { $native } = useNuxtApp();
         $native.controlSafeArea(true);
     },
     methods: {

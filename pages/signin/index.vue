@@ -46,7 +46,7 @@ import { useAuthService } from "../../services/auth";
 import Toast from "~/components/common/Toast.vue";
 import { isIOS } from "~/utils/utils";
 import Icon from "~/components/common/Icon.vue";
-const { $native } = useNuxtApp();
+
 export default {
     components: { Toast, Icon },
     data() {
@@ -60,7 +60,7 @@ export default {
             const { getSocialLogin } = useAuthService();
             const res = await getSocialLogin(service);
             if (res.success) {
-                console.log("res.data.url", res.data.url);
+                const { $native } = useNuxtApp();
                 await $native.openKakaoLink(res.data.url);
             } else {
                 this.isOAuthFailed = true;
@@ -70,6 +70,7 @@ export default {
     },
     mounted() {
         this.isIOS = isIOS();
+        const { $native } = useNuxtApp();
         $native.controlSafeArea(false);
     },
 };

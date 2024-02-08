@@ -75,7 +75,7 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-const { $native } = useNuxtApp();
+
 import { useUserStore } from "~/store/user";
 import { Popover } from "v-calendar";
 import Icon from "~/components/common/Icon.vue";
@@ -89,7 +89,10 @@ export default {
         Icon,
         BackBtn,
     },
-    setup() {},
+    setup() {
+        const { $native } = useNuxtApp();
+        return { $native };
+    },
     data() {
         return {
             maxWidth: 214,
@@ -97,7 +100,7 @@ export default {
         };
     },
     beforeMount() {
-      $native.controlSafeArea(false);
+        this.$native.controlSafeArea(false);
     },
     computed: {
         ...mapState(useUserStore, ["user"]),
@@ -130,18 +133,18 @@ export default {
             this.$router.push(`/profile/modify`);
         },
         openKakaoLink() {
-            $native.openLink("https://pf.kakao.com/_vNxnRG");
+            this.$native.openLink("https://pf.kakao.com/_vNxnRG");
             // window.open("https://pf.kakao.com/_vNxnRG", "_blank");
         },
         openToSLink() {
-            $native.openLink("https://docent-ai.notion.site/53a465da1ef04985aabba86fdfb5d388?pvs=4");
+            this.$native.openLink("https://docent-ai.notion.site/53a465da1ef04985aabba86fdfb5d388?pvs=4");
             // window.open(
             //     "https://docent-ai.notion.site/53a465da1ef04985aabba86fdfb5d388?pvs=4",
             //     "_blank",
             // );
         },
         openPolicyLink() {
-            $native.openLink("https://docent-ai.notion.site/bdd51533f0424658ac5c52b4cc067cad?pvs=4");
+            this.$native.openLink("https://docent-ai.notion.site/bdd51533f0424658ac5c52b4cc067cad?pvs=4");
             // window.open(
             //     "https://docent-ai.notion.site/bdd51533f0424658ac5c52b4cc067cad?pvs=4",
             //     "_blank",

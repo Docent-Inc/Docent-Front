@@ -200,7 +200,7 @@ import { mapState, mapActions } from "pinia";
 import { useUserStore } from "~/store/user";
 import { useRecordStore } from "~/store/record";
 import { escapeHtml } from "~/utils/utils";
-const { $native } = useNuxtApp();
+
 
 import { useDiaryService } from "../../services/diary";
 import Button from "~/components/common/Button.vue";
@@ -276,7 +276,8 @@ export default {
         },
     },
     beforeMount() {
-      $native.controlSafeArea(false);
+        const { $native } = useNuxtApp();
+        $native.controlSafeArea(false);
     },
     async mounted() {
         const { getMorningdiary, getNightdiary } = useDiaryService();
@@ -310,7 +311,8 @@ export default {
             this.diary.keyword = JSON.parse(this.diary.main_keyword);
         this.diary.resolution = res.data.diary.resolution;
         this.diary.is_like = res.data.diary.is_like;
-        if (this.generating && !this.isGenerated) {
+
+        if (this.generating && !this.isGenerated && sessionStorage.getItem('isGenerating') == 'true') {
           this.checkInterval = setInterval(this.checkGeneratedItem, 1000);
           this.isLoading = true;
         }
@@ -321,6 +323,7 @@ export default {
     beforeDestroy() {
       // 컴포넌트가 파괴될 때 인터벌 정지
       clearInterval(this.checkInterval);
+      sessionStorage.removeItem('isGenerating');
     },
     methods: {
         ...mapActions(useRecordStore, ["deleteOptimisticRecord"]),

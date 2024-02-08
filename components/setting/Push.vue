@@ -142,8 +142,10 @@ export default {
     },
     setup() {
       const myBottomSheet = ref(null);
+      const { $native } = useNuxtApp();
       return {
-        myBottomSheet,
+          $native,
+          myBottomSheet,
       };
     },
     methods: {
@@ -166,9 +168,11 @@ export default {
           this.isChanged = true;
         },
         open() {
+            $native.controlSafeArea(true);
             this.$refs.myBottomSheet.open();
         },
         close() {
+            $native.controlSafeArea(false); // TODO: safearea 컨트롤 적용 안되는 오류
             this.$refs.myBottomSheet.close();
         },
         openErrorModal(message) {

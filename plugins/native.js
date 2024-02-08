@@ -41,9 +41,9 @@ export default defineNuxtPlugin(() => {
         openKakaoLink: async (url) => {
             if (isIOSApp() && window.webkit && window.webkit.messageHandlers.openKakaoLink) {
                 window.webkit.messageHandlers.openKakaoLink.postMessage(url);
-                // } else {
-                //     window.location.href = url;
-                // }
+            }
+            else {
+                window.location.href = url;
             }
         },
         openLink: async (url) => {

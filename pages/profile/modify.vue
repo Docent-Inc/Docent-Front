@@ -77,6 +77,8 @@ export default {
         this.mbti = this.user.mbti;
         this.birth = this.user.birth;
         this.gender = this.user.gender;
+        const { $native } = useNuxtApp();
+        $native.controlSafeArea(true);
     },
     methods: {
         onGenderSelected(newGender) {

@@ -64,10 +64,8 @@
 import ReportItems from "../../components/report/ReportItems.vue";
 import Icon from "~/components/common/Icon.vue";
 import InfiniteLoading from "v3-infinite-loading";
-const { $native } = useNuxtApp();
 import { mapState } from "pinia";
 import { useUserStore } from "~/store/user";
-
 import { useReportService } from "../../services/report";
 
 export default {
@@ -101,6 +99,7 @@ export default {
             this.list_count = res.data.list_count;
             this.reports = res.data.reports;
         }
+        const { $native } = useNuxtApp();
         $native.controlSafeArea(false);
     },
     methods: {
