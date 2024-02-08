@@ -41,14 +41,15 @@ const router = useRouter();
 // console.log("check", isChecked.value); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
 
 onMounted(() => {
-  const isOnboarding = window.localStorage.getItem("isOnboarding");
-  if (!isOnboarding) {
-    router.replace(`/onboarding`);
-    return;
-  }
+    $native.controlSafeArea(true);
+    const isOnboarding = window.localStorage.getItem("isOnboarding");
+          if (!isOnboarding) {
+                router.replace(`/onboarding`);
+                return;
+          }
 
-  // isOnboarding = false, 자동 로그인 체크
-  checkAutoLogin();
+      // isOnboarding = false, 자동 로그인 체크
+      checkAutoLogin();
 });
 
 // console.log("Called!"); // TODO [김유신] 스플래시 영상 확인 용, 다음 배포 때 제거
