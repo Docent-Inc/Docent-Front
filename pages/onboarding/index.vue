@@ -9,10 +9,9 @@
 
         <!-- (2) 본문  -->
         <div class="layout">
-            <v-icon class="ic_onboarding_1" v-if="page_number===1"/>
-            <v-icon class="ic_onboarding_2" v-else-if="page_number===2"/>
-            <v-icon class="ic_onboarding_3" v-else-if="page_number===3"/>
-            <v-icon class="ic_onboarding_4" v-else-if="page_number===4"/>
+            <transition name="slide" mode="out-in">
+                <div :key="page_number" :class="`ic_onboarding_${page_number}`"></div>
+            </transition>
 <!--            <div class="contents" ref="scrollableRef">-->
 <!--                <ExampleChatBox-->
 <!--                    v-for="(chat, idx) in exampleList"-->
@@ -325,6 +324,20 @@ const updateChatBoxCss = () => {
 }
 .ic_onboarding_1, .ic_onboarding_2, .ic_onboarding_3, .ic_onboarding_4 {
     width: 100%;
-    height: 120%;
+    height: 115%;
+}
+.slide-enter-active, .slide-leave-active {
+    transition: transform 0.7s ease;
+}
+/* 새 이미지가 오른쪽에서 들어옴 */
+.slide-enter-from {
+    transform: translateX(100%);
+}
+/* 이전 이미지가 왼쪽으로 사라짐 */
+.slide-leave-to {
+    transform: translateX(-100%);
+}
+.slide-leave-from, .slide-enter-to {
+    transform: translateX(0);
 }
 </style>
