@@ -20,8 +20,7 @@
                             {{ report.title }}
                         </div>
                         <div class="report-item-date">
-                            {{ report.period.start_date }} ~
-                            {{ report.period.end_date }}
+                            {{ report.create_date }}
                         </div>
                     </div>
                     <div class="tag-wrap row report-tags">
