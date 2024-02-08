@@ -34,7 +34,7 @@ export default defineNuxtPlugin(() => {
                         const newHeight = currentHeight + 57;
                         element.style.height = `${newHeight}px`;
                     }
-                }, 300); // 300ms 딜레이
+                }, 500); // 300ms 딜레이
             }
         },
         // openKakaoLink 함수를 native 객체에 추가
