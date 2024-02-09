@@ -75,12 +75,12 @@
                         >
                             {{ rec }}
                         </div>
-                        <div
-                            class="tag primary big left"
-                            v-for="rec in content.personal_questions"
-                        >
-                            {{ rec }}
-                        </div>
+<!--                        <div-->
+<!--                            class="tag primary big left"-->
+<!--                            v-for="rec in content.personal_questions"-->
+<!--                        >-->
+<!--                            {{ rec }}-->
+<!--                        </div>-->
                     </div>
                 </div>
             </div>
