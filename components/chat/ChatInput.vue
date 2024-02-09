@@ -171,10 +171,8 @@ export default {
           let data;
           if (diaryType === 1) {
             data = await generateMorningDiary(diaryId);
-            return data.data;
           } else if (diaryType === 2) {
             data = await generateNightDiary(diaryId);
-            return data.data;
           }
 
           if (data && data.success) {
@@ -234,7 +232,7 @@ export default {
                     );
                     break;
                 }
-              }, 4000);
+              }, 2500);
               this.data = "";
             }
             else {

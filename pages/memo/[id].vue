@@ -156,6 +156,10 @@ export default {
             isGenerated: false,
         };
     },
+    beforeMount() {
+        const { $native } = useNuxtApp();
+        $native.controlSafeArea(false);
+    },
     async mounted() {
         const memo_id = this.$route.params.id;
         const { getMemo } = useDiaryService();
