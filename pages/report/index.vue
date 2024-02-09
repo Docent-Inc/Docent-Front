@@ -8,7 +8,7 @@
             <div class="report-content report-content-1">
                 <div class="report-content-1-title">
                     <div v-if="generated_total_count < 3">
-                        이번주에 <b>{{ 3 - generated_total_count }}개</b> 더
+                        일기를 <b>{{ 3 - generated_total_count }}개</b> 더
                         기록해주시면 <br />
                         마음 상태 보고서가 완성돼요!
                     </div>

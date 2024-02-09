@@ -83,7 +83,7 @@ export default {
             }
 
             // 조건 미충족
-            return `이번 주에 *${
+            return `일기를 *${
                 3 - this.generated_total_count
             }개* 더 기록해주시면 \n마음 상태 보고서가 완성돼요!`;
         },

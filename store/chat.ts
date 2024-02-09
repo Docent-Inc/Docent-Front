@@ -1,6 +1,7 @@
 import { type ChatContentModel } from "~/models/chat";
 import { useChatService } from "~/services/chat";
 import loadingJSON from "../assets/json/loading.json";
+import loadingJSON2 from "../assets/json/loading2.json";
 import { useRecordStore } from "./record";
 import { type Record } from "~/models/chat";
 
@@ -48,7 +49,7 @@ export const useChatStore = defineStore("chat", {
 
             const welcomeChat = {
                 is_docent: true,
-                type: ChatType.DEFAULT,
+                type: ChatType.SELECT,
                 text: `${res.data.text}`,
             };
             this.addChat(welcomeChat);
@@ -56,18 +57,27 @@ export const useChatStore = defineStore("chat", {
         /**
          * 도움말 문구 추가 (default = 0)
          */
-        async addHelperChat(type: number) {
-            if (type === 0) return;
+        async addHelperChat() {
+            // if (type === 0) return;
+            //
+            // const { getHelperChat } = useChatService();
+            // const res = await getHelperChat(type);
+            const idx = randomInt(0, loadingJSON2.length - 1);
+            const loadText = loadingJSON2[idx];
 
-            const { getHelperChat } = useChatService();
-            const res = await getHelperChat(type);
 
-            const helperChat = {
-                is_docent: true,
-                type: ChatType.DEFAULT,
-                text: res.data.text,
-            };
-            this.addChat(helperChat);
+            // loadText에는 문자열이 \n으로 구분되어 있다. split을 통해 배열로 만들어준다. 3초마다 addChat을 호출하여 채팅을 추가한다.
+            console.log(loadText.split("\n"))
+            loadText.split("\n").forEach((text, index) => {
+                setTimeout(() => {
+                    const helperChat = {
+                        is_docent: true,
+                        type: ChatType.DEFAULT,
+                        text: text,
+                    };
+                    this.addChat(helperChat);
+                }, index * 3000);
+            });
         },
         /**
          * 채팅 추가
@@ -122,7 +132,7 @@ export const useChatStore = defineStore("chat", {
                 text: loadText,
             };
             this.addChat(loadChat);
-            this.isGenerating = true;
+
 
             // (3) 채팅 생성
             if (this.type === 1) {
@@ -143,6 +153,8 @@ export const useChatStore = defineStore("chat", {
             // this.removeLoadingChat();
             // this.isGenerating = false;
             // this.type = 0;
+
+            this.isGenerating = true;
 
             if (!res.success) {
                 const msg = `${res.status_code}  - ${res.message}`;

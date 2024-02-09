@@ -3,7 +3,7 @@
         <div class="report-empty" v-if="reports.length < 1">
             <Icon class="ic_pencil" />
             <div>
-                한 주 돌아보기는 이곳에 <br />
+                마음 상태 보고서는 이곳에 <br />
                 차곡차곡 보관될 거예요
             </div>
         </div>

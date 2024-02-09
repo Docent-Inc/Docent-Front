@@ -163,7 +163,7 @@ async function updateCSS() {
     await nextTick();
     updateChatBoxCss();
 
-    await new Promise((resolve) => setTimeout(resolve, 250));
+    await new Promise((resolve) => setTimeout(resolve, 350));
     scrollToBottom();
 }
 

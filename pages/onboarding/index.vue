@@ -327,7 +327,7 @@ const updateChatBoxCss = () => {
     height: 115%;
 }
 .slide-enter-active, .slide-leave-active {
-    transition: transform 0.7s ease;
+    transition: transform 0.3s ease;
 }
 /* 새 이미지가 오른쪽에서 들어옴 */
 .slide-enter-from {

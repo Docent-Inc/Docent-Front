@@ -66,10 +66,10 @@
                     </div>
                 </div>
                 <div v-else-if="!isGenerated">
-                    <div v-if="isLoading">
-                        <div class="tag-not-generate__skeleton"></div>
-                    </div>
-                    <div v-else-if="!isLoading">
+<!--                    <div v-if="isLoading">-->
+<!--                        <div class="tag-not-generate__skeleton"></div>-->
+<!--                    </div>-->
+                    <div>
                         <div class="tag-wrap">
                             <div class="tag-not-generate">
                                 키워드 생성 전이에요!
@@ -78,14 +78,22 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="isLoading">
-                    <div class="diary-image__skeleton"></div>
-                </div>
+<!--                <div v-if="isLoading">-->
+<!--                    <div class="diary-image__skeleton"></div>-->
+<!--                </div>-->
             </div>
 
             <!-- 2. 중간 영역 (이미지, 삭제 버튼) -->
             <!-- maxWidth="calc((100vh - (60px + 20px)) * 0.6)" -->
-            <div v-if="!isLoading" class="diary-image-div" @click="handleGenerate()">
+            <div v-if="isLoading" class="diary-image-div">
+                <Image
+                    class="diary-image"
+                    :url="'https://kr.object.ncloudstorage.com/looi/empty.png'"
+                    width="calc(100% - 40px)"
+                    maxWidth="400px"
+                />
+            </div>
+            <div v-else-if="!isLoading" class="diary-image-div" @click="handleGenerate()">
                 <Image
                     class="diary-image"
                     :url="diary.image_url"

@@ -113,7 +113,7 @@ export default {
       this.store.reset();
     },
   computed: {
-        ...mapState(useChatStore, ["chatList", "isGenerating", "type"]),
+        ...mapState(useChatStore, ["chatList", "isGenerating", "type", "addHelperChat"]),
         placeholder() {
             if (this.mode === "INPUT")
                 return "Looi에게 당신의 이야기를 들려주세요";
@@ -171,8 +171,10 @@ export default {
           let data;
           if (diaryType === 1) {
             data = await generateMorningDiary(diaryId);
+            return data.data;
           } else if (diaryType === 2) {
             data = await generateNightDiary(diaryId);
+            return data.data;
           }
 
           if (data && data.success) {
@@ -184,6 +186,7 @@ export default {
           console.error('Generation Error:', error);
           sessionStorage.setItem('generateError', JSON.stringify(error.message || 'Unknown error'));
         }
+        return null;
       },
       async send() {
             // Validation
@@ -208,6 +211,7 @@ export default {
               sessionStorage.removeItem('generateError');
               sessionStorage.setItem("isGenerating", "true");
               this.generateDiary(this.result.text_type, this.result.diary_id);
+              // this.addHelperChat();
 
               setTimeout(() => {
                 window.sessionStorage.removeItem("chatList");
@@ -230,7 +234,7 @@ export default {
                     );
                     break;
                 }
-              }, 8000);
+              }, 4000);
               this.data = "";
             }
             else {

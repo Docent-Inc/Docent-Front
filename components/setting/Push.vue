@@ -4,9 +4,9 @@
     </div>
     <div class="push-content-1">
         <div class="push-content-1-div">
-            <span class="push-content-1-title">꿈 기록 알림</span>
+            <span class="push-content-1-title">Looi의 안부 연락</span>
             <span class="push-content-1-content"
-                >오전 8시에 PUSH로 기록 리마인드 알림을 받아요.</span
+                >{{ user.nickname }}님 오늘 새롭게 도전해보고 싶은 것이 있나요</span
             >
         </div>
         <div class="push-content-1-switch-div">
@@ -17,25 +17,25 @@
             />
         </div>
     </div>
-    <div class="push-content-2">
-        <div class="push-content-2-div">
-            <span class="push-content-2-title">일기 기록 알림</span>
-            <span class="push-content-2-content"
-                >오후 8시에 PUSH로 기록 리마인드 알림을 받아요.</span
-            >
-        </div>
-        <div class="push-content-2-switch-div">
-            <v-switch
-                class="push-content-2-switch"
-                v-model="user.push_night"
-                @change="updatePushNight"
-            />
-        </div>
-    </div>
+<!--    <div class="push-content-2">-->
+<!--        <div class="push-content-2-div">-->
+<!--            <span class="push-content-2-title">일기 기록 알림</span>-->
+<!--            <span class="push-content-2-content"-->
+<!--                >오후 8시에 PUSH로 기록 리마인드 알림을 받아요.</span-->
+<!--            >-->
+<!--        </div>-->
+<!--        <div class="push-content-2-switch-div">-->
+<!--            <v-switch-->
+<!--                class="push-content-2-switch"-->
+<!--                v-model="user.push_night"-->
+<!--                @change="updatePushNight"-->
+<!--            />-->
+<!--        </div>-->
+<!--    </div>-->
     <div class="push-content-3">
         <div class="push-content-3-top">
             <div class="push-content-3-div">
-                <span class="push-content-3-title">일정 미리 알림</span>
+                <span class="push-content-3-title">Looi의 일정 알림</span>
                 <span class="push-content-3-content"
                     >설정해 놓은 시간에 PUSH로 일정 리마인드 알림을 받아요.</span
                 >
@@ -282,7 +282,7 @@ export default {
 .push-content-3-content {
     position: relative;
     display: flex;
-    color: var(--gray-400, #9ca3af);
+    color: var(--gray-400, #6366F1);
     font-family: Pretendard;
     font-size: 12px;
     line-height: 160%;

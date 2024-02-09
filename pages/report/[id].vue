@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div class="report-detail-section">
+            <div class="report-detail-section" v-if="content.mental_state">
                 <div class="report-detail-section-title">
                     <Icon class="ic_ballon" />마음상태 분석
                 </div>
@@ -65,7 +65,7 @@
             </div>
             <div class="report-detail-section">
                 <div class="report-detail-section-title">
-                    <Icon class="ic_star" />루이의 질문
+                    <Icon class="ic_rocket" />추천활동
                 </div>
                 <div class="report-activities">
                     <div class="tag-wrap col">

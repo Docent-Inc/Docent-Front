@@ -157,3 +157,6 @@ export type RecordGeneralResModel = {
         [key in RecordType]: MemoRecord | DiaryRecord;
     };
 };
+
+export class DiaryListModel {
+}
