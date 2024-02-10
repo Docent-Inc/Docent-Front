@@ -168,10 +168,12 @@ export default {
           this.isChanged = true;
         },
         open() {
+            const { $native } = useNuxtApp();
             $native.controlSafeArea(true);
             this.$refs.myBottomSheet.open();
         },
         close() {
+            const { $native } = useNuxtApp();
             $native.controlSafeArea(false); // TODO: safearea 컨트롤 적용 안되는 오류
             this.$refs.myBottomSheet.close();
         },
