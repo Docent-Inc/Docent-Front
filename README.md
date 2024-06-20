@@ -10,7 +10,7 @@
 
 - **Frontend** `vue` `nuxt` SSR로 API와 동일 서버에 배포
 - **Android**  웹에 PWA 세팅하여 PWA Builder로 파일 빌드 / 웹단에서 service worker로 푸시 구현
-- **[iOS](https://github.com/Docent-Inc/Docent-IOS)** 'swift' WKWebView로 웹 패키징 / 네이티브 앱에서 Notification Service Extension 추가하여 푸시 구현
+- **[iOS](https://github.com/Docent-Inc/Docent-IOS)** `swift` WKWebView로 웹 패키징 / 네이티브 앱에서 Notification Service Extension 추가하여 푸시 구현
 
 <br/>
 
